@@ -19,6 +19,7 @@ public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
+
     @Test
     public void findAll() throws Exception {
 
@@ -36,6 +37,19 @@ public class UserRepositoryTest {
 
     @Test
     public void save() throws Exception {
-        userRepository.save(new User("jinrong", "123", 66666, "jinrong"));
+//        userRepository.save(new User("lele", "123", 66666, "123465"));
+//        userRepository.save(new User("zzk", "123456", 456789, "kun368"));
+//        userRepository.save(new User("abc", "abc", 465465, "heheda"));
+    }
+
+    @Test
+    public void deleteAllInBatch() throws Exception {
+        userRepository.deleteAllInBatch();
+    }
+
+    @Test
+    public void findByUvaId() throws Exception {
+        User user = userRepository.findByUvaId(66666);
+        System.out.println(user);
     }
 }

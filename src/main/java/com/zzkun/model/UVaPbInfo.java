@@ -3,6 +3,7 @@ package com.zzkun.model;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -21,8 +22,12 @@ public class UVaPbInfo implements Serializable {
     @Id
     private int pid;
 
+    @Column(unique = true)
     private int num;
+
+    @Column(length = 1024)
     private String title;
+
     private int dacu;
     private int mrun;
     private int mmem;

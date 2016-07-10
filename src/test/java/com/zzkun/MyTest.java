@@ -4,6 +4,8 @@ import com.zzkun.dao.UVaPbInfoRepository;
 import com.zzkun.model.UHuntChapterTree;
 import com.zzkun.model.UVaPbInfo;
 import com.zzkun.uhunt.ChapterManager;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +16,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
-import java.util.Map;
-import java.util.StringJoiner;
+import java.util.*;
 
 /**
  * Created by kun on 2016/7/5.
@@ -31,6 +31,18 @@ public class MyTest {
     @Autowired
     private UVaPbInfoRepository uVaPbInfoRepository;
 
+    private long start;
+
+    @Before
+    public void start() {
+        start = System.currentTimeMillis();
+    }
+
+    @After
+    public void end() {
+        System.out.println(System.currentTimeMillis() - start);
+    }
+
     @Test
     public void test1() {
         Map<UHuntChapterTree, List<Integer>> bookMap = chapterManager.getBookMap();
@@ -44,9 +56,13 @@ public class MyTest {
             joiner1.add("提交次数");
             joiner1.add("AC次数/提交次数");
             writer.println(joiner1);
+            Set<Integer> set = new HashSet<>();
 
             for (List<Integer> list : bookMap.values()) {
                 for (Integer pb : list) {
+                    if(set.contains(pb))
+                        continue;
+                    set.add(pb);
                     UVaPbInfo info = uVaPbInfoRepository.findByNum(pb);
                     StringJoiner joiner = new StringJoiner(",");
                     joiner.add("UVa" + pb);

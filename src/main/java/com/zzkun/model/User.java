@@ -18,10 +18,10 @@ public class User implements Serializable {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "uva_id")
+    @Column(name = "uva_id", unique = true)
     private int uvaId;
 
-    @Column(name = "cf_name")
+    @Column(name = "cf_name", unique = true)
     private String cfname;
 
     public User() {

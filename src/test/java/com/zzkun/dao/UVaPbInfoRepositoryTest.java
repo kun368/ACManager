@@ -2,6 +2,8 @@ package com.zzkun.dao;
 
 import com.zzkun.model.UVaPbInfo;
 import com.zzkun.uhunt.UHuntWebGetter;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,16 @@ public class UVaPbInfoRepositoryTest {
 
     @Autowired
     private UVaPbInfoRepository uVaPbInfoRepository;
+
+    private long start;
+    @Before
+    public void start() {
+        start = System.currentTimeMillis();
+    }
+    @After
+    public void end() {
+        System.out.println("Cost Time:" + (System.currentTimeMillis() - start));
+    }
 
     @Test
     public void save() throws Exception {
@@ -55,5 +67,11 @@ public class UVaPbInfoRepositoryTest {
     public void findByNum() {
         UVaPbInfo pbInfo = uVaPbInfoRepository.findByNum(100);
         System.out.println(pbInfo);
+    }
+
+    @Test
+    public void deleteAllInBatch() throws Exception {
+        uVaPbInfoRepository.deleteAllInBatch();
+
     }
 }

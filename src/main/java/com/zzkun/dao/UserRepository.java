@@ -21,4 +21,9 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     @Override
     User findOne(String s);
+
+    @Override
+    void deleteAllInBatch();
+
+    User findByUvaId(Integer uvaid);
 }
