@@ -1,7 +1,7 @@
 package com.zzkun.dao;
 
 import com.zzkun.model.UVaPbInfo;
-import com.zzkun.uhunt.UHuntWebGetter;
+import com.zzkun.util.uhunt.UHuntWebGetter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,8 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by kun on 2016/7/7.

@@ -4,6 +4,8 @@ import com.zzkun.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -51,5 +53,14 @@ public class UserRepositoryTest {
     public void findByUvaId() throws Exception {
         User user = userRepository.findByUvaId(66666);
         System.out.println(user);
+    }
+
+    @Test
+    public void findAll_pager() throws Exception {
+        PageRequest pageRequest = new PageRequest(0, 2);
+        Page<User> all = userRepository.findAll(pageRequest);
+        System.out.println(all.getContent());
+
+
     }
 }

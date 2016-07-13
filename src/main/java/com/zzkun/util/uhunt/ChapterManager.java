@@ -1,4 +1,4 @@
-package com.zzkun.uhunt;
+package com.zzkun.util.uhunt;
 
 import com.zzkun.model.UHuntChapterTree;
 import org.springframework.stereotype.Component;

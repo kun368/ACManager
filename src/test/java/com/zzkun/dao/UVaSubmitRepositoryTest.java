@@ -1,7 +1,7 @@
 package com.zzkun.dao;
 
 import com.zzkun.model.UVaSubmit;
-import com.zzkun.uhunt.UHuntWebGetter;
+import com.zzkun.util.uhunt.UHuntWebGetter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

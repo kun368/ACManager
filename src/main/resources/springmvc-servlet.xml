@@ -24,7 +24,7 @@
     <context:component-scan base-package="com.zzkun.controller"/>
     <context:component-scan base-package="com.zzkun.service"/>
     <context:component-scan base-package="com.zzkun.dao"/>
-    <context:component-scan base-package="com.zzkun.uhunt"/>
+    <context:component-scan base-package="com.zzkun.util"/>
     <context:component-scan base-package="com.zzkun.config"/>
 
     <mvc:annotation-driven/>
