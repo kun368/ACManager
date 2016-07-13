@@ -45,10 +45,11 @@ public class AuthController {
     @ResponseBody
     public String rg(@RequestParam String username,
                      @RequestParam String password,
+                     @RequestParam(required = false) String realName,
                      @RequestParam(required = false) Integer uvaid,
                      @RequestParam(required = false) String cfname) {
-        logger.info("收到注册请求：{},{},{},{}", username, password, uvaid, cfname);
-        User user = new User(username, password, uvaid, cfname);
+        logger.info("收到注册请求：{},{},{},{},{}", username, password, realName, uvaid, cfname);
+        User user = new User(username, password, realName, uvaid, cfname);
         authService.registerUser(user);
         return "true";
     }

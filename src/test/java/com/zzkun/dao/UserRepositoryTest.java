@@ -39,9 +39,7 @@ public class UserRepositoryTest {
 
     @Test
     public void save() throws Exception {
-//        userRepository.save(new User("lele", "123", 66666, "123465"));
-//        userRepository.save(new User("zzk", "123456", 456789, "kun368"));
-//        userRepository.save(new User("abc", "abc", 465465, "heheda"));
+        userRepository.save(new User("kun768", "123456", "张正锟", 666666, "666666"));
     }
 
     @Test
@@ -60,7 +58,11 @@ public class UserRepositoryTest {
         PageRequest pageRequest = new PageRequest(0, 2);
         Page<User> all = userRepository.findAll(pageRequest);
         System.out.println(all.getContent());
+    }
 
-
+    @Test
+    public void findByRealName() throws Exception {
+        User user = userRepository.findByRealName("张正锟");
+        System.out.println(user);
     }
 }

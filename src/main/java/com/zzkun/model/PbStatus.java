@@ -7,10 +7,10 @@ import java.io.Serializable;
  * Created by Administrator on 2016/6/27.
  */
 public class PbStatus implements Serializable {
+
     private boolean solved;
     private int time;
     private int waCount;
-    public double score;
 
     public PbStatus(boolean solved, int time, int waCount) {
         this.solved = solved;
@@ -42,13 +42,11 @@ public class PbStatus implements Serializable {
         this.waCount = waCount;
     }
 
-    public double getScore() {
-        return score;
+    public int calcPenalty() {
+        if(!isSolved()) return 0;
+        return time + 1200 * waCount + 600 * (waCount) * (waCount - 1) / 2;
     }
 
-    public void setScore(double score) {
-        this.score = score;
-    }
 
     @Override
     public String toString() {
@@ -56,7 +54,6 @@ public class PbStatus implements Serializable {
                 "solved=" + solved +
                 ", time=" + time +
                 ", waCount=" + waCount +
-                ", score=" + score +
                 '}';
     }
 }

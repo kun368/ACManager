@@ -72,7 +72,7 @@
 
     <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
         <property name="database" value="MYSQL"/>
-        <property name="showSql" value="false"/>
+        <property name="showSql" value="true"/>
         <property name="generateDdl" value="true"/>
         <property name="databasePlatform" value="org.hibernate.dialect.MySQL5Dialect"/>
     </bean>
@@ -87,4 +87,7 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
+    <bean id="exceptionTranslationPostProcessor"
+          class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor">
+    </bean>
 </beans>

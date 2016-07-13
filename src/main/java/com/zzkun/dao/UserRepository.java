@@ -29,6 +29,8 @@ public interface UserRepository extends JpaRepository<User, String> {
 
     User findByUvaId(Integer uvaid);
 
+    User findByRealName(String realName);
+
     @Override
     Page<User> findAll(Pageable pageable);
 }

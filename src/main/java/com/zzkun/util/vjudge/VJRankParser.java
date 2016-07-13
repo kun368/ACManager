@@ -1,9 +1,8 @@
 package com.zzkun.util.vjudge;
 
-import com.zzkun.model.ContestStatus;
+import com.zzkun.model.Contest;
 import com.zzkun.model.PbStatus;
 import com.zzkun.model.TeamRanking;
-import org.junit.Test;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
@@ -39,7 +38,6 @@ public class VJRankParser {
         if(matcher.find()) {
             team.setAccount(matcher.group(1));
             team.setTeamName(matcher.group(2));
-            System.out.println(team);
         }
     }
 
@@ -57,12 +55,12 @@ public class VJRankParser {
         return new ArrayList<>(Arrays.asList(split));
     }
 
-    public ContestStatus parse(List<String> rankFile, Map<String, String> config) throws IOException {
+    public Contest parse(List<String> rankFile, Map<String, String> config) throws IOException {
         //读取比赛配置文件，加载配置
-        ContestStatus status = new ContestStatus();
+        Contest status = new Contest();
         status.setName(config.getOrDefault("contestName", ""));
         status.setTime(LocalDate.parse(config.getOrDefault("contestTime", LocalDate.now().toString())));
-        status.setType(config.getOrDefault("contestType", ContestStatus.TYPE_TEAM));
+        status.setType(config.getOrDefault("contestType", Contest.TYPE_TEAM));
         //读取比赛情况
         int lineCnt = 0;
         String line;

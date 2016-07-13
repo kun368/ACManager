@@ -18,6 +18,9 @@ public class User implements Serializable {
     @Column(name = "password")
     private String password;
 
+    @Column(unique = true)
+    private String realName;
+
     @Column(name = "uva_id", unique = true)
     private int uvaId;
 
@@ -27,9 +30,10 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String username, String password, int uvaId, String cfname) {
+    public User(String username, String password, String realName, int uvaId, String cfname) {
         this.username = username;
         this.password = password;
+        this.realName = realName;
         this.uvaId = uvaId;
         this.cfname = cfname;
     }
@@ -48,6 +52,14 @@ public class User implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 
     public int getUvaId() {
@@ -71,6 +83,7 @@ public class User implements Serializable {
         return "User{" +
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
+                ", realName='" + realName + '\'' +
                 ", uvaId=" + uvaId +
                 ", cfname='" + cfname + '\'' +
                 '}';
