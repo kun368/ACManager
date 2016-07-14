@@ -73,7 +73,7 @@ public class VJRankParser {
             TeamRanking team = new TeamRanking(); //当前队伍
             parseSetTeamName(split[1].trim(), team);
             team.setSolvedCount(parseInt(split[2].trim()));
-            //team.setMember();
+            //assign.setMember();
             for(int j = 0; j < status.getPbCnt(); ++j) {
                 List<PbStatus> pbStatus = team.getPbStatus();
                 if(4 + j >= split.length) {

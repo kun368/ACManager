@@ -1,5 +1,7 @@
 package com.zzkun.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -12,19 +14,22 @@ import java.io.Serializable;
 public class User implements Serializable {
 
     @Id
-    @Column(name = "username")
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    private Integer id;
+
+    @Column(unique = true)
     private String username;
 
-    @Column(name = "password")
     private String password;
 
     @Column(unique = true)
     private String realName;
 
-    @Column(name = "uva_id", unique = true)
+    @Column(unique = true)
     private int uvaId;
 
-    @Column(name = "cf_name", unique = true)
+    @Column(unique = true)
     private String cfname;
 
     public User() {
@@ -36,6 +41,14 @@ public class User implements Serializable {
         this.realName = realName;
         this.uvaId = uvaId;
         this.cfname = cfname;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getUsername() {
