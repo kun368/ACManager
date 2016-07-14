@@ -17,18 +17,23 @@ public class AuthService {
 
 
     public boolean hasUser(String username) {
-        return userRepository.findOne(username) != null;
+        return userRepository.findByUsername(username) != null;
     }
 
-    public boolean valid(String username, String password) {
-        User user = userRepository.findOne(username);
-        return user != null && user.getPassword().equals(password);
+    public User valid(String username, String password) {
+        User user = userRepository.findByUsername(username);
+        if(user != null && user.getPassword().equals(password))
+            return user;
+        return null;
     }
 
     public boolean registerUser(User user) {
-        if(hasUser(user.getUsername()))
-            return false;
-        userRepository.save(user);
-        return true;
+        try {
+            userRepository.save(user);
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

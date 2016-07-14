@@ -13,14 +13,17 @@ import java.util.*;
 @Component
 public class UHuntAnalyser {
 
-    @Autowired
-    private ChapterManager chapterManager;
-
-    public Map<String, Integer> userStatistic(Set<Integer> acPbs) {
-        Map<String, Integer> chapterCnt = new LinkedHashMap<>();
-        Map<UHuntChapterTree, List<Integer>> chapterMap = chapterManager.getChapterMap();
-        Set<Integer> has = new TreeSet<>(); //去重set
-        for (Map.Entry<UHuntChapterTree, List<Integer>> entry : chapterMap.entrySet()) {
+    /**
+     * 分析用户各个节点做题数量
+     * 时间复杂度：O(所有节点总题数)
+     * @param acPbs 用户所有AC题目List
+     * @param map 节点信息，可通过ChapterManager获得
+     * @return 用户各个节点做题量
+     */
+    public Map<String, Integer> userChapterStatistic(Set<Integer> acPbs, Map<UHuntChapterTree, List<Integer>> map) {
+        LinkedHashMap<String, Integer> chapterCnt = new LinkedHashMap<>();
+        Set<Integer> has = new HashSet<>(); //去重set
+        for (Map.Entry<UHuntChapterTree, List<Integer>> entry : map.entrySet()) {
             int cnt = 0;
             for (int pb : entry.getValue()) {
                 if(acPbs.contains(pb) && !has.contains(pb)) {
@@ -32,4 +35,7 @@ public class UHuntAnalyser {
         }
         return chapterCnt;
     }
+
+
+
 }

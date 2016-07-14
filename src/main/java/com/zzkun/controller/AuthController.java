@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
+
 
 /**
  * Created by kun on 2016/7/7.
@@ -25,32 +27,57 @@ public class AuthController {
     @Autowired
     private AuthService authService;
 
-    @RequestMapping("/validUsername")
-    @ResponseBody
-    public String validUsername(@RequestParam String name) {
-        if(authService.hasUser(name)) return "false";
-        return "true";
-    }
 
     @RequestMapping("/login")
-    @ResponseBody
-    public String login(@RequestParam String username,
-                        @RequestParam String password) {
-        logger.info("收到登录请求：" + username + " " + password);
-        if(authService.valid(username, password)) return "true";
-        else return "false";
+    public String login() {
+        return "login";
     }
 
     @RequestMapping("/rg")
-    @ResponseBody
+    public String rg() {
+        return "rg";
+    }
+
+    @RequestMapping("/dologin")
+    public String login(@RequestParam String username,
+                        @RequestParam String password,
+                        HttpSession session,
+                        Model model) {
+        logger.info("收到登录请求：" + username + " " + password);
+        User user = authService.valid(username, password);
+        if(user != null) {
+            session.setAttribute("user", user);
+            return "redirect:/";
+        } else {
+            model.addAttribute("tip", "用户名或密码错误！");
+            return "login";
+        }
+    }
+
+    @RequestMapping("/dorg")
     public String rg(@RequestParam String username,
                      @RequestParam String password,
                      @RequestParam(required = false) String realName,
                      @RequestParam(required = false) Integer uvaid,
-                     @RequestParam(required = false) String cfname) {
+                     @RequestParam(required = false) String cfname,
+                     Model model) {
         logger.info("收到注册请求：{},{},{},{},{}", username, password, realName, uvaid, cfname);
+        if(realName.trim().isEmpty()) realName = null;
+        if(cfname.trim().isEmpty()) cfname = null;
         User user = new User(username, password, realName, uvaid, cfname);
-        authService.registerUser(user);
+        if(authService.registerUser(user)) {
+            model.addAttribute("tip", "注册成功！");
+            return "index";
+        } else {
+            model.addAttribute("tip", "注册失败！");
+            return "rg";
+        }
+    }
+
+    @RequestMapping("/validUsername")
+    @ResponseBody
+    public String validUsername(@RequestParam String name) {
+        if(authService.hasUser(name)) return "false";
         return "true";
     }
 }

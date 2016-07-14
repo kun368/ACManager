@@ -34,7 +34,7 @@ public class UserRepositoryTest {
 
     @Test
     public void findOne() throws Exception {
-        System.out.println(userRepository.findOne("abc"));
+        System.out.println(userRepository.findByUsername("abc"));
     }
 
     @Test

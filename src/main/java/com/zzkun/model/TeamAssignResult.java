@@ -18,6 +18,10 @@ import java.util.StringJoiner;
 @Table(name = "team_assign_result")
 public class TeamAssignResult implements Serializable {
 
+    public enum Type {
+        RANDOM
+    }
+
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
@@ -27,6 +31,9 @@ public class TeamAssignResult implements Serializable {
 
     @Lob
     private ArrayList<String> teamList = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
     public TeamAssignResult() {
     }
@@ -53,6 +60,14 @@ public class TeamAssignResult implements Serializable {
 
     public void setTeamList(ArrayList<String> teamList) {
         this.teamList = teamList;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     /**
@@ -85,6 +100,7 @@ public class TeamAssignResult implements Serializable {
                 "id=" + id +
                 ", date=" + date +
                 ", teamList=" + teamList +
+                ", type=" + type +
                 '}';
     }
 }

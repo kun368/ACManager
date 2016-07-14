@@ -18,7 +18,7 @@ public class User implements Serializable {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Integer id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String username;
 
     private String password;
@@ -27,7 +27,7 @@ public class User implements Serializable {
     private String realName;
 
     @Column(unique = true)
-    private int uvaId;
+    private Integer uvaId;
 
     @Column(unique = true)
     private String cfname;
@@ -35,7 +35,7 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String username, String password, String realName, int uvaId, String cfname) {
+    public User(String username, String password, String realName, Integer uvaId, String cfname) {
         this.username = username;
         this.password = password;
         this.realName = realName;
@@ -75,11 +75,11 @@ public class User implements Serializable {
         this.realName = realName;
     }
 
-    public int getUvaId() {
+    public Integer getUvaId() {
         return uvaId;
     }
 
-    public void setUvaId(int uvaId) {
+    public void setUvaId(Integer uvaId) {
         this.uvaId = uvaId;
     }
 

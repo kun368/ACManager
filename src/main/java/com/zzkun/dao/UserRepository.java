@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by kun on 2016/7/6.
  */
-public interface UserRepository extends JpaRepository<User, String> {
+public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Override
     List<User> findAll();
@@ -21,8 +21,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Override
     <S extends User> S save(S entity);
 
-    @Override
-    User findOne(String s);
+    User findByUsername(String username);
 
     @Override
     void deleteAllInBatch();
