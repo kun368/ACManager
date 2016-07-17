@@ -5,11 +5,13 @@ import com.zzkun.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created by kun on 2016/7/7.
  */
 @Service
-public class AuthService {
+public class UserService {
 
 
     @Autowired
@@ -35,5 +37,9 @@ public class AuthService {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public List<User> allUsers() {
+        return userRepository.findAll();
     }
 }

@@ -16,7 +16,7 @@ public class UHuntAnalyser {
     /**
      * 分析用户各个节点做题数量
      * 时间复杂度：O(所有节点总题数)
-     * @param acPbs 用户所有AC题目List
+     * @param acPbs 用户所有AC题目uvanum List
      * @param map 节点信息，可通过ChapterManager获得
      * @return 用户各个节点做题量
      */

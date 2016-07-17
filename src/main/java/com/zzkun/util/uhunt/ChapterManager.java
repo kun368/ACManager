@@ -1,10 +1,13 @@
 package com.zzkun.util.uhunt;
 
 import com.zzkun.model.UHuntChapterTree;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -23,14 +26,12 @@ public class ChapterManager {
     public ChapterManager() {
         //加载初始章节配置文件
         File file = new File(getClass().getClassLoader().getResource("uhunt/aoapc.csv").getFile());
-        List<String> list = new ArrayList<>();
-        try(Scanner cin = new Scanner(file)) {
-            while(cin.hasNextLine())
-                list.add(cin.nextLine());
-        } catch (FileNotFoundException e) {
+        try {
+            List<String> lines = FileUtils.readLines(file, "utf8");
+            parseTree(lines);
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        parseTree(list);
     }
 
     /**

@@ -34,5 +34,4 @@ public class UVaSubmitRepositoryTest {
         List<UVaSubmit> res = uVaSubmitRepository.findByUvaId(617781);
         System.out.println(res);
     }
-
 }

@@ -2,7 +2,7 @@ package com.zzkun.controller;
 
 
 import com.zzkun.model.User;
-import com.zzkun.service.AuthService;
+import com.zzkun.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +25,7 @@ public class AuthController {
     private static Logger logger = LoggerFactory.getLogger(AuthController.class);
 
     @Autowired
-    private AuthService authService;
-
+    private UserService userService;
 
     @RequestMapping("/login")
     public String login() {
@@ -44,7 +43,7 @@ public class AuthController {
                         HttpSession session,
                         Model model) {
         logger.info("收到登录请求：" + username + " " + password);
-        User user = authService.valid(username, password);
+        User user = userService.valid(username, password);
         if(user != null) {
             session.setAttribute("user", user);
             return "redirect:/";
@@ -65,7 +64,7 @@ public class AuthController {
         if(realName.trim().isEmpty()) realName = null;
         if(cfname.trim().isEmpty()) cfname = null;
         User user = new User(username, password, realName, uvaid, cfname);
-        if(authService.registerUser(user)) {
+        if(userService.registerUser(user)) {
             model.addAttribute("tip", "注册成功！");
             return "index";
         } else {
@@ -74,10 +73,17 @@ public class AuthController {
         }
     }
 
+    @RequestMapping("dologout")
+    public String dologout(HttpSession session) {
+        logger.info("收到登出请求...");
+        session.removeAttribute("user");
+        return "redirect:/";
+    }
+
     @RequestMapping("/validUsername")
     @ResponseBody
     public String validUsername(@RequestParam String name) {
-        if(authService.hasUser(name)) return "false";
+        if(userService.hasUser(name)) return "false";
         return "true";
     }
 }
