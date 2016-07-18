@@ -15,11 +15,8 @@ import java.util.StringJoiner;
  * Created by kun on 2016/7/14.
  */
 @Entity
-@Table(name = "team_assign_result")
+@Table(name = "assign_result")
 public class AssignResult implements Serializable {
-
-
-    private static final long serialVersionUID = 932748282929469528L;
 
     public enum Type {
         RANDOM
@@ -33,7 +30,7 @@ public class AssignResult implements Serializable {
     private LocalDate date = LocalDate.now();
 
     @Lob
-    private ArrayList<String> teamList = new ArrayList<>();
+    private ArrayList<List<Integer>> teamList = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private Type type;
@@ -57,11 +54,11 @@ public class AssignResult implements Serializable {
         this.date = date;
     }
 
-    public ArrayList<String> getTeamList() {
+    public ArrayList<List<Integer>> getTeamList() {
         return teamList;
     }
 
-    public void setTeamList(ArrayList<String> teamList) {
+    public void setTeamList(ArrayList<List<Integer>> teamList) {
         this.teamList = teamList;
     }
 
@@ -71,30 +68,6 @@ public class AssignResult implements Serializable {
 
     public void setType(Type type) {
         this.type = type;
-    }
-
-    /**
-     * 往分对结果里添加一个队伍
-     * @param users 本队id列表List
-     */
-    public void addTeam(List<Integer> users) {
-        Collections.sort(users, (x, y) -> (Integer.compare(x, y)));
-        StringJoiner joiner = new StringJoiner("_");
-        for (Integer user : users)
-            joiner.add(user.toString());
-        teamList.add(joiner.toString());
-    }
-
-    public List<List<Integer>> getAllTeam() {
-        List<List<Integer>> res = new ArrayList<>();
-        for (String s : teamList) {
-            String[] split = s.split("_");
-            List<Integer> team = new ArrayList<>();
-            for (String s1 : split)
-                team.add(Integer.parseInt(s1));
-            res.add(team);
-        }
-        return res;
     }
 
     @Override

@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
+ * 比赛集控制器
  * Created by Administrator on 2016/7/17.
  */
 @Controller

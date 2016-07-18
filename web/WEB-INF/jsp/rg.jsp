@@ -79,7 +79,7 @@
 
 <body>
 
-<div class="container">
+<div class="container-fluid">
 
     <form class="form-horizontal" method="post" action="<c:url value="/auth/dorg"/> ">
         <h2 class="form-signin-heading">Register</h2>

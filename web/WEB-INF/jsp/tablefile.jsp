@@ -38,7 +38,7 @@
 </head>
 <body>
 <jsp:include page="topBar.jsp" />
-<div class="container">
+<div class="container-fluid">
     <table class="table table-condensed table-striped table-hover display" id="mytable">
             <thead class="tab-header-area">
             <tr>

@@ -17,8 +17,6 @@ import java.util.List;
 @Table(name = "contestGroup")
 public class ContestGroup implements Serializable {
 
-    private static final long serialVersionUID = -1668208049854028733L;
-
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")

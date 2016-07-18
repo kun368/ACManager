@@ -9,8 +9,6 @@ import java.util.List;
  */
 public class UHuntTreeNode implements Comparable<UHuntTreeNode>, Serializable {
 
-    private static final long serialVersionUID = -5688699161584253926L;
-
     public int deep;
     public int id;
     public String name;

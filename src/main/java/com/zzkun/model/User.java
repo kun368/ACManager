@@ -13,8 +13,6 @@ import java.io.Serializable;
 @Table(name = "user")
 public class User implements Serializable {
 
-    private static final long serialVersionUID = 1526544940765339989L;
-
     /**
      * 用户类型
      */

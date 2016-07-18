@@ -16,6 +16,9 @@ public interface UserRepo extends JpaRepository<User, Integer> {
     List<User> findAll();
 
     @Override
+    User findOne(Integer integer);
+
+    @Override
     long count();
 
     @Override
@@ -29,4 +32,7 @@ public interface UserRepo extends JpaRepository<User, Integer> {
     User findByUvaId(Integer uvaid);
 
     User findByRealName(String realName);
+
+    @Override
+    List<User> findAll(Iterable<Integer> iterable);
 }

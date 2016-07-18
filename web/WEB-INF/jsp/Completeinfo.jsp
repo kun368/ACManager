@@ -15,32 +15,37 @@
 </head>
 <body>
 <jsp:include page="topBar.jsp"/>
-<div class="container">
-    <div class="row">
-
-        <div class="page-header">
-            <h3>&nbsp;&nbsp;比赛名称：${contest.name}</h3>
-        </div>
-    <div class="col-md-7">
-        <h4 class="text-info text-right">请修改完善各队队员真实姓名，队员之间用逗号分隔</h4>
-        <br/>
-        <form class="form-horizontal" method="post" action="<c:url value="/contest/doAdd2"/> ">
-            <c:forEach items="${contest.ranks}" var="team" varStatus="i">
-                <div class="form-group">
-                    <div class="col-md-3" style="text-align: right">
-                    <span >${team.account}</span>
-                    </div>
-                    <div class="col-md-9">
-                    <input type="text"  name="name_${i.index}" class="form-control col-lg-9" value="${team.teamName}">
-                    </div>
-                </div>
-            </c:forEach>
-            <input hidden name="contest" value="${contest}">
-            <div class="form-group pull-right">
-                <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
-            </div>
-        </form>
+<div class="container-fluid">
+    <div class="col-lg-2">
     </div>
+    <div class="col-lg-8">
+            <div class="row">
+
+                <div class="page-header">
+                    <h3>&nbsp;&nbsp;比赛名称：${contest.name}</h3>
+                </div>
+            <div class="col-md-7">
+                <h4 class="text-info text-right">请修改完善各队队员真实姓名，队员之间用逗号分隔</h4>
+                <br/>
+                <form class="form-horizontal" method="post" action="<c:url value="/contest/doAdd2"/> ">
+                    <c:forEach items="${contest.ranks}" var="team" varStatus="i">
+                        <div class="form-group">
+                            <div class="col-md-3" style="text-align: right">
+                            <span >${team.account}</span>
+                            </div>
+                            <div class="col-md-9">
+                            <input type="text"  name="name_${i.index}" class="form-control col-lg-9" value="${team.teamName}">
+                            </div>
+                        </div>
+                    </c:forEach>
+                    <div class="form-group pull-right">
+                        <button class="btn btn-lg btn-primary btn-block" type="submit">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-lg-2">
+        </div>
     </div>
 </div>
 </body>

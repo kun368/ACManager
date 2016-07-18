@@ -11,8 +11,6 @@ import java.util.List;
  */
 public class TeamRanking implements Serializable {
 
-    private static final long serialVersionUID = 3741267226756056112L;
-
     private String account;
     private String teamName;
     private int solvedCount;

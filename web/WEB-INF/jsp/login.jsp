@@ -45,7 +45,7 @@
 
 
 
-<div class="container">
+<div class="container-fluid">
 
     <form class="form-horizontal" method="post" action="<c:url value="/auth/dologin"/> " >
         <h2 class="form-signin-heading">Please sign in</h2>

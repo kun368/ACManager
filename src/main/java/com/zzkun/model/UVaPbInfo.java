@@ -19,8 +19,6 @@ import static java.lang.Math.*;
 @Table(name = "uva_pb_info")
 public class UVaPbInfo implements Serializable {
 
-    private static final long serialVersionUID = 183901370939158811L;
-
     @Id
     private int pid;
 

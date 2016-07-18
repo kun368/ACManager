@@ -13,7 +13,7 @@
 <c:url value="/auth/login" var="url_login"/>
 <c:url value="/auth/rg" var="url_rg"/>
 
-<div class="container">
+<div class="container-fluid">
     <nav class="nav navbar-default" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -29,7 +29,7 @@
                     <li> <a href="${url_index}">首页</a> </li>
                     <li> <a href="${url_uvaTable}">UVA统计</a> </li>
                     <li> <a href="${url_uvaTable}">Codeforces统计</a> </li>
-                    <li> <a href="#">随机分队</a> </li>
+                    <li> <a href="<c:url value="/assign/list"/> ">随机分队</a> </li>
                     <li class="dropdown" >
                         <a href="#" data-toggle="dropdown">比赛管理<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 
 
 /**
+ * 登陆注册认证控制器
  * Created by kun on 2016/7/7.
  */
 @Controller

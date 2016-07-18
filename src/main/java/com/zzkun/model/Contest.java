@@ -18,8 +18,6 @@ import java.util.List;
 @Table(name = "contest")
 public class Contest implements Serializable {
 
-    private static final long serialVersionUID = 9157445091476299596L;
-
     public static final String TYPE_PERSONAL = "PERSONAL";
     public static final String TYPE_TEAM = "TEAM";
 
