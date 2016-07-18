@@ -13,6 +13,8 @@ import java.io.Serializable;
 @Table(name = "user")
 public class User implements Serializable {
 
+    private static final long serialVersionUID = 1526544940765339989L;
+
     /**
      * 用户类型
      */
@@ -43,15 +45,36 @@ public class User implements Serializable {
     @Column(unique = true)
     private String cfname;
 
+    private Integer grade;
+
+    private String major;
+
+    @Enumerated(value = EnumType.STRING)
+    private Type type;
+
     public User() {
     }
 
-    public User(String username, String password, String realName, Integer uvaId, String cfname) {
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public User(String username, String password, Type type) {
+        this.username = username;
+        this.password = password;
+        this.type = type;
+    }
+
+    public User(String username, String password, String realName, Integer uvaId, String cfname, Integer grade, String major, Type type) {
         this.username = username;
         this.password = password;
         this.realName = realName;
         this.uvaId = uvaId;
         this.cfname = cfname;
+        this.grade = grade;
+        this.major = major;
+        this.type = type;
     }
 
     public Integer getId() {
@@ -94,22 +117,50 @@ public class User implements Serializable {
         this.uvaId = uvaId;
     }
 
+    public String getCfname() {
+        return cfname;
+    }
+
     public void setCfname(String cfname) {
         this.cfname = cfname;
     }
 
-    public String getCfname() {
-        return cfname;
+    public Integer getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Integer grade) {
+        this.grade = grade;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "username='" + username + '\'' +
+                "id=" + id +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", realName='" + realName + '\'' +
                 ", uvaId=" + uvaId +
                 ", cfname='" + cfname + '\'' +
+                ", grade=" + grade +
+                ", major='" + major + '\'' +
+                ", type=" + type +
                 '}';
     }
 }

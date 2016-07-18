@@ -63,7 +63,7 @@ public class AuthController {
         logger.info("收到注册请求：{},{},{},{},{}", username, password, realName, uvaid, cfname);
         if(realName.trim().isEmpty()) realName = null;
         if(cfname.trim().isEmpty()) cfname = null;
-        User user = new User(username, password, realName, uvaid, cfname);
+        User user = new User(username, password, realName, uvaid, cfname, null, null, User.Type.Normal);
         if(userService.registerUser(user)) {
             model.addAttribute("tip", "注册成功！");
             return "index";

@@ -18,8 +18,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = "classpath:springmvc-servlet.xml")
 public class UVaServiceTest {
 
-    @Autowired
-    private UVaService uVaService;
+    @Autowired private UVaService uVaService;
 
     @Test
     public void getBookName() throws Exception {
@@ -52,5 +51,10 @@ public class UVaServiceTest {
     @Test
     public void flushUVaSubmit() throws Exception {
         uVaService.flushUVaSubmit();
+    }
+
+    @Test
+    public void flushUVaPbInfo() throws Exception {
+        uVaService.flushUVaPbInfo();
     }
 }

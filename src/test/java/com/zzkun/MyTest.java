@@ -1,9 +1,9 @@
 package com.zzkun;
 
 import com.zzkun.dao.UVaPbInfoRepo;
-import com.zzkun.model.UHuntChapterTree;
+import com.zzkun.model.UHuntTreeNode;
 import com.zzkun.model.UVaPbInfo;
-import com.zzkun.util.uhunt.ChapterManager;
+import com.zzkun.util.uhunt.UhuntTreeManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,7 +24,7 @@ import java.util.*;
 public class MyTest {
 
     @Autowired
-    private ChapterManager chapterManager;
+    private UhuntTreeManager uhuntTreeManager;
 
     @Autowired
     private UVaPbInfoRepo uVaPbInfoRepo;
@@ -43,7 +43,7 @@ public class MyTest {
 
     @Test
     public void test1() {
-        Map<UHuntChapterTree, List<Integer>> bookMap = chapterManager.getBookMap();
+        Map<UHuntTreeNode, List<Integer>> bookMap = uhuntTreeManager.getBookMap();
 
         try(PrintWriter writer = new PrintWriter("result1.csv")) {
             StringJoiner joiner1 = new StringJoiner(",");

@@ -44,9 +44,15 @@
             <tr>
                 <th>姓名</th>
                 <th>用户名</th>
+                <th>班级</th>
                 <th>UVaId</th>
-                <th class="text-overflow">${booksName.get(0)}</th>
-                <th class="text-overflow">${booksName.get(1)}</th>
+                <th>合计</th>
+                <c:forEach items="${booksName}" var="bookname">
+                    <th>${bookname}</th>
+                </c:forEach>
+                <%--<c:forEach items="${cptsName}" var="cptname">--%>
+                    <%--<th class="text-overflow">${cptname}</th>--%>
+                <%--</c:forEach>--%>
             </tr>
             </thead>
         <tfoot>
@@ -58,9 +64,15 @@
                 <tr>
                     <td>${users.get(i).realName}</td>
                     <td>${users.get(i).username}</td>
+                    <td>${users.get(i).major}</td>
                     <td>${users.get(i).uvaId}</td>
-                    <td>${bookCnt.get(i).get(0)}</td>
-                    <td>${bookCnt.get(i).get(1)}</td>
+                    <td>${bookCnt.get(i).get(0) + bookCnt.get(i).get(1)}</td>
+                    <c:forEach begin="0" end="${booksName.size()-1}" var="j">
+                        <td>${bookCnt.get(i).get(j)}</td>
+                    </c:forEach>
+                    <%--<c:forEach begin="0" end="${cptsName.size()-1}" var="j">--%>
+                        <%--<td>${cptCnt.get(i).get(j)}</td>--%>
+                    <%--</c:forEach>--%>
                 </tr>
             </c:forEach>
         </tbody>

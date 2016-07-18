@@ -1,6 +1,6 @@
 package com.zzkun.uhunt;
 
-import com.zzkun.util.uhunt.ChapterManager;
+import com.zzkun.util.uhunt.UhuntTreeManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,20 +12,20 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:springmvc-servlet.xml")
-public class ChapterManagerTest {
+public class UhuntTreeManagerTest {
 
     @Autowired
-    private ChapterManager chapterManager;
+    private UhuntTreeManager uhuntTreeManager;
 
     @Test
     public void getChapterMap() throws Exception {
-        System.out.println(chapterManager.getChapterMap());
+        System.out.println(uhuntTreeManager.getChapterMap());
     }
 
     @Test
     public void getBookMap() throws Exception {
-        System.out.println(chapterManager.getBookMap());
-        System.out.println(chapterManager.getBookMap().size());
+        System.out.println(uhuntTreeManager.getBookMap());
+        System.out.println(uhuntTreeManager.getBookMap().size());
     }
 
 }

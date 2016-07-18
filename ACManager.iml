@@ -76,5 +76,6 @@
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-entitymanager:5.2.1.Final" level="project" />
     <orderEntry type="library" name="bootstrap" level="application" />
     <orderEntry type="library" name="jquery" level="application" />
+    <orderEntry type="library" name="jquery.dataTables" level="application" />
   </component>
 </module>

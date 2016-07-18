@@ -8,6 +8,8 @@ import java.io.Serializable;
  */
 public class PbStatus implements Serializable {
 
+    private static final long serialVersionUID = 8822201624970861661L;
+
     private boolean solved;
     private int time;
     private int waCount;

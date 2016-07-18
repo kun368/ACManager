@@ -34,4 +34,9 @@ public class UVaSubmitRepoTest {
         List<UVaSubmit> res = uVaSubmitRepo.findByUvaId(617781);
         System.out.println(res);
     }
+
+    @Test
+    public void count() throws Exception {
+        System.out.println(uVaSubmitRepo.count());
+    }
 }

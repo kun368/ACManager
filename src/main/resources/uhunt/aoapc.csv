@@ -1,6 +1,6 @@
 id,pid,name,oj
 1,0,AOAPC II(入门经典),nil
-2,1,Chapter 3. Arrays and Strings,nil
+2,1,C3 Array,nil
 3,2,Examples,nil
 4,3,Code,nil
 5,4,272,uva
@@ -22,7 +22,7 @@ id,pid,name,oj
 21,11,1587,uva
 22,11,1588,uva
 23,11,11809,uva
-24,1,Chapter 4. Functions and Recursion,nil
+24,1,C4 Func,nil
 25,24,Examples,nil
 26,25,Code,nil
 27,26,489,uva
@@ -43,7 +43,7 @@ id,pid,name,oj
 42,34,12108,uva
 43,34,1591,uva
 44,34,815,uva
-45,1,Chapter 5. C++ and STL,nil
+45,1,C5 C++,nil
 46,45,Examples,nil
 47,46,Code,nil
 48,47,10474,uva
@@ -76,7 +76,7 @@ id,pid,name,oj
 75,61,1598,uva
 76,61,12333,uva
 77,61,212,uva
-78,1,Chapter 6. Data Structures,nil
+78,1,C6 DS,nil
 79,78,Examples,nil
 80,79,Code,nil
 81,80,514,uva
@@ -117,7 +117,7 @@ id,pid,name,oj
 116,104,810,uva
 117,104,215,uva
 118,104,12118,uva
-119,1,Chapter 7. Brute Force,nil
+119,1,C7 BF,nil
 120,119,Examples,nil
 121,120,Code,nil
 122,121,524,uva
@@ -155,7 +155,7 @@ id,pid,name,oj
 154,138,11846,uva
 155,138,11694,uva
 156,138,10384,uva
-157,1,Chapter 8. Algorithm Design,nil
+157,1,C8 Algo,nil
 158,157,Examples,nil
 159,158,Code,nil
 160,159,11054,uva
@@ -207,7 +207,7 @@ id,pid,name,oj
 206,180,12559,uva
 207,180,1580,uva
 208,180,1624,uva
-209,1,Chapter 9. Dynamic Programming,nil
+209,1,C9 DP,nil
 210,209,Examples,nil
 211,210,Code,nil
 212,211,1025,uva
@@ -266,7 +266,7 @@ id,pid,name,oj
 265,244,1371,uva
 266,244,1579,uva
 267,244,1322,uva
-268,1,Chapter 10. Maths,nil
+268,1,C10 Math,nil
 269,268,Examples,nil
 270,269,Code,nil
 271,270,10375,uva
@@ -351,7 +351,7 @@ id,pid,name,oj
 350,301,1656,uva
 351,301,11303,uva
 352,301,1657,uva
-353,1,Chapter 11. Graph Theory,nil
+353,1,C11 Graph,nil
 354,353,Examples,nil
 355,354,Analysis,nil
 356,355,12219,uva
@@ -392,7 +392,7 @@ id,pid,name,oj
 391,371,12433,uva
 392,371,11671,uva
 1000,0,AOAPC I(训练指南),nil
-1001,1000,Chapter 1. Algorithm Design,nil
+1001,1000,C1 AD,nil
 1002,1001,General Problem Solving Techniques,nil
 1003,1002,Examples,nil
 1004,1003,Code,nil
@@ -742,7 +742,7 @@ id,pid,name,oj
 1348,1341,11502,uva
 1349,1341,11750,uva
 1350,1341,11803,uva
-1351,1000,Chapter 2. Mathematics,nil
+1351,1000,C2 ProMath,nil
 1352,1351,Basic Problems,nil
 1353,1352,Recommendation,nil
 1354,1353,11388,uva
@@ -1102,7 +1102,7 @@ id,pid,name,oj
 1708,1704,11120,uva
 1709,1704,11702,uva
 1710,1704,11901,uva
-1711,1000,Chapter 3. Data Structures,nil
+1711,1000,C3 ProDS,nil
 1712,1711,Fundamental Data Structures,nil
 1713,1712,Examples,nil
 1714,1713,Code,nil
@@ -1248,7 +1248,7 @@ id,pid,name,oj
 1854,1851,Extra,nil
 1855,1854,12538,uva
 1856,1854,11989,uva
-1857,1000,Chapter 4. Geometry,nil
+1857,1000,C4 Geometry,nil
 1858,1857,Basic Problems,nil
 1859,1858,Recommendation,nil
 1860,1859,11437,uva
@@ -1422,7 +1422,7 @@ id,pid,name,oj
 2028,2024,11289,uva
 2029,2024,11580,uva
 2030,2024,11807,uva
-2031,1000,Chapter 5. Graph Theory,nil
+2031,1000,C5 ProGraph,nil
 2032,2031,Fundamentals,nil
 2033,2032,Examples,nil
 2034,2033,Analysis,nil
@@ -1642,7 +1642,7 @@ id,pid,name,oj
 2248,2246,1104,uva
 2249,2245,Extra,nil
 2250,2249,11700,uva
-2251,1000,Chapter 6. Selected Topics,nil
+2251,1000,C6 ProTopic,nil
 2252,2251,Dynamic Programming on Borderline,nil
 2253,2252,Examples,nil
 2254,2253,Code,nil
@@ -1888,7 +1888,7 @@ id,pid,name,oj
 2494,2493,11886,uva
 2495,2493,1552,uva
 2496,2493,304,uva
-393,1000,Chapter 12. Advanced Topics,nil
+393,1000,C12. Advanced Topics,nil
 394,393,Examples,nil
 395,394,Analysis,nil
 396,395,1671,uva

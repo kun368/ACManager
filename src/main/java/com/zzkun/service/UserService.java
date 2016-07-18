@@ -39,7 +39,9 @@ public class UserService {
         return false;
     }
 
-    public List<User> allUsers() {
-        return userRepo.findAll();
+    public List<User> allNormalUsers() {
+        List<User> all = userRepo.findAll();
+        all.removeIf(x -> !x.getType().equals(User.Type.Normal));
+        return all;
     }
 }

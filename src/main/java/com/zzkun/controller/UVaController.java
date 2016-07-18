@@ -18,16 +18,15 @@ import java.util.stream.Collectors;
 @RequestMapping("/uva")
 public class UVaController {
 
-    @Autowired
-    private UVaService uVaService;
+    @Autowired private UVaService uVaService;
 
-    @Autowired
-    private UserService userService;
+    @Autowired private UserService userService;
 
     @RequestMapping("/showTable")
     public String showTable(Model model) {
         model.addAttribute("booksName", uVaService.getBookName());
-        List<User> users = userService.allUsers();
+        model.addAttribute("cptsName", uVaService.getChapterName());
+        List<User> users = userService.allNormalUsers();
         List<Integer> uvaids = users.stream().map(User::getUvaId).collect(Collectors.toList());
         model.addAttribute("users", users);
         model.addAttribute("bookCnt", uVaService.getBookCnt(uvaids));

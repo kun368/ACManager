@@ -19,8 +19,7 @@ import java.util.*;
 @Component
 public class UHuntWebGetter {
 
-    @Autowired
-    private HttpUtil httpUtil;
+    @Autowired private HttpUtil httpUtil;
 
     /**
      * 获取所有uva题目的信息

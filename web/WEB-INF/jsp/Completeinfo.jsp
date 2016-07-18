@@ -19,10 +19,10 @@
     <div class="row">
 
         <div class="page-header">
-            <h2>&nbsp;&nbsp;比赛名称：${contest.name}</h2>
+            <h3>&nbsp;&nbsp;比赛名称：${contest.name}</h3>
         </div>
     <div class="col-md-7">
-        <h4 class="text-info text-right">请修改完善队员信息(填写真实姓名)，队员之间用英文逗号分隔</h4>
+        <h4 class="text-info text-right">请修改完善各队队员真实姓名，队员之间用逗号分隔</h4>
         <br/>
         <form class="form-horizontal" method="post" action="<c:url value="/contest/doAdd2"/> ">
             <c:forEach items="${contest.ranks}" var="team" varStatus="i">

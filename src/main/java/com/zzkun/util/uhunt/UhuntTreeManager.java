@@ -1,12 +1,10 @@
 package com.zzkun.util.uhunt;
 
-import com.zzkun.model.UHuntChapterTree;
+import com.zzkun.model.UHuntTreeNode;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
@@ -15,15 +13,15 @@ import java.util.*;
  * Created by kun on 2016/7/5.
  */
 @Component
-public class ChapterManager {
+public class UhuntTreeManager {
 
     private List<Integer> pbs; //临时数组
-    private UHuntChapterTree root;
+    private UHuntTreeNode root;
 
-    private Map<UHuntChapterTree, List<Integer>> chapterMap;
-    private Map<UHuntChapterTree, List<Integer>> bookMap;
+    private Map<UHuntTreeNode, List<Integer>> chapterMap;
+    private Map<UHuntTreeNode, List<Integer>> bookMap;
 
-    public ChapterManager() {
+    public UhuntTreeManager() {
         //加载初始章节配置文件
         File file = new File(getClass().getClassLoader().getResource("uhunt/aoapc.csv").getFile());
         try {
@@ -39,14 +37,14 @@ public class ChapterManager {
      * @param config 配置文本
      */
     public void parseTree(List<String> config) {
-        root = new UHuntChapterTree(0, 0, "root", "nil");
-        Map<Integer, UHuntChapterTree> nodes = new TreeMap<>();
+        root = new UHuntTreeNode(0, 0, "root", "nil");
+        Map<Integer, UHuntTreeNode> nodes = new TreeMap<>();
         nodes.put(0, root);
         for(int i = 1; i < config.size(); ++i) {
             String line = config.get(i);
             String[] split = line.split(",");
-            UHuntChapterTree cur = new UHuntChapterTree();
-            UHuntChapterTree fa = nodes.get(Integer.parseInt(split[1]));
+            UHuntTreeNode cur = new UHuntTreeNode();
+            UHuntTreeNode fa = nodes.get(Integer.parseInt(split[1]));
             cur.deep = fa.deep + 1;
             cur.id = Integer.parseInt(split[0]);
             cur.name = split[2];
@@ -59,7 +57,7 @@ public class ChapterManager {
         bookMap = null;
     }
 
-    public Map<UHuntChapterTree, List<Integer>> getChapterMap() {
+    public Map<UHuntTreeNode, List<Integer>> getChapterMap() {
         if(chapterMap == null) {
             pbs.clear();
             chapterMap = new TreeMap<>();
@@ -68,7 +66,7 @@ public class ChapterManager {
         return chapterMap;
     }
 
-    public Map<UHuntChapterTree, List<Integer>> getBookMap() {
+    public Map<UHuntTreeNode, List<Integer>> getBookMap() {
         if(bookMap == null) {
             pbs.clear();
             bookMap = new TreeMap<>();
@@ -77,12 +75,12 @@ public class ChapterManager {
         return bookMap;
     }
 
-    private void dfsDirPb(UHuntChapterTree cur, int deep, Map<UHuntChapterTree, List<Integer>> result) {
+    private void dfsDirPb(UHuntTreeNode cur, int deep, Map<UHuntTreeNode, List<Integer>> result) {
         if("uva".equals(cur.type)) {
             pbs.add(Integer.parseInt(cur.name));
             return;
         }
-        for(UHuntChapterTree son : cur.son) {
+        for(UHuntTreeNode son : cur.son) {
             dfsDirPb(son, deep, result);
         }
         if(cur.deep == deep) {

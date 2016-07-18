@@ -18,6 +18,9 @@ import java.util.StringJoiner;
 @Table(name = "team_assign_result")
 public class AssignResult implements Serializable {
 
+
+    private static final long serialVersionUID = 932748282929469528L;
+
     public enum Type {
         RANDOM
     }

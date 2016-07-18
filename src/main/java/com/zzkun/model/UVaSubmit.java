@@ -14,6 +14,8 @@ import java.io.Serializable;
 @Table(name = "uva_submit")
 public class UVaSubmit implements Serializable {
 
+    private static final long serialVersionUID = -8190515581928233575L;
+
     @Id
     private Long submitId;
 

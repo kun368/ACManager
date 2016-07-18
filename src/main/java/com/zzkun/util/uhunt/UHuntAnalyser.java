@@ -2,7 +2,7 @@ package com.zzkun.util.uhunt;
 
 import com.zzkun.dao.UVaPbInfoRepo;
 import com.zzkun.dao.UVaSubmitRepo;
-import com.zzkun.model.UHuntChapterTree;
+import com.zzkun.model.UHuntTreeNode;
 import com.zzkun.model.UVaSubmit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,7 +29,7 @@ public class UHuntAnalyser {
      * @param map 节点信息，可通过ChapterManager获得
      * @return 用户各个节点做题量
      */
-    public List<Integer> userChapterStatistic(Set<Integer> acPbs, Map<UHuntChapterTree, List<Integer>> map) {
+    public List<Integer> userChapterStatistic(Set<Integer> acPbs, Map<UHuntTreeNode, List<Integer>> map) {
         List<Integer> result = new ArrayList<>();
         Set<Integer> has = new HashSet<>(); //去重set
         for (List<Integer> list : map.values()) {
@@ -52,7 +52,7 @@ public class UHuntAnalyser {
      * @param map 节点列表
      * @return 每个用户，每节点的做题数量
      */
-    public List<List<Integer>> getCnt(List<Integer> users, Map<UHuntChapterTree, List<Integer>> map) {
+    public List<List<Integer>> getCnt(List<Integer> users, Map<UHuntTreeNode, List<Integer>> map) {
         List<List<Integer>> res = new ArrayList<>();
         Set<Integer> acNums = new HashSet<>();
         for (Integer user : users) {

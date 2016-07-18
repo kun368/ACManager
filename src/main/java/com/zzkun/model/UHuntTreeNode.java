@@ -7,18 +7,20 @@ import java.util.List;
 /**
  * Created by kun on 2016/7/5.
  */
-public class UHuntChapterTree implements Comparable<UHuntChapterTree>, Serializable {
+public class UHuntTreeNode implements Comparable<UHuntTreeNode>, Serializable {
+
+    private static final long serialVersionUID = -5688699161584253926L;
 
     public int deep;
     public int id;
     public String name;
     public String type;
-    public List<UHuntChapterTree> son = new ArrayList<>();
+    public List<UHuntTreeNode> son = new ArrayList<>();
 
-    public UHuntChapterTree() {
+    public UHuntTreeNode() {
     }
 
-    public UHuntChapterTree(int deep, int id, String name, String type) {
+    public UHuntTreeNode(int deep, int id, String name, String type) {
         this.deep = deep;
         this.id = id;
         this.name = name;
@@ -27,7 +29,7 @@ public class UHuntChapterTree implements Comparable<UHuntChapterTree>, Serializa
 
     @Override
     public String toString() {
-        return "UHuntChapterTree{" +
+        return "UHuntTreeNode{" +
                 "deep=" + deep +
                 ", id=" + id +
                 ", name='" + name + '\'' +
@@ -36,7 +38,7 @@ public class UHuntChapterTree implements Comparable<UHuntChapterTree>, Serializa
     }
 
     @Override
-    public int compareTo(UHuntChapterTree o) {
+    public int compareTo(UHuntTreeNode o) {
         return Integer.compare(id, o.id);
     }
 }

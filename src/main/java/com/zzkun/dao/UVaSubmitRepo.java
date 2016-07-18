@@ -14,4 +14,7 @@ public interface UVaSubmitRepo extends JpaRepository<UVaSubmit, Long> {
     <S extends UVaSubmit> List<S> save(Iterable<S> iterable);
 
     List<UVaSubmit> findByUvaId(Integer uvaid);
+
+    @Override
+    long count();
 }

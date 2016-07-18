@@ -44,7 +44,9 @@
     </bean>
 
 
-    <jpa:repositories base-package="com.zzkun.dao"/>
+    <jpa:repositories base-package="com.zzkun.dao"
+                      transaction-manager-ref="transactionManager"
+                      entity-manager-factory-ref="entityManagerFactory"/>
 
     <bean id="jpaVendorAdapter" class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
         <property name="database" value="MYSQL"/>
@@ -62,7 +64,10 @@
         </property>
     </bean>
 
+    <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
+
+    <aop:aspectj-autoproxy/>
 </beans>

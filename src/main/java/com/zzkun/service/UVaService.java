@@ -1,11 +1,12 @@
 package com.zzkun.service;
 
+import com.zzkun.dao.UVaPbInfoRepo;
 import com.zzkun.dao.UVaSubmitRepo;
 import com.zzkun.dao.UserRepo;
-import com.zzkun.model.UHuntChapterTree;
+import com.zzkun.model.UVaPbInfo;
 import com.zzkun.model.UVaSubmit;
 import com.zzkun.model.User;
-import com.zzkun.util.uhunt.ChapterManager;
+import com.zzkun.util.uhunt.UhuntTreeManager;
 import com.zzkun.util.uhunt.UHuntAnalyser;
 import com.zzkun.util.uhunt.UHuntWebGetter;
 import org.slf4j.Logger;
@@ -24,9 +25,11 @@ public class UVaService {
 
     private static Logger logger = LoggerFactory.getLogger(UVaService.class);
 
-    @Autowired private ChapterManager chapterManager;
+    @Autowired private UhuntTreeManager uhuntTreeManager;
 
     @Autowired private UVaSubmitRepo uVaSubmitRepo;
+
+    @Autowired private UVaPbInfoRepo uVaPbInfoRepo;
 
     @Autowired private UserRepo userRepo;
 
@@ -35,30 +38,40 @@ public class UVaService {
     @Autowired private UHuntAnalyser uHuntAnalyser;
 
     public List<String> getBookName() {
-        return chapterManager.getBookMap().keySet().stream().map(x -> x.name).collect(Collectors.toList());
+        return uhuntTreeManager.getBookMap().keySet().stream().map(x -> x.name).collect(Collectors.toList());
     }
 
     public List<String> getChapterName() {
-        return chapterManager.getChapterMap().keySet().stream().map(x -> x.name).collect(Collectors.toList());
+        return uhuntTreeManager.getChapterMap().keySet().stream().map(x -> x.name).collect(Collectors.toList());
     }
 
     public List<List<Integer>> getCptCnt(List<Integer> users) {
-        return uHuntAnalyser.getCnt(users, chapterManager.getChapterMap());
+        return uHuntAnalyser.getCnt(users, uhuntTreeManager.getChapterMap());
     }
 
     public List<List<Integer>> getBookCnt(List<Integer> users) {
-        return uHuntAnalyser.getCnt(users, chapterManager.getBookMap());
+        return uHuntAnalyser.getCnt(users, uhuntTreeManager.getBookMap());
     }
 
     /**
      * 更新所有用户的提交数据
      */
     public void flushUVaSubmit() {
-        List<User> all = userRepo.findAll();
-        for (User user : all) {
-            List<UVaSubmit> list = uHuntWebGetter.userACSubmits(user.getUvaId());
-            uVaSubmitRepo.save(list);
-            logger.info("数据库用户{}AC题目数据更新完毕！", user);
+        List<User> userList = userRepo.findAll();
+        List<UVaSubmit> all = new ArrayList<>();
+        for (User user : userList) {
+            if(user.getUvaId() != null)
+                all.addAll(uHuntWebGetter.userACSubmits(user.getUvaId()));
         }
+        uVaSubmitRepo.save(all);
+        logger.info("数据库用户AC题目数据更新完毕！");
+    }
+
+    /**
+     * 更新uva题目信息
+     */
+    public void flushUVaPbInfo() {
+        List<UVaPbInfo> uVaPbInfos = uHuntWebGetter.allPbInfo();
+        uVaPbInfoRepo.save(uVaPbInfos);
     }
 }

@@ -1,6 +1,7 @@
 package com.zzkun.dao;
 
 import com.zzkun.model.User;
+import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.io.File;
+import java.util.List;
 
 /**
  * Created by kun on 2016/7/7.
@@ -37,7 +41,13 @@ public class UserRepoTest {
 
     @Test
     public void save() throws Exception {
-        userRepo.save(new User("kun768", "123456", "张正锟", 666666, "666666"));
+        File file = new File(getClass().getClassLoader().getResource("uhunt/2016sum.csv").getFile());
+        List<String> lines = FileUtils.readLines(file, "utf8");
+        for (String line : lines) {
+            String[] split = line.split(",");
+            User user = new User(split[2], "123456", split[1], Integer.parseInt(split[0]), split[2], 2015, split[3], User.Type.Normal);
+            userRepo.save(user);
+        }
     }
 
     @Test
