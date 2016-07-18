@@ -1,6 +1,6 @@
 package com.zzkun;
 
-import com.zzkun.dao.UVaPbInfoRepository;
+import com.zzkun.dao.UVaPbInfoRepo;
 import com.zzkun.model.UHuntChapterTree;
 import com.zzkun.model.UVaPbInfo;
 import com.zzkun.util.uhunt.ChapterManager;
@@ -27,7 +27,7 @@ public class MyTest {
     private ChapterManager chapterManager;
 
     @Autowired
-    private UVaPbInfoRepository uVaPbInfoRepository;
+    private UVaPbInfoRepo uVaPbInfoRepo;
 
     private long start;
 
@@ -61,7 +61,7 @@ public class MyTest {
                     if(set.contains(pb))
                         continue;
                     set.add(pb);
-                    UVaPbInfo info = uVaPbInfoRepository.findByNum(pb);
+                    UVaPbInfo info = uVaPbInfoRepo.findByNum(pb);
                     StringJoiner joiner = new StringJoiner(",");
                     joiner.add("UVa" + pb);
                     joiner.add(info.getTitle().replaceAll(",", ""));

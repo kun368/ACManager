@@ -20,6 +20,8 @@
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+
 
     <script>
         $(document).ready(function () {
@@ -27,10 +29,12 @@
                 lengthChange: true,
                 ordering: true,
                 processing: true,
-                searching:true
+                searching:true,
+                dom: '<"top"if>rt<"bottom"lp>'
             });
         });
     </script>
+
 </head>
 <body>
 <jsp:include page="topBar.jsp" />
@@ -41,8 +45,8 @@
                 <th>姓名</th>
                 <th>用户名</th>
                 <th>UVaId</th>
-                <th>${booksName.get(0)}</th>
-                <th>${booksName.get(1)}</th>
+                <th class="text-overflow">${booksName.get(0)}</th>
+                <th class="text-overflow">${booksName.get(1)}</th>
             </tr>
             </thead>
         <tfoot>

@@ -16,7 +16,7 @@ import java.util.StringJoiner;
  */
 @Entity
 @Table(name = "team_assign_result")
-public class TeamAssignResult implements Serializable {
+public class AssignResult implements Serializable {
 
     public enum Type {
         RANDOM
@@ -35,7 +35,7 @@ public class TeamAssignResult implements Serializable {
     @Enumerated(EnumType.STRING)
     private Type type;
 
-    public TeamAssignResult() {
+    public AssignResult() {
     }
 
     public Integer getId() {
@@ -96,7 +96,7 @@ public class TeamAssignResult implements Serializable {
 
     @Override
     public String toString() {
-        return "TeamAssignResult{" +
+        return "AssignResult{" +
                 "id=" + id +
                 ", date=" + date +
                 ", teamList=" + teamList +

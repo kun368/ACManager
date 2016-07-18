@@ -38,6 +38,8 @@ public class VJRankParser {
         if(matcher.find()) {
             team.setAccount(matcher.group(1));
             team.setTeamName(matcher.group(2));
+        } else {
+            team.setAccount(str);
         }
     }
 

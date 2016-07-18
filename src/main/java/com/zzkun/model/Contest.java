@@ -45,6 +45,14 @@ public class Contest implements Serializable {
     public Contest() {
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getName() {
         return name;
     }
@@ -85,6 +93,14 @@ public class Contest implements Serializable {
         this.ranks = ranks;
     }
 
+    public ContestGroup getContestGroup() {
+        return contestGroup;
+    }
+
+    public void setContestGroup(ContestGroup contestGroup) {
+        this.contestGroup = contestGroup;
+    }
+
     /**
      * 计算此次竞赛各队标准分
      * 时间复杂度：O(队伍数*题数)
@@ -111,10 +127,12 @@ public class Contest implements Serializable {
     @Override
     public String toString() {
         return "Contest{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", type='" + type + '\'' +
                 ", time=" + time +
                 ", pbCnt=" + pbCnt +
+                ", contestGroup=" + contestGroup +
                 '}';
     }
 }

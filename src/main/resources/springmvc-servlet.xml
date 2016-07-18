@@ -25,7 +25,6 @@
     <context:component-scan base-package="com.zzkun.service"/>
     <context:component-scan base-package="com.zzkun.dao"/>
     <context:component-scan base-package="com.zzkun.util"/>
-    <context:component-scan base-package="com.zzkun.config"/>
 
     <mvc:annotation-driven/>
     <!--<mvc:resources mapping="/assets/**" location="/assets/"/>-->
@@ -42,16 +41,6 @@
         <property name="jdbcUrl" value="${jdbc.url}"/>
         <property name="user" value="${jdbc.username}"/>
         <property name="password" value="${jdbc.password}"/>
-        <property name="minPoolSize" value="5"/>
-        <property name="maxPoolSize" value="30"/>
-        <property name="initialPoolSize" value="10"/>
-        <property name="maxIdleTime" value="60"/>
-        <property name="acquireIncrement" value="5"/>
-        <property name="maxStatements" value="0"/>
-        <property name="idleConnectionTestPeriod" value="60"/>
-        <property name="acquireRetryAttempts" value="30"/>
-        <property name="breakAfterAcquireFailure" value="true"/>
-        <property name="testConnectionOnCheckout" value="false"/>
     </bean>
 
 
@@ -68,13 +57,12 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="jpaVendorAdapter" ref="jpaVendorAdapter"/>
         <property name="packagesToScan" value="com.zzkun.model"/>
+        <property name="jpaDialect">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" p:prepareConnection="false"/>
+        </property>
     </bean>
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
-    </bean>
-
-    <bean id="exceptionTranslationPostProcessor"
-          class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor">
     </bean>
 </beans>

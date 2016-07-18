@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by kun on 2016/7/13.
  */
-public interface ContestRepository extends JpaRepository<Contest, Integer> {
+public interface ContestRepo extends JpaRepository<Contest, Integer> {
     @Override
     List<Contest> findAll();
 

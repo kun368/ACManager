@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by kun on 2016/7/6.
  */
-public interface UserRepository extends JpaRepository<User, Integer> {
+public interface UserRepo extends JpaRepository<User, Integer> {
 
     @Override
     List<User> findAll();

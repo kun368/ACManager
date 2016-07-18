@@ -13,6 +13,17 @@ import java.io.Serializable;
 @Table(name = "user")
 public class User implements Serializable {
 
+    /**
+     * 用户类型
+     */
+    public enum Type {
+        Retired,        //退役
+        Expeled,        //开除
+        Normal,         //正常
+        Verifying,      //待进队
+        Admin           //管理员
+    }
+
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")

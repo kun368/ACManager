@@ -1,6 +1,6 @@
 package com.zzkun.service;
 
-import com.zzkun.dao.UserRepository;
+import com.zzkun.dao.UserRepo;
 import com.zzkun.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,15 +15,15 @@ public class UserService {
 
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepo userRepo;
 
 
     public boolean hasUser(String username) {
-        return userRepository.findByUsername(username) != null;
+        return userRepo.findByUsername(username) != null;
     }
 
     public User valid(String username, String password) {
-        User user = userRepository.findByUsername(username);
+        User user = userRepo.findByUsername(username);
         if(user != null && user.getPassword().equals(password))
             return user;
         return null;
@@ -31,7 +31,7 @@ public class UserService {
 
     public boolean registerUser(User user) {
         try {
-            userRepository.save(user);
+            userRepo.save(user);
             return true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,6 +40,6 @@ public class UserService {
     }
 
     public List<User> allUsers() {
-        return userRepository.findAll();
+        return userRepo.findAll();
     }
 }

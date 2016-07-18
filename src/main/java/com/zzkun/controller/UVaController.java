@@ -28,9 +28,10 @@ public class UVaController {
     public String showTable(Model model) {
         model.addAttribute("booksName", uVaService.getBookName());
         List<User> users = userService.allUsers();
+        List<Integer> uvaids = users.stream().map(User::getUvaId).collect(Collectors.toList());
         model.addAttribute("users", users);
-        List<List<Integer>> bookCnt = uVaService.getBookCnt(users.stream().map(User::getUvaId).collect(Collectors.toList()));
-        model.addAttribute("bookCnt", bookCnt);
+        model.addAttribute("bookCnt", uVaService.getBookCnt(uvaids));
+        model.addAttribute("cptCnt", uVaService.getCptCnt(uvaids));
         return "tablefile";
     }
 }

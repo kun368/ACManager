@@ -10,7 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,10 +20,10 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:springmvc-servlet.xml")
-public class ContestRepositoryTest {
+public class ContestRepoTest {
 
     @Autowired
-    private ContestRepository contestRepository;
+    private ContestRepo contestRepo;
 
     @Autowired
     private VJRankParser vjRankParser;
@@ -32,8 +31,11 @@ public class ContestRepositoryTest {
 
     @Test
     public void findAll() throws Exception {
-        List<Contest> all = contestRepository.findAll();
-        System.out.println(all);
+        List<Contest> all = contestRepo.findAll();
+        for (Contest contest : all) {
+            System.out.println(contest);
+            System.out.println(contest.getRanks());
+        }
     }
 
     @Test
@@ -45,7 +47,7 @@ public class ContestRepositoryTest {
     public void save() throws Exception {
         List<String> list = FileUtils.readLines(new File("temp/vjudge"), "utf8");
         Contest contest = vjRankParser.parse(list, new HashMap<>());
-        contestRepository.save(contest);
+        contestRepo.save(contest);
     }
 
     @Test(timeout = 10000)

@@ -6,17 +6,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by kun on 2016/7/14.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:springmvc-servlet.xml")
-public class TeamAssignResultRepositoryTest {
+public class AssignResultRepoTest {
 
     @Autowired
-    private TeamAssignResultRepository teamAssignResultRepository;
+    private AssignResultRepo assignResultRepo;
 
     @Test
     public void findAll() throws Exception {
@@ -30,7 +28,7 @@ public class TeamAssignResultRepositoryTest {
 
     @Test
     public void count() throws Exception {
-        System.out.println(teamAssignResultRepository.count());
+        System.out.println(assignResultRepo.count());
     }
 
     @Test

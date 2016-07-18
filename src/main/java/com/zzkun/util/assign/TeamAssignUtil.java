@@ -1,13 +1,13 @@
 package com.zzkun.util.assign;
 
-import com.zzkun.model.TeamAssignResult;
+import com.zzkun.model.AssignResult;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.zzkun.model.TeamAssignResult.*;
+import static com.zzkun.model.AssignResult.*;
 
 /**
  * 随机分队工具
@@ -22,7 +22,7 @@ public class TeamAssignUtil {
      * @param users 要被分队的用户列表
      * @return 分队结果
      */
-    public TeamAssignResult assign(List<Integer> users, Type type) {
+    public AssignResult assign(List<Integer> users, Type type) {
         if(type.equals(Type.RANDOM))
             return randomAssign(users);
         return null;
@@ -33,8 +33,8 @@ public class TeamAssignUtil {
      * 时间复杂度：O(人数)
      * Type: RANDOM
      */
-    private TeamAssignResult randomAssign(List<Integer> users) {
-        TeamAssignResult result = new TeamAssignResult();
+    private AssignResult randomAssign(List<Integer> users) {
+        AssignResult result = new AssignResult();
         result.setType(Type.RANDOM);
 
         Collections.shuffle(users);
@@ -53,7 +53,7 @@ public class TeamAssignUtil {
         for(int i = 0; i <= 100; ++i) {
             list.add(i);
         }
-        TeamAssignResult assign = util.assign(list, Type.RANDOM);
+        AssignResult assign = util.assign(list, Type.RANDOM);
         System.out.println(assign);
     }
 }

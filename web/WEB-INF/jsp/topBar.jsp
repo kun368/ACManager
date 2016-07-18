@@ -33,8 +33,8 @@
                     <li class="dropdown" >
                         <a href="#" data-toggle="dropdown">比赛管理<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">导入VJ比赛</a> </li>
                             <li><a href="#">比赛集</a> </li>
+                            <li><a href="<c:url value="/contest/add1"/> ">导入VJ比赛</a> </li>
                         </ul>
                     </li>
                 </ul>
@@ -47,7 +47,7 @@
                 <c:if test="${!empty user}">
                     <div class="navbar-form navbar-right">
                         <a class="navbar-link" href="#">${user.username}</a>
-                        <a class="navbar-link" href="#">退出</a>
+                        <a class="navbar-link" href="<c:url value="/auth/dologout"/> ">退出</a>
                     </div>
                 </c:if>
 

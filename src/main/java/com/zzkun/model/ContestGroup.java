@@ -63,7 +63,6 @@ public class ContestGroup implements Serializable {
         return "ContestGroup{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", contests=" + contests +
                 '}';
     }
 }

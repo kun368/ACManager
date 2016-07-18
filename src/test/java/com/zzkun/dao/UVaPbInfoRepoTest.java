@@ -17,13 +17,13 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:springmvc-servlet.xml")
-public class UVaPbInfoRepositoryTest {
+public class UVaPbInfoRepoTest {
 
     @Autowired
     private UHuntWebGetter uHuntWebGetter;
 
     @Autowired
-    private UVaPbInfoRepository uVaPbInfoRepository;
+    private UVaPbInfoRepo uVaPbInfoRepo;
 
     private long start;
     @Before
@@ -38,23 +38,23 @@ public class UVaPbInfoRepositoryTest {
     @Test
     public void save() throws Exception {
         List<UVaPbInfo> list = uHuntWebGetter.allPbInfo();
-        uVaPbInfoRepository.save(list);
+        uVaPbInfoRepo.save(list);
     }
 
     @Test
     public void findOne() throws Exception {
-        UVaPbInfo one = uVaPbInfoRepository.findOne(37);
+        UVaPbInfo one = uVaPbInfoRepo.findOne(37);
         System.out.println(one);
     }
 
     @Test
     public void count() throws Exception {
-        System.out.println(uVaPbInfoRepository.count());
+        System.out.println(uVaPbInfoRepo.count());
     }
 
     @Test
     public void findAll() throws Exception {
-        List<UVaPbInfo> all = uVaPbInfoRepository.findAll();
+        List<UVaPbInfo> all = uVaPbInfoRepo.findAll();
         for (UVaPbInfo pb : all) {
             System.out.println(pb.getTitle());
             System.out.println("UVa" + pb.getNum() + ": " + pb.calcScore());
@@ -63,13 +63,13 @@ public class UVaPbInfoRepositoryTest {
 
     @Test
     public void findByNum() {
-        UVaPbInfo pbInfo = uVaPbInfoRepository.findByNum(100);
+        UVaPbInfo pbInfo = uVaPbInfoRepo.findByNum(100);
         System.out.println(pbInfo);
     }
 
     @Test
     public void deleteAllInBatch() throws Exception {
-        uVaPbInfoRepository.deleteAllInBatch();
+        uVaPbInfoRepo.deleteAllInBatch();
 
     }
 }

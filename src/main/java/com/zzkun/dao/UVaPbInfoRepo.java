@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by kun on 2016/7/7.
  */
-public interface UVaPbInfoRepository extends JpaRepository<UVaPbInfo, Integer> {
+public interface UVaPbInfoRepo extends JpaRepository<UVaPbInfo, Integer> {
 
     @Override
     <S extends UVaPbInfo> List<S> save(Iterable<S> iterable);

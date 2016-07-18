@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by kun on 2016/7/7.
  */
-public interface UVaSubmitRepository extends JpaRepository<UVaSubmit, Long> {
+public interface UVaSubmitRepo extends JpaRepository<UVaSubmit, Long> {
 
     @Override
     <S extends UVaSubmit> List<S> save(Iterable<S> iterable);

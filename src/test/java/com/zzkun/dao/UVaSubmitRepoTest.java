@@ -15,23 +15,23 @@ import java.util.List;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:springmvc-servlet.xml")
-public class UVaSubmitRepositoryTest {
+public class UVaSubmitRepoTest {
 
     @Autowired
     private UHuntWebGetter webGetter;
 
     @Autowired
-    private UVaSubmitRepository uVaSubmitRepository;
+    private UVaSubmitRepo uVaSubmitRepo;
 
     @Test
     public void save() throws Exception {
         List<UVaSubmit> list = webGetter.userACSubmits(617781);
-        uVaSubmitRepository.save(list);
+        uVaSubmitRepo.save(list);
     }
 
     @Test
     public void findUVaSubmitByUvaId() throws Exception {
-        List<UVaSubmit> res = uVaSubmitRepository.findByUvaId(617781);
+        List<UVaSubmit> res = uVaSubmitRepo.findByUvaId(617781);
         System.out.println(res);
     }
 }
