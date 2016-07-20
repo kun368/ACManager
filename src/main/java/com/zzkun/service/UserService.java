@@ -46,8 +46,12 @@ public class UserService {
 
     public List<User> allNormalUsers() {
         List<User> all = userRepo.findAll();
-        all.removeIf(x -> !x.getType().equals(User.Type.Normal));
-        return all;
+        List<User> list = new ArrayList<>();
+        all.forEach(x -> {
+            if(x.getType().equals(User.Type.Normal))
+                list.add(x);
+        });
+        return list;
     }
 
     public User getUserById(Integer id) {

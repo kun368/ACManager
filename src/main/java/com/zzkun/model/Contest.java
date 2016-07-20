@@ -32,18 +32,17 @@ public class Contest implements Serializable {
 
     private LocalDate time;
 
-    private int pbCnt;
+    private Integer pbCnt;
 
     @Lob
     private ArrayList<TeamRanking> ranks = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn
-    private ContestGroup contestGroup;
+    private Integer stageId;
 
 
     public Contest() {
     }
+
 
     public Integer getId() {
         return id;
@@ -93,12 +92,12 @@ public class Contest implements Serializable {
         this.ranks = ranks;
     }
 
-    public ContestGroup getContestGroup() {
-        return contestGroup;
+    public int getStageId() {
+        return stageId;
     }
 
-    public void setContestGroup(ContestGroup contestGroup) {
-        this.contestGroup = contestGroup;
+    public void setStageId(int stageId) {
+        this.stageId = stageId;
     }
 
     /**
@@ -132,7 +131,8 @@ public class Contest implements Serializable {
                 ", type='" + type + '\'' +
                 ", time=" + time +
                 ", pbCnt=" + pbCnt +
-                ", contestGroup=" + contestGroup +
+                ", ranks=" + ranks +
+                ", stageId=" + stageId +
                 '}';
     }
 }

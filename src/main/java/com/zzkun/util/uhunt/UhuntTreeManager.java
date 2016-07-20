@@ -15,7 +15,7 @@ import java.util.*;
 @Component
 public class UhuntTreeManager {
 
-    private List<Integer> pbs; //临时数组
+    private final List<Integer> pbs = new ArrayList<>(); //临时数组
     private UHuntTreeNode root;
 
     private Map<UHuntTreeNode, List<Integer>> chapterMap;
@@ -52,7 +52,7 @@ public class UhuntTreeManager {
             fa.son.add(cur);
             nodes.put(cur.id, cur);
         }
-        pbs = new ArrayList<>();
+        pbs.clear();
         chapterMap = null;
         bookMap = null;
     }

@@ -1,9 +1,9 @@
 package com.zzkun.service;
 
-import com.zzkun.dao.ContestGroupRepo;
+import com.zzkun.dao.ContestStageRepo;
 import com.zzkun.dao.ContestRepo;
 import com.zzkun.model.Contest;
-import com.zzkun.model.ContestGroup;
+import com.zzkun.model.ContestStage;
 import com.zzkun.util.vjudge.VJRankParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,18 +16,16 @@ import java.util.*;
  */
 @Service
 public class ContestService {
-    @Autowired
-    private ContestGroupRepo contestGroupRepo;
 
-    @Autowired
-    private ContestRepo contestRepo;
+    @Autowired private ContestStageRepo contestStageRepo;
 
-    @Autowired
-    private VJRankParser vjRankParser;
+    @Autowired private ContestRepo contestRepo;
+
+    @Autowired private VJRankParser vjRankParser;
 
 
-    public List<ContestGroup> getAllGroup() {
-        return contestGroupRepo.findAll();
+    public List<ContestStage> getAllGroup() {
+        return contestStageRepo.findAll();
     }
 
     public Contest parseVj(String contestName, String contestType,
@@ -36,9 +34,7 @@ public class ContestService {
             Map<String, String> map = new HashMap<>();
             map.put("contestName", contestName);
             map.put("contestType", contestType);
-            Contest contest = vjRankParser.parse(Arrays.asList(vjContest.split("\n")), map);
-            contest.setContestGroup(contestGroupRepo.findOne(contestGroup));
-            return contest;
+            return vjRankParser.parse(Arrays.asList(vjContest.split("\n")), map);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,5 +43,13 @@ public class ContestService {
 
     public Contest saveContest(Contest contest) {
         return contestRepo.save(contest);
+    }
+
+    public Contest getContest(Integer id) {
+        return contestRepo.findOne(id);
+    }
+
+    public List<Contest> findByStageId(Integer id) {
+        return contestRepo.findByStageId(id);
     }
 }

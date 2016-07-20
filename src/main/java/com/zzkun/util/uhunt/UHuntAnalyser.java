@@ -47,7 +47,6 @@ public class UHuntAnalyser {
 
     /**
      * 获取所有用户节点题数
-     * TODO：速度较慢，待优化
      * @param users 用户uvaid列表
      * @param map 节点列表
      * @return 每个用户，每节点的做题数量

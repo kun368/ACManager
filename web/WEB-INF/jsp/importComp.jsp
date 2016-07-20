@@ -37,7 +37,7 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <select class="form-control" name="contestGroup">
+                            <select class="form-control" name="contestStage">
                                 <c:forEach items="${groups}" var="group">
                                     <option value="${group.id}">${group.id}.${group.name}</option>
                                 </c:forEach>

@@ -17,4 +17,6 @@ public interface ContestRepo extends JpaRepository<Contest, Integer> {
 
     @Override
     <S extends Contest> S save(S entity);
+
+    List<Contest> findByStageId(Integer id);
 }

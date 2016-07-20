@@ -28,8 +28,8 @@ public class ContestController {
 
     private static final Logger logger = LoggerFactory.getLogger(ContestController.class);
 
-    @Autowired
-    private ContestService contestService;
+    @Autowired private ContestService contestService;
+
 
     @RequestMapping("/add1")
     public String add1(Model model) {
