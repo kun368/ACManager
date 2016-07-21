@@ -25,7 +25,8 @@ public class TrainingRepoTest {
         Training training = new Training();
         training.setStartDate(LocalDate.now());
         training.setEndDate(LocalDate.now());
-        training.setName("第一次集训");
+        training.setName("第10次集训");
+        training.setRemark("第10次集训开始啦~~~");
         trainingRepo.save(training);
     }
 

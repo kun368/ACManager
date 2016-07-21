@@ -2,10 +2,7 @@ package com.zzkun.model;
 
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -23,6 +20,9 @@ public class Training implements Serializable {
     private Integer id;
 
     private String name;
+
+    @Column(length = 1024)
+    private String remark;
 
     private LocalDate startDate;
 
@@ -63,11 +63,20 @@ public class Training implements Serializable {
         this.endDate = endDate;
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
     @Override
     public String toString() {
         return "Training{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", remark='" + remark + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 '}';

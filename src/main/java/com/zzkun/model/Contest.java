@@ -28,6 +28,9 @@ public class Contest implements Serializable {
 
     private String name;
 
+    @Column(length = 1024)
+    private String remark;
+
     private String type;
 
     private LocalDate time;
@@ -43,7 +46,6 @@ public class Contest implements Serializable {
     public Contest() {
     }
 
-
     public Integer getId() {
         return id;
     }
@@ -58,6 +60,14 @@ public class Contest implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public String getType() {
@@ -128,6 +138,7 @@ public class Contest implements Serializable {
         return "Contest{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", remark='" + remark + '\'' +
                 ", type='" + type + '\'' +
                 ", time=" + time +
                 ", pbCnt=" + pbCnt +

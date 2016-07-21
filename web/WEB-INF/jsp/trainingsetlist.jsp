@@ -39,6 +39,11 @@
 <body>
 <jsp:include page="topBar.jsp" />
 <div class="container-fluid">
+    <ol class="breadcrumb">
+        <li>您所在的位置：</li>
+        <li class="active">集训列表</li>
+    </ol>
+
     <table class="table table-condensed table-striped table-hover display" id="mytable">
         <thead class="tab-header-area">
         <tr>
@@ -46,6 +51,7 @@
             <th>集训名称</th>
             <th>开始时间</th>
             <th>停止时间</th>
+            <th>操作</th>
         </tr>
         </thead>
         <tfoot>
@@ -59,13 +65,44 @@
                 <td><a href="<c:url value="/training/detail/${training.id}"/> ">${training.name}</a></td>
                 <td>${training.startDate}</td>
                 <td>${training.endDate}</td>
+                <td><a href="" >申请加入</a></td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
+    <div class="pull-left">
+    <button class="btn btn-defult" id="addbutton" data-toggle="modal" data-target="#myModal">添加集训</button>
+    </div>
 </div>
-<script>
-
-</script>
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">添加集训</h4>
+                    </div>
+                    <div class="modal-body ">
+                        <form class="form">
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="名称" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="开始时间" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" placeholder="截止时间" required>
+                            </div>
+                            <div class="form-group">
+                                <textarea rows="5" class="form-control" placeholder="备注"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                        <button type="button" class="btn btn-primary">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 </body>
 </html>

@@ -29,12 +29,11 @@
                     <li> <a href="${url_index}">首页</a> </li>
                     <li> <a href="${url_uvaTable}">UVA统计</a> </li>
                     <li> <a href="${url_uvaTable}">Codeforces统计</a> </li>
-                    <li> <a href="<c:url value="/assign/list"/> ">随机分队</a> </li>
                     <li class="dropdown" >
                         <a href="#" data-toggle="dropdown">比赛管理<span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">比赛集</a> </li>
-                            <li><a href="<c:url value="/contest/add1"/> ">导入VJ比赛</a> </li>
+                            <li><a href="<c:url value="/training/list"/> ">集训列表</a> </li>
+                            <li><a href="<c:url value="/training/AddGame"/> ">添加比赛</a> </li>
                         </ul>
                     </li>
                 </ul>

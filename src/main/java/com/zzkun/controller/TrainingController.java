@@ -1,12 +1,17 @@
 package com.zzkun.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.zzkun.model.AssignResult;
+import com.zzkun.model.ContestStage;
 import com.zzkun.service.ContestService;
 import com.zzkun.service.TrainingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 /**
  * Created by Administrator on 2016/7/20.
@@ -25,6 +30,11 @@ public class TrainingController {
         return "trainingsetlist";
     }
 
+    @RequestMapping("/AddGame")
+    public String addGame(Model model) {
+        model.addAttribute("allList", trainingService.allTraining());
+        return "AddGame";
+    }
 
     @RequestMapping("/detail/{id}")
     public String detail(@PathVariable Integer id,
@@ -38,6 +48,14 @@ public class TrainingController {
     public String stage(@PathVariable Integer id,
                         Model model) {
         model.addAttribute("contestList", contestService.findByStageId(id));
+        model.addAttribute("trainingId", contestService.getStageById(id).getTrainingId());
         return "gamelist";
+    }
+
+    @RequestMapping(value = "/getstatge",produces = "text/html;charset=UTF-8" )
+    @ResponseBody
+    public String getstatge(@RequestParam Integer id) throws UnsupportedEncodingException {
+        List<ContestStage> stages = trainingService.getAllStageByTrainingId(id);
+        return JSON.toJSONString(stages);
     }
 }

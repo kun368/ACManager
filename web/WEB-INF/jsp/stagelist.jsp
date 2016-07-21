@@ -21,7 +21,7 @@
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
-
+    <c:url value="/assign/list" var="suijifendui"/>
 
     <script>
         $(document).ready(function () {
@@ -32,6 +32,9 @@
                 searching:true,
                 dom: '<"top"if>rt<"bottom"lp>'
             });
+            $('#fendui').click(function () {
+                location.href="${suijifendui}"
+            })
         });
     </script>
 
@@ -39,6 +42,11 @@
 <body>
 <jsp:include page="topBar.jsp" />
 <div class="container-fluid">
+    <ol class="breadcrumb">
+        <li>您所在的位置：</li>
+        <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
+        <li class="active">阶段列表</li>
+    </ol>
     <table class="table table-condensed table-striped table-hover display" id="mytable">
         <thead class="tab-header-area">
         <tr>
@@ -63,9 +71,42 @@
         </c:forEach>
         </tbody>
     </table>
+    <div class="pull-left">
+        <button class="btn btn-defult" id="addbutton" data-toggle="modal" data-target="#myModal">添加阶段</button>
+        <button class="btn" id="fendui">
+            随机分队
+        </button>
+    </div>
 </div>
-<script>
-
-</script>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">添加阶段</h4>
+            </div>
+            <div class="modal-body ">
+                <form class="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="名称" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="开始时间" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="截止时间" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea rows="5" class="form-control" placeholder="备注"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -61,12 +61,12 @@
                 var pa = $('input#inputPassword').val();
                 var ck = $('p#accheck');
                 var rep = $('input#inputRepass').val();
-                if(rep!=''||pa!='')
-                if (rep === pa ) {
-                }
-                else {
-                    ck.html('两次密码输不入一致');
-                }
+                if (rep != '' || pa != '')
+                    if (rep === pa) {
+                    }
+                    else {
+                        ck.html('两次密码输不入一致');
+                    }
             });
             $('#inputRepass,#inputPassword').click(function () {
                 var ck = $('p#accheck');
@@ -79,46 +79,53 @@
 
 <body>
 
+<jsp:include page="topBar.jsp"/>
+
 <div class="container-fluid">
 
-    <form class="form-horizontal" method="post" action="<c:url value="/auth/dorg"/> ">
-        <h2 class="form-signin-heading">Register</h2>
-        <div class="col-lg-6">
-            <div class="form-group">
-                <input type="text" name="username" id="inputUsername" class="form-control" placeholder="UserName*" required autofocus>
-            </div>
-            <p id="checkname"></p>
-            <div class="form-group">
-                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password*" required>
-            </div>
-            <div class="form-group">
-                <input type="password" id="inputRepass" class="form-control" placeholder="Repeat*" required>
-            </div>
-            <span id="accheck" class=""/>
-
-            <div class="form-group">
-                <input type="text" name="uvaid" id="inputUVA" class="form-control" placeholder="UVAID">
-            </div>
-            <!--<p>UVA UserName:</p>-->
-            <div class="form-group">
-                <input type="text" name="cfname" id="inputCF" class="form-control" placeholder="CF NikeName">
-            </div>
-            <div class="form-group">
-                <input type="text" name="realName" id="inputRealName" class="form-control" placeholder="RealName">
-            </div>
-            <div class="col-lg-5">
-                <div class="form-group">
-                    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                </div>
-            </div>
-            <div class="col-lg-5 pull-right">
-                <div class="form-group">
-                    <button class="btn btn-lg btn-primary btn-block" type="button" onclick="Goto()"> 取 消</button>
-                </div>
-            </div>
+    <div class="col-lg-2">
+    </div>
+    <div class="col-lg-8">
+        <div class="page-header">
+            <h1>欢迎注册
+                <small>ACManager</small>
+            </h1>
         </div>
-    </form>
+        <form class="form-horizontal" method="post" action="<c:url value="/auth/dorg"/> ">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <input type="text" name="username" id="inputUsername" class="form-control" placeholder="UserName*"
+                           required autofocus>
+                </div>
+                <p id="checkname"></p>
+                <div class="form-group">
+                    <input type="password" name="password" id="inputPassword" class="form-control"
+                           placeholder="Password*" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="inputRepass" class="form-control" placeholder="Repeat*" required>
+                </div>
+                <span id="accheck" class=""/>
 
+                <div class="form-group">
+                    <input type="text" name="uvaid" id="inputUVA" class="form-control" placeholder="UVAID">
+                </div>
+                <!--<p>UVA UserName:</p>-->
+                <div class="form-group">
+                    <input type="text" name="cfname" id="inputCF" class="form-control" placeholder="CF NikeName">
+                </div>
+                <div class="form-group">
+                    <input type="text" name="realName" id="inputRealName" class="form-control" placeholder="RealName">
+                </div>
+                    <div class="form-horizontal pull-right">
+                        <button class="btn btn-primary " type="submit">注册</button>
+                        <button class="btn btn-primary " type="button" onclick="Goto()">取消</button>
+                    </div>
+            </div>
+        </form>
+    </div>
+    <div class="col-lg-2">
+    </div>
 </div> <!-- /container -->
 
 

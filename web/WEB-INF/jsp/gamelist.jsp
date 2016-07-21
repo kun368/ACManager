@@ -39,6 +39,13 @@
 <body>
 <jsp:include page="topBar.jsp" />
 <div class="container-fluid">
+
+    <ol class="breadcrumb">
+        <li>您所在的位置：</li>
+        <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
+        <li><a href="<c:url value="/training/detail/${trainingId}"/>">阶段列表</a></li>
+        <li class="active">比赛列表</li>
+    </ol>
     <table class="table table-condensed table-striped table-hover display" id="mytable">
         <thead class="tab-header-area">
         <tr>

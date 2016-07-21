@@ -25,6 +25,9 @@ public class ContestStage implements Serializable {
 
     private String name;
 
+    @Column(length = 1024)
+    private String remark;
+
     private LocalDate startDate;
 
     private LocalDate endDate;
@@ -52,6 +55,14 @@ public class ContestStage implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public LocalDate getStartDate() {
@@ -83,6 +94,7 @@ public class ContestStage implements Serializable {
         return "ContestStage{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", remark='" + remark + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", trainingId=" + trainingId +

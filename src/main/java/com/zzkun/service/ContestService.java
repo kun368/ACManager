@@ -52,4 +52,8 @@ public class ContestService {
     public List<Contest> findByStageId(Integer id) {
         return contestRepo.findByStageId(id);
     }
+
+    public ContestStage getStageById(Integer id) {
+        return contestStageRepo.findOne(id);
+    }
 }
