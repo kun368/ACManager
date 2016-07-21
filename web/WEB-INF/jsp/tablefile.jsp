@@ -33,6 +33,17 @@
                 dom: '<"top"if>rt<"bottom"lp>'
             });
         });
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#addbutton").click(function () {
+               $.post("",{
+               },function () {
+
+                });
+            });
+        })
     </script>
 
 </head>
@@ -60,15 +71,15 @@
         </tfoot>
 
         <tbody>
-            <c:forEach begin="0" end="${users.size()-1}" step="1" var="i">
+            <c:forEach items="${users}" var="curUser" varStatus="i">
                 <tr>
-                    <td>${users.get(i).realName}</td>
-                    <td>${users.get(i).username}</td>
-                    <td>${users.get(i).major}</td>
-                    <td>${users.get(i).uvaId}</td>
-                    <td>${bookCnt.get(i).get(0) + bookCnt.get(i).get(1)}</td>
-                    <c:forEach begin="0" end="${booksName.size()-1}" var="j">
-                        <td>${bookCnt.get(i).get(j)}</td>
+                    <td>${curUser.realName}</td>
+                    <td>${curUser.username}</td>
+                    <td>${curUser.major}</td>
+                    <td>${curUser.uvaId}</td>
+                    <td>${bookCnt.get(i.index).get(0) + bookCnt.get(i.index).get(1)}</td>
+                    <c:forEach items="${bookCnt.get(i.index)}" var="j">
+                        <td>${j}</td>
                     </c:forEach>
                     <%--<c:forEach begin="0" end="${cptsName.size()-1}" var="j">--%>
                         <%--<td>${cptCnt.get(i).get(j)}</td>--%>
@@ -77,6 +88,9 @@
             </c:forEach>
         </tbody>
     </table>
+    <div class="pull-left">
+        <button class="btn" id="addbutton">更新数据</button>
+    </div>
 </div>
 
 </body>

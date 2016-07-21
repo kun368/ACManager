@@ -70,9 +70,17 @@
         </c:forEach>
         </tbody>
     </table>
+    <div class="pull-left">
+        <button class="btn btn-defult" id="addbutton">添加比赛</button>
+    </div>
+
 </div>
 <script>
-
+    $(document).ready(function () {
+        $("#addbutton").click(function () {
+            <%--location.href="<c:url value="/training/AddGame"/>";--%>
+        })
+    })
 </script>
 </body>
 </html>

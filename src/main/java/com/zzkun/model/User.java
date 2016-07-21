@@ -43,8 +43,6 @@ public class User implements Serializable {
     @Column(unique = true)
     private String cfname;
 
-    private Integer grade;
-
     private String major;
 
     @Enumerated(value = EnumType.STRING)
@@ -64,13 +62,12 @@ public class User implements Serializable {
         this.type = type;
     }
 
-    public User(String username, String password, String realName, Integer uvaId, String cfname, Integer grade, String major, Type type) {
+    public User(String username, String password, String realName, Integer uvaId, String cfname, String major, Type type) {
         this.username = username;
         this.password = password;
         this.realName = realName;
         this.uvaId = uvaId;
         this.cfname = cfname;
-        this.grade = grade;
         this.major = major;
         this.type = type;
     }
@@ -123,14 +120,6 @@ public class User implements Serializable {
         this.cfname = cfname;
     }
 
-    public Integer getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Integer grade) {
-        this.grade = grade;
-    }
-
     public String getMajor() {
         return major;
     }
@@ -156,7 +145,6 @@ public class User implements Serializable {
                 ", realName='" + realName + '\'' +
                 ", uvaId=" + uvaId +
                 ", cfname='" + cfname + '\'' +
-                ", grade=" + grade +
                 ", major='" + major + '\'' +
                 ", type=" + type +
                 '}';

@@ -22,5 +22,19 @@
 </head>
 <body>
     <jsp:include page="topBar.jsp"/>
+    <div class="container-fluid">
+
+        <div class="col-lg-2">
+        </div>
+        <div class="col-lg-8">
+            <div class="page-header">
+                <h1>欢迎访问山东科技大学ACM集训队管理系统
+                    <small>ACManager</small>
+                </h1>
+            </div>
+        </div>
+        <div class="col-lg-2">
+        </div>
+    </div> <!-- /container -->
 </body>
 </html>

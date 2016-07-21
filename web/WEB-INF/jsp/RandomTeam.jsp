@@ -10,6 +10,7 @@
     <c:url value="/assign/doAssign" var="url_assign"/>
     <script>
         $(function () {
+
             $('#fulltrue').click(function () {
                 $("[name='ckb']:checkbox").prop("checked",true).change();
             });
@@ -38,7 +39,12 @@
 <jsp:include page="topBar.jsp"/>
 
 <div class="container-fluid">
-
+    <ol class="breadcrumb">
+        <li>您所在的位置：</li>
+        <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
+        <li><a href="<c:url value="/training/detail/${trainingId}"/> ">当前集训</a></li>
+        <li class="active">随机分队</li>
+    </ol>
     <div class="col-lg-2">
     </div>
     <div class="col-lg-8">
@@ -51,7 +57,7 @@
                         <c:forEach items="${userList}" var="user">
                             <div name="box" class="checkbox col-lg-4" style="padding-bottom: 20px">
                                 <label>
-                                    <input type="checkbox" name="ckb" id="${user.id}"
+                                    <input type="checkbox" name="ckb" id="${user.id}" checked="checked"
                                            data-toggle="toggle" data-on="<i class='glyphicon glyphicon-ok'></i>"
                                            data-off="<i class='glyphicon glyphicon-remove'></i>"/>
                                            ${user.realName}(${user.username})

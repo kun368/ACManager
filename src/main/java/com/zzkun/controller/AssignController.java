@@ -1,9 +1,7 @@
 package com.zzkun.controller;
 
-import com.zzkun.dao.UserRepo;
 import com.zzkun.model.AssignResult;
-import com.zzkun.model.User;
-import com.zzkun.service.AssignService;
+import com.zzkun.service.TrainingService;
 import com.zzkun.service.UserService;
 import com.zzkun.util.assign.TeamAssignUtil;
 import org.slf4j.Logger;
@@ -11,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -29,15 +26,17 @@ public class AssignController {
 
     private static final Logger logger = LoggerFactory.getLogger(AssignController.class);
 
-    @Autowired private UserService userService;
-
-    @Autowired private AssignService assignService;
-
     @Autowired private TeamAssignUtil teamAssignUtil;
 
-    @RequestMapping("/list")
-    public String list(Model model) {
-        model.addAttribute("userList", userService.allNormalUsers());
+    @Autowired private TrainingService trainingService;
+
+    @Autowired private UserService userService;
+
+    @RequestMapping("/listTraining/{trainingId}")
+    public String list(@PathVariable Integer trainingId,
+                       Model model,
+                       HttpSession session) {
+        model.addAttribute("userList", trainingService.getTrainingAllOkUser(trainingId));
         return "RandomTeam";
     }
 
@@ -58,7 +57,7 @@ public class AssignController {
     @RequestMapping("/canAssign")
     @ResponseBody
     public String canAssign(@SessionAttribute AssignResult assign) {
-        assignService.saveAssign(assign);
+        trainingService.saveAssign(assign);
         logger.info("分队已经被确认：{}", assign);
         return "true";
     }

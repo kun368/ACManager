@@ -1,6 +1,6 @@
 package com.zzkun.dao;
 
-import com.zzkun.model.ContestStage;
+import com.zzkun.model.Stage;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,21 +12,21 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:springmvc-servlet.xml")
-public class ContestStageRepoTest {
+public class StageRepoTest {
 
     @Autowired
-    private ContestStageRepo contestStageRepo;
+    private StageRepo stageRepo;
 
     @Test
     public void findAll() throws Exception {
-        ContestStage group1 = contestStageRepo.findOne(1);
+        Stage group1 = stageRepo.findOne(1);
         System.out.println(group1.getName());
     }
 
     @Test
     public void save() throws Exception {
-        ContestStage group = new ContestStage("山东科技大学第一次ACM集训");
-        contestStageRepo.save(group);
+        Stage group = new Stage("山东科技大学第一次ACM集训");
+        stageRepo.save(group);
     }
 
     @Test
@@ -36,6 +36,6 @@ public class ContestStageRepoTest {
 
     @Test
     public void findByTrainingId() throws Exception {
-        System.out.println(contestStageRepo.findByTrainingId(1));
+        System.out.println(stageRepo.findByTrainingId(1));
     }
 }

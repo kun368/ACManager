@@ -24,18 +24,18 @@
     <script type="text/javascript">
         //传数据库
         function Goto() {
-            self.location = '${url_index}';
+            location.href = "${url_index}";<!--填写提交地址-->
         }
         $(function () {
 
-            $('input#inputUsername').blur(function () {
-                var user = $('input#inputUsername').val();
-                var patten = /^[a-zA-Z]\w{3,15}$/ig;
+            $('#inputUsername').blur(function () {
+                var user = $('#inputUsername').val();
+                var patten = /^[a-zA-Z]\w{2,15}$/ig;
 
                 if ((user != ""))
 
                     if (!patten.test(user)) {
-                        $('#checkname').html("输入用户名不合法");
+                        $('#checkname').html("输入用户名不合法,首字母应为字母，长度在3-16之间");
                     }
                     else {
                         $('#inputUsername').blur(function () {
@@ -44,23 +44,22 @@
                                         name: $('#inputUsername').val()
                                     }, function (data) {
                                         if (data == "true") {
-                                            alert("用户名可用！");
                                         }
                                         else {
-                                            alert("用户名不可用 ！");
+                                            $('#checkname').html("用户名已经注册");
                                         }
                                     });
                         });
                     }
             });
             $('#inputUsername').click(function () {
-                var ck = $('p#checkname');
+                var ck = $('#checkname');
                 ck.html('');
             });
-            $('input#inputRepass').blur(function () {
-                var pa = $('input#inputPassword').val();
-                var ck = $('p#accheck');
-                var rep = $('input#inputRepass').val();
+            $('#inputRepass').blur(function () {
+                var pa = $('#inputPassword').val();
+                var ck = $('#accheck');
+                var rep = $('#inputRepass').val();
                 if (rep != '' || pa != '')
                     if (rep === pa) {
                     }
@@ -69,8 +68,14 @@
                     }
             });
             $('#inputRepass,#inputPassword').click(function () {
-                var ck = $('p#accheck');
+                var ck = $('#accheck');
                 ck.html('');
+            });
+            $('#rgform').submit(function () {
+               var cname=$('#checkname').html();
+                var ps=$('#inputPassword').var();
+                var rc=$('#inputRepass').var();
+                if(cname!=""||(ps!=rc)){return false;}
             });
 
         });
@@ -91,31 +96,35 @@
                 <small>ACManager</small>
             </h1>
         </div>
-        <form class="form-horizontal" method="post" action="<c:url value="/auth/dorg"/> ">
+        <form class="form-horizontal" method="post" action="<c:url value="/auth/dorg"/> " id="rgform">
             <div class="col-lg-6">
                 <div class="form-group">
-                    <input type="text" name="username" id="inputUsername" class="form-control" placeholder="UserName*"
+                    <input type="text" name="username" id="inputUsername" class="form-control" placeholder="用户名*"
                            required autofocus>
                 </div>
                 <p id="checkname"></p>
                 <div class="form-group">
                     <input type="password" name="password" id="inputPassword" class="form-control"
-                           placeholder="Password*" required>
+                           placeholder="密码*" required>
                 </div>
                 <div class="form-group">
-                    <input type="password" id="inputRepass" class="form-control" placeholder="Repeat*" required>
+                    <input type="password" id="inputRepass" class="form-control" placeholder="重复密码*" required>
                 </div>
-                <span id="accheck" class=""/>
+                <p id="accheck"></p>
 
                 <div class="form-group">
-                    <input type="text" name="uvaid" id="inputUVA" class="form-control" placeholder="UVAID">
+                    <input type="text" name="major" id="class" class="form-control" placeholder="班级">
+                </div>
+
+                <div class="form-group">
+                    <input type="text" name="uvaid" id="inpu" class="form-control" placeholder="UVAID">
                 </div>
                 <!--<p>UVA UserName:</p>-->
                 <div class="form-group">
-                    <input type="text" name="cfname" id="inputCF" class="form-control" placeholder="CF NikeName">
+                    <input type="text" name="cfname" id="input" class="form-control" placeholder="CF 用户名">
                 </div>
                 <div class="form-group">
-                    <input type="text" name="realName" id="inputRealName" class="form-control" placeholder="RealName">
+                    <input type="text" name="realName" id="inputRealName" class="form-control" placeholder="真实姓名">
                 </div>
                     <div class="form-horizontal pull-right">
                         <button class="btn btn-primary " type="submit">注册</button>
@@ -129,8 +138,8 @@
 </div> <!-- /container -->
 
 
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+<%--<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->--%>
+<%--<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>--%>
 <c:if test="${!empty tip}">
     <script>
         alert('${tip}');

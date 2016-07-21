@@ -45,7 +45,7 @@ public class UserRepoTest {
         List<String> lines = FileUtils.readLines(file, "utf8");
         for (String line : lines) {
             String[] split = line.split(",");
-            User user = new User(split[2], "123456", split[1], Integer.parseInt(split[0]), split[2], 2015, split[3], User.Type.Normal);
+            User user = new User(split[2], "123456", split[1], Integer.parseInt(split[0]), split[2], split[3], User.Type.Normal);
             userRepo.save(user);
         }
     }

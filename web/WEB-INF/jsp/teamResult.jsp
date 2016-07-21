@@ -13,7 +13,7 @@
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <c:url value="/assign/canAssign" var="url_canAssign"/>
-    <c:url value="/assign/list" var="url_list"/>
+    <c:url value="/assign/listTraining/${trainingId}" var="url_list"/>
     <script>
         $(function () {
             $('#make_sure').click(function ()
@@ -38,8 +38,15 @@
     </script>
 </head>
 <body>
-<jsp:include page="index.jsp"/>
+<jsp:include page="topBar.jsp"/>
 <div class="container-fluid">
+    <ol class="breadcrumb">
+        <li>您所在的位置：</li>
+        <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
+        <li><a href="<c:url value="/training/detail/${trainingId}"/> ">当前集训</a></li>
+        <li><a href="<c:url value="/assign/listTraining/${trainingId}"/> ">随机分队</a></li>
+        <li class="active">分队结果</li>
+    </ol>
     <div class="col-lg-2">
     </div>
     <div class="col-lg-8">

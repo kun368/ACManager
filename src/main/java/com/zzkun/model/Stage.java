@@ -1,7 +1,6 @@
 package com.zzkun.model;
 
 
-
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -15,8 +14,8 @@ import java.util.List;
  * Created by kun on 2016/7/13.
  */
 @Entity
-@Table(name = "contestStage")
-public class ContestStage implements Serializable {
+@Table(name = "contest_stage")
+public class Stage implements Serializable {
 
     @Id
     @GeneratedValue(generator = "increment")
@@ -34,10 +33,10 @@ public class ContestStage implements Serializable {
 
     private Integer trainingId;
 
-    public ContestStage() {
+    public Stage() {
     }
 
-    public ContestStage(String name) {
+    public Stage(String name) {
         this.name = name;
     }
 
@@ -91,7 +90,7 @@ public class ContestStage implements Serializable {
 
     @Override
     public String toString() {
-        return "ContestStage{" +
+        return "Stage{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", remark='" + remark + '\'' +

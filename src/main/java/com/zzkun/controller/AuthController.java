@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,6 +38,11 @@ public class AuthController {
         return "rg";
     }
 
+    @RequestMapping("/my")
+    public String my(Model model) {
+        return "userdetail";
+    }
+
     @RequestMapping("/dologin")
     public String login(@RequestParam String username,
                         @RequestParam String password,
@@ -59,11 +65,12 @@ public class AuthController {
                      @RequestParam(required = false) String realName,
                      @RequestParam(required = false) Integer uvaid,
                      @RequestParam(required = false) String cfname,
+                     @RequestParam(required = false) String major,
                      Model model) {
-        logger.info("收到注册请求：{},{},{},{},{}", username, password, realName, uvaid, cfname);
+        logger.info("收到注册请求：{},{},{},{},{},{}", username, password, realName, uvaid, cfname, major);
         if(realName.trim().isEmpty()) realName = null;
         if(cfname.trim().isEmpty()) cfname = null;
-        User user = new User(username, password, realName, uvaid, cfname, null, null, User.Type.Normal);
+        User user = new User(username, password, realName, uvaid, cfname, major, User.Type.Normal);
         if(userService.registerUser(user)) {
             model.addAttribute("tip", "注册成功！");
             return "index";
@@ -71,6 +78,15 @@ public class AuthController {
             model.addAttribute("tip", "注册失败！");
             return "rg";
         }
+    }
+
+    @RequestMapping("/doModify")
+    public String doModify(User user,
+                           HttpSession session) {
+        logger.info("收到修改请求：{}", user);
+        User newUser = userService.modifyUser(user);
+        session.setAttribute("user", newUser);
+        return "redirect:/auth/my";
     }
 
     @RequestMapping("dologout")

@@ -21,7 +21,7 @@
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
-    <c:url value="/assign/list" var="suijifendui"/>
+    <c:url value="/assign/listTraining/${trainingId}" var="suijifendui"/>
 
     <script>
         $(document).ready(function () {
@@ -72,7 +72,7 @@
         </tbody>
     </table>
     <div class="pull-left">
-        <button class="btn btn-defult" id="addbutton" data-toggle="modal" data-target="#myModal">添加阶段</button>
+        <button class="btn" id="addbutton" data-toggle="modal" data-target="#myModal">添加阶段</button>
         <button class="btn" id="fendui">
             随机分队
         </button>
@@ -86,7 +86,7 @@
                 <h4 class="modal-title" id="myModalLabel">添加阶段</h4>
             </div>
             <div class="modal-body ">
-                <form class="form">
+                <form class="form"><!--填写提交地址-->
                     <div class="form-group">
                         <input type="text" class="form-control" placeholder="名称" required>
                     </div>

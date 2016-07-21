@@ -7,6 +7,7 @@ import com.zzkun.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,6 @@ public class UserService {
 
     @Autowired
     private UserRepo userRepo;
-
 
     public boolean hasUser(String username) {
         return userRepo.findByUsername(username) != null;
@@ -58,6 +58,12 @@ public class UserService {
         return userRepo.findOne(id);
     }
 
+    public User modifyUser(User user) {
+        User pre = getUserById(user.getId());
+        user.setType(pre.getType());
+        return userRepo.save(user);
+    }
+
     public Map<Integer, User> getUserInfo(AssignResult result) {
         Map<Integer, User> map = new TreeMap<>();
         List<Integer> users = new ArrayList<>();
@@ -66,5 +72,16 @@ public class UserService {
         for (User info : infos)
             map.put(info.getId(), info);
         return map;
+    }
+
+    public int userRank(HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if(user == null)
+            return 0;
+        if(user.getType().equals(User.Type.Normal))
+            return 1;
+        if(user.getType().equals(User.Type.Admin))
+            return 10;
+        return -1;
     }
 }

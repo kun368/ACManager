@@ -31,6 +31,21 @@ public class Training implements Serializable {
     public Training() {
     }
 
+    public Training(String name, String remark, LocalDate startDate, LocalDate endDate) {
+        this.name = name;
+        this.remark = remark;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    public Training(String name, String remark, String startDate, String endDate) {
+        this.name = name;
+        this.remark = remark;
+        this.startDate = LocalDate.parse(startDate);
+        this.endDate = LocalDate.parse(endDate);
+    }
+
+
     public Integer getId() {
         return id;
     }

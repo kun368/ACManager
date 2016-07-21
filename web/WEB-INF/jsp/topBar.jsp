@@ -12,7 +12,7 @@
 <c:url value="/uva/showTable" var="url_uvaTable"/>
 <c:url value="/auth/login" var="url_login"/>
 <c:url value="/auth/rg" var="url_rg"/>
-
+<c:url value="/training/list" var="url_traininglist"/>
 <div class="container-fluid">
     <nav class="nav navbar-default" role="navigation">
         <div class="container-fluid">
@@ -29,13 +29,14 @@
                     <li> <a href="${url_index}">首页</a> </li>
                     <li> <a href="${url_uvaTable}">UVA统计</a> </li>
                     <li> <a href="${url_uvaTable}">Codeforces统计</a> </li>
-                    <li class="dropdown" >
-                        <a href="#" data-toggle="dropdown">比赛管理<span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="<c:url value="/training/list"/> ">集训列表</a> </li>
-                            <li><a href="<c:url value="/training/AddGame"/> ">添加比赛</a> </li>
-                        </ul>
-                    </li>
+                    <li> <a href="${url_traininglist}">集训管理</a> </li>
+                    <%--<li class="dropdown" >--%>
+                        <%--<a href="#" data-toggle="dropdown">比赛管理<span class="caret"></span></a>--%>
+                        <%--<ul class="dropdown-menu" role="menu">--%>
+                            <%--<li><a href="<c:url value="/training/list"/> ">集训列表</a> </li>--%>
+                            <%--<li><a href="<c:url value="/training/AddGame"/> ">添加比赛</a> </li>--%>
+                        <%--</ul>--%>
+                    <%--</li>--%>
                 </ul>
                 <c:if test="${empty user}">
                     <div class="navbar-form navbar-right">
@@ -45,7 +46,7 @@
                 </c:if>
                 <c:if test="${!empty user}">
                     <div class="navbar-form navbar-right">
-                        <a class="navbar-link" href="#">${user.username}</a>
+                        <a class="navbar-link" href="<c:url value="/auth/my"/> ">${user.username}</a>
                         <a class="navbar-link" href="<c:url value="/auth/dologout"/> ">退出</a>
                     </div>
                 </c:if>

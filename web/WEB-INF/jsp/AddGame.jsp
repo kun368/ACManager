@@ -23,7 +23,7 @@
             <div class="page-header">
                 <h1>添加比赛</h1>
             </div>
-            <form class="form-horizontal" method="post">
+            <form class="form-horizontal" method="post" action=""><!--填写提交地址-->
 
                         <div class="col-lg-6">
                             <div class="form-group">
@@ -33,6 +33,7 @@
                                 <select class="form-control" name="contestType">
                                     <option value="PERSONAL">个人赛</option>
                                     <option value="TEAM">组队赛</option>
+                                    <option value="RANDOM">随机组队赛</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -45,6 +46,9 @@
                             <div class="form-group">
                                 <select class="form-control" id="selecttwo" >
                                 </select>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit">提交</button>
                             </div>
                         </div>
             </form>
@@ -86,12 +90,6 @@
             console.log(exc);
         })
 
-    })
-</script>
-<script type="text/javascript">
-    $(function () {
-        $('#datetimepicker4').datetimepicker();
-    });
-</script>
+    }
 </body>
 </html>
