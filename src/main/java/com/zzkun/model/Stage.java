@@ -6,6 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,13 +32,13 @@ public class Stage implements Serializable {
 
     private LocalDate endDate;
 
+    private LocalDateTime addTime;
+
+    private Integer addUid;
+
     private Integer trainingId;
 
     public Stage() {
-    }
-
-    public Stage(String name) {
-        this.name = name;
     }
 
     public Integer getId() {
@@ -88,6 +89,22 @@ public class Stage implements Serializable {
         this.trainingId = trainingId;
     }
 
+    public LocalDateTime getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(LocalDateTime addTime) {
+        this.addTime = addTime;
+    }
+
+    public Integer getAddUid() {
+        return addUid;
+    }
+
+    public void setAddUid(Integer addUid) {
+        this.addUid = addUid;
+    }
+
     @Override
     public String toString() {
         return "Stage{" +
@@ -96,6 +113,8 @@ public class Stage implements Serializable {
                 ", remark='" + remark + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
+                ", addTime=" + addTime +
+                ", addUid=" + addUid +
                 ", trainingId=" + trainingId +
                 '}';
     }

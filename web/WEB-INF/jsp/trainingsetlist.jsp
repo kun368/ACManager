@@ -39,6 +39,7 @@
                     endDate: $('#endTime').val(),
                     remark: $('#remark').val()
                 }, function (data) {
+                    alert(data);
                     location.reload();
                 })
             });
@@ -61,8 +62,10 @@
         <tr>
             <th>id</th>
             <th>集训名称</th>
-            <th>开始时间</th>
-            <th>停止时间</th>
+            <th>开始日期</th>
+            <th>停止日期</th>
+            <th>添加时间</th>
+            <th>添加者</th>
             <th>操作</th>
         </tr>
         </thead>
@@ -77,7 +80,12 @@
                 <td><a href="<c:url value="/training/detail/${training.id}"/> ">${training.name}</a></td>
                 <td>${training.startDate}</td>
                 <td>${training.endDate}</td>
-                <td><a href="">申请加入</a></td>
+                <td>${training.addTime}</td>
+                <td>${trainingAddUserList.get(training.addUid).username}</td>
+                <td>
+                    <a href="">编辑属性</a>&nbsp;&nbsp;
+                    <a href="">申请加入</a>&nbsp;&nbsp;
+                </td>
             </tr>
         </c:forEach>
         </tbody>

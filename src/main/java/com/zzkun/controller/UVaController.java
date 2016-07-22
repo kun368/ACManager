@@ -1,5 +1,6 @@
 package com.zzkun.controller;
 
+import com.zzkun.config.UhuntUpdateStatus;
 import com.zzkun.model.User;
 import com.zzkun.service.UVaService;
 import com.zzkun.service.UserService;
@@ -7,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,6 +26,9 @@ public class UVaController {
 
     @Autowired private UserService userService;
 
+    @Autowired private UhuntUpdateStatus uhuntUpdateStatus;
+
+
     @RequestMapping("/showTable")
     public String showTable(Model model) {
         model.addAttribute("booksName", uVaService.getBookName());
@@ -32,6 +38,20 @@ public class UVaController {
         model.addAttribute("users", users);
         model.addAttribute("bookCnt", uVaService.getBookCnt(uvaids));
         model.addAttribute("cptCnt", uVaService.getCptCnt(uvaids));
+        model.addAttribute("lastUpdate", uhuntUpdateStatus.getLastTime());
         return "tablefile";
+    }
+
+    @RequestMapping(value = "/updatedb", produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String updatedb(HttpSession session) {
+        if(userService.userRank(session) < 10)
+            return "没有权限操作！";
+        if(!uhuntUpdateStatus.canUpdate())
+            return "正在更新，或者刚刚更新完毕，请稍后再试...";
+        uhuntUpdateStatus.preUpdate();
+        uVaService.flushUVaSubmit();
+        uhuntUpdateStatus.afterUpdate();
+        return "恭喜，更新完毕！";
     }
 }

@@ -16,44 +16,44 @@
 </head>
 <body>
 <jsp:include page="topBar.jsp"/>
-    <div class="container-fluid">
-        <div class="col-lg-2">
+<div class="container-fluid">
+    <div class="col-lg-2">
+    </div>
+    <div class="col-lg-8">
+        <div class="page-header">
+            <h1>添加比赛</h1>
         </div>
-        <div class="col-lg-8">
-            <div class="page-header">
-                <h1>添加比赛</h1>
+        <form class="form-horizontal" method="post" action=""><!--填写提交地址-->
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <input type="text" id="inputcontestname"  name="contestName" class="form-control" placeholder="ContestName*" autofocus required>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" name="contestType">
+                        <option value="PERSONAL">个人赛</option>
+                        <option value="TEAM">组队赛</option>
+                        <option value="RANDOM">随机组队赛</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" name="contestStage" id="selectone">
+                        <c:forEach items="${allList}" var="group">
+                            <option value="${group.id}">${group.id}.${group.name}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control" id="selecttwo" >
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" type="submit">提交</button>
+                </div>
             </div>
-            <form class="form-horizontal" method="post" action=""><!--填写提交地址-->
+        </form>
 
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <input type="text" id="inputcontestname"  name="contestName" class="form-control" placeholder="ContestName*" autofocus required>
-                            </div>
-                            <div class="form-group">
-                                <select class="form-control" name="contestType">
-                                    <option value="PERSONAL">个人赛</option>
-                                    <option value="TEAM">组队赛</option>
-                                    <option value="RANDOM">随机组队赛</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <select class="form-control" name="contestStage" id="selectone">
-                                    <c:forEach items="${allList}" var="group">
-                                        <option value="${group.id}">${group.id}.${group.name}</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <select class="form-control" id="selecttwo" >
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <button class="btn btn-primary" type="submit">提交</button>
-                            </div>
-                        </div>
-            </form>
-
-        </div>
+    </div>
 </div>
 <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
 <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -91,5 +91,6 @@
         })
 
     }
+</script>
 </body>
 </html>

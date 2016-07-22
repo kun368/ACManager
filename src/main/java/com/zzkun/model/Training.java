@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * 集训
@@ -28,21 +29,11 @@ public class Training implements Serializable {
 
     private LocalDate endDate;
 
+    private LocalDateTime addTime;
+
+    private Integer addUid;
+
     public Training() {
-    }
-
-    public Training(String name, String remark, LocalDate startDate, LocalDate endDate) {
-        this.name = name;
-        this.remark = remark;
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
-
-    public Training(String name, String remark, String startDate, String endDate) {
-        this.name = name;
-        this.remark = remark;
-        this.startDate = LocalDate.parse(startDate);
-        this.endDate = LocalDate.parse(endDate);
     }
 
 
@@ -86,6 +77,22 @@ public class Training implements Serializable {
         this.remark = remark;
     }
 
+    public LocalDateTime getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(LocalDateTime addTime) {
+        this.addTime = addTime;
+    }
+
+    public Integer getAddUid() {
+        return addUid;
+    }
+
+    public void setAddUid(Integer addUid) {
+        this.addUid = addUid;
+    }
+
     @Override
     public String toString() {
         return "Training{" +
@@ -94,6 +101,8 @@ public class Training implements Serializable {
                 ", remark='" + remark + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
+                ", addTime=" + addTime +
+                ", addUid=" + addUid +
                 '}';
     }
 }

@@ -65,7 +65,6 @@ public class TrainingService {
             if(x.getStatus().equals(UJoinT.Status.Success))
                 uids.add(x.getUserId());
         });
-        System.out.println(uids);
         return userRepo.findAll(uids);
     }
 
@@ -73,12 +72,15 @@ public class TrainingService {
 
     public List<Stage> getAllStageByTrainingId(Integer id) {
         List<Stage> list = stageRepo.findByTrainingId(id);
-        System.out.println(list);
         return list;
     }
 
     public Stage getStageById(Integer id) {
         return stageRepo.findOne(id);
+    }
+
+    public void addStage(Stage stage) {
+        stageRepo.save(stage);
     }
 
     //// Contest

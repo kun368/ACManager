@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.zzkun.model.UVaPbInfo;
 import com.zzkun.model.UVaSubmit;
 import com.zzkun.util.web.HttpUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,6 +20,8 @@ import java.util.*;
  */
 @Component
 public class UHuntWebGetter {
+
+    private static final Logger logger = LoggerFactory.getLogger(UHuntWebGetter.class);
 
     @Autowired private HttpUtil httpUtil;
 
@@ -62,11 +66,13 @@ public class UHuntWebGetter {
      * @return 所有AC题目list
      */
     public List<UVaSubmit> userACSubmits(int uid) {
+        logger.info("开始爬取uva用户{}提交纪录", uid);
         List<UVaSubmit> res = new ArrayList<>();
         try {
             String json = httpUtil.readURL("http://uhunt.felix-halim.net/api/subs-user/" + uid);
+            logger.info("爬取完毕，开始分析...");
             JSONArray subsJson = JSON.parseObject(json).getJSONArray("subs");
-            Set<Integer> pidSet = new TreeSet<>(); //去除重复AC题目
+            Set<Integer> pidSet = new HashSet<>(); //去除重复AC题目
             for(int i = 0; i < subsJson.size(); ++i) {
                 JSONArray sub = subsJson.getJSONArray(i);
                 UVaSubmit submit = UVaSubmit.parseJSONArray(uid, sub);
@@ -75,6 +81,7 @@ public class UHuntWebGetter {
                     pidSet.add(submit.getPbId());
                 }
             }
+            logger.info("分析uid用户{}所有AC题目成功，共AC题数{}", uid, res.size());
             return res;
         } catch (IOException e) {
             e.printStackTrace();

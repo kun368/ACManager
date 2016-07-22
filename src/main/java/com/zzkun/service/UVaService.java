@@ -57,6 +57,7 @@ public class UVaService {
      * 更新所有用户的提交数据
      */
     public void flushUVaSubmit() {
+        logger.info("收到更新uva提交db请求...");
         List<User> userList = userRepo.findAll();
         List<UVaSubmit> all = new ArrayList<>();
         for (User user : userList) {

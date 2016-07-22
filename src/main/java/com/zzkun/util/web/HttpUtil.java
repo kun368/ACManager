@@ -16,4 +16,8 @@ public class HttpUtil {
     public String readURL(String url) throws IOException {
         return IOUtils.toString(new URL(url), "utf8");
     }
+
+    public static void main(String[] args) throws IOException {
+        System.out.println(new HttpUtil().readURL("http://uhunt.felix-halim.net/api/subs-user/628124"));
+    }
 }

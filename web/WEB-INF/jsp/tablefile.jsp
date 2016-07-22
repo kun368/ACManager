@@ -35,17 +35,6 @@
         });
 
     </script>
-    <script>
-        $(document).ready(function () {
-            $("#addbutton").click(function () {
-               $.post("",{
-               },function () {
-
-                });
-            });
-        })
-    </script>
-
 </head>
 <body>
 <jsp:include page="topBar.jsp" />
@@ -89,9 +78,23 @@
         </tbody>
     </table>
     <div class="pull-left">
-        <button class="btn" id="addbutton">更新数据</button>
+        <button class="btn" id="addbutton">更新数据(最近更新${lastUpdate})</button>
     </div>
 </div>
+
+<c:url value="/uva/updatedb" var="url_updatedb"/>
+<script>
+    $(document).ready(function () {
+        $('#addbutton').click(function () {
+            $.post("${url_updatedb}", {
+
+                    },function (data) {
+                        alert(data);
+                    }
+            );
+        })
+    });
+</script>
 
 </body>
 </html>

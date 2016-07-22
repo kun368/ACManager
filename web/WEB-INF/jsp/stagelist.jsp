@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
     <c:url value="/assign/listTraining/${trainingId}" var="suijifendui"/>
+    <c:url value="/training/doAddStage" var="url_doadstage"/>
 
     <script>
         $(document).ready(function () {
@@ -34,7 +35,18 @@
             });
             $('#fendui').click(function () {
                 location.href="${suijifendui}"
-            })
+            });
+            $('#savabutton').click(function () {
+                $.post("${url_doadstage}", {
+                    name: $('#name').val(),
+                    startDate: $('#beginTime').val(),
+                    endDate: $('#endTime').val(),
+                    remark: $('#remark').val()
+                }, function (data) {
+                    alert(data);
+                    location.reload();
+                })
+            });
         });
     </script>
 
@@ -52,8 +64,11 @@
         <tr>
             <th>id</th>
             <th>阶段名称</th>
-            <th>开始时间</th>
-            <th>停止时间</th>
+            <th>开始日期</th>
+            <th>截止日期</th>
+            <th>添加时间</th>
+            <th>添加者</th>
+            <th>操作</th>
         </tr>
         </thead>
         <tfoot>
@@ -67,6 +82,11 @@
                 <td><a href="<c:url value="/training/stage/${stage.id}"/> ">${stage.name}</a></td>
                 <td>${stage.startDate}</td>
                 <td>${stage.endDate}</td>
+                <td>${stage.addTime}</td>
+                <td>${stageAddUserList.get(stage.addUid).username}</td>
+                <td>
+                    <a href="">编辑属性</a>
+                </td>
             </tr>
         </c:forEach>
         </tbody>
@@ -88,22 +108,22 @@
             <div class="modal-body ">
                 <form class="form"><!--填写提交地址-->
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="名称" required>
+                        <input type="text" id="name" class="form-control" placeholder="名称" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="开始时间" required>
+                        <input type="text" id="beginTime" class="form-control" placeholder="开始时间" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="截止时间" required>
+                        <input type="text" id="endTime" class="form-control" placeholder="截止时间" required>
                     </div>
                     <div class="form-group">
-                        <textarea rows="5" class="form-control" placeholder="备注"></textarea>
+                        <textarea rows="5" id="remark" class="form-control" placeholder="备注"></textarea>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary">保存</button>
+                <button type="button" class="btn btn-primary" id="savabutton">保存</button>
             </div>
         </div>
     </div>

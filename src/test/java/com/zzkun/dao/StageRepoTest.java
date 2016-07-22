@@ -25,8 +25,8 @@ public class StageRepoTest {
 
     @Test
     public void save() throws Exception {
-        Stage group = new Stage("山东科技大学第一次ACM集训");
-        stageRepo.save(group);
+//        Stage group = new Stage("山东科技大学第一次ACM集训");
+//        stageRepo.save(group);
     }
 
     @Test

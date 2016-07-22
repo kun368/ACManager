@@ -3,6 +3,8 @@ package com.zzkun.service;
 import com.mchange.v1.util.ArrayUtils;
 import com.zzkun.dao.UserRepo;
 import com.zzkun.model.AssignResult;
+import com.zzkun.model.Stage;
+import com.zzkun.model.Training;
 import com.zzkun.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,10 +66,30 @@ public class UserService {
         return userRepo.save(user);
     }
 
-    public Map<Integer, User> getUserInfo(AssignResult result) {
+    public Map<Integer, User> getUserInfoByAssign(AssignResult result) {
         Map<Integer, User> map = new TreeMap<>();
         List<Integer> users = new ArrayList<>();
         result.getTeamList().forEach(x -> x.forEach(users::add));
+        List<User> infos = userRepo.findAll(users);
+        for (User info : infos)
+            map.put(info.getId(), info);
+        return map;
+    }
+
+    public Map<Integer, User> getUserInfoByTList(List<Training> allTraining) {
+        Map<Integer, User> map = new TreeMap<>();
+        List<Integer> users = new ArrayList<>();
+        allTraining.forEach(x -> users.add(x.getAddUid()));
+        List<User> infos = userRepo.findAll(users);
+        for (User info : infos)
+            map.put(info.getId(), info);
+        return map;
+    }
+
+    public Map<Integer, User> getUserInfoBySList(List<Stage> stageList) {
+        Map<Integer, User> map = new TreeMap<>();
+        List<Integer> users = new ArrayList<>();
+        stageList.forEach(x -> users.add(x.getAddUid()));
         List<User> infos = userRepo.findAll(users);
         for (User info : infos)
             map.put(info.getId(), info);

@@ -49,7 +49,7 @@ public class AssignController {
         AssignResult assign = teamAssignUtil.assign(users, AssignResult.Type.RANDOM);
         session.setAttribute("assign", assign);
         model.addAttribute("teamList", assign.getTeamList());
-        model.addAttribute("userInfo", userService.getUserInfo(assign));
+        model.addAttribute("userInfo", userService.getUserInfoByAssign(assign));
         logger.info("分队结束：结果为{}", assign);
         return "teamResult";
     }
