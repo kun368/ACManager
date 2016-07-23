@@ -20,7 +20,7 @@
     </div>
     <div class="col-lg-8">
         <div class="page-header">
-            <h1>导入<small>Vjudge比赛</small></h1>
+            <h1>导入比赛向导</h1>
         </div>
 
         <div>
@@ -28,7 +28,7 @@
                 <div class="col-lg-10">
                     <div class="col-lg-6">
                         <div class="form-group">
-                            <input type="text" id="inputcontestname"  name="contestName" class="form-control" placeholder="ContestName*" autofocus required>
+                            <input type="text" id="inputcontestname"  name="contestName" class="form-control" placeholder="比赛名称*" autofocus required>
                         </div>
                         <div class="form-group">
                             <select class="form-control" name="contestType">
@@ -37,16 +37,11 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <select class="form-control" name="contestStage">
-                                <c:forEach items="${groups}" var="group">
-                                    <option value="${group.id}">${group.id}.${group.name}</option>
-                                </c:forEach>
-                            </select>
+                            <input type="text" id="inputeContestDate"  name="contestDate" class="form-control" placeholder="比赛日期*" autofocus required>
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <textarea id="Contest"  name="vjContest" class="form-control" rows="15" required></textarea>
+                        <textarea id="Contest" name="vjContest" class="form-control" rows="15" placeholder="VJudge榜单" required></textarea>
                     </div>
                     <div class="form-group pull-right">
                         <button class="btn btn-lg btn-primary btn-block" type="submit">下一步</button>
@@ -60,5 +55,12 @@
 
     </div>
 </div>
+
+<c:if test="${!empty tip}">
+    <script>
+        alert('${tip}');
+    </script>
+</c:if>
+
 </body>
 </html>

@@ -1,0 +1,39 @@
+package com.zzkun;
+
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Vector;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+/**
+ * Created by Administrator on 2016/7/23.
+ */
+public class MyTest2 {
+    @Test
+    public void test2() throws Exception {
+        ExecutorService threadPool = Executors.newFixedThreadPool(5);
+        Vector<Future<List<String>>> vector = new Vector<>();
+        for(int i = 0; i < 20; ++i) {
+            int finalI = i;
+            vector.add(threadPool.submit(() -> {
+                List<String> list = new ArrayList<>();
+                System.out.println(System.nanoTime() + "-----:" + finalI);
+                for(int j = 0; j < 10000; ++j)
+                    list.add(j + "by" + finalI);
+                return list;
+            }));
+        }
+        threadPool.shutdown();
+        List<String> list = new ArrayList<>();
+        for (Future<List<String>> future : vector) {
+            System.out.println(future.isDone() + " " + future.isCancelled());
+//            list.addAll(future.get());
+        }
+        System.out.println(list.size());
+//        System.out.println(list);
+    }
+}

@@ -2,18 +2,12 @@ package com.zzkun.service;
 
 import com.mchange.v1.util.ArrayUtils;
 import com.zzkun.dao.UserRepo;
-import com.zzkun.model.AssignResult;
-import com.zzkun.model.Stage;
-import com.zzkun.model.Training;
-import com.zzkun.model.User;
+import com.zzkun.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Created by kun on 2016/7/7.
@@ -77,7 +71,7 @@ public class UserService {
     }
 
     public Map<Integer, User> getUserInfoByTList(List<Training> allTraining) {
-        Map<Integer, User> map = new TreeMap<>();
+        Map<Integer, User> map = new HashMap<>();
         List<Integer> users = new ArrayList<>();
         allTraining.forEach(x -> users.add(x.getAddUid()));
         List<User> infos = userRepo.findAll(users);
@@ -87,13 +81,24 @@ public class UserService {
     }
 
     public Map<Integer, User> getUserInfoBySList(List<Stage> stageList) {
-        Map<Integer, User> map = new TreeMap<>();
+        Map<Integer, User> map = new HashMap<>();
         List<Integer> users = new ArrayList<>();
         stageList.forEach(x -> users.add(x.getAddUid()));
         List<User> infos = userRepo.findAll(users);
         for (User info : infos)
             map.put(info.getId(), info);
         return map;
+    }
+
+    public Map<Integer, User> getUserInfoByCList(List<Contest> contestList) {
+        Map<Integer, User> map = new HashMap<>();
+        List<Integer> users = new ArrayList<>();
+        contestList.forEach(x -> users.add(x.getAddUid()));
+        List<User> infos = userRepo.findAll(users);
+        for (User info : infos)
+            map.put(info.getId(), info);
+        return map;
+
     }
 
     public int userRank(HttpSession session) {
@@ -106,4 +111,7 @@ public class UserService {
             return 10;
         return -1;
     }
+
+
+
 }

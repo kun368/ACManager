@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -61,8 +62,11 @@ public class VJRankParser {
         //读取比赛配置文件，加载配置
         Contest status = new Contest();
         status.setName(config.getOrDefault("contestName", ""));
-        status.setTime(LocalDate.parse(config.getOrDefault("contestTime", LocalDate.now().toString())));
+        status.setDate(LocalDate.parse(config.getOrDefault("contestDate", LocalDate.now().toString())));
         status.setType(config.getOrDefault("contestType", Contest.TYPE_TEAM));
+        status.setStageId(Integer.parseInt(config.getOrDefault("stageId", "-1")));
+        status.setAddUid(Integer.parseInt(config.getOrDefault("userId", "userId")));
+        status.setAddTime(LocalDateTime.now());
         //读取比赛情况
         int lineCnt = 0;
         String line;

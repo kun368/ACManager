@@ -62,7 +62,6 @@
     <table class="table table-condensed table-striped table-hover display" id="mytable">
         <thead class="tab-header-area">
         <tr>
-            <th>id</th>
             <th>阶段名称</th>
             <th>开始日期</th>
             <th>截止日期</th>
@@ -78,7 +77,6 @@
         <tbody>
         <c:forEach items="${stageList}" var="stage">
             <tr>
-                <td>${stage.id}</td>
                 <td><a href="<c:url value="/training/stage/${stage.id}"/> ">${stage.name}</a></td>
                 <td>${stage.startDate}</td>
                 <td>${stage.endDate}</td>

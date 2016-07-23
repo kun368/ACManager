@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +34,11 @@ public class Contest implements Serializable {
 
     private String type;
 
-    private LocalDate time;
+    private LocalDate date;
+
+    private LocalDateTime addTime;
+
+    private Integer addUid;
 
     private Integer pbCnt;
 
@@ -78,19 +83,35 @@ public class Contest implements Serializable {
         this.type = type;
     }
 
-    public LocalDate getTime() {
-        return time;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setTime(LocalDate time) {
-        this.time = time;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
-    public int getPbCnt() {
+    public LocalDateTime getAddTime() {
+        return addTime;
+    }
+
+    public void setAddTime(LocalDateTime addTime) {
+        this.addTime = addTime;
+    }
+
+    public Integer getAddUid() {
+        return addUid;
+    }
+
+    public void setAddUid(Integer addUid) {
+        this.addUid = addUid;
+    }
+
+    public Integer getPbCnt() {
         return pbCnt;
     }
 
-    public void setPbCnt(int pbCnt) {
+    public void setPbCnt(Integer pbCnt) {
         this.pbCnt = pbCnt;
     }
 
@@ -102,11 +123,11 @@ public class Contest implements Serializable {
         this.ranks = ranks;
     }
 
-    public int getStageId() {
+    public Integer getStageId() {
         return stageId;
     }
 
-    public void setStageId(int stageId) {
+    public void setStageId(Integer stageId) {
         this.stageId = stageId;
     }
 
@@ -140,7 +161,9 @@ public class Contest implements Serializable {
                 ", name='" + name + '\'' +
                 ", remark='" + remark + '\'' +
                 ", type='" + type + '\'' +
-                ", time=" + time +
+                ", date=" + date +
+                ", addTime=" + addTime +
+                ", addUid=" + addUid +
                 ", pbCnt=" + pbCnt +
                 ", ranks=" + ranks +
                 ", stageId=" + stageId +

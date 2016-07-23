@@ -49,7 +49,7 @@ public class TrainingService {
         if(user == null)
             return result;
         List<UJoinT> list = uJoinTRepo.findByUserId(user.getId());
-        list.forEach(x -> result.put(x.getId(), x));
+        list.forEach(x -> result.put(x.getTrainingId(), x));
         logger.info("获取用户参加的所有集训信息：{}", result);
         return result;
     }
@@ -66,6 +66,17 @@ public class TrainingService {
                 uids.add(x.getUserId());
         });
         return userRepo.findAll(uids);
+    }
+
+    //用户申请参加集训
+    public void applyJoinTraining(Integer userId, Integer trainingId) {
+        UJoinT uJoinT = uJoinTRepo.findByUserIdAndTrainingId(userId, trainingId);
+        if(uJoinT != null) {
+            uJoinT.setStatus(UJoinT.Status.Pending);
+        } else {
+            uJoinT = new UJoinT(userId, trainingId, UJoinT.Status.Pending);
+        }
+        uJoinTRepo.save(uJoinT);
     }
 
     //// Stage
@@ -105,18 +116,24 @@ public class TrainingService {
     }
 
     //////
-    public Contest parseVj(String contestName, String contestType,
-                           Integer contestGroup, String vjContest) {
+    public Contest parseVj(String contestName,
+                           String contestType,
+                           Integer stageId,
+                           Integer userId,
+                           String vjContest,
+                           String contestDate) {
         try {
             Map<String, String> map = new HashMap<>();
             map.put("contestName", contestName);
             map.put("contestType", contestType);
+            map.put("stageId", stageId.toString());
+            map.put("contestDate", contestDate);
+            map.put("userId", userId.toString());
             return vjRankParser.parse(Arrays.asList(vjContest.split("\n")), map);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return null;
     }
-
 
 }

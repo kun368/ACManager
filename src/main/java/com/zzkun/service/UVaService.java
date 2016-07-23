@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
 /**
@@ -55,16 +56,28 @@ public class UVaService {
 
     /**
      * 更新所有用户的提交数据
+     * 多线程...
      */
     public void flushUVaSubmit() {
         logger.info("收到更新uva提交db请求...");
         List<User> userList = userRepo.findAll();
-        List<UVaSubmit> all = new ArrayList<>();
+        List<Future<List<UVaSubmit>>> futureList = new ArrayList<>();
+        ExecutorService service = Executors.newFixedThreadPool(5);
         for (User user : userList) {
-            if(user.getUvaId() != null)
-                all.addAll(uHuntWebGetter.userACSubmits(user.getUvaId()));
+            if(user.getUvaId() != null) {
+                futureList.add(service.submit(() -> uHuntWebGetter.userACSubmits(user.getUvaId())));
+            }
         }
-        uVaSubmitRepo.save(all);
+        service.shutdown();
+        List<UVaSubmit> submits = new ArrayList<>();
+        for (Future<List<UVaSubmit>> future : futureList) {
+            try {
+                submits.addAll(future.get());
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            }
+        }
+        uVaSubmitRepo.save(submits);
         logger.info("数据库用户AC题目数据更新完毕！");
     }
 

@@ -15,6 +15,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Created by kun on 2016/7/5.
@@ -23,11 +27,9 @@ import java.util.*;
 @ContextConfiguration(locations = "classpath:springmvc-servlet.xml")
 public class MyTest {
 
-    @Autowired
-    private UhuntTreeManager uhuntTreeManager;
+    @Autowired private UhuntTreeManager uhuntTreeManager;
 
-    @Autowired
-    private UVaPbInfoRepo uVaPbInfoRepo;
+    @Autowired private UVaPbInfoRepo uVaPbInfoRepo;
 
     private long start;
 
@@ -38,7 +40,7 @@ public class MyTest {
 
     @After
     public void end() {
-        System.out.println(System.currentTimeMillis() - start);
+        System.err.println("测试耗时：" + (System.currentTimeMillis() - start));
     }
 
     @Test
@@ -77,4 +79,6 @@ public class MyTest {
             e.printStackTrace();
         }
     }
+
+
 }

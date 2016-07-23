@@ -23,17 +23,44 @@
 <body>
     <jsp:include page="topBar.jsp"/>
     <div class="container-fluid">
-
-        <div class="col-lg-2">
-        </div>
-        <div class="col-lg-8">
-            <div class="page-header">
-                <h1>欢迎访问山东科技大学ACM集训队管理系统
-                    <small>ACManager</small>
-                </h1>
+        <div class="row">
+            <div class="col-lg-2">
+            </div>
+            <div class="col-lg-8">
+                <div class="page-header">
+                    <h1>欢迎访问山东科技大学ACM集训队管理系统
+                        <small>ACManager</small>
+                    </h1>
+                </div>
+            </div>
+            <div class="col-lg-2">
             </div>
         </div>
-        <div class="col-lg-2">
+
+
+        <div class="row">
+            <div class="col-lg-2">
+            </div>
+            <div class="col-lg-8">
+                <!-- 多说评论框 start -->
+                <div class="ds-thread" data-thread-key="1" data-title="Index" data-url="<%=request.getRequestURL()%>"></div>
+                <!-- 多说评论框 end -->
+                <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+                <script type="text/javascript">
+                    var duoshuoQuery = {short_name:"acmanager"};
+                    (function() {
+                        var ds = document.createElement('script');
+                        ds.type = 'text/javascript';ds.async = true;
+                        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                        ds.charset = 'UTF-8';
+                        (document.getElementsByTagName('head')[0]
+                        || document.getElementsByTagName('body')[0]).appendChild(ds);
+                    })();
+                </script>
+                <!-- 多说公共JS代码 end -->
+            </div>
+            <div class="col-lg-2">
+            </div>
         </div>
     </div> <!-- /container -->
 </body>

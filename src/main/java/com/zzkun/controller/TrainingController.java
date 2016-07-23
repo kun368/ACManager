@@ -35,7 +35,8 @@ public class TrainingController {
 
 
     @RequestMapping("/list")
-    public String mylist(Model model, HttpSession session) {
+    public String mylist(Model model,
+                         HttpSession session) {
         List<Training> allTraining = trainingService.getAllTraining();
         model.addAttribute("allList", allTraining);
         model.addAttribute("trainingAddUserList", userService.getUserInfoByTList(allTraining));
@@ -68,6 +69,7 @@ public class TrainingController {
         List<Contest> contestList = trainingService.getContestByStageId(id);
         model.addAttribute("contestList", contestList);
         model.addAttribute("trainingId", trainingService.getStageById(id).getTrainingId());
+        model.addAttribute("contestAddUserList", userService.getUserInfoByCList(contestList));
         session.setAttribute("stageId", id);
         return "gamelist";
     }
@@ -135,4 +137,13 @@ public class TrainingController {
         return "添加失败！";
     }
 
+    @RequestMapping(value = "/doApplyJoinTraining", produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String doApplyJoinTraining(@RequestParam Integer userId,
+                                      @RequestParam Integer trainingId) {
+        logger.info("申请加入集训请求：userId = [" + userId + "], trainingId = [" + trainingId + "]");
+        if(userId != null && trainingId != null)
+            trainingService.applyJoinTraining(userId, trainingId);
+        return "";
+    }
 }

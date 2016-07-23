@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
 
     <c:url value="/training/doAddTraining" var="url_doAddTraining"/>
+    <c:url value="/training/doApplyJoinTraining" var="url_applyjoin"/>
     <script>
         $(document).ready(function () {
             $('#mytable').DataTable({
@@ -43,8 +44,17 @@
                     location.reload();
                 })
             });
-
         });
+        function applyJoin(trainingId) {
+            $.post("${url_applyjoin}",{
+                userId: '${user.id}',
+                trainingId: trainingId
+            },function () {
+//                    $("#applydiv").html("<p>待审核</p>&nbsp;&nbsp;");
+                alert("申请提交成功，请耐心等待审核");
+                location.reload();
+            });
+        }
 
     </script>
 
@@ -60,13 +70,13 @@
     <table class="table table-condensed table-striped table-hover display" id="mytable">
         <thead class="tab-header-area">
         <tr>
-            <th>id</th>
             <th>集训名称</th>
             <th>开始日期</th>
             <th>停止日期</th>
             <th>添加时间</th>
             <th>添加者</th>
             <th>操作</th>
+            <th>状态</th>
         </tr>
         </thead>
         <tfoot>
@@ -76,15 +86,21 @@
         <tbody>
         <c:forEach items="${allList}" var="training">
             <tr>
-                <td>${training.id}</td>
                 <td><a href="<c:url value="/training/detail/${training.id}"/> ">${training.name}</a></td>
                 <td>${training.startDate}</td>
                 <td>${training.endDate}</td>
                 <td>${training.addTime}</td>
                 <td>${trainingAddUserList.get(training.addUid).username}</td>
                 <td>
-                    <a href="">编辑属性</a>&nbsp;&nbsp;
-                    <a href="">申请加入</a>&nbsp;&nbsp;
+                    <a href="">编辑属性</a>
+                </td>
+                <td>
+                    <c:if test="${!empty ujointMap.get(training.id)}">
+                        <span>${ujointMap.get(training.id).status.name()}</span>
+                    </c:if>
+                    <c:if test="${empty ujointMap.get(training.id)}">
+                        <a href="javascript:void(0);" onclick="applyJoin(${training.id})">申请加入</a>
+                    </c:if>
                 </td>
             </tr>
         </c:forEach>

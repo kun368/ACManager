@@ -49,10 +49,12 @@
     <table class="table table-condensed table-striped table-hover display" id="mytable">
         <thead class="tab-header-area">
         <tr>
-            <th>id</th>
             <th>比赛名称</th>
             <th>比赛时间</th>
             <th>比赛类型</th>
+            <th>添加时间</th>
+            <th>添加者</th>
+            <th>操作</th>
         </tr>
         </thead>
         <tfoot>
@@ -62,10 +64,12 @@
         <tbody>
         <c:forEach items="${contestList}" var="contest">
             <tr>
-                <td>${contest.id}</td>
                 <td><a href="#">${contest.name}</a></td>
-                <td>${contest.time}</td>
+                <td>${contest.date}</td>
                 <td>${contest.type}</td>
+                <td>${contest.addTime}</td>
+                <td>${contestAddUserList.get(contest.addUid).username}</td>
+                <td><a href="">编辑比赛</a></td>
             </tr>
         </c:forEach>
         </tbody>
@@ -78,7 +82,7 @@
 <script>
     $(document).ready(function () {
         $("#addbutton").click(function () {
-            <%--location.href="<c:url value="/training/AddGame"/>";--%>
+            location.href="<c:url value="/contest/add1"/>";
         })
     })
 </script>
