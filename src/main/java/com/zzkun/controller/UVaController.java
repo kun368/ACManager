@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -44,8 +45,8 @@ public class UVaController {
 
     @RequestMapping(value = "/updatedb", produces = "text/html;charset=UTF-8")
     @ResponseBody
-    public String updatedb(HttpSession session) {
-        if(userService.userRank(session) < 10)
+    public String updatedb(@SessionAttribute(required = false) User user) {
+        if(user == null || !user.isAdmin())
             return "没有权限操作！";
         if(!uhuntUpdateStatus.canUpdate())
             return "正在更新，或者刚刚更新完毕，请稍后再试...";

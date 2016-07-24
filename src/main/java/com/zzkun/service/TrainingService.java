@@ -68,13 +68,37 @@ public class TrainingService {
         return userRepo.findAll(uids);
     }
 
+    public Map<User, String> getTrainingAllUser(Integer trainingId) {
+        List<UJoinT> all = uJoinTRepo.findByTrainingId(trainingId);
+        List<User> userList = userRepo.findAll();
+        Map<Integer, User> userMap = new HashMap<>();
+        userList.forEach(x -> userMap.put(x.getId(), x));
+        Map<User, String> map = new LinkedHashMap<>();
+        all.forEach(x -> map.put(userMap.get(x.getUserId()), x.getStatus().name()));
+        logger.info("查询集训所有用户情况：{}", map);
+        return map;
+    }
+
     //用户申请参加集训
     public void applyJoinTraining(Integer userId, Integer trainingId) {
+        User user = userRepo.findOne(userId);
+        if(user == null || user.isAdmin()) //管理员不能加入集训
+            return;
         UJoinT uJoinT = uJoinTRepo.findByUserIdAndTrainingId(userId, trainingId);
         if(uJoinT != null) {
             uJoinT.setStatus(UJoinT.Status.Pending);
         } else {
             uJoinT = new UJoinT(userId, trainingId, UJoinT.Status.Pending);
+        }
+        uJoinTRepo.save(uJoinT);
+    }
+
+    public void verifyUserJoin(Integer userId, Integer trainingId, String op) {
+        UJoinT uJoinT = uJoinTRepo.findByUserIdAndTrainingId(userId, trainingId);
+        if("true".equals(op)) {
+            uJoinT.setStatus(UJoinT.Status.Success);
+        } else if("false".equals(op)) {
+            uJoinT.setStatus(UJoinT.Status.Reject);
         }
         uJoinTRepo.save(uJoinT);
     }

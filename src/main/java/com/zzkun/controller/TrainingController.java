@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -58,6 +57,7 @@ public class TrainingController {
         model.addAttribute("info", trainingService.getTrainingById(id));
         model.addAttribute("stageList", stageList);
         model.addAttribute("stageAddUserList", userService.getUserInfoBySList(stageList));
+        model.addAttribute("ujoinT", trainingService.getTrainingAllUser(id));
         session.setAttribute("trainingId", id);
         return "stagelist";
     }
@@ -67,6 +67,7 @@ public class TrainingController {
                         Model model,
                         HttpSession session) {
         List<Contest> contestList = trainingService.getContestByStageId(id);
+        model.addAttribute("info", trainingService.getStageById(id));
         model.addAttribute("contestList", contestList);
         model.addAttribute("trainingId", trainingService.getStageById(id).getTrainingId());
         model.addAttribute("contestAddUserList", userService.getUserInfoByCList(contestList));
@@ -145,5 +146,19 @@ public class TrainingController {
         if(userId != null && trainingId != null)
             trainingService.applyJoinTraining(userId, trainingId);
         return "";
+    }
+
+    @RequestMapping(value = "/verifyUserJoin", produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String verifyUserJoin(@RequestParam Integer userId,
+                                 @RequestParam String op,
+                                 @SessionAttribute(required = false) User user,
+                                 @SessionAttribute(required = false) Integer trainingId) {
+        logger.info("审核用户加入集训请求：userId = [" + userId + "], op = [" + op + "], user = [" + user + "], trainingId = [" + trainingId + "]");
+        if(user == null || trainingId == null || !user.isAdmin()) {
+            return "操作失败，没有操作权限！";
+        }
+        trainingService.verifyUserJoin(userId, trainingId, op);
+        return "操作成功！";
     }
 }

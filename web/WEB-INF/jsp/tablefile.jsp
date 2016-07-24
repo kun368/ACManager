@@ -30,55 +30,64 @@
                 ordering: true,
                 processing: true,
                 searching:true,
-                dom: '<"top"if>rt<"bottom"lp>'
+                dom: '<"top"if>rt<"bottom"lp>',
+                "order": [[3, "asc"]]
             });
         });
 
     </script>
 </head>
 <body>
-<jsp:include page="topBar.jsp" />
-<div class="container-fluid">
-    <table class="table table-condensed table-striped table-hover display" id="mytable">
-            <thead class="tab-header-area">
-            <tr>
-                <th>姓名</th>
-                <th>用户名</th>
-                <th>班级</th>
-                <th>UVaId</th>
-                <th>合计</th>
-                <c:forEach items="${booksName}" var="bookname">
-                    <th>${bookname}</th>
-                </c:forEach>
-                <%--<c:forEach items="${cptsName}" var="cptname">--%>
-                    <%--<th class="text-overflow">${cptname}</th>--%>
-                <%--</c:forEach>--%>
-            </tr>
-            </thead>
-        <tfoot>
 
-        </tfoot>
+<div class="container">
+    <jsp:include page="topBar.jsp" />
+    <div class="row" style="padding-bottom: 10px">
+    </div>
+    <div class="row">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">队内UVa统计结果</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-condensed table-striped table-hover display" id="mytable">
+                    <thead class="tab-header-area">
+                    <tr>
+                        <th>姓名</th>
+                        <th>用户名</th>
+                        <th>班级</th>
+                        <th>UVaId</th>
+                        <th>合计</th>
+                        <c:forEach items="${booksName}" var="bookname">
+                            <th>${bookname}</th>
+                        </c:forEach>
+                    </tr>
+                    </thead>
+                    <tfoot>
 
-        <tbody>
-            <c:forEach items="${users}" var="curUser" varStatus="i">
-                <tr>
-                    <td>${curUser.realName}</td>
-                    <td>${curUser.username}</td>
-                    <td>${curUser.major}</td>
-                    <td>${curUser.uvaId}</td>
-                    <td>${bookCnt.get(i.index).get(0) + bookCnt.get(i.index).get(1)}</td>
-                    <c:forEach items="${bookCnt.get(i.index)}" var="j">
-                        <td>${j}</td>
+                    </tfoot>
+
+                    <tbody>
+                    <c:forEach items="${users}" var="curUser" varStatus="i">
+                        <tr>
+                            <td>${curUser.realName}</td>
+                            <td>${curUser.username}</td>
+                            <td>${curUser.major}</td>
+                            <td>${curUser.uvaId}</td>
+                            <td>${bookCnt.get(i.index).get(0) + bookCnt.get(i.index).get(1)}</td>
+                            <c:forEach items="${bookCnt.get(i.index)}" var="j">
+                                <td>${j}</td>
+                            </c:forEach>
+                        </tr>
                     </c:forEach>
-                    <%--<c:forEach begin="0" end="${cptsName.size()-1}" var="j">--%>
-                        <%--<td>${cptCnt.get(i).get(j)}</td>--%>
-                    <%--</c:forEach>--%>
-                </tr>
-            </c:forEach>
-        </tbody>
-    </table>
-    <div class="pull-left">
-        <button class="btn" id="addbutton">更新数据(最近更新${lastUpdate})</button>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="pull-left">
+            <button class="btn btn-info" id="addbutton">更新数据&nbsp;(LastUpdate: ${lastUpdate})</button>
+        </div>
     </div>
 </div>
 
@@ -90,11 +99,12 @@
 
                     },function (data) {
                         alert(data);
+                        location.reload()
                     }
             );
         })
     });
 </script>
-
+<jsp:include page="footerInfo.jsp"/>
 </body>
 </html>

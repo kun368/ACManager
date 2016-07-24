@@ -100,18 +100,4 @@ public class UserService {
         return map;
 
     }
-
-    public int userRank(HttpSession session) {
-        User user = (User) session.getAttribute("user");
-        if(user == null)
-            return 0;
-        if(user.getType().equals(User.Type.Normal))
-            return 1;
-        if(user.getType().equals(User.Type.Admin))
-            return 10;
-        return -1;
-    }
-
-
-
 }

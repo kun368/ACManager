@@ -19,29 +19,29 @@
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
 </head>
 <body>
-    <jsp:include page="topBar.jsp"/>
-    <div class="container-fluid">
+
+    <div class="container">
+        <jsp:include page="topBar.jsp"/>
         <div class="row">
-            <div class="col-lg-2">
+            <div class="col-lg-1">
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-10">
                 <div class="page-header">
-                    <h1>欢迎访问山东科技大学ACM集训队管理系统
-                        <small>ACManager</small>
-                    </h1>
+                    <h1>欢迎访问山东科技大学ACM集训队管理系统</h1>
                 </div>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-1">
             </div>
         </div>
 
 
         <div class="row">
-            <div class="col-lg-2">
+            <div class="col-lg-1">
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-10">
                 <!-- 多说评论框 start -->
                 <div class="ds-thread" data-thread-key="1" data-title="Index" data-url="<%=request.getRequestURL()%>"></div>
                 <!-- 多说评论框 end -->
@@ -59,9 +59,10 @@
                 </script>
                 <!-- 多说公共JS代码 end -->
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-1">
             </div>
         </div>
     </div> <!-- /container -->
+<jsp:include page="footerInfo.jsp"/>
 </body>
 </html>

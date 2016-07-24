@@ -77,73 +77,74 @@
 
 <body>
 
-<jsp:include page="topBar.jsp"/>
-<div class="container-fluid">
-    <div class="col-lg-2">
-    </div>
-    <div class="col-lg-8">
-        <div class="page-header">
-            <h1>个人详情
-                <small>修改</small>
-            </h1>
+
+<div class="container">
+    <jsp:include page="topBar.jsp"/>
+    <div class="row">
+        <div class="col-lg-2">
         </div>
-        <form class="form-horizontal" id="myform" method="post" action="<c:url value="/auth/doModify"/> "
-              onsubmit="return mysubmit(true)">
-            <div class="col-lg-6">
-                <input value="${user.id}" name="id" hidden>
-                <div class="form-group">
-                    用户名：<input type="text" name="username" id="inputUserName" class="form-control" value="${user.username}" readonly>
-                </div>
-                <div class="form-group">
-                    旧密码:<input type="password" name="oldpassword" id="OldPassword" class="form-control"
-                               placeholder="Oldpassword*" required>
-                </div>
-                <p id="checkOldPassword"></p>
-                <div class="form-group">
-                    新密码:<input type="password" name="password" id="inputPassword" class="form-control"
-                               placeholder="Newpassword*" required>
-                </div>
-                <div class="form-group">
-                    重复密码:<input type="password" id="inputRepass" class="form-control" placeholder="Repeat*" required>
-                </div>
-                <p id="accheck"></p>
-
-                <div class="form-group">
-                    UVA ID:<input type="text" name="uvaId" id="inputUVA" class="form-control" value="${user.uvaId}">
-                </div>
-                <!--<p>UVA UserName:</p>-->
-                <div class="form-group">
-                    CF用户名:<input type="text" name="cfname" id="inputCF" class="form-control" value="${user.cfname}">
-                </div>
-                <div class="form-group">
-                    真实姓名:<input type="text" name="realName" id="inputRealName" class="form-control"
-                                value="${user.realName}">
-                </div>
-                <div class="form-group">
-                    班级:<input type="text" name="major" id="inputMajor" class="form-control disabled"
-                              value="${user.major}">
-                </div>
-                <div class="form-horizontal pull-right form-group">
-                    <button class="btn btn-primary " type="submit">修 改</button>
-                    <button class="btn btn-primary" type="button" onclick="Goto()">取 消</button>
-                </div>
+        <div class="col-lg-8">
+            <div class="page-header">
+                <h1>个人详情
+                    <small>修改</small>
+                </h1>
             </div>
-        </form>
-    </div>
-    <div class="col-lg-2">
+            <form class="form-horizontal" id="myform" method="post" action="<c:url value="/auth/doModify"/> "
+                  onsubmit="return mysubmit(true)">
+                <div class="col-lg-6">
+                    <input value="${user.id}" name="id" hidden>
+                    <div class="form-group">
+                        用户名：<input type="text" name="username" id="inputUserName" class="form-control" value="${user.username}" readonly>
+                    </div>
+                    <div class="form-group">
+                        旧密码:<input type="password" name="oldpassword" id="OldPassword" class="form-control"
+                                   placeholder="Oldpassword*" required>
+                    </div>
+                    <p id="checkOldPassword"></p>
+                    <div class="form-group">
+                        新密码:<input type="password" name="password" id="inputPassword" class="form-control"
+                                   placeholder="Newpassword*" required>
+                    </div>
+                    <div class="form-group">
+                        重复密码:<input type="password" id="inputRepass" class="form-control" placeholder="Repeat*" required>
+                    </div>
+                    <p id="accheck"></p>
 
+                    <div class="form-group">
+                        UVA ID:<input type="text" name="uvaId" id="inputUVA" class="form-control" value="${user.uvaId}">
+                    </div>
+                    <!--<p>UVA UserName:</p>-->
+                    <div class="form-group">
+                        CF用户名:<input type="text" name="cfname" id="inputCF" class="form-control" value="${user.cfname}">
+                    </div>
+                    <div class="form-group">
+                        真实姓名:<input type="text" name="realName" id="inputRealName" class="form-control"
+                                    value="${user.realName}">
+                    </div>
+                    <div class="form-group">
+                        班级:<input type="text" name="major" id="inputMajor" class="form-control disabled"
+                                  value="${user.major}">
+                    </div>
+                    <div class="form-horizontal pull-right form-group">
+                        <button class="btn btn-primary " type="submit">修 改</button>
+                        <button class="btn btn-primary" type="button" onclick="Goto()">取 消</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-2">
+
+        </div>
     </div>
 </div> <!-- /container -->
 
-
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
 
 <c:if test="${!empty tip}">
     <script>
         alert('${tip}');
     </script>
 </c:if>
+<jsp:include page="footerInfo.jsp"/>
 </body>
 </html>
 

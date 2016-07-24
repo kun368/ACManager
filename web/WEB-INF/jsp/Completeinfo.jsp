@@ -14,8 +14,9 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
 </head>
 <body>
-<jsp:include page="topBar.jsp"/>
-<div class="container-fluid">
+
+<div class="container">
+    <jsp:include page="topBar.jsp"/>
     <div class="col-lg-2">
     </div>
     <div class="col-lg-8">
@@ -48,5 +49,6 @@
         </div>
     </div>
 </div>
+<jsp:include page="footerInfo.jsp"/>
 </body>
 </html>

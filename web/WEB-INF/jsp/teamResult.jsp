@@ -38,47 +38,54 @@
     </script>
 </head>
 <body>
-<jsp:include page="topBar.jsp"/>
-<div class="container-fluid">
-    <ol class="breadcrumb">
-        <li>您所在的位置：</li>
-        <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
-        <li><a href="<c:url value="/training/detail/${trainingId}"/> ">当前集训</a></li>
-        <li><a href="<c:url value="/assign/listTraining/${trainingId}"/> ">随机分队</a></li>
-        <li class="active">分队结果</li>
-    </ol>
-    <div class="col-lg-2">
-    </div>
-    <div class="col-lg-8">
-        <div class="row">
 
-            <div class="page-header">
-                <h3>&nbsp;&nbsp;分组情况：</h3>
-            </div>
-            <div class="col-md-7">
-                <br/>
-                            <div class="col-md-9 form-group">
-                                <ul>
-                                    <c:forEach items="${teamList}" var="team" varStatus="i">
-                                        <li><h4>队伍${i.index+1}:&nbsp;
-                                            <c:forEach items="${team}" var="member">
-                                                ${userInfo[member].realName}&nbsp;&nbsp;
-                                            </c:forEach>
-                                        </h4></li>
+<div class="container">
+    <jsp:include page="topBar.jsp"/>
+    <div class="row">
+        <ol class="breadcrumb">
+            <li>您所在的位置：</li>
+            <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
+            <li><a href="<c:url value="/training/detail/${trainingId}"/> ">当前集训</a></li>
+            <li><a href="<c:url value="/assign/listTraining/${trainingId}"/> ">随机分队</a></li>
+            <li class="active">分队结果</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-lg-2">
+        </div>
+        <div class="col-lg-8">
+            <div class="row">
+
+                <div class="page-header">
+                    <h3>&nbsp;&nbsp;分组情况：</h3>
+                </div>
+                <div class="col-md-10">
+                    <br/>
+                    <div class="col-md-12 form-group">
+                        <ul class="list-group">
+                            <c:forEach items="${teamList}" var="team" varStatus="i">
+                                <li class="list-group-item">
+                                    <span class="badge">${team.size()}</span>
+                                    <c:forEach items="${team}" var="member">
+                                        ${userInfo[member].realName}&nbsp;&nbsp;
                                     </c:forEach>
-                                </ul>
-                            </div>
-                            <div class="col-lg-3"></div>
+                                </li>
+                            </c:forEach>
+                        </ul>
+                    </div>
+                    <div class="col-lg-3"></div>
 
                     <div class="form-group form-horizontal pull-right">
                         <button class="btn btn-primary " type="button" id="again">重新分组</button>
                         <button class="btn btn-primary " type="button" id="make_sure">确认分组</button>
                     </div>
+                </div>
             </div>
-        </div>
-        <div class="col-lg-2">
+            <div class="col-lg-2">
+            </div>
         </div>
     </div>
 </div>
+<jsp:include page="footerInfo.jsp"/>
 </body>
 </html>

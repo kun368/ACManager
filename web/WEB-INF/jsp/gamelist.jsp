@@ -30,52 +30,68 @@
                 ordering: true,
                 processing: true,
                 searching:true,
-                dom: '<"top"if>rt<"bottom"lp>'
+                dom: '<"top"if>rt<"bottom"lp>',
+                "order": [[3, "desc"]]
             });
         });
     </script>
 
 </head>
 <body>
-<jsp:include page="topBar.jsp" />
-<div class="container-fluid">
 
-    <ol class="breadcrumb">
-        <li>您所在的位置：</li>
-        <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
-        <li><a href="<c:url value="/training/detail/${trainingId}"/>">阶段列表</a></li>
-        <li class="active">比赛列表</li>
-    </ol>
-    <table class="table table-condensed table-striped table-hover display" id="mytable">
-        <thead class="tab-header-area">
-        <tr>
-            <th>比赛名称</th>
-            <th>比赛时间</th>
-            <th>比赛类型</th>
-            <th>添加时间</th>
-            <th>添加者</th>
-            <th>操作</th>
-        </tr>
-        </thead>
-        <tfoot>
+<div class="container">
+    <jsp:include page="topBar.jsp" />
+    <div class="row">
+        <ol class="breadcrumb">
+            <li>您所在的位置：</li>
+            <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
+            <li><a href="<c:url value="/training/detail/${trainingId}"/>">阶段列表</a></li>
+            <li class="active">比赛列表</li>
+        </ol>
+    </div>
 
-        </tfoot>
+    <div class="row" style="padding-bottom: 20px">
+        <div class="pull-right">
+            <button class="btn btn-info" id="addbutton">添加比赛</button>
+        </div>
+    </div>
 
-        <tbody>
-        <c:forEach items="${contestList}" var="contest">
-            <tr>
-                <td><a href="#">${contest.name}</a></td>
-                <td>${contest.date}</td>
-                <td>${contest.type}</td>
-                <td>${contest.addTime}</td>
-                <td>${contestAddUserList.get(contest.addUid).username}</td>
-                <td><a href="">编辑比赛</a></td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-    <div class="pull-left">
-        <button class="btn btn-defult" id="addbutton">添加比赛</button>
+    <div class="row">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">${info.name}&nbsp;&nbsp;详情</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-condensed table-striped table-hover display" id="mytable">
+                    <thead class="tab-header-area">
+                    <tr>
+                        <th>比赛名称</th>
+                        <th>比赛时间</th>
+                        <th>比赛类型</th>
+                        <th>添加时间</th>
+                        <th>添加者</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+
+                    </tfoot>
+
+                    <tbody>
+                    <c:forEach items="${contestList}" var="contest">
+                        <tr>
+                            <td><a href="#">${contest.name}</a></td>
+                            <td>${contest.date}</td>
+                            <td>${contest.type}</td>
+                            <td>${contest.addTime}</td>
+                            <td>${contestAddUserList.get(contest.addUid).username}</td>
+                            <td><a href="">编辑比赛</a></td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -86,5 +102,6 @@
         })
     })
 </script>
+<jsp:include page="footerInfo.jsp"/>
 </body>
 </html>

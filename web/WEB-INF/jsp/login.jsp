@@ -24,47 +24,46 @@
 
 <body>
 
-<jsp:include page="topBar.jsp"/>
 
-<div class="container-fluid">
 
-    <div class="col-lg-2">
-    </div>
-    <div class="col-lg-8">
-        <div class="page-header">
-            <h1>欢迎登陆
-                <small>ACManager</small>
-            </h1>
+<div class="container">
+    <jsp:include page="topBar.jsp"/>
+    <div class="row">
+        <div class="col-lg-2">
         </div>
-
-        <form class="form-horizontal" method="post" action="<c:url value="/auth/dologin"/> ">
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <input type="text" name="username" id="inputUsername" class="form-control" placeholder="UserName"
-                           required autofocus>
-                </div>
-                <div class="form-group">
-                    <input type="password" name="password" id="inputPassword" class="form-control"
-                           placeholder="Password"
-                           required>
-                </div>
-                <c:if test="${!empty tip}">
-                    <span id="msg">${tip}</span>
-                </c:if>
-                <div class="form-horizontal pull-right">
-                    <button class="btn btn-primary" id="sign" type="submit">登陆</button>
-                    <button class="btn btn-primary" id="reset" type="reset">重置</button>
-                </div>
+        <div class="col-lg-8">
+            <div class="page-header">
+                <h1>欢迎登陆
+                    <small>ACManager</small>
+                </h1>
             </div>
+
+            <form class="form-horizontal" method="post" action="<c:url value="/auth/dologin"/> ">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <input type="text" name="username" id="inputUsername" class="form-control" placeholder="UserName"
+                               required autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="password" id="inputPassword" class="form-control"
+                               placeholder="Password"
+                               required>
+                    </div>
+                    <c:if test="${!empty tip}">
+                        <span id="msg">${tip}</span>
+                    </c:if>
+                    <div class="form-horizontal pull-right">
+                        <button class="btn btn-primary" id="sign" type="submit">登陆</button>
+                        <button class="btn btn-primary" id="reset" type="reset">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        </div>
+        <div class="col-lg-2">
     </div>
-    </form>
-</div>
-<div class="col-lg-2">
-
 </div>
 
-</div> <!-- /container -->
-
-
+<jsp:include page="footerInfo.jsp"/>
 </body>
 </html>

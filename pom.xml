@@ -67,6 +67,18 @@
             <version>4.3.0.RELEASE</version>
         </dependency>
 
+        <!--aop-->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.8.9</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.9</version>
+        </dependency>
+
         <!--servlet-->
         <dependency>
             <groupId>javax.servlet</groupId>
@@ -112,7 +124,5 @@
             <artifactId>hibernate-entitymanager</artifactId>
             <version>5.2.1.Final</version>
         </dependency>
-
-
     </dependencies>
 </project>

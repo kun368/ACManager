@@ -84,56 +84,56 @@
 
 <body>
 
-<jsp:include page="topBar.jsp"/>
-
-<div class="container-fluid">
-
-    <div class="col-lg-2">
-    </div>
-    <div class="col-lg-8">
-        <div class="page-header">
-            <h1>欢迎注册
-                <small>ACManager</small>
-            </h1>
+<div class="container">
+    <jsp:include page="topBar.jsp"/>
+    <div class="row">
+        <div class="col-lg-2">
         </div>
-        <form class="form-horizontal" method="post" action="<c:url value="/auth/dorg"/> " id="rgform">
-            <div class="col-lg-6">
-                <div class="form-group">
-                    <input type="text" name="username" id="inputUsername" class="form-control" placeholder="用户名*"
-                           required autofocus>
-                </div>
-                <p id="checkname"></p>
-                <div class="form-group">
-                    <input type="password" name="password" id="inputPassword" class="form-control"
-                           placeholder="密码*" required>
-                </div>
-                <div class="form-group">
-                    <input type="password" id="inputRepass" class="form-control" placeholder="重复密码*" required>
-                </div>
-                <p id="accheck"></p>
+        <div class="col-lg-8">
+            <div class="page-header">
+                <h1>欢迎注册
+                    <small>ACManager</small>
+                </h1>
+            </div>
+            <form class="form-horizontal" method="post" action="<c:url value="/auth/dorg"/> " id="rgform">
+                <div class="col-lg-6">
+                    <div class="form-group">
+                        <input type="text" name="username" id="inputUsername" class="form-control" placeholder="用户名*"
+                               required autofocus>
+                    </div>
+                    <p id="checkname"></p>
+                    <div class="form-group">
+                        <input type="password" name="password" id="inputPassword" class="form-control"
+                               placeholder="密码*" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="inputRepass" class="form-control" placeholder="重复密码*" required>
+                    </div>
+                    <p id="accheck"></p>
 
-                <div class="form-group">
-                    <input type="text" name="major" id="class" class="form-control" placeholder="班级">
-                </div>
+                    <div class="form-group">
+                        <input type="text" name="major" id="class" class="form-control" placeholder="班级">
+                    </div>
 
-                <div class="form-group">
-                    <input type="text" name="uvaid" id="inpu" class="form-control" placeholder="UVAID">
-                </div>
-                <!--<p>UVA UserName:</p>-->
-                <div class="form-group">
-                    <input type="text" name="cfname" id="input" class="form-control" placeholder="CF 用户名">
-                </div>
-                <div class="form-group">
-                    <input type="text" name="realName" id="inputRealName" class="form-control" placeholder="真实姓名">
-                </div>
+                    <div class="form-group">
+                        <input type="text" name="uvaid" id="inpu" class="form-control" placeholder="UVAID">
+                    </div>
+                    <!--<p>UVA UserName:</p>-->
+                    <div class="form-group">
+                        <input type="text" name="cfname" id="input" class="form-control" placeholder="CF 用户名">
+                    </div>
+                    <div class="form-group">
+                        <input type="text" name="realName" id="inputRealName" class="form-control" placeholder="真实姓名">
+                    </div>
                     <div class="form-horizontal pull-right">
                         <button class="btn btn-primary " type="submit">注册</button>
                         <button class="btn btn-primary " type="button" onclick="Goto()">取消</button>
                     </div>
-            </div>
-        </form>
-    </div>
-    <div class="col-lg-2">
+                </div>
+            </form>
+        </div>
+        <div class="col-lg-2">
+        </div>
     </div>
 </div> <!-- /container -->
 
@@ -145,6 +145,7 @@
         alert('${tip}');
     </script>
 </c:if>
+<jsp:include page="footerInfo.jsp"/>
 </body>
 </html>
 

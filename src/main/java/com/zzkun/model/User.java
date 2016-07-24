@@ -136,6 +136,10 @@ public class User implements Serializable {
         this.type = type;
     }
 
+    public boolean isAdmin() {
+        return getType().equals(Type.Admin);
+    }
+
     @Override
     public String toString() {
         return "User{" +

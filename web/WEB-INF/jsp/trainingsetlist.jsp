@@ -31,7 +31,8 @@
                 ordering: true,
                 processing: true,
                 searching: true,
-                dom: '<"top"if>rt<"bottom"lp>'
+                dom: '<"top"if>rt<"bottom"lp>',
+                "order": [[3, "desc"]]
             });
             $('#savabutton').click(function () {
                 $.post("${url_doAddTraining}", {
@@ -50,7 +51,6 @@
                 userId: '${user.id}',
                 trainingId: trainingId
             },function () {
-//                    $("#applydiv").html("<p>待审核</p>&nbsp;&nbsp;");
                 alert("申请提交成功，请耐心等待审核");
                 location.reload();
             });
@@ -60,55 +60,75 @@
 
 </head>
 <body>
-<jsp:include page="topBar.jsp"/>
-<div class="container-fluid">
-    <ol class="breadcrumb">
-        <li>您所在的位置：</li>
-        <li class="active">集训列表</li>
-    </ol>
 
-    <table class="table table-condensed table-striped table-hover display" id="mytable">
-        <thead class="tab-header-area">
-        <tr>
-            <th>集训名称</th>
-            <th>开始日期</th>
-            <th>停止日期</th>
-            <th>添加时间</th>
-            <th>添加者</th>
-            <th>操作</th>
-            <th>状态</th>
-        </tr>
-        </thead>
-        <tfoot>
-
-        </tfoot>
-
-        <tbody>
-        <c:forEach items="${allList}" var="training">
-            <tr>
-                <td><a href="<c:url value="/training/detail/${training.id}"/> ">${training.name}</a></td>
-                <td>${training.startDate}</td>
-                <td>${training.endDate}</td>
-                <td>${training.addTime}</td>
-                <td>${trainingAddUserList.get(training.addUid).username}</td>
-                <td>
-                    <a href="">编辑属性</a>
-                </td>
-                <td>
-                    <c:if test="${!empty ujointMap.get(training.id)}">
-                        <span>${ujointMap.get(training.id).status.name()}</span>
-                    </c:if>
-                    <c:if test="${empty ujointMap.get(training.id)}">
-                        <a href="javascript:void(0);" onclick="applyJoin(${training.id})">申请加入</a>
-                    </c:if>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-    <div class="pull-left">
-        <button class="btn" id="addbutton" data-toggle="modal" data-target="#myModal">添加集训</button>
+<div class="container">
+    <jsp:include page="topBar.jsp"/>
+    <div class="row">
+        <ol class="breadcrumb">
+            <li>您所在的位置：</li>
+            <li class="active">集训列表</li>
+        </ol>
     </div>
+
+    <div class="row" style="padding-bottom: 20px">
+        <div class="pull-right">
+            <button class="btn btn-info" id="addbutton" data-toggle="modal" data-target="#myModal">添加集训</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">所有集训</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-condensed table-striped table-hover display" id="mytable">
+                    <thead class="tab-header-area">
+                    <tr>
+                        <th>集训名称</th>
+                        <th>开始日期</th>
+                        <th>停止日期</th>
+                        <th>添加时间</th>
+                        <th>添加者</th>
+                        <th>操作</th>
+                        <th>状态</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+
+                    </tfoot>
+
+                    <tbody>
+                    <c:forEach items="${allList}" var="training">
+                        <tr>
+                            <td><a href="<c:url value="/training/detail/${training.id}"/> ">${training.name}</a></td>
+                            <td>${training.startDate}</td>
+                            <td>${training.endDate}</td>
+                            <td>${training.addTime}</td>
+                            <td>${trainingAddUserList.get(training.addUid).username}</td>
+                            <td>
+                                <a href="">编辑属性</a>
+                            </td>
+                            <td>
+                                <c:if test="${!empty ujointMap.get(training.id)}">
+                                    <span>${ujointMap.get(training.id).status.name()}</span>
+                                    <c:set value="Reject" var="reject"/>
+                                    <c:if test="${ujointMap.get(training.id).status.name() eq reject}">
+                                        <span><a href="javascript:void(0);" onclick="applyJoin(${training.id})">(重新申请)</a></span>
+                                    </c:if>
+                                </c:if>
+                                <c:if test="${empty ujointMap.get(training.id)}">
+                                    <a href="javascript:void(0);" onclick="applyJoin(${training.id})">申请加入</a>
+                                </c:if>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
 </div>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -140,5 +160,6 @@
         </div>
     </div>
 </div>
+<jsp:include page="footerInfo.jsp"/>
 </body>
 </html>

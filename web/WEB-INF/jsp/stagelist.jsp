@@ -23,15 +23,22 @@
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
     <c:url value="/assign/listTraining/${trainingId}" var="suijifendui"/>
     <c:url value="/training/doAddStage" var="url_doadstage"/>
+    <c:url value="/training/verifyUserJoin" var="url_verifyUserJoin"/>
 
     <script>
+        var Userid;
+        function userinfo(p) {
+            Userid=p;
+            console.log(Userid);
+        }
         $(document).ready(function () {
             $('#mytable').DataTable({
                 lengthChange: true,
                 ordering: true,
                 processing: true,
                 searching:true,
-                dom: '<"top"if>rt<"bottom"lp>'
+                dom: '<"top"if>rt<"bottom"lp>',
+                "order": [[3, "desc"]]
             });
             $('#fendui').click(function () {
                 location.href="${suijifendui}"
@@ -47,54 +54,131 @@
                     location.reload();
                 })
             });
+
+            $('#verify_true').click(function () {
+                $.post("${url_verifyUserJoin}",{
+                    userId:Userid,
+                    op: "true"
+                },function (date) {
+                    alert(date);
+                    location.reload();
+                });
+            });
+
+            $('#verify_false').click(function () {
+                $.post("${url_verifyUserJoin}",{
+                    userId: Userid,
+                    op: "false"
+                },function (date) {
+                    alert(date);
+                    location.reload();
+                });
+            });
         });
     </script>
 
 </head>
 <body>
-<jsp:include page="topBar.jsp" />
-<div class="container-fluid">
-    <ol class="breadcrumb">
-        <li>您所在的位置：</li>
-        <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
-        <li class="active">阶段列表</li>
-    </ol>
-    <table class="table table-condensed table-striped table-hover display" id="mytable">
-        <thead class="tab-header-area">
-        <tr>
-            <th>阶段名称</th>
-            <th>开始日期</th>
-            <th>截止日期</th>
-            <th>添加时间</th>
-            <th>添加者</th>
-            <th>操作</th>
-        </tr>
-        </thead>
-        <tfoot>
 
-        </tfoot>
-
-        <tbody>
-        <c:forEach items="${stageList}" var="stage">
-            <tr>
-                <td><a href="<c:url value="/training/stage/${stage.id}"/> ">${stage.name}</a></td>
-                <td>${stage.startDate}</td>
-                <td>${stage.endDate}</td>
-                <td>${stage.addTime}</td>
-                <td>${stageAddUserList.get(stage.addUid).username}</td>
-                <td>
-                    <a href="">编辑属性</a>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-    <div class="pull-left">
-        <button class="btn" id="addbutton" data-toggle="modal" data-target="#myModal">添加阶段</button>
-        <button class="btn" id="fendui">
-            随机分队
-        </button>
+<div class="container">
+    <jsp:include page="topBar.jsp" />
+    <div class="row">
+        <ol class="breadcrumb">
+            <li>您所在的位置：</li>
+            <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
+            <li class="active">阶段列表</li>
+        </ol>
     </div>
+    <div class="row" style="padding-bottom: 20px">
+        <div class="pull-right">
+            <button class="btn btn-info" id="addbutton" data-toggle="modal" data-target="#myModal">添加阶段</button>
+            <button class="btn btn-info" id="fendui">随机分队</button>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">${info.name}&nbsp;&nbsp;详情</h3>
+            </div>
+            <div class="panel-body">
+                <table class="table table-condensed table-striped table-hover display" id="mytable">
+                    <thead class="tab-header-area">
+                    <tr>
+                        <th>阶段名称</th>
+                        <th>开始日期</th>
+                        <th>截止日期</th>
+                        <th>添加时间</th>
+                        <th>添加者</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tfoot>
+
+                    </tfoot>
+
+                    <tbody>
+                    <c:forEach items="${stageList}" var="stage">
+                        <tr>
+                            <td><a href="<c:url value="/training/stage/${stage.id}"/> ">${stage.name}</a></td>
+                            <td>${stage.startDate}</td>
+                            <td>${stage.endDate}</td>
+                            <td>${stage.addTime}</td>
+                            <td>${stageAddUserList.get(stage.addUid).username}</td>
+                            <td>
+                                <a href="">编辑属性</a>
+                            </td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="row">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">${info.name}&nbsp;&nbsp;队员加入审核</h3>
+            </div>
+            <div class="panel-body">
+                <div style="padding-bottom: 10px">
+                    示例：
+                    <button class="btn btn-sm btn-success" >通过审核</button>
+                    <button class="btn btn-sm btn-warning">等待审核</button>
+                    <button class="btn btn-sm btn-danger">拒绝加入</button>
+                </div>
+
+                <ul class="list-group">
+                    <c:set value="Success" var="success"/>
+                    <c:set value="Pending" var="pending"/>
+                    <c:set value="Reject" var="reject"/>
+
+                    <c:forEach items="${ujoinT}" var="user">
+                        <c:if test="${user.value eq success}">
+                            <li class="list-group-item list-group-item-success">
+                                ${user.key.realName}(${user.key.username})
+                            </li>
+                        </c:if>
+                        <c:if test="${user.value eq pending}">
+                            <a class="list-group-item list-group-item-warning" href="#memberModel" data-toggle="modal" id="pendingli"
+                               onclick="userinfo(${user.key.id})">
+                                    ${user.key.realName}(${user.key.username})
+                            </a>
+                        </c:if>
+                        <c:if test="${user.value eq reject}">
+                            <li class="list-group-item list-group-item-danger">
+                                ${user.key.realName}(${user.key.username})
+                            </li>
+                        </c:if>
+                    </c:forEach>
+                </ul>
+            </div>
+        </div>
+    </div>
+
 </div>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
@@ -126,5 +210,26 @@
         </div>
     </div>
 </div>
+
+<!--审核状态模态框-->
+<div class="modal fade" id="memberModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="title">资格审核</h4>
+            </div>
+            <div class="modal-body ">
+                <p>是否通过此人加入集训：${info.name}？</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" id="verify_true">通过</button>
+                <button type="button" class="btn btn-primary" id="verify_false">拒绝</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<jsp:include page="footerInfo.jsp"/>
 </body>
 </html>

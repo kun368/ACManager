@@ -13,7 +13,13 @@
 <c:url value="/auth/login" var="url_login"/>
 <c:url value="/auth/rg" var="url_rg"/>
 <c:url value="/training/list" var="url_traininglist"/>
-<div class="container-fluid">
+<c:url value="/cf/showTable" var="url_cftable"/>
+<style>
+    body {
+        font-family:"Microsoft Yahei",微软雅黑,Consolas,Arial,sans-serif;
+    }
+</style>
+<div class="row">
     <nav class="nav navbar-default" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -28,7 +34,7 @@
                 <ul class="nav navbar-nav">
                     <li> <a href="${url_index}">首页</a> </li>
                     <li> <a href="${url_uvaTable}">UVA统计</a> </li>
-                    <li> <a href="${url_uvaTable}">Codeforces统计</a> </li>
+                    <li> <a href="${url_cftable}">Codeforces统计</a> </li>
                     <li> <a href="${url_traininglist}">集训管理</a> </li>
                     <%--<li class="dropdown" >--%>
                         <%--<a href="#" data-toggle="dropdown">比赛管理<span class="caret"></span></a>--%>
