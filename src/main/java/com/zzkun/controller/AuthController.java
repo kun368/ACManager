@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 
@@ -68,6 +69,8 @@ public class AuthController {
                      @RequestParam(required = false) String major,
                      Model model) {
         logger.info("收到注册请求：{},{},{},{},{},{}", username, password, realName, uvaid, cfname, major);
+        username = username.trim();
+        password = password.trim();
         if(realName.trim().isEmpty()) realName = null;
         if(cfname.trim().isEmpty()) cfname = null;
         User user = new User(username, password, realName, uvaid, cfname, major, User.Type.Normal);
@@ -82,19 +85,24 @@ public class AuthController {
 
     @RequestMapping("/doModify")
     public String doModify(User user,
-                           HttpSession session) {
+                           HttpSession session,
+                           RedirectAttributes redirectAttributes) {
         logger.info("收到修改请求：{}", user);
         User newUser = userService.modifyUser(user);
         session.setAttribute("user", newUser);
-        return "redirect:/auth/my";
-    }
-
-    @RequestMapping("dologout")
-    public String dologout(HttpSession session) {
-        logger.info("收到登出请求...");
-        session.removeAttribute("user");
+        redirectAttributes.addFlashAttribute("tip", "信息修改成功！");
         return "redirect:/";
     }
+
+    @RequestMapping("/dologout")
+    public String dologout(HttpSession session,
+                           RedirectAttributes redirectAttributes) {
+        logger.info("收到登出请求...");
+        session.removeAttribute("user");
+        redirectAttributes.addFlashAttribute("tip", "您已经退出成功！");
+        return "redirect:/";
+    }
+    //ajax
 
     @RequestMapping("/validUsername")
     @ResponseBody

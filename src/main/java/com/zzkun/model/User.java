@@ -19,7 +19,8 @@ public class User implements Serializable {
     public enum Type {
         Retired,        //退役
         Expeled,        //开除
-        Normal,         //正常
+        Acmer,          //正式集训队员
+        Normal,         //已申请入队
         Verifying,      //待进队
         Admin           //管理员
     }

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +33,7 @@ public class UVaController {
     public String showTable(Model model) {
         model.addAttribute("booksName", uVaService.getBookName());
         model.addAttribute("cptsName", uVaService.getChapterName());
-        List<User> users = userService.allNormalUsers();
+        List<User> users = userService.allNormalNotNullUsers();
         List<Integer> uvaids = users.stream().map(User::getUvaId).collect(Collectors.toList());
         model.addAttribute("users", users);
         model.addAttribute("bookCnt", uVaService.getBookCnt(uvaids));

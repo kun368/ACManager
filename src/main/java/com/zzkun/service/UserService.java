@@ -40,11 +40,17 @@ public class UserService {
         return false;
     }
 
-    public List<User> allNormalUsers() {
+    public List<User> allUser() {
+        return userRepo.findAll();
+    }
+
+    public List<User> allNormalNotNullUsers() {
         List<User> all = userRepo.findAll();
         List<User> list = new ArrayList<>();
         all.forEach(x -> {
-            if(x.getType().equals(User.Type.Normal))
+            if(x.getType().equals(User.Type.Normal)
+                    && x.getUvaId() != null
+                    && x.getUvaId().toString().length() >= 6)
                 list.add(x);
         });
         return list;
@@ -57,6 +63,10 @@ public class UserService {
     public User modifyUser(User user) {
         User pre = getUserById(user.getId());
         user.setType(pre.getType());
+        if(user.getRealName().trim().isEmpty())
+            user.setRealName(null);
+        if(user.getCfname().trim().isEmpty())
+            user.setCfname(null);
         return userRepo.save(user);
     }
 

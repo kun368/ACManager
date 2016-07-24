@@ -72,7 +72,9 @@ public class UVaService {
         List<UVaSubmit> submits = new ArrayList<>();
         for (Future<List<UVaSubmit>> future : futureList) {
             try {
-                submits.addAll(future.get());
+                List<UVaSubmit> submitList = future.get();
+                if(submitList != null && !submitList.isEmpty())
+                    submits.addAll(submitList);
             } catch (InterruptedException | ExecutionException e) {
                 e.printStackTrace();
             }

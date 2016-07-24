@@ -1,7 +1,10 @@
 package com.zzkun.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 /**
@@ -9,6 +12,8 @@ import java.time.LocalDateTime;
  */
 @Component
 public class UhuntUpdateStatus {
+
+    private static final Logger logger = LoggerFactory.getLogger(UhuntUpdateStatus.class);
 
     private boolean updating = false;
 
@@ -21,8 +26,9 @@ public class UhuntUpdateStatus {
     public boolean canUpdate() {
         if(updating) return false;
         if(lastTime == null) return true;
-        int dis = LocalDateTime.now().getSecond() - lastTime.getSecond();
-        return dis > 30 * 60;
+        Duration between = Duration.between(lastTime, LocalDateTime.now());
+        logger.info("updatedb时间信息：距离上次更新{}", between);
+        return between.getSeconds() > 3 * 60;
     }
 
     public void preUpdate() {

@@ -36,4 +36,11 @@ public class MyTest2 {
         System.out.println(list.size());
 //        System.out.println(list);
     }
+
+    @Test
+    public void test3() throws Exception {
+        List<Integer> list = new ArrayList<>();
+        list.addAll(null);
+        System.out.println(list);
+    }
 }
