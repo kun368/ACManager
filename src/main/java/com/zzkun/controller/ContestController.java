@@ -8,14 +8,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-import java.util.Arrays;
+import java.io.IOException;
 
 /**
  * 比赛集控制器
@@ -30,42 +29,45 @@ public class ContestController {
     @Autowired private TrainingService trainingService;
 
     @RequestMapping("/add1")
-    public String add1(Model model) {
+    public String add1(Model model,
+                       @SessionAttribute Integer stageId,
+                       @SessionAttribute(required = false) User user,
+                       RedirectAttributes redirectAttributes) {
+        if(user == null || !user.isAdmin()) {
+            redirectAttributes.addFlashAttribute("tip", "没有权限！");
+            return "redirect:/training/stage/" + stageId;
+        }
         return "importComp";
     }
 
-    @RequestMapping("/doAdd1")
-    public String doAdd1(@RequestParam String contestName,
-                         @RequestParam String contestType,
-                         @RequestParam String vjContest,
-                         @RequestParam String contestDate,
-                         HttpSession session,
-                         RedirectAttributes redirectAttributes) {
+    @RequestMapping("/importContest")
+    public String importContest(@RequestParam String contestName,
+                                @RequestParam String contestType,
+                                @RequestParam String stTime,
+                                @RequestParam String edTime,
+                                @RequestParam(required = false, defaultValue = "") String myConfig,
+                                @RequestParam String vjContest,
+                                @SessionAttribute User user,
+                                @SessionAttribute Integer stageId,
+                                RedirectAttributes redirectAttributes) {
         try {
-            logger.info("添加比赛1：contestName = [" + contestName + "], contestType = [" + contestType + "], vjContest = [" + vjContest + "], contestDate = [" + contestDate + "]");
-            Integer stageId = (Integer) session.getAttribute("stageId");
-            User user = (User) session.getAttribute("user");
-            logger.info("获取到的stageid：{}, user:{}", stageId, user);
-            Contest contest = trainingService.parseVj(contestName, contestType, stageId, user.getId(), vjContest, contestDate);
-            session.setAttribute("contest", contest);
-            return "Completeinfo";
-        } catch (Exception e) {
+            Contest contest = trainingService.parseVj(contestName, contestType, stTime, edTime, myConfig, vjContest, user, stageId);
+            contest = trainingService.saveContest(contest);
+            redirectAttributes.addFlashAttribute("tip", "添加成功！");
+            return "redirect:/training/stage/" + stageId;
+        } catch (IOException e) {
             e.printStackTrace();
         }
         redirectAttributes.addFlashAttribute("tip", "添加失败！");
-        return "redirect:/contest/add1";
+        return "redirect:/training/stage/" + stageId;
     }
 
-    @RequestMapping("/doAdd2")
-    public String doAdd2(HttpServletRequest request,
-                         @SessionAttribute Contest contest,
-                         @SessionAttribute Integer stageId) {
-        for(int i = 0; i < contest.getRanks().size(); ++i) {
-            String[] split = request.getParameter("name_" + i).split(",|，");
-            contest.getRanks().get(i).setMember(Arrays.asList(split));
-        }
-        contest = trainingService.saveContest(contest);
-        logger.info("添加vj比赛请求处理完成：{}", contest);
-        return "redirect:/training/stage/" + stageId;
+    @RequestMapping("/showContest/{id}")
+    public String showContest(@PathVariable Integer id,
+                              Model model) {
+        Contest contest = trainingService.getContest(id);
+        model.addAttribute("contest", contest);
+        model.addAttribute("ranks", contest.getRanks());
+        return "ranklist";
     }
 }

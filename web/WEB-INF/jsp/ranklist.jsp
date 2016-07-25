@@ -21,9 +21,12 @@
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
-
+    <c:url value="/assign/listTraining/${trainingId}" var="suijifendui"/>
+    <c:url value="/training/doAddStage" var="url_doadstage"/>
+    <c:url value="/training/verifyUserJoin" var="url_verifyUserJoin"/>
 
     <script>
+
         $(document).ready(function () {
             $('#mytable').DataTable({
                 lengthChange: true,
@@ -31,7 +34,7 @@
                 processing: true,
                 searching:true,
                 dom: '<"top"if>rt<"bottom"lp>',
-                "order": [[2, "desc"]]
+                "order": [[2, "desc"], [3, "asc"]]
             });
         });
     </script>
@@ -45,33 +48,32 @@
         <ol class="breadcrumb">
             <li>您所在的位置：</li>
             <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
-            <li><a href="<c:url value="/training/detail/${trainingId}"/>">阶段列表</a></li>
-            <li class="active">比赛列表</li>
+            <li><a href="<c:url value="/training/detail/${trainingId}"/> ">阶段列表</a></li>
+            <li><a href="<c:url value="/training/stage/${stageId}"/> ">比赛列表</a></li>
+            <li class="active">比赛详情</li>
         </ol>
-    </div>
-
-    <div class="row" style="padding-bottom: 20px">
-        <div class="pull-right">
-            <button class="btn btn-info" id="addbutton">添加比赛</button>
-        </div>
     </div>
 
     <div class="row">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">${info.name}&nbsp;&nbsp;详情</h3>
+                <h3 class="panel-title">${contest.name}&nbsp;&nbsp;原始榜单</h3>
             </div>
             <div class="panel-body">
+                <p>比赛开始：${contest.startTime}</p>
+                <p>比赛结束：${contest.endTime}</p>
+                <p>添加时间：${contest.addTime}</p>
+                <p>比赛类型：${contest.type}</p>
                 <table class="table table-condensed table-striped table-hover display" id="mytable">
                     <thead class="tab-header-area">
                     <tr>
-                        <th>比赛名称</th>
-                        <th>比赛开始</th>
-                        <th>比赛结束</th>
-                        <th>比赛类型</th>
-                        <th>添加时间</th>
-                        <th>添加者</th>
-                        <th>操作</th>
+                        <th>比赛账号</th>
+                        <th>成员</th>
+                        <th>解题数</th>
+                        <th>Penalty</th>
+                        <c:forEach begin="1" end="${contest.pbCnt}" var="i">
+                            <th>${i+1000}</th>
+                        </c:forEach>
                     </tr>
                     </thead>
                     <tfoot>
@@ -79,37 +81,22 @@
                     </tfoot>
 
                     <tbody>
-                    <c:forEach items="${contestList}" var="contest">
-                        <tr>
-                            <c:url value="/contest/showContest/${contest.id}" var="url_curcontest"/>
-                            <td><a href="${url_curcontest}">${contest.name}</a></td>
-                            <td>${contest.startTime}</td>
-                            <td>${contest.endTime}</td>
-                            <td>${contest.type}</td>
-                            <td>${contest.addTime}</td>
-                            <td>${contestAddUserList.get(contest.addUid).username}</td>
-                            <td><a href="">编辑比赛</a></td>
-                        </tr>
-                    </c:forEach>
+                        <c:forEach items="${ranks}" var="team" varStatus="i">
+                            <tr>
+                                <td>${team.account}</td>
+                                <td>${team.memberToString()}</td>
+                                <td>${team.solvedCount}</td>
+                                <td>${team.calcSumPenalty()}</td>
+                                <c:forEach begin="1" end="${contest.pbCnt}" var="i">
+                                    <td>${team.pbStatus.get(i-1).toHString()}</td>
+                                </c:forEach>
+                            </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
-
-</div>
-<script>
-    $(document).ready(function () {
-        $("#addbutton").click(function () {
-            location.href="<c:url value="/contest/add1"/>";
-        })
-    })
-</script>
-<c:if test="${!empty tip}">
-    <script>
-        alert('${tip}');
-    </script>
-</c:if>
-<jsp:include page="footerInfo.jsp"/>
+    <jsp:include page="footerInfo.jsp"/>
 </body>
 </html>

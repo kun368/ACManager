@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -82,7 +83,7 @@ public class TrainingService {
     //用户申请参加集训
     public void applyJoinTraining(Integer userId, Integer trainingId) {
         User user = userRepo.findOne(userId);
-        if(user == null || user.isAdmin()) //管理员不能加入集训
+        if(user == null || !user.isACMer()) //管理员不能加入集训
             return;
         UJoinT uJoinT = uJoinTRepo.findByUserIdAndTrainingId(userId, trainingId);
         if(uJoinT != null) {
@@ -139,25 +140,40 @@ public class TrainingService {
         assignResultRepo.save(assign);
     }
 
-    //////
+    ////// vjudge
+
     public Contest parseVj(String contestName,
                            String contestType,
-                           Integer stageId,
-                           Integer userId,
+                           String stTime,
+                           String edTime,
+                           String myConfig,
                            String vjContest,
-                           String contestDate) {
-        try {
-            Map<String, String> map = new HashMap<>();
-            map.put("contestName", contestName);
-            map.put("contestType", contestType);
-            map.put("stageId", stageId.toString());
-            map.put("contestDate", contestDate);
-            map.put("userId", userId.toString());
-            return vjRankParser.parse(Arrays.asList(vjContest.split("\n")), map);
-        } catch (IOException e) {
-            e.printStackTrace();
+                           User user,
+                           Integer stageId) throws IOException {
+        String[] config = myConfig.split("\n");
+        Map<String, List<String>> map = new HashMap<>();
+        for (String aConfig : config) {
+            String[] names = aConfig.split("\\s+");
+            if (names.length <= 1) continue;
+            List<String> list = new ArrayList<>();
+            list.addAll(Arrays.asList(names).subList(1, names.length));
+            map.put(names[0], list);
         }
-        return null;
+        logger.info("解析得到自定义账户对应表：{}", map);
+
+        Integer trainingId = stageRepo.findOne(stageId).getTrainingId();
+        List<User> userList = getTrainingAllOkUser(trainingId);
+        logger.info("解析榜单所需要的所有数据库合法用户：{}", userList);
+
+        Contest contest = vjRankParser.parseRank(contestType, map, userList, Arrays.asList(vjContest.split("\n")));
+        contest.setAddTime(LocalDateTime.now());
+        contest.setName(contestName.trim());
+        contest.setStartTime(LocalDateTime.parse(stTime));
+        contest.setEndTime(LocalDateTime.parse(edTime));
+        contest.setStageId(stageId);
+        contest.setAddUid(user.getId());
+        logger.info("解析完毕：{}", contest);
+        return contest;
     }
 
 }

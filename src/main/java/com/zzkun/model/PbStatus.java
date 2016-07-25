@@ -49,6 +49,28 @@ public class PbStatus implements Serializable {
         return time + 1200 * waCount + 600 * (waCount) * (waCount - 1) / 2;
     }
 
+    private static String getHTime(int time) {
+        int s = time % 60;
+        time /= 60;
+        int m = time % 60;
+        time /= 60;
+        int h = time;
+        return String.format("%d:%02d:%02d", h, m, s);
+    }
+
+    public String toHString() {
+        String s = "";
+        if(solved) {
+            s += getHTime(time);
+            if(waCount > 0)
+                s += "(-" + waCount + ")";
+        } else {
+            if(waCount > 0)
+                s += "(-" + waCount + ")";
+        }
+        return s;
+    }
+
 
     @Override
     public String toString() {
@@ -57,5 +79,9 @@ public class PbStatus implements Serializable {
                 ", time=" + time +
                 ", waCount=" + waCount +
                 '}';
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getHTime(1024));
     }
 }

@@ -23,26 +23,13 @@
     <nav class="nav navbar-default" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
-                <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
                 <div class="navbar-brand"> ACManager</div>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li> <a href="${url_index}">首页</a> </li>
-                    <li> <a href="${url_uvaTable}">UVA统计</a> </li>
-                    <li> <a href="${url_cftable}">Codeforces统计</a> </li>
+                    <li> <a href="${url_uvaTable}">队员统计</a> </li>
                     <li> <a href="${url_traininglist}">集训管理</a> </li>
-                    <%--<li class="dropdown" >--%>
-                        <%--<a href="#" data-toggle="dropdown">比赛管理<span class="caret"></span></a>--%>
-                        <%--<ul class="dropdown-menu" role="menu">--%>
-                            <%--<li><a href="<c:url value="/training/list"/> ">集训列表</a> </li>--%>
-                            <%--<li><a href="<c:url value="/training/AddGame"/> ">添加比赛</a> </li>--%>
-                        <%--</ul>--%>
-                    <%--</li>--%>
                 </ul>
                 <c:if test="${empty user}">
                     <div class="navbar-form navbar-right">

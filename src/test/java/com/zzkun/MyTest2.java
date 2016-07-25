@@ -3,6 +3,7 @@ package com.zzkun;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
@@ -42,5 +43,18 @@ public class MyTest2 {
         List<Integer> list = new ArrayList<>();
         list.addAll(null);
         System.out.println(list);
+    }
+
+    @Test
+    public void test4() throws Exception {
+        List<String> list = new ArrayList<>();
+        List<String> list1 = new ArrayList<>();
+        for(int i = 0; i < 10; ++i) {
+            list.add(i+"");
+        }
+        for(int i = 0; i < 10; ++i) {
+            list1.add(i+"");
+        }
+        System.out.println(list.equals(list1));
     }
 }

@@ -4,6 +4,7 @@ package com.zzkun.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * 队伍的原始解题情况
@@ -57,6 +58,20 @@ public class TeamRanking implements Serializable {
 
     public void setPbStatus(List<PbStatus> pbStatus) {
         this.pbStatus = pbStatus;
+    }
+
+    public Integer calcSumPenalty() {
+        int sum = 0;
+        for (PbStatus pbStatu : pbStatus)
+            sum += pbStatu.calcPenalty();
+        return sum;
+    }
+
+    public String memberToString() {
+        StringJoiner joiner = new StringJoiner(" ");
+        for (String s : member)
+            joiner.add(s);
+        return joiner.toString();
     }
 
     @Override

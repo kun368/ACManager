@@ -80,60 +80,88 @@
 
 <div class="container">
     <jsp:include page="topBar.jsp"/>
+    <div class="row" style="padding-top: 15px; padding-bottom: 15px">
+    </div>
+
     <div class="row">
-        <div class="col-lg-2">
-        </div>
-        <div class="col-lg-8">
-            <div class="page-header">
-                <h1>个人详情
-                    <small>修改</small>
-                </h1>
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">进队审核状态</h3>
             </div>
-            <form class="form-horizontal" id="myform" method="post" action="<c:url value="/auth/doModify"/> "
-                  onsubmit="return mysubmit(true)">
-                <div class="col-lg-6">
-                    <input value="${user.id}" name="id" hidden>
-                    <div class="form-group">
-                        用户名：<input type="text" name="username" id="inputUserName" class="form-control" value="${user.username}" readonly>
-                    </div>
-                    <div class="form-group">
-                        旧密码:<input type="password" name="oldpassword" id="OldPassword" class="form-control"
-                                   placeholder="Oldpassword*" required>
-                    </div>
-                    <p id="checkOldPassword"></p>
-                    <div class="form-group">
-                        新密码:<input type="password" name="password" id="inputPassword" class="form-control"
-                                   placeholder="Newpassword*" required>
-                    </div>
-                    <div class="form-group">
-                        重复密码:<input type="password" id="inputRepass" class="form-control" placeholder="Repeat*" required>
-                    </div>
-                    <p id="accheck"></p>
-
-                    <div class="form-group">
-                        UVA ID:<input type="text" name="uvaId" id="inputUVA" class="form-control" value="${user.uvaId}">
-                    </div>
-                    <!--<p>UVA UserName:</p>-->
-                    <div class="form-group">
-                        CF用户名:<input type="text" name="cfname" id="inputCF" class="form-control" value="${user.cfname}">
-                    </div>
-                    <div class="form-group">
-                        真实姓名:<input type="text" name="realName" id="inputRealName" class="form-control"
-                                    value="${user.realName}">
-                    </div>
-                    <div class="form-group">
-                        班级:<input type="text" name="major" id="inputMajor" class="form-control disabled"
-                                  value="${user.major}">
-                    </div>
-                    <div class="form-horizontal pull-right form-group">
-                        <button class="btn btn-primary " type="submit">修 改</button>
-                        <button class="btn btn-primary" type="button" onclick="Goto()">取 消</button>
-                    </div>
+            <div class="panel-body">
+                <c:set value="${user.type.name()}" var="curStatus"/>
+                <c:set value="New" var="New"/>
+                <c:set value="Admin" var="Admin"/>
+                <c:set value="Verifying" var="Verifying"/>
+                <c:set value="Reject" var="Reject"/>
+                <c:set value="Acmer" var="Acmer"/>
+                <div style="padding-bottom: 10px">
+                    您的当前状态：${curStatus} <br/>
+                    申请入队需保证信息按照格式填写正确无误，班级样例：软件14-3<br/>
+                    入队后不能修改个人信息
                 </div>
-            </form>
+                <c:url value="/auth/applyInACM/${user.id}" var="url_applyin"/>
+                <c:if test="${curStatus eq New}">
+                    <a class="btn btn-primary" href="${url_applyin}">申请进队</a>
+                </c:if>
+                <c:if test="${curStatus eq Reject}">
+                    <a class="btn btn-primary" href="${url_applyin}">重新申请进队</a>
+                </c:if>
+            </div>
         </div>
-        <div class="col-lg-2">
+    </div>
+    <div class="row">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">信息修改</h3>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" id="myform" method="post" action="<c:url value="/auth/doModify"/> "
+                      onsubmit="return mysubmit(true)">
+                    <div class="col-lg-6">
+                        <input value="${user.id}" name="id" hidden>
+                        <div class="form-group">
+                            用户名：<input type="text" name="username" id="inputUserName" class="form-control" value="${user.username}" readonly>
+                        </div>
+                        <div class="form-group">
+                            旧密码:<input type="password" name="oldpassword" id="OldPassword" class="form-control"
+                                       placeholder="Oldpassword*" required>
+                        </div>
+                        <p id="checkOldPassword"></p>
+                        <div class="form-group">
+                            新密码:<input type="password" name="password" id="inputPassword" class="form-control"
+                                       placeholder="Newpassword*" required>
+                        </div>
+                        <div class="form-group">
+                            重复密码:<input type="password" id="inputRepass" class="form-control" placeholder="Repeat*" required>
+                        </div>
+                        <p id="accheck"></p>
 
+                        <div class="form-group">
+                            UVA ID:<input type="text" name="uvaId" id="inputUVA" class="form-control" value="${user.uvaId}">
+                        </div>
+                        <!--<p>UVA UserName:</p>-->
+                        <div class="form-group">
+                            CF用户名:<input type="text" name="cfname" id="inputCF" class="form-control" value="${user.cfname}">
+                        </div>
+                        <div class="form-group">
+                            VJ用户名:<input type="text" name="vjname" id="inputVJ" class="form-control" value="${user.vjname}">
+                        </div>
+                        <div class="form-group">
+                            真实姓名:<input type="text" name="realName" id="inputRealName" class="form-control"
+                                        value="${user.realName}">
+                        </div>
+                        <div class="form-group">
+                            班级:<input type="text" name="major" id="inputMajor" class="form-control disabled"
+                                      value="${user.major}">
+                        </div>
+                        <div class="form-horizontal pull-right form-group">
+                            <button class="btn btn-primary " type="submit">修 改</button>
+                            <button class="btn btn-primary" type="button" onclick="Goto()">取 消</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div> <!-- /container -->

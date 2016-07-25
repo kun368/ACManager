@@ -48,7 +48,7 @@ public class UserService {
         List<User> all = userRepo.findAll();
         List<User> list = new ArrayList<>();
         all.forEach(x -> {
-            if(x.getType().equals(User.Type.Normal)
+            if(!x.getType().equals(User.Type.Admin)
                     && x.getUvaId() != null
                     && x.getUvaId().toString().length() >= 6)
                 list.add(x);
@@ -67,6 +67,8 @@ public class UserService {
             user.setRealName(null);
         if(user.getCfname().trim().isEmpty())
             user.setCfname(null);
+        if(user.getVjname().trim().isEmpty())
+            user.setVjname(null);
         return userRepo.save(user);
     }
 
@@ -109,5 +111,24 @@ public class UserService {
             map.put(info.getId(), info);
         return map;
 
+    }
+
+    public User applyInACM(Integer id) {
+        User one = userRepo.findOne(id);
+        if(one == null) return null;
+        one.setType(User.Type.Verifying);
+        return userRepo.save(one);
+    }
+
+    public void dealApplyInACM(Integer id, Integer op) {
+        User one = userRepo.findOne(id);
+        if(one == null || one.isAdmin())
+            return;
+        if(op == 1) {
+            one.setType(User.Type.Acmer);
+        } else if(op == 0) {
+            one.setType(User.Type.Reject);
+        }
+        userRepo.save(one);
     }
 }

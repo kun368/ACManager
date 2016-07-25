@@ -17,8 +17,8 @@ public class VJRankParserTest {
 
     @Test
     public void parse() throws Exception {
-        List<String> list = FileUtils.readLines(new File("temp/vjudge"), "utf8");
-        Contest contest = parser.parse(list, new HashMap<>());
-        System.out.println(contest);
+//        List<String> list = FileUtils.readLines(new File("temp/vjudge"), "utf8");
+//        Contest contest = parser.parseRank(list, new HashMap<>());
+//        System.out.println(contest);
     }
 }

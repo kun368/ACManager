@@ -1,6 +1,8 @@
 package com.zzkun.dao;
 
 import com.zzkun.model.AssignResult;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -23,4 +25,9 @@ public interface AssignResultRepo extends JpaRepository<AssignResult, Integer> {
 
     @Override
     <S extends AssignResult> S save(S entity);
+
+    @Override
+    Page<AssignResult> findAll(Pageable pageable);
+
+    List<AssignResult> findByTrainingId(Integer trainingId);
 }

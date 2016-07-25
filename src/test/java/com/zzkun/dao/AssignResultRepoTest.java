@@ -41,4 +41,9 @@ public class AssignResultRepoTest {
 
     }
 
+    @Test
+    public void findByTrainingIdDesc() throws Exception {
+        System.out.println(assignResultRepo.findByTrainingId(1));
+
+    }
 }

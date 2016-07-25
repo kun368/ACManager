@@ -23,8 +23,7 @@ public class Contest implements Serializable {
     public static final String TYPE_TEAM = "TEAM";
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String name;
@@ -34,7 +33,9 @@ public class Contest implements Serializable {
 
     private String type;
 
-    private LocalDate date;
+    private LocalDateTime startTime;
+
+    private LocalDateTime endTime;
 
     private LocalDateTime addTime;
 
@@ -83,12 +84,20 @@ public class Contest implements Serializable {
         this.type = type;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDateTime getStartTime() {
+        return startTime;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     public LocalDateTime getAddTime() {
@@ -131,6 +140,7 @@ public class Contest implements Serializable {
         this.stageId = stageId;
     }
 
+
     /**
      * 计算此次竞赛各队标准分
      * 时间复杂度：O(队伍数*题数)
@@ -161,11 +171,11 @@ public class Contest implements Serializable {
                 ", name='" + name + '\'' +
                 ", remark='" + remark + '\'' +
                 ", type='" + type + '\'' +
-                ", date=" + date +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
                 ", addTime=" + addTime +
                 ", addUid=" + addUid +
                 ", pbCnt=" + pbCnt +
-                ", ranks=" + ranks +
                 ", stageId=" + stageId +
                 '}';
     }

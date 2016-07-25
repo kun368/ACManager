@@ -26,7 +26,7 @@ public class UserRepoTest {
 
     @Test
     public void findAll() throws Exception {
-
+        System.out.println(userRepo.findAll());
     }
 
     @Test
@@ -41,13 +41,15 @@ public class UserRepoTest {
 
     @Test
     public void save() throws Exception {
-        File file = new File(getClass().getClassLoader().getResource("uhunt/2016sum.csv").getFile());
-        List<String> lines = FileUtils.readLines(file, "utf8");
-        for (String line : lines) {
-            String[] split = line.split(",");
-            User user = new User(split[2], "123456", split[1], Integer.parseInt(split[0]), split[2], split[3], User.Type.Normal);
-            userRepo.save(user);
-        }
+//        File file = new File(getClass().getClassLoader().getResource("uhunt/2016sum.csv").getFile());
+//        List<String> lines = FileUtils.readLines(file, "utf8");
+//        for (String line : lines) {
+//            String[] split = line.split(",");
+//            User user = new User(split[2], "123456", split[1], Integer.parseInt(split[0]), split[2], split[3], User.Type.New);
+//            userRepo.save(user);
+//        }
+        User user = new User("456", "456");
+        userRepo.save(user);
     }
 
     @Test

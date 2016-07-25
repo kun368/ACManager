@@ -51,7 +51,7 @@
                 userId: '${user.id}',
                 trainingId: trainingId
             },function () {
-                alert("申请提交成功，请耐心等待审核");
+                alert("已收到您的申请...");
                 location.reload();
             });
         }

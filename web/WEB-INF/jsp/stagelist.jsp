@@ -91,8 +91,9 @@
     </div>
     <div class="row" style="padding-bottom: 20px">
         <div class="pull-right">
-            <button class="btn btn-info" id="addbutton" data-toggle="modal" data-target="#myModal">添加阶段</button>
+            <a href="<c:url value="/assign/lastAssign"/>" class="btn btn-primary" id="lastfendui">即将进行比赛分队</a>
             <button class="btn btn-info" id="fendui">随机分队</button>
+            <button class="btn btn-info" id="addbutton" data-toggle="modal" data-target="#myModal">添加阶段</button>
         </div>
     </div>
 
@@ -159,18 +160,18 @@
                     <c:forEach items="${ujoinT}" var="user">
                         <c:if test="${user.value eq success}">
                             <li class="list-group-item list-group-item-success">
-                                ${user.key.realName}(${user.key.username})
+                                ${user.key.username}(${user.key.realName}，${user.key.major})
                             </li>
                         </c:if>
                         <c:if test="${user.value eq pending}">
                             <a class="list-group-item list-group-item-warning" href="#memberModel" data-toggle="modal" id="pendingli"
                                onclick="userinfo(${user.key.id})">
-                                    ${user.key.realName}(${user.key.username})
+                               ${user.key.username}(${user.key.realName}，${user.key.major})
                             </a>
                         </c:if>
                         <c:if test="${user.value eq reject}">
                             <li class="list-group-item list-group-item-danger">
-                                ${user.key.realName}(${user.key.username})
+                                ${user.key.username}(${user.key.realName}，${user.key.major})
                             </li>
                         </c:if>
                     </c:forEach>
@@ -231,5 +232,10 @@
 </div>
 
 <jsp:include page="footerInfo.jsp"/>
+<c:if test="${!empty tip}">
+    <script>
+        alert("${tip}");
+    </script>
+</c:if>
 </body>
 </html>

@@ -1,13 +1,16 @@
 package com.zzkun.util.vjudge;
 
+import com.zzkun.dao.UserRepo;
 import com.zzkun.model.Contest;
 import com.zzkun.model.PbStatus;
 import com.zzkun.model.TeamRanking;
+import com.zzkun.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -20,6 +23,10 @@ import static java.lang.Integer.parseInt;
  */
 @Component
 public class VJRankParser {
+
+    private static final Logger logger = LoggerFactory.getLogger(VJRankParser.class);
+
+    @Autowired private UserRepo userRepo;
 
     private int parseTime(String str) {
         Pattern pattern = Pattern.compile("([\\d]+):([\\d]+):([\\d]+)");
@@ -58,29 +65,47 @@ public class VJRankParser {
         return new ArrayList<>(Arrays.asList(split));
     }
 
-    public Contest parse(List<String> rankFile, Map<String, String> config) throws IOException {
+    public Contest parseRank(String contestType, Map<String, List<String>> map, List<User> userList, List<String> rankFile) throws IOException {
+
+        Map<String, String> name2vj = new HashMap<>();
+        userList.forEach(x -> name2vj.put(x.getRealName(), x.getVjname()));
+
+        if(Contest.TYPE_PERSONAL.equals(contestType)) {
+            for (Map.Entry<String, List<String>> entry : map.entrySet())
+                name2vj.put(entry.getValue().get(0), entry.getKey());
+        }
+
+        logger.info("解析榜单，账户姓名->vj账号对应表：{}", name2vj);
+
+
         //读取比赛配置文件，加载配置
-        Contest status = new Contest();
-        status.setName(config.getOrDefault("contestName", ""));
-        status.setDate(LocalDate.parse(config.getOrDefault("contestDate", LocalDate.now().toString())));
-        status.setType(config.getOrDefault("contestType", Contest.TYPE_TEAM));
-        status.setStageId(Integer.parseInt(config.getOrDefault("stageId", "-1")));
-        status.setAddUid(Integer.parseInt(config.getOrDefault("userId", "userId")));
-        status.setAddTime(LocalDateTime.now());
+        Contest contest = new Contest();
+        contest.setType(contestType);
+
         //读取比赛情况
-        int lineCnt = 0;
-        String line;
         for (int i = 0; i < rankFile.size(); i++) {
             String[] split = rankFile.get(i).split("\t");
             if(i == 0) {
-                status.setPbCnt(split.length - 4);
+                contest.setPbCnt(split.length - 4);
                 continue;
             }
             TeamRanking team = new TeamRanking(); //当前队伍
             parseSetTeamName(split[1].trim(), team);
             team.setSolvedCount(parseInt(split[2].trim()));
-            //assign.setMember();
-            for(int j = 0; j < status.getPbCnt(); ++j) {
+
+            if(Contest.TYPE_TEAM.equals(contestType)) {
+                if(!map.containsKey(team.getAccount()))
+                    continue;
+                team.setMember(map.get(team.getAccount()));
+            }
+            else if(Contest.TYPE_PERSONAL.equals(contestType)) {
+                if(!name2vj.containsKey(team.getTeamName())
+                        || !team.getAccount().equals(name2vj.get(team.getTeamName())))
+                    continue;
+                team.setMember(new ArrayList<>(Collections.singletonList(team.getTeamName())));
+            }
+
+            for(int j = 0; j < contest.getPbCnt(); ++j) {
                 List<PbStatus> pbStatus = team.getPbStatus();
                 if(4 + j >= split.length) {
                     pbStatus.add(new PbStatus(false, 0, 0));
@@ -91,8 +116,10 @@ public class VJRankParser {
                     pbStatus.add(new PbStatus(time > 0, time, wacnt));
                 }
             }
-            status.getRanks().add(team);
+            contest.getRanks().add(team);
         }
-        return status;
+        logger.info("榜单解析Rank结果：{}", contest.getRanks());
+        return contest;
     }
+
 }

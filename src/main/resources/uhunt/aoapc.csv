@@ -1,5 +1,5 @@
 id,pid,name,oj
-1,0,AOAPC II(入门经典),nil
+1,0,入门经典,nil
 2,1,C3 Array,nil
 3,2,Examples,nil
 4,3,Code,nil
@@ -391,7 +391,7 @@ id,pid,name,oj
 390,371,1518,uva
 391,371,12433,uva
 392,371,11671,uva
-1000,0,AOAPC I(训练指南),nil
+1000,0,训练指南,nil
 1001,1000,C1 AD,nil
 1002,1001,General Problem Solving Techniques,nil
 1003,1002,Examples,nil

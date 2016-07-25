@@ -22,14 +22,14 @@
         </div>
         <div class="col-lg-8">
             <div class="page-header">
-                <h1>导入比赛向导</h1>
+                <h1>导入比赛</h1>
             </div>
             <div>
-                <form class="form-horizontal" method="post" action="<c:url value="/contest/doAdd1"/> ">
+                <form class="form-horizontal" method="post" action="<c:url value="/contest/importContest"/> ">
                     <div class="col-lg-10">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <input type="text" id="inputcontestname"  name="contestName" class="form-control" placeholder="比赛名称*" autofocus required>
+                                <input type="text"   name="contestName" class="form-control" placeholder="比赛名称*" autofocus required>
                             </div>
                             <div class="form-group">
                                 <select class="form-control" name="contestType">
@@ -38,16 +38,23 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <input type="text" id="inputeContestDate"  name="contestDate" class="form-control" placeholder="比赛日期*" autofocus required>
+                                <input type="text"   name="stTime" class="form-control" placeholder="比赛开始时间(eg: 2007-12-03T10:15:30)" autofocus required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text"   name="edTime" class="form-control" placeholder="比赛结束时间(eg: 2007-12-03T10:15:30)" autofocus required>
                             </div>
                         </div>
+
                         <div class="form-group">
-                            <textarea id="Contest" name="vjContest" class="form-control" rows="15" placeholder="VJudge榜单" required></textarea>
+                            <textarea name="vjContest" class="form-control" rows="15" placeholder="VJudge榜单" required></textarea>
                         </div>
+                        <div class="form-group">
+                            <textarea name="myConfig" class="form-control" rows="8" placeholder="配置文件"></textarea>
+                        </div>
+
                         <div class="form-group pull-right">
                             <button class="btn btn-lg btn-primary btn-block" type="submit">下一步</button>
                         </div>
-
                     </div>
                 </form>
             </div>

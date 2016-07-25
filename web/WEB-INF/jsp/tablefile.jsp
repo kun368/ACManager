@@ -46,7 +46,7 @@
     <div class="row">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">队内UVa统计结果</h3>
+                <h3 class="panel-title">队内统计结果</h3>
             </div>
             <div class="panel-body">
                 <table class="table table-condensed table-striped table-hover display" id="mytable">
@@ -56,10 +56,14 @@
                         <th>用户名</th>
                         <th>班级</th>
                         <th>UVaId</th>
-                        <th>合计</th>
+                        <th>CfName</th>
+                        <th>VJName</th>
+                        <th>UVa合计</th>
                         <c:forEach items="${booksName}" var="bookname">
                             <th>${bookname}</th>
                         </c:forEach>
+                        <th>入队状态</th>
+                        <th>操作</th>
                     </tr>
                     </thead>
                     <tfoot>
@@ -67,16 +71,34 @@
                     </tfoot>
 
                     <tbody>
+                    <c:set value="New" var="New"/>
+                    <c:set value="Admin" var="Admin"/>
+                    <c:set value="Verifying" var="Verifying"/>
+                    <c:set value="Reject" var="Reject"/>
+                    <c:set value="Acmer" var="Acmer"/>
                     <c:forEach items="${users}" var="curUser" varStatus="i">
                         <tr>
                             <td>${curUser.realName}</td>
                             <td>${curUser.username}</td>
                             <td>${curUser.major}</td>
                             <td>${curUser.uvaId}</td>
+                            <td>${curUser.cfname}</td>
+                            <td>${curUser.vjname}</td>
                             <td>${bookCnt.get(i.index).get(0) + bookCnt.get(i.index).get(1)}</td>
                             <c:forEach items="${bookCnt.get(i.index)}" var="j">
                                 <td>${j}</td>
                             </c:forEach>
+                            <c:set value="${curUser.type.name()}" var="curType"/>
+                            <td>${curType}</td>
+                            <td>
+                                <a href="">编辑</a>&nbsp;
+                                <c:url value="/auth/dealApplyInACM/${curUser.id}/1" var="url_y"/>
+                                <c:url value="/auth/dealApplyInACM/${curUser.id}/0" var="url_n"/>
+                                <c:if test="${curType eq Verifying}">
+                                    <a href="${url_y}">Y</a>&nbsp;
+                                    <a href="${url_n}">N</a>
+                                </c:if>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -86,7 +108,7 @@
     </div>
     <div class="row">
         <div class="pull-left">
-            <button class="btn btn-info" id="addbutton">更新数据&nbsp;(LastUpdate: ${lastUpdate})</button>
+            <button class="btn btn-info" id="addbutton">重新抓取uhunt数据&nbsp;(LastUpdate: ${lastUpdate})</button>
         </div>
     </div>
 </div>
@@ -106,5 +128,10 @@
     });
 </script>
 <jsp:include page="footerInfo.jsp"/>
+<c:if test="${!empty tip}">
+    <script>
+        alert("${tip}");
+    </script>
+</c:if>
 </body>
 </html>

@@ -20,14 +20,16 @@ public class User implements Serializable {
         Retired,        //退役
         Expeled,        //开除
         Acmer,          //正式集训队员
-        Normal,         //已申请入队
-        Verifying,      //待进队
+        Reject,         //拒绝进队
+        Verifying,      //已申请进队，待进队
+        New,            //新人
         Admin           //管理员
     }
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+//    @GeneratedValue(generator = "increment")
+//    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(unique = true, nullable = false)
@@ -43,6 +45,9 @@ public class User implements Serializable {
 
     @Column(unique = true)
     private String cfname;
+
+    @Column(unique = true)
+    private String vjname;
 
     private String major;
 
@@ -137,8 +142,20 @@ public class User implements Serializable {
         this.type = type;
     }
 
+    public String getVjname() {
+        return vjname;
+    }
+
+    public void setVjname(String vjname) {
+        this.vjname = vjname;
+    }
+
     public boolean isAdmin() {
         return getType().equals(Type.Admin);
+    }
+
+    public boolean isACMer() {
+        return getType().equals(Type.Acmer);
     }
 
     @Override
@@ -150,6 +167,7 @@ public class User implements Serializable {
                 ", realName='" + realName + '\'' +
                 ", uvaId=" + uvaId +
                 ", cfname='" + cfname + '\'' +
+                ", vjname='" + vjname + '\'' +
                 ", major='" + major + '\'' +
                 ", type=" + type +
                 '}';

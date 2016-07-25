@@ -5,10 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.StringJoiner;
+import java.util.*;
 
 /**
  * 随机分队结果
@@ -19,12 +16,12 @@ import java.util.StringJoiner;
 public class AssignResult implements Serializable {
 
     public enum Type {
-        RANDOM
+        RANDOM,
+        NoRepeat
     }
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private LocalDate date = LocalDate.now();
@@ -32,8 +29,13 @@ public class AssignResult implements Serializable {
     @Lob
     private ArrayList<List<Integer>> teamList = new ArrayList<>();
 
+    @Lob
+    private ArrayList<String> accountList = new ArrayList<>();
+
     @Enumerated(EnumType.STRING)
     private Type type;
+
+    private Integer trainingId;
 
     public AssignResult() {
     }
@@ -70,13 +72,38 @@ public class AssignResult implements Serializable {
         this.type = type;
     }
 
+    public Integer getTrainingId() {
+        return trainingId;
+    }
+
+    public void setTrainingId(Integer trainingId) {
+        this.trainingId = trainingId;
+    }
+
+    public ArrayList<String> getAccountList() {
+        return accountList;
+    }
+
+    public void setAccountList(ArrayList<String> accountList) {
+        this.accountList = accountList;
+    }
+
+    public void setAccount(Integer pos, String account) {
+        if(pos >= teamList.size()) return;
+        if(accountList == null)
+            accountList = new ArrayList<>();
+        while(accountList.size() < teamList.size())
+            accountList.add("");
+        accountList.set(pos, account);
+    }
+
     @Override
     public String toString() {
         return "AssignResult{" +
                 "id=" + id +
                 ", date=" + date +
-                ", teamList=" + teamList +
                 ", type=" + type +
+                ", trainingId=" + trainingId +
                 '}';
     }
 }
