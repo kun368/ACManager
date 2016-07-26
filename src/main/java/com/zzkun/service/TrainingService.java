@@ -133,6 +133,15 @@ public class TrainingService {
         return contestRepo.findByStageId(id);
     }
 
+    public void deleteContestTeam(Integer contestId, Integer pos) {
+        Contest one = contestRepo.findOne(contestId);
+        logger.info("删除比赛{}的队伍{}", contestId, pos);
+        if(pos < one.getRanks().size()) {
+            one.getRanks().remove(pos.intValue());
+        }
+        contestRepo.save(one);
+    }
+
     /// Assign
 
 
@@ -175,5 +184,6 @@ public class TrainingService {
         logger.info("解析完毕：{}", contest);
         return contest;
     }
+
 
 }

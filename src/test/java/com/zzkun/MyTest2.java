@@ -2,6 +2,7 @@ package com.zzkun;
 
 import org.junit.Test;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,4 +58,5 @@ public class MyTest2 {
         }
         System.out.println(list.equals(list1));
     }
+
 }

@@ -91,6 +91,18 @@ public class AuthController {
         return "redirect:/";
     }
 
+    @RequestMapping("/doModifyUserPW")
+    public String doModifyUserPW(@RequestParam Integer id,
+                                 @RequestParam String password,
+                                 HttpSession session,
+                                 RedirectAttributes redirectAttributes) {
+        logger.info("收到修改密码请求：{},{}", id, password);
+        User newUser = userService.modifyUserPassword(id, password);
+        session.setAttribute("user", newUser);
+        redirectAttributes.addFlashAttribute("tip", "密码修改成功！");
+        return "redirect:/";
+    }
+
     @RequestMapping("/dologout")
     public String dologout(HttpSession session,
                            RedirectAttributes redirectAttributes) {
@@ -131,5 +143,18 @@ public class AuthController {
     public String validUsername(@RequestParam String name) {
         if(userService.hasUser(name)) return "false";
         return "true";
+    }
+
+    @RequestMapping(value = "/modifyUserByAdmin",  produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String modifyUserByAdmin(User user,
+                                    HttpSession session) {
+        logger.info("收到管理员修改用户请求：{}", user);
+        User admin = (User) session.getAttribute("user");
+        if(admin == null || !admin.isAdmin()) {
+            return "没有权限！";
+        }
+        userService.modifyUserByAdmin(user);
+        return "修改成功！";
     }
 }

@@ -10,6 +10,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <title>比赛详情 - ACManager</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -74,6 +75,7 @@
                         <c:forEach begin="1" end="${contest.pbCnt}" var="i">
                             <th>${i+1000}</th>
                         </c:forEach>
+                        <th>操作</th>
                     </tr>
                     </thead>
                     <tfoot>
@@ -87,9 +89,14 @@
                                 <td>${team.memberToString()}</td>
                                 <td>${team.solvedCount}</td>
                                 <td>${team.calcSumPenalty()}</td>
-                                <c:forEach begin="1" end="${contest.pbCnt}" var="i">
-                                    <td>${team.pbStatus.get(i-1).toHString()}</td>
+                                <c:forEach begin="1" end="${contest.pbCnt}" var="j">
+                                    <td>${team.pbStatus.get(j-1).toHString()}</td>
                                 </c:forEach>
+                                <td>
+                                    <c:if test="${team.member.contains(user.realName)}">
+                                        <a href="<c:url value="/contest/contestDeleteTeam/${contest.id}/${i.index}"/> ">删除</a>
+                                    </c:if>
+                                </td>
                             </tr>
                         </c:forEach>
                     </tbody>

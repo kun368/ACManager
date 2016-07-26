@@ -5,6 +5,7 @@ import com.zzkun.dao.UserRepo;
 import com.zzkun.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
@@ -63,6 +64,7 @@ public class UserService {
     public User modifyUser(User user) {
         User pre = getUserById(user.getId());
         user.setType(pre.getType());
+        user.setPassword(pre.getPassword());
         if(user.getRealName().trim().isEmpty())
             user.setRealName(null);
         if(user.getCfname().trim().isEmpty())
@@ -70,6 +72,29 @@ public class UserService {
         if(user.getVjname().trim().isEmpty())
             user.setVjname(null);
         return userRepo.save(user);
+    }
+
+    public User modifyUserPassword(Integer id, String password) {
+        User pre = getUserById(id);
+        pre.setPassword(password);
+        return userRepo.save(pre);
+    }
+
+    public void modifyUserByAdmin(User user) {
+        User pre = getUserById(user.getId());
+        if(StringUtils.hasLength(user.getRealName()))
+            pre.setRealName(user.getRealName());
+        if(user.getUvaId() != null && user.getUvaId() > 0)
+            pre.setUvaId(user.getUvaId());
+        if(StringUtils.hasLength(user.getCfname()))
+            pre.setCfname(user.getCfname());
+        if(StringUtils.hasLength(user.getVjname()))
+            pre.setVjname(user.getVjname());
+        if(StringUtils.hasLength(user.getMajor()))
+            pre.setMajor(user.getMajor());
+        if(user.getType() != null)
+            pre.setType(user.getType());
+        userRepo.save(pre);
     }
 
     public Map<Integer, User> getUserInfoByAssign(AssignResult result) {
@@ -131,4 +156,7 @@ public class UserService {
         }
         userRepo.save(one);
     }
+
+
+
 }

@@ -70,4 +70,11 @@ public class ContestController {
         model.addAttribute("ranks", contest.getRanks());
         return "ranklist";
     }
+
+    @RequestMapping("/contestDeleteTeam/{id}/{pos}")
+    public String contestDeleteTeam(@PathVariable Integer id,
+                                    @PathVariable Integer pos) {
+        trainingService.deleteContestTeam(id, pos);
+        return "redirect:/contest/showContest/" + id;
+    }
 }

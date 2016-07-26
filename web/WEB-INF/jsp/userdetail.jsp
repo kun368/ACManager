@@ -62,7 +62,7 @@
         function mySubmit(flag) {
             return flag;
         }
-        $("#myform").submit(function () {
+        $("#myform1").submit(function () {
             var pa = $('#inputPassword').val();
             var rep = $('#inputRepass').val();
             if (OldPassword != ${user.password} || rep != pa) {
@@ -123,19 +123,6 @@
                         <div class="form-group">
                             用户名：<input type="text" name="username" id="inputUserName" class="form-control" value="${user.username}" readonly>
                         </div>
-                        <div class="form-group">
-                            旧密码:<input type="password" name="oldpassword" id="OldPassword" class="form-control"
-                                       placeholder="Oldpassword*" required>
-                        </div>
-                        <p id="checkOldPassword"></p>
-                        <div class="form-group">
-                            新密码:<input type="password" name="password" id="inputPassword" class="form-control"
-                                       placeholder="Newpassword*" required>
-                        </div>
-                        <div class="form-group">
-                            重复密码:<input type="password" id="inputRepass" class="form-control" placeholder="Repeat*" required>
-                        </div>
-                        <p id="accheck"></p>
 
                         <div class="form-group">
                             UVA ID:<input type="text" name="uvaId" id="inputUVA" class="form-control" value="${user.uvaId}">
@@ -155,6 +142,38 @@
                             班级:<input type="text" name="major" id="inputMajor" class="form-control disabled"
                                       value="${user.major}">
                         </div>
+                        <div class="form-horizontal pull-right form-group">
+                            <button class="btn btn-primary " type="submit">修 改</button>
+                            <button class="btn btn-primary" type="button" onclick="Goto()">取 消</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <br/>
+        <br/>
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"> 密码修改</h3>
+            </div>
+            <div class="panel-body">
+                <form class="form-horizontal" id="myform1" method="post" action="<c:url value="/auth/doModifyUserPW"/> "
+                      onsubmit="return mysubmit(true)">
+                    <div class="col-lg-6">
+                        <input value="${user.id}" name="id" hidden>
+                        <div class="form-group">
+                            旧密码:<input type="password" name="oldpassword" id="OldPassword" class="form-control"
+                                       placeholder="Oldpassword*" required>
+                        </div>
+                        <p id="checkOldPassword"></p>
+                        <div class="form-group">
+                            新密码:<input type="password" name="password" id="inputPassword" class="form-control"
+                                       placeholder="Newpassword*" required>
+                        </div>
+                        <div class="form-group">
+                            重复密码:<input type="password" id="inputRepass" class="form-control" placeholder="Repeat*" required>
+                        </div>
+                        <p id="accheck"></p>
                         <div class="form-horizontal pull-right form-group">
                             <button class="btn btn-primary " type="submit">修 改</button>
                             <button class="btn btn-primary" type="button" onclick="Goto()">取 消</button>

@@ -10,6 +10,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <title>队员统计 - ACManager</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,19 +23,45 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
 
-
+    <c:url value="/auth/modifyUserByAdmin" var="url_modify"/>
     <script>
         $(document).ready(function () {
+            $("#id").hide();
             $('#mytable').DataTable({
                 lengthChange: true,
                 ordering: true,
                 processing: true,
-                searching:true,
+                searching: true,
                 dom: '<"top"if>rt<"bottom"lp>',
-                "order": [[3, "asc"]]
+                "order": [[2, "asc"]]
+            });
+            $('#savabutton').click(function () {
+                $.post("${url_modify}", {
+                    id: $('#id').val(),
+                    username: $('#username').val(),
+                    realName: $('#realname').val(),
+                    major: $('#major').val(),
+                    cfname: $('#cfname').val(),
+                    vjname: $('#vjname').val(),
+                    uvaId:$('#uvaId').val(),
+                    type:$('#status').val()
+                }, function (data) {
+                    alert(data);
+                    location.reload();
+                })
             });
         });
-
+        function updata(obj) {
+            var tds=$(obj).parent().parent().find('td');
+            $('#id').val(tds.eq(0).text());
+            $('#realname').val(tds.eq(1).text());
+            $('#username').val(tds.eq(2).text());
+            $('#major').val(tds.eq(3).text());
+            $('#uvaId').val(tds.eq(4).text());
+            $('#cfname').val(tds.eq(5).text());
+            $('#vjname').val(tds.eq(6).text());
+            $('#status').val(tds.eq(10).text());
+        }
     </script>
 </head>
 <body>
@@ -52,6 +79,7 @@
                 <table class="table table-condensed table-striped table-hover display" id="mytable">
                     <thead class="tab-header-area">
                     <tr>
+                        <th hidden>ID</th>
                         <th>姓名</th>
                         <th>用户名</th>
                         <th>班级</th>
@@ -63,7 +91,10 @@
                             <th>${bookname}</th>
                         </c:forEach>
                         <th>入队状态</th>
-                        <th>操作</th>
+                        <c:if test="${(!empty user) and (user.isAdmin())}">
+                            <th>操作</th>
+                        </c:if>
+
                     </tr>
                     </thead>
                     <tfoot>
@@ -78,6 +109,7 @@
                     <c:set value="Acmer" var="Acmer"/>
                     <c:forEach items="${users}" var="curUser" varStatus="i">
                         <tr>
+                            <td hidden>${curUser.id}</td>
                             <td>${curUser.realName}</td>
                             <td>${curUser.username}</td>
                             <td>${curUser.major}</td>
@@ -90,15 +122,17 @@
                             </c:forEach>
                             <c:set value="${curUser.type.name()}" var="curType"/>
                             <td>${curType}</td>
-                            <td>
-                                <a href="">编辑</a>&nbsp;
-                                <c:url value="/auth/dealApplyInACM/${curUser.id}/1" var="url_y"/>
-                                <c:url value="/auth/dealApplyInACM/${curUser.id}/0" var="url_n"/>
-                                <c:if test="${curType eq Verifying}">
-                                    <a href="${url_y}">Y</a>&nbsp;
-                                    <a href="${url_n}">N</a>
-                                </c:if>
-                            </td>
+                            <c:if test="${(!empty user) and (user.isAdmin())}">
+                                <td>
+                                    <a data-toggle="modal" data-target="#myModal" class="btn btn-sm btn-info"  onclick="updata(this);">编辑</a>&nbsp;
+                                    <c:url value="/auth/dealApplyInACM/${curUser.id}/1" var="url_y"/>
+                                    <c:url value="/auth/dealApplyInACM/${curUser.id}/0" var="url_n"/>
+                                    <c:if test="${curType eq Verifying}">
+                                        <a href="${url_y}">Y</a>&nbsp;
+                                        <a href="${url_n}">N</a>
+                                    </c:if>
+                                </td>
+                            </c:if>
                         </tr>
                     </c:forEach>
                     </tbody>
@@ -133,5 +167,51 @@
         alert("${tip}");
     </script>
 </c:if>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">修改用户信息</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form" action="" method="post">
+                    <!--填写提交地址-->
+                    <div class="form-group">
+                        <input type="text" class="form-control"  value="" placeholder="id" id="id" disabled>
+                    </div>
+                    <div class="form-group">
+                        用户名:<input type="text" class="form-control" id="username" readonly>
+                    </div>
+                    <div class="form-group">
+                        真实姓名:<input type="text" class="form-control" id="realname" required>
+                    </div>
+                    <div class="form-group">
+                        专业:<input type="text" class="form-control" id="major" required>
+                    </div>
+                    <div class="form-group">
+                        CF用户名:<input type="text" class="form-control" id="cfname" >
+                    </div>
+                    <div class="form-group">
+                        VJ用户名:<input type="text" class="form-control" id="vjname" >
+                    </div>
+                    <div class="form-group">
+                        UVaId:<input class="form-control" id="uvaId" required>
+                    </div>
+                    <div class="form-group">
+                        状态:<input class="form-control" id="status" required>
+                        <p>状态可填：Retired,Expeled,Acmer,Reject,Verifying,New,Admin</p>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="savabutton">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
