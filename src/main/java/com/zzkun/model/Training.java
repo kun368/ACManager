@@ -21,7 +21,7 @@ public class Training implements Serializable {
 
     private String name;
 
-    @Column(length = 1024)
+    @Column(length = 10240)
     private String remark;
 
     private LocalDate startDate;

@@ -43,6 +43,14 @@ public class TrainingController {
         return "trainingsetlist";
     }
 
+    @RequestMapping("/trainingUser")
+    public String trainingUser(Model model,
+                               @SessionAttribute Integer trainingId) {
+        model.addAttribute("info", trainingService.getTrainingById(trainingId));
+        model.addAttribute("ujoinT", trainingService.getTrainingAllUser(trainingId));
+        return "trainingUser";
+    }
+
     @RequestMapping("/AddGame")
     public String addGame(Model model) {
         model.addAttribute("allList", trainingService.getAllTraining());

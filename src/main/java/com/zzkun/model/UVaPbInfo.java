@@ -25,7 +25,7 @@ public class UVaPbInfo implements Serializable {
     @Column(unique = true)
     private int num;
 
-    @Column(length = 1024)
+    @Column(length = 10240)
     private String title;
 
     private int dacu;

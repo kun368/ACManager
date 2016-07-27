@@ -44,7 +44,7 @@
                     cfname: $('#cfname').val(),
                     vjname: $('#vjname').val(),
                     uvaId:$('#uvaId').val(),
-                    type:$('#status').val()
+                    type:$('#status option:selected').val()
                 }, function (data) {
                     alert(data);
                     location.reload();
@@ -81,16 +81,16 @@
                     <tr>
                         <th hidden>ID</th>
                         <th>姓名</th>
-                        <th>用户名</th>
+                        <th hidden>用户名</th>
                         <th>班级</th>
                         <th>UVaId</th>
                         <th>CfName</th>
                         <th>VJName</th>
-                        <th>UVa合计</th>
+                        <th>合计</th>
                         <c:forEach items="${booksName}" var="bookname">
                             <th>${bookname}</th>
                         </c:forEach>
-                        <th>入队状态</th>
+                        <th>状态</th>
                         <c:if test="${(!empty user) and (user.isAdmin())}">
                             <th>操作</th>
                         </c:if>
@@ -107,11 +107,13 @@
                     <c:set value="Verifying" var="Verifying"/>
                     <c:set value="Reject" var="Reject"/>
                     <c:set value="Acmer" var="Acmer"/>
+                    <c:set value="Expeled" var="Expeled"/>
+                    <c:set value="Retired" var="Retired"/>
                     <c:forEach items="${users}" var="curUser" varStatus="i">
                         <tr>
                             <td hidden>${curUser.id}</td>
                             <td>${curUser.realName}</td>
-                            <td>${curUser.username}</td>
+                            <td hidden>${curUser.username}</td>
                             <td>${curUser.major}</td>
                             <td>${curUser.uvaId}</td>
                             <td>${curUser.cfname}</td>
@@ -121,7 +123,32 @@
                                 <td>${j}</td>
                             </c:forEach>
                             <c:set value="${curUser.type.name()}" var="curType"/>
-                            <td>${curType}</td>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${curType eq New}">
+                                        用户
+                                    </c:when>
+                                    <c:when test="${curType eq Verifying}">
+                                        申请
+                                    </c:when>
+                                    <c:when test="${curType eq Reject}">
+                                        拒绝
+                                    </c:when>
+                                    <c:when test="${curType eq Acmer}">
+                                        队员
+                                    </c:when>
+                                    <c:when test="${curType eq Expeled}">
+                                        除名
+                                    </c:when>
+                                    <c:when test="${curType eq Retired}">
+                                        退役
+                                    </c:when>
+                                    <c:otherwise>
+                                        未知
+                                    </c:otherwise>
+                                </c:choose>
+                            </td>
+
                             <c:if test="${(!empty user) and (user.isAdmin())}">
                                 <td>
                                     <a data-toggle="modal" data-target="#myModal" class="btn btn-sm btn-info"  onclick="updata(this);">编辑</a>&nbsp;
@@ -200,8 +227,15 @@
                         UVaId:<input class="form-control" id="uvaId" required>
                     </div>
                     <div class="form-group">
-                        状态:<input class="form-control" id="status" required>
-                        <p>状态可填：Retired,Expeled,Acmer,Reject,Verifying,New,Admin</p>
+                        状态:<select class="form-control" id="status" required>
+                            <option value="Retired">退役</option>
+                            <option value="Expeled">除名</option>
+                            <option value="Acmer">队员</option>
+                            <option value="Reject">拒绝</option>
+                            <option value="Verifying">申请</option>
+                            <option value="New">用户</option>
+                            <option value="Admin">管理员</option>
+                        </select>
                     </div>
                 </form>
             </div>
