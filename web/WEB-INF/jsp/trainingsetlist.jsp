@@ -25,6 +25,7 @@
 
     <c:url value="/training/doAddTraining" var="url_doAddTraining"/>
     <c:url value="/training/doApplyJoinTraining" var="url_applyjoin"/>
+    <c:url value="/training/modifyTraining" var="url_modify"/>
     <script>
         $(document).ready(function () {
             $('#mytable').DataTable({
@@ -46,6 +47,18 @@
                     location.reload();
                 })
             });
+            $('#savabutton2').click(function () {
+                $.post("${url_modify}", {
+                    id:$('#id2').val(),
+                    name: $('#name2').val(),
+                    beginTime: $('#beginTime2').val(),
+                    endTime: $('#endTime2').val(),
+                    remark:$('#remark2').val()
+                }, function (data) {
+                    alert(data);
+                    location.reload();
+                })
+            });
         });
         function applyJoin(trainingId) {
             $.post("${url_applyjoin}",{
@@ -56,7 +69,14 @@
                 location.reload();
             });
         }
-
+        function updata(obj,id) {
+            var tds=$(obj).parent().parent().find('td');
+            $('#name2').val(tds.eq(0).text());
+            $('#beginTime2').val(tds.eq(1).text());
+            $('#endTime2').val(tds.eq(2).text());
+            $('#remark2').val(tds.eq(3).text());
+            $('#id2').val(id);
+        }
     </script>
 
 </head>
@@ -89,6 +109,7 @@
                         <th>集训名称</th>
                         <th>开始日期</th>
                         <th>停止日期</th>
+                        <th hidden>备注</th>
                         <th>添加时间</th>
                         <th>添加者</th>
                         <th>操作</th>
@@ -105,22 +126,32 @@
                             <td><a href="<c:url value="/training/detail/${training.id}"/> ">${training.name}</a></td>
                             <td>${training.startDate}</td>
                             <td>${training.endDate}</td>
+                            <td hidden>${training.remark}</td>
                             <td>${training.addTime}</td>
                             <td>${trainingAddUserList.get(training.addUid).username}</td>
                             <td>
-                                <a href="">编辑属性</a>
+                                <a  id="modifybutton" data-toggle="modal" data-target="#myModal2" onclick="updata(this,${training.id})">编辑属性</a>
                             </td>
                             <td>
-                                <c:if test="${!empty ujointMap.get(training.id)}">
-                                    <span>${ujointMap.get(training.id).status.name()}</span>
-                                    <c:set value="Reject" var="reject"/>
-                                    <c:if test="${ujointMap.get(training.id).status.name() eq reject}">
-                                        <span><a href="javascript:void(0);" onclick="applyJoin(${training.id})">(重新申请)</a></span>
-                                    </c:if>
-                                </c:if>
-                                <c:if test="${empty ujointMap.get(training.id)}">
-                                    <a href="javascript:void(0);" onclick="applyJoin(${training.id})">申请加入</a>
-                                </c:if>
+                                <c:choose>
+                                    <c:when test="${(!empty user) && (user.isAdmin())}">
+                                        <a href="<c:url value="/training/trainingUser/${training.id}"/>">审核队员</a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:if test="${!empty ujointMap.get(training.id)}">
+                                            <span>${ujointMap.get(training.id).status.name()}</span>
+                                            <c:set value="Reject" var="reject"/>
+                                            <c:if test="${ujointMap.get(training.id).status.name() eq reject}">
+                                                <span><a href="javascript:void(0);" onclick="applyJoin(${training.id})">(重新申请)</a></span>
+                                            </c:if>
+                                        </c:if>
+                                        <c:if test="${empty ujointMap.get(training.id)}">
+                                            <a href="javascript:void(0);" onclick="applyJoin(${training.id})">申请加入</a>
+                                        </c:if>
+                                    </c:otherwise>
+                                </c:choose>
+
+
                             </td>
                         </tr>
                     </c:forEach>
@@ -161,6 +192,41 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modifyModalLabel">编辑属性</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form" action="" method="post"><!--填写提交地址-->
+                    <div class="form-group">
+                        集训名称：<input type="text" class="form-control" placeholder="名称" id="name2" required>
+                    </div>
+                    <div class="form-group">
+                        开始日期:<input type="text" class="form-control" placeholder="开始时间" id="beginTime2" required>
+                    </div>
+                    <div class="form-group">
+                        截止时间:<input type="text" class="form-control" placeholder="截止时间" id="endTime2" required>
+                    </div>
+                    <div class="form-group">
+                        备注：<textarea rows="5" class="form-control" placeholder="备注" id="remark2"></textarea>
+                    </div>
+                    <div class="form-group" hidden>
+                        集训id：<input type="text" class="form-control" placeholder="id" id="id2" hidden>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="savabutton2">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <jsp:include page="footerInfo.jsp"/>
 </body>
 </html>

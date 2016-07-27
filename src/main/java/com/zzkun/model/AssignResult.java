@@ -1,6 +1,7 @@
 package com.zzkun.model;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.core.io.ClassPathResource;
 
 import javax.persistence.*;
 import java.io.Serializable;

@@ -43,9 +43,9 @@ public class TrainingController {
         return "trainingsetlist";
     }
 
-    @RequestMapping("/trainingUser")
+    @RequestMapping("/trainingUser/{trainingId}")
     public String trainingUser(Model model,
-                               @SessionAttribute Integer trainingId) {
+                               @PathVariable Integer trainingId) {
         model.addAttribute("info", trainingService.getTrainingById(trainingId));
         model.addAttribute("ujoinT", trainingService.getTrainingAllUser(trainingId));
         return "trainingUser";
@@ -168,5 +168,47 @@ public class TrainingController {
         }
         trainingService.verifyUserJoin(userId, trainingId, op);
         return "操作成功！";
+    }
+
+    @RequestMapping(value = "/modifyTraining", produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String modifyTraining(@SessionAttribute(required = false) User user,
+                                 @RequestParam Integer id,
+                                 @RequestParam String name,
+                                 @RequestParam String beginTime,
+                                 @RequestParam String endTime,
+                                 @RequestParam String remark) {
+        logger.info("修改集训：user = [" + user + "], id = [" + id + "], name = [" + name + "], beginTime = [" + beginTime + "], endTime = [" + endTime + "], remark = [" + remark + "]");
+        if(user == null || !user.isAdmin()) {
+            return "没有权限！";
+        }
+        try {
+            trainingService.modifyTraining(id, name, beginTime, endTime, remark);
+            return "修改成功";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "修改失败！";
+    }
+
+    @RequestMapping(value = "/modifyStage", produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String modifyStage(@SessionAttribute(required = false) User user,
+                                 @RequestParam Integer id,
+                                 @RequestParam String name,
+                                 @RequestParam String beginTime,
+                                 @RequestParam String endTime,
+                                 @RequestParam String remark) {
+        logger.info("修改阶段：user = [" + user + "], id = [" + id + "], name = [" + name + "], beginTime = [" + beginTime + "], endTime = [" + endTime + "], remark = [" + remark + "]");
+        if(user == null || !user.isAdmin()) {
+            return "没有权限！";
+        }
+        try {
+            trainingService.modifyStage(id, name, beginTime, endTime, remark);
+            return "修改成功";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "修改失败！";
     }
 }

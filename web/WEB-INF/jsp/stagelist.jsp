@@ -25,6 +25,7 @@
     <c:url value="/assign/listTraining/${trainingId}" var="suijifendui"/>
     <c:url value="/training/doAddStage" var="url_doadstage"/>
     <c:url value="/training/verifyUserJoin" var="url_verifyUserJoin"/>
+    <c:url value="/training/modifyStage" var="url_modify"/>
 
     <script>
         var Userid;
@@ -63,6 +64,19 @@
                 })
             });
 
+            $('#savabutton2').click(function () {
+                $.post("${url_modify}", {
+                    id:$('#id2').val(),
+                    name: $('#name2').val(),
+                    beginTime: $('#beginTime2').val(),
+                    endTime: $('#endTime2').val(),
+                    remark:$('#remark2').val()
+                }, function (data) {
+                    alert(data);
+                    location.reload();
+                })
+            });
+
             $('#verify_true').click(function () {
                 $.post("${url_verifyUserJoin}",{
                     userId:Userid,
@@ -83,6 +97,14 @@
                 });
             });
         });
+        function updata(obj,id) {
+            var tds=$(obj).parent().parent().find('td');
+            $('#name2').val(tds.eq(0).text());
+            $('#beginTime2').val(tds.eq(1).text());
+            $('#endTime2').val(tds.eq(2).text());
+            $('#remark2').val(tds.eq(3).text());
+            $('#id2').val(id);
+        }
     </script>
 
 </head>
@@ -101,7 +123,6 @@
         <div class="pull-right">
             <a href="<c:url value="/assign/lastAssign"/>" class="btn btn-primary" id="lastfendui">即将进行比赛分队</a>
             <button class="btn btn-info" id="fendui">随机分队</button>
-            <a class="btn btn-info" href="<c:url value="/training/trainingUser"/> ">集训队员审核</a>
             <button class="btn btn-info" id="addbutton" data-toggle="modal" data-target="#myModal">添加阶段</button>
         </div>
     </div>
@@ -118,6 +139,7 @@
                         <th>阶段名称</th>
                         <th>开始日期</th>
                         <th>截止日期</th>
+                        <th hidden>备注</th>
                         <th>添加时间</th>
                         <th>添加者</th>
                         <th>操作</th>
@@ -133,10 +155,11 @@
                             <td><a href="<c:url value="/training/stage/${stage.id}"/> ">${stage.name}</a></td>
                             <td>${stage.startDate}</td>
                             <td>${stage.endDate}</td>
+                            <td hidden>${stage.remark}</td>
                             <td>${stage.addTime}</td>
                             <td>${stageAddUserList.get(stage.addUid).username}</td>
                             <td>
-                                <a href="">编辑属性</a>
+                                <a id="modifybutton" data-toggle="modal" data-target="#myModal2" onclick="updata(this,${stage.id})">编辑属性</a>
                             </td>
                         </tr>
                     </c:forEach>
@@ -154,37 +177,7 @@
                 <h3 class="panel-title">${info.name}&nbsp;&nbsp;队员</h3>
             </div>
             <div class="panel-body">
-                <%--<div style="padding-bottom: 10px">--%>
-                    <%--示例：--%>
-                    <%--<button class="btn btn-sm btn-success" >通过审核</button>--%>
-                    <%--<button class="btn btn-sm btn-warning">等待审核</button>--%>
-                    <%--<button class="btn btn-sm btn-danger">拒绝加入</button>--%>
-                <%--</div>--%>
 
-                <%--<ul class="list-group">--%>
-                    <%--<c:set value="Success" var="success"/>--%>
-                    <%--<c:set value="Pending" var="pending"/>--%>
-                    <%--<c:set value="Reject" var="reject"/>--%>
-
-                    <%--<c:forEach items="${ujoinT}" var="user">--%>
-                        <%--<c:if test="${user.value eq success}">--%>
-                            <%--<li class="list-group-item list-group-item-success">--%>
-                                <%--${user.key.username}(${user.key.realName}，${user.key.major})--%>
-                            <%--</li>--%>
-                        <%--</c:if>--%>
-                        <%--<c:if test="${user.value eq pending}">--%>
-                            <%--<a class="list-group-item list-group-item-warning" href="#memberModel" data-toggle="modal" id="pendingli"--%>
-                               <%--onclick="userinfo(${user.key.id})">--%>
-                               <%--${user.key.username}(${user.key.realName}，${user.key.major})--%>
-                            <%--</a>--%>
-                        <%--</c:if>--%>
-                        <%--<c:if test="${user.value eq reject}">--%>
-                            <%--<li class="list-group-item list-group-item-danger">--%>
-                                <%--${user.key.username}(${user.key.realName}，${user.key.major})--%>
-                            <%--</li>--%>
-                        <%--</c:if>--%>
-                    <%--</c:forEach>--%>
-                <%--</ul>--%>
 
                 <c:set value="Success" var="success"/>
                 <c:set value="Pending" var="pending"/>
@@ -261,7 +254,39 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modifyModalLabel">编辑属性</h4>
+            </div>
+            <div class="modal-body ">
+                <form class="form"><!--填写提交地址-->
+                    <div class="form-group">
+                        <input type="text" id="name2" class="form-control" placeholder="名称" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="beginTime2" class="form-control" placeholder="开始时间" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="endTime2" class="form-control" placeholder="截止时间" required>
+                    </div>
+                    <div class="form-group">
+                        <textarea rows="5" id="remark2" class="form-control" placeholder="备注"></textarea>
+                    </div>
+                    <div class="form-group" hidden>
+                        <input type="text" id="id2" class="form-control" placeholder="id" hidden>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-primary" id="savabutton2">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <jsp:include page="footerInfo.jsp"/>

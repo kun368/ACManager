@@ -14,7 +14,7 @@
                 <a href="http://user.qzone.qq.com/1240288959" target="_blank" class="">Yang</a>
                 提供技术支持
                 &nbsp;^_^&nbsp;
-                欢迎Star：<a href="https://github.com/kun368/ACManager" target="_blank" class="">Github</a>
+                GitHub：<iframe src="https://ghbtns.com/github-btn.html?user=kun368&repo=ACManager&type=star&count=true" frameborder="0" scrolling="0" width="77px" height="17px"></iframe>
             </p>
             <p class="text-center text-muted">
             </p>

@@ -7,8 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -80,6 +82,18 @@ public class TrainingService {
         return map;
     }
 
+    public void modifyTraining(Integer id, String name,
+                               String beginTime, String endTime, String remark) {
+        Training training = getTrainingById(id);
+        if(StringUtils.hasText(name))
+            training.setName(name);
+        if(StringUtils.hasText(remark))
+            training.setRemark(remark);
+        training.setStartDate(LocalDate.parse(beginTime));
+        training.setEndDate(LocalDate.parse(endTime));
+        trainingRepo.save(training);
+    }
+
     //用户申请参加集训
     public void applyJoinTraining(Integer userId, Integer trainingId) {
         User user = userRepo.findOne(userId);
@@ -116,6 +130,17 @@ public class TrainingService {
     }
 
     public void addStage(Stage stage) {
+        stageRepo.save(stage);
+    }
+
+    public void modifyStage(Integer id, String name, String beginTime, String endTime, String remark) {
+        Stage stage = getStageById(id);
+        if(StringUtils.hasText(name))
+            stage.setName(name);
+        if(StringUtils.hasText(remark))
+            stage.setRemark(remark);
+        stage.setStartDate(LocalDate.parse(beginTime));
+        stage.setEndDate(LocalDate.parse(endTime));
         stageRepo.save(stage);
     }
 
@@ -184,6 +209,7 @@ public class TrainingService {
         logger.info("解析完毕：{}", contest);
         return contest;
     }
+
 
 
 }
