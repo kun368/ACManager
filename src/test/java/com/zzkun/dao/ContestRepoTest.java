@@ -6,10 +6,12 @@ import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -40,7 +42,12 @@ public class ContestRepoTest {
 
     @Test
     public void findOne() throws Exception {
-
+        Contest one = contestRepo.findOne(1);
+        System.out.println(one);
+        System.out.println(one.getRanks());
+        Pair<double[], double[][]> pair = one.calcTemesStdScore(-20, 100);
+        System.out.println(Arrays.toString(pair.getFirst()));
+        System.out.println(Arrays.toString(pair.getSecond()[0]));
     }
 
     @Test

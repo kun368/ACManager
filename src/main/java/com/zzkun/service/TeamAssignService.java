@@ -106,7 +106,7 @@ public class TeamAssignService {
         List<AssignResult> list = assignResultRepo.findByTrainingId(trainingId);
         if(list != null && list.size() >= 1)
             return list.get(list.size()-1);
-        return null;
+        return new AssignResult();
     }
 
     public void setAssignAccount(Integer assignId, Integer pos, String account) {

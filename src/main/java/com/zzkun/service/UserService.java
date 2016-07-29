@@ -49,7 +49,7 @@ public class UserService {
         List<User> all = userRepo.findAll();
         List<User> list = new ArrayList<>();
         all.forEach(x -> {
-            if(!x.getType().equals(User.Type.Admin)
+            if(!User.Type.Admin.equals(x.getType())
                     && x.getUvaId() != null
                     && x.getUvaId().toString().length() >= 6)
                 list.add(x);
@@ -99,6 +99,7 @@ public class UserService {
 
     public Map<Integer, User> getUserInfoByAssign(AssignResult result) {
         Map<Integer, User> map = new TreeMap<>();
+        if(result == null) return map;
         List<Integer> users = new ArrayList<>();
         result.getTeamList().forEach(x -> x.forEach(users::add));
         List<User> infos = userRepo.findAll(users);
@@ -109,6 +110,7 @@ public class UserService {
 
     public Map<Integer, User> getUserInfoByTList(List<Training> allTraining) {
         Map<Integer, User> map = new HashMap<>();
+        if(allTraining == null) return map;
         List<Integer> users = new ArrayList<>();
         allTraining.forEach(x -> users.add(x.getAddUid()));
         List<User> infos = userRepo.findAll(users);
@@ -119,6 +121,7 @@ public class UserService {
 
     public Map<Integer, User> getUserInfoBySList(List<Stage> stageList) {
         Map<Integer, User> map = new HashMap<>();
+        if(stageList == null) return map;
         List<Integer> users = new ArrayList<>();
         stageList.forEach(x -> users.add(x.getAddUid()));
         List<User> infos = userRepo.findAll(users);
@@ -129,6 +132,7 @@ public class UserService {
 
     public Map<Integer, User> getUserInfoByCList(List<Contest> contestList) {
         Map<Integer, User> map = new HashMap<>();
+        if(contestList == null) return map;
         List<Integer> users = new ArrayList<>();
         contestList.forEach(x -> users.add(x.getAddUid()));
         List<User> infos = userRepo.findAll(users);

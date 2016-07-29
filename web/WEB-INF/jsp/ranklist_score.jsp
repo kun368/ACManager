@@ -7,10 +7,11 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <title>比赛详情 - ACManager</title>
+    <title>比赛统计 - ACManager</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,7 +28,6 @@
     <c:url value="/training/verifyUserJoin" var="url_verifyUserJoin"/>
 
     <script>
-
         $(document).ready(function () {
             $('#mytable').DataTable({
                 lengthChange: true,
@@ -35,7 +35,7 @@
                 processing: true,
                 searching:true,
                 dom: '<"top"if>rt<"bottom"lp>',
-                "order": [[2, "desc"], [3, "asc"]]
+                "order": [[3, "desc"]]
             });
         });
     </script>
@@ -51,14 +51,14 @@
             <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
             <li><a href="<c:url value="/training/detail/${trainingId}"/> ">阶段列表</a></li>
             <li><a href="<c:url value="/training/stage/${stageId}"/> ">比赛列表</a></li>
-            <li class="active">比赛详情</li>
+            <li class="active">比赛统计</li>
         </ol>
     </div>
 
     <div class="row" style="padding-bottom: 20px">
         <div class="pull-right">
-            <a href="<c:url value="/contest/showScore/${contest.id}"/>" class="btn btn-info">比赛分数统计</a>
-         </div>
+            <a href="<c:url value="/contest/showContest/${contest.id}"/>" class="btn btn-info">比赛统计</a>
+        </div>
     </div>
 
     <div class="row">
@@ -77,7 +77,7 @@
                         <th>比赛账号</th>
                         <th>成员</th>
                         <th>解题数</th>
-                        <th>Penalty</th>
+                        <th>总分数</th>
                         <c:set value="ABCDEFGHIJKLMNOPQRSTUVWXYZ" var="ti"/>
                         <c:forEach begin="1" end="${contest.pbCnt}" var="i">
                             <th>${ti.charAt(i-1)}</th>
@@ -95,9 +95,13 @@
                                 <td>${team.account}</td>
                                 <td>${team.memberToString()}</td>
                                 <td>${team.solvedCount}</td>
-                                <td>${team.calcSumPenalty()}</td>
+                                <td>
+                                    <fmt:formatNumber type="number" value="${sum[i.index]}" maxFractionDigits="2"/>
+                                </td>
                                 <c:forEach begin="1" end="${contest.pbCnt}" var="j">
-                                    <td>${team.pbStatus.get(j-1).toHString()}</td>
+                                    <td>
+                                        <fmt:formatNumber type="number" value="${pre[j-1][i.index]}" maxFractionDigits="2"/>
+                                    </td>
                                 </c:forEach>
                                 <%--<td>--%>
                                     <%--<c:if test="${team.member.contains(user.realName)}">--%>

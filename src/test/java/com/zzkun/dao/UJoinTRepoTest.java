@@ -8,6 +8,9 @@ import org.springframework.data.domain.Example;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -22,8 +25,11 @@ public class UJoinTRepoTest {
 
     @Test
     public void save() throws Exception {
-        UJoinT zzk = new UJoinT(2, 1, UJoinT.Status.Pending);
-        uJoinTRepo.save(zzk);
+        List<Integer> list = Arrays.asList(92, 99, 103);
+        for (Integer integer : list) {
+            UJoinT cur = new UJoinT(integer, 4, UJoinT.Status.Pending);
+            uJoinTRepo.save(cur);
+        }
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.zzkun;
 
 import org.junit.Test;
+import org.springframework.data.util.Pair;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -59,4 +60,9 @@ public class MyTest2 {
         System.out.println(list.equals(list1));
     }
 
+    @Test
+    public void test5() throws Exception {
+        Pair<String, double[]> pair = Pair.of("abc", new double[]{1, 2, 3, 4});
+        System.out.println(pair);
+    }
 }

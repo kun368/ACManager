@@ -6,6 +6,7 @@ import com.zzkun.service.TrainingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -70,6 +71,20 @@ public class ContestController {
         model.addAttribute("ranks", contest.getRanks());
         return "ranklist";
     }
+
+    @RequestMapping("/showScore/{id}")
+    public String showScore(@PathVariable Integer id,
+                            Model model) {
+        Contest contest = trainingService.getContest(id);
+        Pair<double[], double[][]> pair = contest.calcTemesStdScore(-20, 100);
+        model.addAttribute("contest", contest);
+        model.addAttribute("ranks", contest.getRanks());
+        model.addAttribute("sum", pair.getFirst());
+        model.addAttribute("pre", pair.getSecond());
+        return "ranklist_score";
+    }
+
+
 
     @RequestMapping("/contestDeleteTeam/{id}/{pos}")
     public String contestDeleteTeam(@PathVariable Integer id,

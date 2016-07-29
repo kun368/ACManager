@@ -209,7 +209,4 @@ public class TrainingService {
         logger.info("解析完毕：{}", contest);
         return contest;
     }
-
-
-
 }

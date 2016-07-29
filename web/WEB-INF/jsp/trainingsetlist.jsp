@@ -17,11 +17,13 @@
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery/3.1.0/jquery.js"></script>
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery-datetimepicker/2.5.4/build/jquery.datetimepicker.full.js"></script>
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/jquery-datetimepicker/2.5.4/jquery.datetimepicker.css"/>
 
     <c:url value="/training/doAddTraining" var="url_doAddTraining"/>
     <c:url value="/training/doApplyJoinTraining" var="url_applyjoin"/>
@@ -34,7 +36,7 @@
                 processing: true,
                 searching: true,
                 dom: '<"top"if>rt<"bottom"lp>',
-                "order": [[3, "desc"]]
+                "order": [[4, "desc"]]
             });
             $('#savabutton').click(function () {
                 $.post("${url_doAddTraining}", {
@@ -59,6 +61,42 @@
                     location.reload();
                 })
             });
+            $('#beginTime').datetimepicker({
+                format:'Y-m-d',
+                formatDate:'Y-m-d',
+                timepicker:false,
+                dayOfWeekStart : 1,
+                lang:'en',
+                // disabledDates:['1986-01-08 ','1986-01-09','1986-01-10'],
+                //startDate:	'1986-01-05'
+            });
+            $('#beginTime2').datetimepicker({
+                format:'Y-m-d',
+                formatDate:'Y-m-d',
+                timepicker:false,
+                dayOfWeekStart : 1,
+                lang:'en',
+                // disabledDates:['1986-01-08 ','1986-01-09','1986-01-10'],
+                //startDate:	'1986-01-05'
+            });
+            $('#endTime').datetimepicker({
+                format:'Y-m-d',
+                formatDate:'Y-m-d',
+                timepicker:false,
+                dayOfWeekStart : 1,
+                lang:'en',
+                // disabledDates:['1986-01-08 ','1986-01-09','1986-01-10'],
+                //startDate:	'1986-01-05'
+            });
+            $('#endTime2').datetimepicker({
+                format:'Y-m-d',
+                formatDate:'Y-m-d',
+                timepicker:false,
+                dayOfWeekStart : 1,
+                lang:'en',
+                // disabledDates:['1986-01-08 ','1986-01-09','1986-01-10'],
+                //startDate:	'1986-01-05'
+            });
         });
         function applyJoin(trainingId) {
             $.post("${url_applyjoin}",{
@@ -77,6 +115,7 @@
             $('#remark2').val(tds.eq(3).text());
             $('#id2').val(id);
         }
+
     </script>
 
 </head>
@@ -109,7 +148,6 @@
                         <th>集训名称</th>
                         <th>开始日期</th>
                         <th>停止日期</th>
-                        <th hidden>备注</th>
                         <th>添加时间</th>
                         <th>添加者</th>
                         <th>操作</th>
@@ -126,7 +164,6 @@
                             <td><a href="<c:url value="/training/detail/${training.id}"/> ">${training.name}</a></td>
                             <td>${training.startDate}</td>
                             <td>${training.endDate}</td>
-                            <td hidden>${training.remark}</td>
                             <td>${training.addTime}</td>
                             <td>${trainingAddUserList.get(training.addUid).username}</td>
                             <td>
@@ -150,8 +187,6 @@
                                         </c:if>
                                     </c:otherwise>
                                 </c:choose>
-
-
                             </td>
                         </tr>
                     </c:forEach>
@@ -192,7 +227,6 @@
         </div>
     </div>
 </div>
-
 <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -226,7 +260,6 @@
         </div>
     </div>
 </div>
-
 <jsp:include page="footerInfo.jsp"/>
 </body>
 </html>

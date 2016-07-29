@@ -10,9 +10,59 @@
 <html>
 <head>
     <title>导入比赛 - ACManager</title>
-    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery/3.1.0/jquery.js"></script>
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.bootcss.com/jquery-datetimepicker/2.5.4/build/jquery.datetimepicker.full.js"></script>
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/jquery-datetimepicker/2.5.4/jquery.datetimepicker.css"/>
+    <script>
+        $(document).ready(function () {
+            $('#startTime').datetimepicker({
+
+                format:'Y-m-d'+' '+'H:i:s',
+                formatDate:'Y-m-d',
+                formatTime:'H:i',
+                timepicker:true,
+                //showSecond: true,
+                dayOfWeekStart : 1,
+                lang:'en',
+                step:1
+                // stepSecond: 1,
+                // disabledDates:['1986-01-08 ','1986-01-09','1986-01-10'],
+                //startDate:	'1986-01-05'
+
+            });
+            $('#startTime').change(function () {
+                str=$('#startTime').val();
+                re=new RegExp(" ","i");
+                var newstart=str.replace(re,"T");
+                $('#startTime').val(newstart);
+            })
+            $('#endTime').datetimepicker({
+
+                format:'Y-m-d'+' '+'H:i:s',
+                formatDate:'Y-m-d',
+                formatTime:'H:i',
+                timepicker:true,
+                //showSecond: true,
+                dayOfWeekStart : 1,
+                lang:'en',
+                step:1
+                // stepSecond: 1,
+                // disabledDates:['1986-01-08 ','1986-01-09','1986-01-10'],
+                //startDate:	'1986-01-05'
+
+            });
+            $('#endTime').change(function () {
+                str=$('#endTime').val();
+                re=new RegExp(" ","i");
+                var newstart=str.replace(re,"T");
+                $('#endTime').val(newstart);
+            })
+        })
+    </script>
 </head>
 <body>
 
@@ -39,10 +89,10 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <input type="text"   name="stTime" class="form-control" placeholder="比赛开始时间(eg: 2007-12-03T10:15:30)" autofocus required>
+                                <input type="text"  id="startTime" name="stTime" class="form-control" placeholder="比赛开始时间(eg: 2007-12-03T10:15:30)" autofocus required>
                             </div>
                             <div class="form-group">
-                                <input type="text"   name="edTime" class="form-control" placeholder="比赛结束时间(eg: 2007-12-03T10:15:30)" autofocus required>
+                                <input type="text"  id="endTime"  name="edTime" class="form-control" placeholder="比赛结束时间(eg: 2007-12-03T10:15:30)" autofocus required>
                             </div>
                         </div>
 

@@ -2,11 +2,11 @@ package com.zzkun.model;
 
 import com.zzkun.util.stder.DataStder;
 import com.zzkun.util.stder.RawData;
-import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.util.Pair;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -146,22 +146,23 @@ public class Contest implements Serializable {
      * 时间复杂度：O(队伍数*题数)
      * @param alpha 放大倍数
      * @param beta 基准分
-     * @return 各队标准分
+     * @return first各队标准分, second:各题每队得分
      */
-    public double[] calcTemesStdScore(double alpha, double beta) {
+    public Pair<double[], double[][]> calcTemesStdScore(double alpha, double beta) {
         DataStder dataStder = new DataStder();
         double[] ans = new double[ranks.size()];
+        double[][] preT = new double[pbCnt][];
         for(int i = 0; i < pbCnt; ++i) {
             List<RawData> list = new ArrayList<>();
             for (TeamRanking rank : ranks) {
                 PbStatus pbStatus = rank.getPbStatus().get(i);
                 list.add(new RawData((double) pbStatus.calcPenalty(), pbStatus.isSolved()));
             }
-            double[] std = dataStder.std(list, alpha, beta);
+            preT[i] = dataStder.std(list, alpha, beta);
             for(int j = 0; j < ranks.size(); ++j)
-                ans[j] += std[j];
+                ans[j] += preT[i][j];
         }
-        return ans;
+        return Pair.of(ans, preT);
     }
 
     @Override
