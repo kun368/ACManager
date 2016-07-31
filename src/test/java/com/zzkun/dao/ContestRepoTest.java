@@ -3,10 +3,10 @@ package com.zzkun.dao;
 import com.zzkun.model.Contest;
 import com.zzkun.util.vjudge.VJRankParser;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -46,8 +46,8 @@ public class ContestRepoTest {
         System.out.println(one);
         System.out.println(one.getRanks());
         Pair<double[], double[][]> pair = one.calcTemesStdScore(-20, 100);
-        System.out.println(Arrays.toString(pair.getFirst()));
-        System.out.println(Arrays.toString(pair.getSecond()[0]));
+        System.out.println(Arrays.toString(pair.getLeft()));
+        System.out.println(Arrays.toString(pair.getRight()));
     }
 
     @Test

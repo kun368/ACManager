@@ -3,6 +3,7 @@ package com.zzkun.service;
 import com.zzkun.dao.*;
 import com.zzkun.model.*;
 import com.zzkun.util.vjudge.VJRankParser;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -182,30 +183,23 @@ public class TrainingService {
                            String edTime,
                            String myConfig,
                            String vjContest,
-                           User user,
+                           User addUser,
                            Integer stageId) throws IOException {
-        String[] config = myConfig.split("\n");
-        Map<String, List<String>> map = new HashMap<>();
-        for (String aConfig : config) {
-            String[] names = aConfig.split("\\s+");
-            if (names.length <= 1) continue;
-            List<String> list = new ArrayList<>();
-            list.addAll(Arrays.asList(names).subList(1, names.length));
-            map.put(names[0], list);
-        }
-        logger.info("解析得到自定义账户对应表：{}", map);
-
-        Integer trainingId = stageRepo.findOne(stageId).getTrainingId();
-        List<User> userList = getTrainingAllOkUser(trainingId);
-        logger.info("解析榜单所需要的所有数据库合法用户：{}", userList);
-
-        Contest contest = vjRankParser.parseRank(contestType, map, userList, Arrays.asList(vjContest.split("\n")));
+        Pair<String, String> rawDate = Pair.of(vjContest, myConfig);
+        Contest contest = new Contest();
+        contest.setRawData(rawDate);
+        contest.setType(contestType);
         contest.setAddTime(LocalDateTime.now());
         contest.setName(contestName.trim());
         contest.setStartTime(LocalDateTime.parse(stTime));
         contest.setEndTime(LocalDateTime.parse(edTime));
         contest.setStageId(stageId);
-        contest.setAddUid(user.getId());
+        contest.setAddUid(addUser.getId());
+
+        logger.info("导入比赛原始信息加载完毕：{}", contest);
+
+        vjRankParser.parseRank(contest);
+
         logger.info("解析完毕：{}", contest);
         return contest;
     }

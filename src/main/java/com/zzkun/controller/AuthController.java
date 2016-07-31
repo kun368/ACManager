@@ -3,6 +3,8 @@ package com.zzkun.controller;
 
 import com.zzkun.model.User;
 import com.zzkun.service.UserService;
+import com.zzkun.util.geetest.StartCaptchaServlet;
+import com.zzkun.util.geetest.VerifyLoginServlet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 
 
 /**
@@ -26,9 +32,19 @@ public class AuthController {
 
     @Autowired private UserService userService;
 
+    @Autowired private StartCaptchaServlet startCaptchaServlet;
+
+    @Autowired private VerifyLoginServlet verifyLoginServlet;
+
     @RequestMapping("/login")
     public String login() {
         return "login";
+    }
+
+    @RequestMapping("/startGeetest")
+    public void startGeetest(HttpServletRequest request,
+                             HttpServletResponse response) throws ServletException, IOException {
+        startCaptchaServlet.doGet(request, response);
     }
 
     @RequestMapping("/rg")
@@ -45,8 +61,14 @@ public class AuthController {
     public String login(@RequestParam String username,
                         @RequestParam String password,
                         HttpSession session,
-                        Model model) {
+                        Model model,
+                        HttpServletRequest request,
+                        HttpServletResponse response) throws ServletException, IOException {
         logger.info("收到登录请求：" + username + " " + password);
+        if(!verifyLoginServlet.doPost(request, response)) {
+            model.addAttribute("tip", "验证码验证错误！");
+            return "login";
+        }
         User user = userService.valid(username, password);
         if(user != null) {
             session.setAttribute("user", user);
@@ -64,8 +86,14 @@ public class AuthController {
                      @RequestParam(required = false) Integer uvaid,
                      @RequestParam(required = false) String cfname,
                      @RequestParam(required = false) String major,
-                     Model model) {
+                     Model model,
+                     HttpServletRequest request,
+                     HttpServletResponse response) throws ServletException, IOException {
         logger.info("收到注册请求：{},{},{},{},{},{}", username, password, realName, uvaid, cfname, major);
+        if(!verifyLoginServlet.doPost(request, response)) {
+            model.addAttribute("tip", "验证码验证错误！");
+            return "login";
+        }
         username = username.trim();
         password = password.trim();
         if(realName.trim().isEmpty()) realName = null;

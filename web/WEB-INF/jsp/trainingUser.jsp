@@ -28,8 +28,10 @@
 
     <script>
         var Userid;
-        function userinfo(p) {
+        var trainingId;
+        function userinfo(p,tid) {
             Userid=p;
+            trainingId=tid;
             console.log(Userid);
         }
         $(document).ready(function () {
@@ -66,6 +68,7 @@
             $('#verify_true').click(function () {
                 $.post("${url_verifyUserJoin}",{
                     userId:Userid,
+                    trainingId:trainingId,
                     op: "true"
                 },function (date) {
                     alert(date);
@@ -76,6 +79,7 @@
             $('#verify_false').click(function () {
                 $.post("${url_verifyUserJoin}",{
                     userId: Userid,
+                    trainingId:trainingId,
                     op: "false"
                 },function (date) {
                     alert(date);
@@ -128,7 +132,7 @@
                         </c:if>
                         <c:if test="${user.value eq pending}">
                             <a class="list-group-item list-group-item-warning" href="#memberModel" data-toggle="modal" id="pendingli"
-                               onclick="userinfo(${user.key.id})">
+                               onclick="userinfo(${user.key.id}, ${info.id})">
                                ${user.key.username}(${user.key.realName}，${user.key.major})
                             </a>
                         </c:if>

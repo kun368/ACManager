@@ -2,8 +2,7 @@ package com.zzkun.model;
 
 import com.zzkun.util.stder.DataStder;
 import com.zzkun.util.stder.RawData;
-import org.springframework.data.util.Pair;
-import org.springframework.util.CollectionUtils;
+import org.apache.commons.lang3.tuple.Pair;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -41,12 +40,16 @@ public class Contest implements Serializable {
 
     private Integer addUid;
 
+
+    private Integer stageId;
+
     private Integer pbCnt;
 
     @Lob
-    private ArrayList<TeamRanking> ranks = new ArrayList<>();
+    private ArrayList<TeamRanking> ranks = new ArrayList<>();  //解析后的榜单
 
-    private Integer stageId;
+    @Lob
+    private Pair<String, String> rawData;
 
 
     public Contest() {
@@ -140,6 +143,13 @@ public class Contest implements Serializable {
         this.stageId = stageId;
     }
 
+    public Pair<String, String> getRawData() {
+        return rawData;
+    }
+
+    public void setRawData(Pair<String, String> rawData) {
+        this.rawData = rawData;
+    }
 
     /**
      * 计算此次竞赛各队标准分
@@ -176,8 +186,9 @@ public class Contest implements Serializable {
                 ", endTime=" + endTime +
                 ", addTime=" + addTime +
                 ", addUid=" + addUid +
-                ", pbCnt=" + pbCnt +
                 ", stageId=" + stageId +
+                ", pbCnt=" + pbCnt +
+                ", rawData=" + rawData +
                 '}';
     }
 }

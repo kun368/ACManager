@@ -65,24 +65,37 @@ public class VJRankParser {
         return new ArrayList<>(Arrays.asList(split));
     }
 
-    public Contest parseRank(String contestType, Map<String, List<String>> map, List<User> userList, List<String> rankFile) throws IOException {
+    public Contest parseRank(Contest contest) {
 
+        String[] config = contest.getRawData().getRight().split("\n");
+        Map<String, List<String>> account2name = new HashMap<>();
+        for (String aConfig : config) {
+            String[] names = aConfig.split("\\s+");
+            if (names.length <= 1) continue;
+            account2name.put(names[0],
+                    new ArrayList<>(Arrays.asList(names).subList(1, names.length)));
+        }
+        logger.info("解析得到自定义账户对应表：{}", account2name);
+
+        List<User> userList = userRepo.findAll();
         Map<String, String> name2vj = new HashMap<>();
-        userList.forEach(x -> name2vj.put(x.getRealName(), x.getVjname()));
+        userList.forEach(x -> {
+            if(!x.isAdmin() && x.getVjname() != null && x.getRealName() != null)
+                name2vj.put(x.getRealName(), x.getVjname());
+        });
+        logger.info("解析榜单所需要的所有数据库合法用户：{}", userList);
 
-        if(Contest.TYPE_PERSONAL.equals(contestType)) {
-            for (Map.Entry<String, List<String>> entry : map.entrySet())
+
+
+        if(Contest.TYPE_PERSONAL.equals(contest.getType())) {
+            for (Map.Entry<String, List<String>> entry : account2name.entrySet())
                 name2vj.put(entry.getValue().get(0), entry.getKey());
         }
+        logger.info("解析榜单，账户姓名->vj账号.对应表：{}", name2vj);
 
-        logger.info("解析榜单，账户姓名->vj账号对应表：{}", name2vj);
-
-
-        //读取比赛配置文件，加载配置
-        Contest contest = new Contest();
-        contest.setType(contestType);
 
         //读取比赛情况
+        List<String> rankFile = Arrays.asList(contest.getRawData().getLeft().split("\n"));
         for (int i = 0; i < rankFile.size(); i++) {
             String[] split = rankFile.get(i).split("\t");
             if(i == 0) {
@@ -93,12 +106,12 @@ public class VJRankParser {
             parseSetTeamName(split[1].trim(), team);
             team.setSolvedCount(parseInt(split[2].trim()));
 
-            if(Contest.TYPE_TEAM.equals(contestType)) {
-                if(!map.containsKey(team.getAccount()))
+            if(Contest.TYPE_TEAM.equals(contest.getType())) {
+                if(!account2name.containsKey(team.getAccount()))
                     continue;
-                team.setMember(map.get(team.getAccount()));
+                team.setMember(account2name.get(team.getAccount()));
             }
-            else if(Contest.TYPE_PERSONAL.equals(contestType)) {
+            else if(Contest.TYPE_PERSONAL.equals(contest.getType())) {
                 if(!name2vj.containsKey(team.getTeamName())
                         || !team.getAccount().equals(name2vj.get(team.getTeamName())))
                     continue;

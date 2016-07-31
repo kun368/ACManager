@@ -36,7 +36,7 @@
                 processing: true,
                 searching: true,
                 dom: '<"top"if>rt<"bottom"lp>',
-                "order": [[4, "desc"]]
+                "order": [[3, "desc"]]
             });
             $('#savabutton').click(function () {
                 $.post("${url_doAddTraining}", {
@@ -102,8 +102,8 @@
             $.post("${url_applyjoin}",{
                 userId: '${user.id}',
                 trainingId: trainingId
-            },function () {
-                alert("已收到您的申请...");
+            },function (date) {
+                alert(date);
                 location.reload();
             });
         }

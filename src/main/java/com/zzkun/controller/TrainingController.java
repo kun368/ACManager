@@ -151,9 +151,12 @@ public class TrainingController {
     public String doApplyJoinTraining(@RequestParam Integer userId,
                                       @RequestParam Integer trainingId) {
         logger.info("申请加入集训请求：userId = [" + userId + "], trainingId = [" + trainingId + "]");
-        if(userId != null && trainingId != null)
+        if(userId != null && trainingId != null) {
             trainingService.applyJoinTraining(userId, trainingId);
-        return "";
+            return "已收到您的申请";
+        } else {
+            return "加入失败！是否登录？";
+        }
     }
 
     @RequestMapping(value = "/verifyUserJoin", produces = "text/html;charset=UTF-8")
@@ -161,7 +164,7 @@ public class TrainingController {
     public String verifyUserJoin(@RequestParam Integer userId,
                                  @RequestParam String op,
                                  @SessionAttribute(required = false) User user,
-                                 @SessionAttribute(required = false) Integer trainingId) {
+                                 @RequestParam Integer trainingId) {
         logger.info("审核用户加入集训请求：userId = [" + userId + "], op = [" + op + "], user = [" + user + "], trainingId = [" + trainingId + "]");
         if(user == null || trainingId == null || !user.isAdmin()) {
             return "操作失败，没有操作权限！";

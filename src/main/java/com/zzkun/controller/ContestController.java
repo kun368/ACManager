@@ -3,10 +3,10 @@ package com.zzkun.controller;
 import com.zzkun.model.Contest;
 import com.zzkun.model.User;
 import com.zzkun.service.TrainingService;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -79,8 +79,8 @@ public class ContestController {
         Pair<double[], double[][]> pair = contest.calcTemesStdScore(-20, 100);
         model.addAttribute("contest", contest);
         model.addAttribute("ranks", contest.getRanks());
-        model.addAttribute("sum", pair.getFirst());
-        model.addAttribute("pre", pair.getSecond());
+        model.addAttribute("sum", pair.getLeft());
+        model.addAttribute("pre", pair.getRight());
         return "ranklist_score";
     }
 
