@@ -5,12 +5,13 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
+import java.util.zip.Inflater;
 
 /**
  * 队伍的原始解题情况
  * Created by Administrator on 2016/6/27.
  */
-public class TeamRanking implements Serializable {
+public class TeamRanking implements Serializable, Comparable<TeamRanking> {
 
     private static final long serialVersionUID = 3741267226756056112L;
 
@@ -72,6 +73,13 @@ public class TeamRanking implements Serializable {
         for (String s : member)
             joiner.add(s);
         return joiner.toString();
+    }
+
+    @Override
+    public int compareTo(TeamRanking o) {
+        if(solvedCount != o.solvedCount)
+            return Integer.compare(o.solvedCount, solvedCount);
+        return calcSumPenalty().compareTo(o.calcSumPenalty());
     }
 
     @Override

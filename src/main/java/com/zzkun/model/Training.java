@@ -32,6 +32,8 @@ public class Training implements Serializable {
 
     private Integer addUid;
 
+    private Double standard, expand;
+
     public Training() {
     }
 
@@ -92,6 +94,22 @@ public class Training implements Serializable {
         this.addUid = addUid;
     }
 
+    public Double getStandard() {
+        return standard;
+    }
+
+    public void setStandard(Double standard) {
+        this.standard = standard;
+    }
+
+    public Double getExpand() {
+        return expand;
+    }
+
+    public void setExpand(Double expand) {
+        this.expand = expand;
+    }
+
     @Override
     public String toString() {
         return "Training{" +
@@ -102,6 +120,8 @@ public class Training implements Serializable {
                 ", endDate=" + endDate +
                 ", addTime=" + addTime +
                 ", addUid=" + addUid +
+                ", standard=" + standard +
+                ", expand=" + expand +
                 '}';
     }
 }

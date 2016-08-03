@@ -100,6 +100,8 @@ public class TrainingController {
                                 @RequestParam String startDate,
                                 @RequestParam String endDate,
                                 @RequestParam(required = false) String remark,
+                                @RequestParam Double standard,
+                                @RequestParam Double expand,
                                 HttpSession session) {
         logger.info("收到添加Training请求：name = [" + name + "], startDate = [" + startDate + "], endDate = [" + endDate + "], remark = [" + remark + "]");
         try {
@@ -109,6 +111,8 @@ public class TrainingController {
             training.setStartDate(LocalDate.parse(startDate));
             training.setEndDate(LocalDate.parse(endDate));
             training.setRemark(remark);
+            training.setStandard(standard);
+            training.setExpand(expand);
             training.setAddTime(LocalDateTime.now());
             training.setAddUid(user.getId());
             trainingService.addTraining(training);
@@ -120,7 +124,7 @@ public class TrainingController {
     }
 
 
-    @RequestMapping(value = "doAddStage", produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/doAddStage", produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String doAddStage(@RequestParam String name,
                              @RequestParam String startDate,
@@ -180,13 +184,15 @@ public class TrainingController {
                                  @RequestParam String name,
                                  @RequestParam String beginTime,
                                  @RequestParam String endTime,
-                                 @RequestParam String remark) {
-        logger.info("修改集训：user = [" + user + "], id = [" + id + "], name = [" + name + "], beginTime = [" + beginTime + "], endTime = [" + endTime + "], remark = [" + remark + "]");
+                                 @RequestParam String remark,
+                                 @RequestParam Double standard,
+                                 @RequestParam Double expand) {
+        logger.info("修改集训：user = [" + user + "], id = [" + id + "], name = [" + name + "], beginTime = [" + beginTime + "], endTime = [" + endTime + "], remark = [" + remark + "], standard = [" + standard + "], expand = [" + expand + "]");
         if(user == null || !user.isAdmin()) {
             return "没有权限！";
         }
         try {
-            trainingService.modifyTraining(id, name, beginTime, endTime, remark);
+            trainingService.modifyTraining(id, name, beginTime, endTime, remark, standard, expand);
             return "修改成功";
         } catch (Exception e) {
             e.printStackTrace();

@@ -28,7 +28,12 @@
     <c:url value="/training/doAddStage" var="url_doadstage"/>
     <c:url value="/training/verifyUserJoin" var="url_verifyUserJoin"/>
     <c:url value="/training/modifyStage" var="url_modify"/>
-
+  <!-- <style type="text/css">
+       .table-striped tbody tr:nth-child(odd) td {
+           background-color: MediumSpringGreen;
+       }
+   </style>
+   -->
     <script>
         var Userid;
         function userinfo(p) {
@@ -41,6 +46,9 @@
                 ordering: true,
                 processing: true,
                 searching:true,
+                stateSave: true,<!--状态保存-->
+                pageLength: 25,<!--初始化单页显示数-->
+                orderClasses: false,<!--排序列不高亮显示-->
                 dom: '<"top"if>rt<"bottom"lp>',
                 "order": [[4, "desc"]]
             });
@@ -49,6 +57,9 @@
                 ordering: true,
                 processing: true,
                 searching:true,
+                stateSave: true,<!--状态保存-->
+                pageLength: 25,<!--初始化单页显示数-->
+                orderClasses: false,<!--排序列不高亮显示-->
                 dom: '<"top"if>rt<"bottom"lp>',
             });
             $('#fendui').click(function () {
@@ -157,13 +168,19 @@
             <li class="active">阶段列表</li>
         </ol>
     </div>
+
+
+
     <div class="row" style="padding-bottom: 20px">
         <div class="pull-right">
-            <a href="<c:url value="/assign/lastAssign"/>" class="btn btn-primary" id="lastfendui">即将进行比赛分队</a>
-            <button class="btn btn-info" id="fendui">随机分队</button>
-            <button class="btn btn-info" id="addbutton" data-toggle="modal" data-target="#myModal">添加阶段</button>
-        </div>
+            <a href="<c:url value="/assign/lastAssign"/>" class="btn btn-primary" id="lastfendui">分队详情</a>
+            <c:if test="${(!empty user) && (user.isAdmin())}">
+                <button class="btn btn-info" id="fendui">随机分队</button>
+                <button class="btn btn-info" id="addbutton" data-toggle="modal" data-target="#myModal">添加阶段</button>
+            </c:if>
+            </div>
     </div>
+
 
     <div class="row">
         <div class="panel panel-info">
@@ -175,12 +192,14 @@
                     <thead class="tab-header-area">
                     <tr>
                         <th>阶段名称</th>
-                        <th>开始日期</th>
-                        <th>截止日期</th>
+                        <th>开始时间</th>
+                        <th>结束时间</th>
                         <th hidden>备注</th>
                         <th>添加时间</th>
-                        <th>添加者</th>
-                        <th>操作</th>
+                        <th>创建者</th>
+                        <c:if test="${(!empty user) && (user.isAdmin())}">
+                            <th>操作</th>
+                        </c:if>
                     </tr>
                     </thead>
                     <tfoot>
@@ -196,9 +215,13 @@
                             <td hidden>${stage.remark}</td>
                             <td>${stage.addTime}</td>
                             <td>${stageAddUserList.get(stage.addUid).username}</td>
-                            <td>
-                                <a id="modifybutton" data-toggle="modal" data-target="#myModal2" onclick="updata(this,${stage.id})">编辑属性</a>
-                            </td>
+                            <c:if test="${(!empty user) && (user.isAdmin())}">
+                                <td>
+                                    <a id="modifybutton" data-toggle="modal" data-target="#myModal2"
+                                       onclick="updata(this,${stage.id})">编辑</a>
+                                </td>
+                            </c:if>
+
                         </tr>
                     </c:forEach>
                     </tbody>

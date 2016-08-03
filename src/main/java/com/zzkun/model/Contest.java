@@ -151,29 +151,6 @@ public class Contest implements Serializable {
         this.rawData = rawData;
     }
 
-    /**
-     * 计算此次竞赛各队标准分
-     * 时间复杂度：O(队伍数*题数)
-     * @param alpha 放大倍数
-     * @param beta 基准分
-     * @return first各队标准分, second:各题每队得分
-     */
-    public Pair<double[], double[][]> calcTemesStdScore(double alpha, double beta) {
-        DataStder dataStder = new DataStder();
-        double[] ans = new double[ranks.size()];
-        double[][] preT = new double[pbCnt][];
-        for(int i = 0; i < pbCnt; ++i) {
-            List<RawData> list = new ArrayList<>();
-            for (TeamRanking rank : ranks) {
-                PbStatus pbStatus = rank.getPbStatus().get(i);
-                list.add(new RawData((double) pbStatus.calcPenalty(), pbStatus.isSolved()));
-            }
-            preT[i] = dataStder.std(list, alpha, beta);
-            for(int j = 0; j < ranks.size(); ++j)
-                ans[j] += preT[i][j];
-        }
-        return Pair.of(ans, preT);
-    }
 
     @Override
     public String toString() {

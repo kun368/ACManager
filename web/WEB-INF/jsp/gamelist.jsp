@@ -31,6 +31,9 @@
                 ordering: true,
                 processing: true,
                 searching:true,
+                stateSave: true,<!--状态保存-->
+                pageLength: 50,<!--初始化单页显示数-->
+                orderClasses: false,<!--排序列不高亮显示-->
                 dom: '<"top"if>rt<"bottom"lp>',
                 "order": [[2, "desc"]]
             });
@@ -53,7 +56,9 @@
 
     <div class="row" style="padding-bottom: 20px">
         <div class="pull-right">
-            <button class="btn btn-info" id="addbutton">添加比赛</button>
+            <c:if test="${(!empty user) && (user.isAdmin())}">
+                <button class="btn btn-info" id="addbutton">添加比赛</button>
+            </c:if>
         </div>
     </div>
 
@@ -67,12 +72,14 @@
                     <thead class="tab-header-area">
                     <tr>
                         <th>比赛名称</th>
-                        <th>比赛开始</th>
-                        <th>比赛结束</th>
+                        <th>开始时间</th>
+                        <th>结束时间</th>
                         <th>比赛类型</th>
                         <th>添加时间</th>
-                        <th>添加者</th>
-                        <th>操作</th>
+                        <th>创建者</th>
+                        <c:if test="${(!empty user) && (user.isAdmin())}">
+                            <th>操作</th>
+                        </c:if>
                     </tr>
                     </thead>
                     <tfoot>
@@ -83,13 +90,30 @@
                     <c:forEach items="${contestList}" var="contest">
                         <tr>
                             <c:url value="/contest/showContest/${contest.id}" var="url_curcontest"/>
-                            <td><a href="${url_curcontest}">${contest.name}</a></td>
+                            <c:url value="/contest/showScore/${contest.id}" var="url_curcontestScore"/>
+                            <td><a href="${url_curcontestScore}">${contest.name}</a></td>
                             <td>${contest.startTime}</td>
                             <td>${contest.endTime}</td>
-                            <td>${contest.type}</td>
+                            <c:set value="PERSONAL" var="Personal"/>
+                            <c:set value="TEAM" var="Team"/>
+                            <td>
+                                <c:choose>
+                                    <c:when test="${contest.type eq Personal}">
+                                        个人赛
+                                    </c:when>
+                                    <c:when test="${contest.type eq Team}">
+                                        组队赛
+                                    </c:when>
+                                </c:choose>
+                            </td>
                             <td>${contest.addTime}</td>
                             <td>${contestAddUserList.get(contest.addUid).username}</td>
-                            <td><a href="">编辑比赛</a></td>
+                            <c:if test="${(!empty user) && (user.isAdmin())}">
+                                <td>
+                                    <a href="<c:url value="/contest/modify/${contest.id}"/> ">编辑</a>&nbsp;
+                                    <a href="<c:url value="/contest/deleteContest/${contest.id}"/> ">删除</a>
+                                </td>
+                            </c:if>
                         </tr>
                     </c:forEach>
                     </tbody>

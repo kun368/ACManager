@@ -56,8 +56,9 @@
                     </c:if>
 
                     <div id="embed-captcha"></div>
-                    <p id="wait" class="show">正在加载验证码......</p>
-                    <p id="notice" class="hide">请先拖动验证码到相应位置</p>
+                    <p id="wait" class="show alert alert-info" role="alert">正在加载验证码......</p>
+                    <div style="padding-bottom: 15px"></div>
+                    <p id="notice" class="hide alert alert-danger" role="alert">请先拖动验证码到相应位置</p>
 
                     <div style="padding-bottom: 20px">
                     </div>
@@ -83,9 +84,9 @@
         $("#embed-submit").click(function (e) {
             var validate = captchaObj.getValidate();
             if (!validate) {
-                $("#notice")[0].className = "show";
+                $("#notice")[0].className = "show alert alert-danger";
                 setTimeout(function () {
-                    $("#notice")[0].className = "hide";
+                    $("#notice")[0].className = "hide alert alert-danger";
                 }, 2000);
                 e.preventDefault();
             }

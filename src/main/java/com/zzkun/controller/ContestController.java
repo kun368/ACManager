@@ -38,11 +38,29 @@ public class ContestController {
             redirectAttributes.addFlashAttribute("tip", "没有权限！");
             return "redirect:/training/stage/" + stageId;
         }
+        model.addAttribute("contestId", -1);
+        return "importComp";
+    }
+
+    @RequestMapping("/modify/{contestId}")
+    public String modify1(Model model,
+                          @PathVariable Integer contestId,
+                          @SessionAttribute Integer stageId,
+                          @SessionAttribute(required = false) User user,
+                          RedirectAttributes redirectAttributes) {
+        if(user == null || !user.isAdmin()) {
+            redirectAttributes.addFlashAttribute("tip", "没有权限！");
+            return "redirect:/training/stage/" + stageId;
+        }
+        Contest contest = trainingService.getContest(contestId);
+        model.addAttribute("contestId", contestId);
+        model.addAttribute("preContest", contest);
         return "importComp";
     }
 
     @RequestMapping("/importContest")
-    public String importContest(@RequestParam String contestName,
+    public String importContest(@RequestParam Integer contestId,
+                                @RequestParam String contestName,
                                 @RequestParam String contestType,
                                 @RequestParam String stTime,
                                 @RequestParam String edTime,
@@ -53,8 +71,16 @@ public class ContestController {
                                 RedirectAttributes redirectAttributes) {
         try {
             Contest contest = trainingService.parseVj(contestName, contestType, stTime, edTime, myConfig, vjContest, user, stageId);
-            contest = trainingService.saveContest(contest);
-            redirectAttributes.addFlashAttribute("tip", "添加成功！");
+            if(contestId == -1) {
+                trainingService.saveContest(contest);
+                redirectAttributes.addFlashAttribute("tip", "添加成功！");
+            } else {
+                Contest pre = trainingService.getContest(contestId);
+                contest.setId(contestId);
+                contest.setAddTime(pre.getAddTime());
+                trainingService.saveContest(contest);
+                redirectAttributes.addFlashAttribute("tip", "修改成功！");
+            }
             return "redirect:/training/stage/" + stageId;
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,6 +95,7 @@ public class ContestController {
         Contest contest = trainingService.getContest(id);
         model.addAttribute("contest", contest);
         model.addAttribute("ranks", contest.getRanks());
+        model.addAttribute("myrank", trainingService.calcRank(contest.getRanks()));
         return "ranklist";
     }
 
@@ -76,11 +103,12 @@ public class ContestController {
     public String showScore(@PathVariable Integer id,
                             Model model) {
         Contest contest = trainingService.getContest(id);
-        Pair<double[], double[][]> pair = contest.calcTemesStdScore(-20, 100);
+        Pair<double[], double[][]> pair = trainingService.calcContestScore(contest);
         model.addAttribute("contest", contest);
         model.addAttribute("ranks", contest.getRanks());
         model.addAttribute("sum", pair.getLeft());
         model.addAttribute("pre", pair.getRight());
+        model.addAttribute("myrank", trainingService.calcRank(pair.getLeft()));
         return "ranklist_score";
     }
 
@@ -91,5 +119,13 @@ public class ContestController {
                                     @PathVariable Integer pos) {
         trainingService.deleteContestTeam(id, pos);
         return "redirect:/contest/showContest/" + id;
+    }
+
+    @RequestMapping("/deleteContest/{id}")
+    public String deleteContest(@PathVariable Integer id,
+                                @SessionAttribute Integer stageId) {
+        logger.info("收到删除比赛请求：{}", id);
+        trainingService.deleteContest(id);
+        return "redirect:/training/stage/" + stageId;
     }
 }

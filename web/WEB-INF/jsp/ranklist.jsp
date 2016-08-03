@@ -34,8 +34,15 @@
                 ordering: true,
                 processing: true,
                 searching:true,
+                stateSave: true,<!--状态保存-->
+                pageLength: 50,<!--初始化单页显示数-->
+                orderClasses: false,<!--排序列不高亮显示-->
                 dom: '<"top"if>rt<"bottom"lp>',
-                "order": [[2, "desc"], [3, "asc"]]
+                columnDefs: [
+                    //给第一列指定宽度为表格整个宽度的20%
+                    { "width": "30px", "targets": 2 }
+                ],
+                "order": [[3, "desc"], [4, "asc"]]
             });
         });
     </script>
@@ -57,27 +64,38 @@
 
     <div class="row" style="padding-bottom: 20px">
         <div class="pull-right">
-            <a href="<c:url value="/contest/showScore/${contest.id}"/>" class="btn btn-info">比赛分数统计</a>
+            <a href="<c:url value="/contest/showScore/${contest.id}"/>" class="btn btn-primary">比赛统计</a>
          </div>
     </div>
 
     <div class="row">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">${contest.name}&nbsp;&nbsp;原始榜单</h3>
+                <h3 class="panel-title">${contest.name}&nbsp;&nbsp;详情</h3>
             </div>
             <div class="panel-body">
-                <p>比赛开始：${contest.startTime}</p>
-                <p>比赛结束：${contest.endTime}</p>
-                <p>添加时间：${contest.addTime}</p>
-                <p>比赛类型：${contest.type}</p>
+                <p>比赛时间：${contest.startTime} —— ${contest.endTime}</p>
+                <p>
+                    <c:set value="PERSONAL" var="Personal"/>
+                    <c:set value="TEAN" var="Team"/>
+                    比赛类型：
+                    <c:choose>
+                        <c:when test="${contest.type eq Personal}">
+                            个人赛
+                        </c:when>
+                        <c:when test="${contest.type eq Team}">
+                            组队赛
+                        </c:when>
+                    </c:choose>
+                </p>
                 <table class="table table-condensed table-striped table-hover display" id="mytable">
                     <thead class="tab-header-area">
                     <tr>
+                        <th>排名</th>
                         <th>比赛账号</th>
                         <th>成员</th>
-                        <th>解题数</th>
-                        <th>Penalty</th>
+                        <th>题数</th>
+                        <th>罚时</th>
                         <c:set value="ABCDEFGHIJKLMNOPQRSTUVWXYZ" var="ti"/>
                         <c:forEach begin="1" end="${contest.pbCnt}" var="i">
                             <th>${ti.charAt(i-1)}</th>
@@ -92,6 +110,7 @@
                     <tbody>
                         <c:forEach items="${ranks}" var="team" varStatus="i">
                             <tr>
+                                <td>${myrank[i.index]+1}</td>
                                 <td>${team.account}</td>
                                 <td>${team.memberToString()}</td>
                                 <td>${team.solvedCount}</td>

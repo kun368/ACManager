@@ -9,7 +9,12 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>导入比赛 - ACManager</title>
+    <title>
+        <c:choose>
+            <c:when test="${contestId eq -1}">导入比赛</c:when>
+            <c:when test="${!(contestId eq -1)}">修改比赛</c:when>
+        </c:choose> - ACManager
+    </title>
     <script src="//cdn.bootcss.com/jquery/3.1.0/jquery.js"></script>
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
@@ -73,34 +78,41 @@
         </div>
         <div class="col-lg-8">
             <div class="page-header">
-                <h1>导入比赛</h1>
+                <h1>
+                    <c:choose>
+                        <c:when test="${contestId eq -1}">导入比赛</c:when>
+                        <c:when test="${!(contestId eq -1)}">修改比赛</c:when>
+                    </c:choose>
+                </h1>
             </div>
             <div>
                 <form class="form-horizontal" method="post" action="<c:url value="/contest/importContest"/> ">
                     <div class="col-lg-10">
-                        <div class="col-lg-6">
-                            <div class="form-group">
-                                <input type="text"   name="contestName" class="form-control" placeholder="比赛名称*" autofocus required>
-                            </div>
-                            <div class="form-group">
-                                <select class="form-control" name="contestType">
-                                    <option value="PERSONAL">个人赛</option>
-                                    <option value="TEAM">组队赛</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <input type="text"  id="startTime" name="stTime" class="form-control" placeholder="比赛开始时间(eg: 2007-12-03T10:15:30)" autofocus required>
-                            </div>
-                            <div class="form-group">
-                                <input type="text"  id="endTime"  name="edTime" class="form-control" placeholder="比赛结束时间(eg: 2007-12-03T10:15:30)" autofocus required>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <input type="text" value="${contestId}" name="contestId" hidden>
+                                <div class="form-group">
+                                    <input type="text" value="${preContest.name}"  name="contestName" class="form-control" placeholder="比赛名称*" autofocus required>
+                                </div>
+                                <div class="form-group">
+                                    <select class="form-control" name="contestType">
+                                        <option value="PERSONAL">个人赛</option>
+                                        <option value="TEAM">组队赛</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" value="${preContest.startTime}" id="startTime" name="stTime" class="form-control" autofocus required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" value="${preContest.endTime}" id="endTime"  name="edTime" class="form-control" autofocus required>
+                                </div>
                             </div>
                         </div>
-
                         <div class="form-group">
-                            <textarea name="vjContest" class="form-control" rows="15" placeholder="VJudge榜单" required></textarea>
+                            <textarea name="vjContest" class="form-control" rows="15" placeholder="VJudge榜单" required>${preContest.rawData.left}</textarea>
                         </div>
                         <div class="form-group">
-                            <textarea name="myConfig" class="form-control" rows="8" placeholder="配置文件"></textarea>
+                            <textarea name="myConfig" class="form-control" rows="8" placeholder="配置文件">${preContest.rawData.right}</textarea>
                         </div>
 
                         <div class="form-group pull-right">

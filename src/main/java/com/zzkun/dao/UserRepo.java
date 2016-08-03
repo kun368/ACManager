@@ -26,6 +26,8 @@ public interface UserRepo extends JpaRepository<User, Integer> {
 
     User findByUsername(String username);
 
+    User findByVjname(String vjname);
+
     @Override
     void deleteAllInBatch();
 

@@ -1,13 +1,12 @@
 package com.zzkun;
 
+
+import org.apache.commons.math3.ml.clustering.*;
 import org.junit.Test;
 import org.springframework.data.util.Pair;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -64,5 +63,28 @@ public class MyTest2 {
     public void test5() throws Exception {
         Pair<String, double[]> pair = Pair.of("abc", new double[]{1, 2, 3, 4});
         System.out.println(pair);
+    }
+
+    @Test
+    public void test6() throws Exception {
+        Clusterer<DoublePoint> clusterer = new KMeansPlusPlusClusterer<DoublePoint>(3);
+        List<DoublePoint> list = new ArrayList<>();
+
+        list.add(new DoublePoint(new double[]{1}));
+        list.add(new DoublePoint(new double[]{1.5}));
+        list.add(new DoublePoint(new double[]{1.8}));
+        list.add(new DoublePoint(new double[]{3.5}));
+        list.add(new DoublePoint(new double[]{3.6}));
+        list.add(new DoublePoint(new double[]{4}));
+        list.add(new DoublePoint(new double[]{4.2}));
+        System.out.println(list);
+
+        List<? extends Cluster<DoublePoint>> res = clusterer.cluster(list);
+        System.out.println("!!!");
+        System.out.println(res.size());
+        for (Cluster<DoublePoint> re : res) {
+            System.out.println(re.getPoints());
+        }
+
     }
 }

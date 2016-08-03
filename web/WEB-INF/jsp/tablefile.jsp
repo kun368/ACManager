@@ -32,6 +32,9 @@
                 ordering: true,
                 processing: true,
                 searching: true,
+                stateSave: true,<!--状态保存-->
+                pageLength: 50,<!--初始化单页显示数-->
+                orderClasses: false,<!--排序列不高亮显示-->
                 dom: '<"top"if>rt<"bottom"lp>',
                 "order": [[2, "asc"]]
             });
@@ -167,11 +170,14 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="pull-left">
-            <button class="btn btn-info" id="addbutton">重新抓取uhunt数据&nbsp;(LastUpdate: ${lastUpdate})</button>
+    <c:if test="${(!empty user) and (user.isAdmin())}">
+        <div class="row">
+            <div class="pull-left">
+                <button class="btn btn-info" id="addbutton">重新抓取uhunt数据&nbsp;(LastUpdate: ${lastUpdate})</button>
+            </div>
         </div>
-    </div>
+    </c:if>
+
 </div>
 
 <c:url value="/uva/updatedb" var="url_updatedb"/>

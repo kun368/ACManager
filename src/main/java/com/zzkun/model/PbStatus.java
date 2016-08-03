@@ -63,10 +63,10 @@ public class PbStatus implements Serializable {
         if(solved) {
             s += getHTime(time);
             if(waCount > 0)
-                s += "(-" + waCount + ")";
+                s += " (-" + waCount + ")";
         } else {
             if(waCount > 0)
-                s += "(-" + waCount + ")";
+                s += " (-" + waCount + ")";
         }
         return s;
     }
