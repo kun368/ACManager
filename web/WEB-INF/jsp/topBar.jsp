@@ -30,6 +30,7 @@
                     <li> <a href="${url_index}">首页</a> </li>
                     <li> <a href="${url_uvaTable}">队员统计</a> </li>
                     <li> <a href="${url_traininglist}">集训管理</a> </li>
+                    <li> <a href="<c:url value="/oj/recentContest"/> ">近期比赛</a> </li>
                 </ul>
                 <c:if test="${empty user}">
                     <div class="navbar-form navbar-right">

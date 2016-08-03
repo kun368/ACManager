@@ -1,11 +1,16 @@
 package com.zzkun;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.math3.ml.clustering.*;
 import org.junit.Test;
 import org.springframework.data.util.Pair;
 
 import java.math.BigInteger;
+import java.net.URI;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -85,6 +90,15 @@ public class MyTest2 {
         for (Cluster<DoublePoint> re : res) {
             System.out.println(re.getPoints());
         }
+    }
 
+    @Test
+    public void test7() throws Exception {
+        String str = IOUtils.toString(new URI("http://contests.acmicpc.info/contests.json"), "utf8");
+        JSONArray array = JSON.parseArray(str);
+        for(int i = 0; i < array.size(); ++i) {
+            JSONObject object = array.getJSONObject(i);
+            System.out.println(object);
+        }
     }
 }

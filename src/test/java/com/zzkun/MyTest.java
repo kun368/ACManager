@@ -1,9 +1,13 @@
 package com.zzkun;
 
 import com.zzkun.dao.UVaPbInfoRepo;
+import com.zzkun.model.Contest;
 import com.zzkun.model.UHuntTreeNode;
 import com.zzkun.model.UVaPbInfo;
+import com.zzkun.service.TrainingService;
 import com.zzkun.util.uhunt.UhuntTreeManager;
+import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.math3.ml.clustering.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,17 +35,8 @@ public class MyTest {
 
     @Autowired private UVaPbInfoRepo uVaPbInfoRepo;
 
-    private long start;
+    @Autowired private TrainingService trainingService;
 
-    @Before
-    public void start() {
-        start = System.currentTimeMillis();
-    }
-
-    @After
-    public void end() {
-        System.err.println("测试耗时：" + (System.currentTimeMillis() - start));
-    }
 
     @Test
     public void test1() {
@@ -80,5 +75,22 @@ public class MyTest {
         }
     }
 
+    @Test
+    public void test2() throws Exception {
+        Contest contest = trainingService.getContest(7);
+        Pair<double[], double[][]> pair = trainingService.calcContestScore(contest);
+        double[] left = pair.getLeft();
+        System.out.println(Arrays.toString(left));
 
+        KMeansPlusPlusClusterer<DoublePoint> clusterer = new KMeansPlusPlusClusterer<DoublePoint>(20);
+
+        List<DoublePoint> list = new ArrayList<>();
+        for (double v : left) {
+            list.add(new DoublePoint(new double[]{v}));
+        }
+        List<? extends Cluster<DoublePoint>> res = clusterer.cluster(list);
+        for (Cluster<DoublePoint> re : res) {
+            System.out.println(re.getPoints());
+        }
+    }
 }
