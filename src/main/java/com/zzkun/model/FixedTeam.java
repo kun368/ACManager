@@ -19,6 +19,11 @@ public class FixedTeam implements Serializable {
 
     private String name2;
 
+    private String vjname;
+
+    private Integer trainingId;
+
+    @Lob
     private ArrayList<Integer> uids = new ArrayList<>();
 
     public FixedTeam() {
@@ -56,12 +61,30 @@ public class FixedTeam implements Serializable {
         this.uids = uids;
     }
 
+    public String getVjname() {
+        return vjname;
+    }
+
+    public void setVjname(String vjname) {
+        this.vjname = vjname;
+    }
+
+    public Integer getTrainingId() {
+        return trainingId;
+    }
+
+    public void setTrainingId(Integer trainingId) {
+        this.trainingId = trainingId;
+    }
+
     @Override
     public String toString() {
         return "FixedTeam{" +
                 "id=" + id +
                 ", name1='" + name1 + '\'' +
                 ", name2='" + name2 + '\'' +
+                ", vjname='" + vjname + '\'' +
+                ", trainingId=" + trainingId +
                 ", uids=" + uids +
                 '}';
     }

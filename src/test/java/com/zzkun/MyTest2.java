@@ -101,4 +101,10 @@ public class MyTest2 {
             System.out.println(object);
         }
     }
+
+    @Test
+    public void test8() throws Exception {
+        String s = IOUtils.toString(new URI("http://acm.hust.edu.cn/vjudge/data/contest_standing/125874.json"), "utf8");
+        System.out.println(s);
+    }
 }

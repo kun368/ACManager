@@ -7,7 +7,9 @@
 - 前台：JSP、JQuery、Bootstrap
 - 后台：Java8、Spring、SpringMVC
 - 数据库：MySql、C3P0、Hibernate、Spring Data JPA
-- 服务器：Jetty
+- 服务器：Jetty、tomcat
+- 开发工具：IntelliJ IDEA
+- 算法：Agnes、TrueSkill
 
 ### 正在进行开发的功能
 
@@ -16,7 +18,8 @@
 - 解析vj榜单
 - 管理比赛和集训
 - 随机组队赛分队
+- 个人、队伍算分评测
 
 ### 测试网站
 
-[ACManager(山科内网访问)](http://192.168.119.213:8081/ACManager/)
+[ACManager](http://120.27.4.153/ACManager)

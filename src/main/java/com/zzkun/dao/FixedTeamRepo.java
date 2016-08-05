@@ -17,7 +17,7 @@ public interface FixedTeamRepo extends JpaRepository<FixedTeam, Integer> {
     <S extends FixedTeam> List<S> save(Iterable<S> iterable);
 
     @Override
-    FixedTeam getOne(Integer integer);
+    FixedTeam findOne(Integer integer);
 
     @Override
     long count();

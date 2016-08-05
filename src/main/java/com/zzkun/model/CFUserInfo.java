@@ -1,12 +1,18 @@
 package com.zzkun.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.io.Serializable;
 
 /**
  * Created by Administrator on 2016/7/31.
  */
+@Entity
+@Table(name = "cf_user_info")
 public class CFUserInfo implements Serializable {
 
+    @Id
     private String cfname;
 
     private Integer rating;

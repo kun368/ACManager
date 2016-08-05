@@ -62,8 +62,8 @@
             $('#major').val(tds.eq(3).text());
             $('#uvaId').val(tds.eq(4).text());
             $('#cfname').val(tds.eq(5).text());
-            $('#vjname').val(tds.eq(6).text());
-            $('#status').val(tds.eq(10).text());
+            $('#vjname').val(tds.eq(7).text());
+            $('#status').val(tds.eq(11).text());
         }
     </script>
 </head>
@@ -87,8 +87,9 @@
                         <th hidden>用户名</th>
                         <th>班级</th>
                         <th>UVaId</th>
-                        <th>CfName</th>
-                        <th>VJName</th>
+                        <th hidden>CfName</th>
+                        <th>Cf Rating</th>
+                        <th hidden>VJName</th>
                         <th>合计</th>
                         <c:forEach items="${booksName}" var="bookname">
                             <th>${bookname}</th>
@@ -119,8 +120,13 @@
                             <td hidden>${curUser.username}</td>
                             <td>${curUser.major}</td>
                             <td>${curUser.uvaId}</td>
-                            <td>${curUser.cfname}</td>
-                            <td>${curUser.vjname}</td>
+                            <td hidden>${curUser.cfname}</td>
+                            <td>
+                                <a href="http://codeforces.com/profile/${curUser.cfname}" target="_blank">
+                                    ${cfInfoMap.get(curUser.cfname).rating}
+                                </a>
+                            </td>
+                            <td hidden>${curUser.vjname}</td>
                             <td>${bookCnt.get(i.index).get(0) + bookCnt.get(i.index).get(1)}</td>
                             <c:forEach items="${bookCnt.get(i.index)}" var="j">
                                 <td>${j}</td>
@@ -173,7 +179,7 @@
     <c:if test="${(!empty user) and (user.isAdmin())}">
         <div class="row">
             <div class="pull-left">
-                <button class="btn btn-info" id="addbutton">重新抓取uhunt数据&nbsp;(LastUpdate: ${lastUpdate})</button>
+                <button class="btn btn-info" id="addbutton">更新数据&nbsp;(LastUpdate: ${lastUpdate})</button>
             </div>
         </div>
     </c:if>
