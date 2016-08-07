@@ -66,6 +66,7 @@
                 var newstart=str.replace(re,"T");
                 $('#endTime').val(newstart);
             })
+            $("#Type option[value='${preContest.type}']").attr("selected","selected");
         })
     </script>
 </head>
@@ -95,7 +96,7 @@
                                     <input type="text" value="${preContest.name}"  name="contestName" class="form-control" placeholder="比赛名称*" autofocus required>
                                 </div>
                                 <div class="form-group">
-                                    <select class="form-control" name="contestType">
+                                    <select class="form-control" name="contestType" id="Type">
                                         <option value="PERSONAL">个人赛</option>
                                         <option value="TEAM">组队赛</option>
                                     </select>

@@ -91,7 +91,7 @@ public class VJRankParser {
             if(entry.getValue() != null && entry.getValue().size() == 1)
                 realnames.add(entry.getValue().get(0));
         }
-        logger.info("解析榜单所需要的所有合法用户：vjnames:{}, realnames", vjnames, realnames);
+        logger.info("解析榜单所需要的所有合法用户：vjnames:{}, realnames:{}", vjnames, realnames);
 
 
 

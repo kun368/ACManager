@@ -1,6 +1,7 @@
 package com.zzkun.controller;
 
 import com.zzkun.model.Contest;
+import com.zzkun.model.Training;
 import com.zzkun.model.User;
 import com.zzkun.service.TrainingService;
 import org.apache.commons.lang3.tuple.Pair;
@@ -69,15 +70,20 @@ public class ContestController {
                                 @SessionAttribute User user,
                                 @SessionAttribute Integer stageId,
                                 RedirectAttributes redirectAttributes) {
+        logger.info("导入/修改比赛。。。");
+        logger.info("contestId = [" + contestId + "], contestName = [" + contestName + "], contestType = [" + contestType + "], stTime = [" + stTime + "], edTime = [" + edTime + "], myConfig = [" + myConfig + "], vjContest = [" + vjContest + "], user = [" + user + "], stageId = [" + stageId + "]");
         try {
             Contest contest = trainingService.parseVj(contestName, contestType, stTime, edTime, myConfig, vjContest, user, stageId);
+            logger.info("比赛ID：{}", contestId);
             if(contestId == -1) {
                 trainingService.saveContest(contest);
                 redirectAttributes.addFlashAttribute("tip", "添加成功！");
             } else {
                 Contest pre = trainingService.getContest(contestId);
+                logger.info("修改比赛：原：{}", pre);
                 contest.setId(contestId);
                 contest.setAddTime(pre.getAddTime());
+                logger.info("修改比赛：现：{}", contest);
                 trainingService.saveContest(contest);
                 redirectAttributes.addFlashAttribute("tip", "修改成功！");
             }
@@ -103,12 +109,13 @@ public class ContestController {
     public String showScore(@PathVariable Integer id,
                             Model model) {
         Contest contest = trainingService.getContest(id);
+        Training training = trainingService.getTrainingByContestId(id);
         Pair<double[], double[][]> pair = trainingService.calcContestScore(contest);
         model.addAttribute("contest", contest);
         model.addAttribute("ranks", contest.getRanks());
         model.addAttribute("sum", pair.getLeft());
         model.addAttribute("pre", pair.getRight());
-        model.addAttribute("myrank", trainingService.calcRank(pair.getLeft()));
+        model.addAttribute("myrank", trainingService.calcRank(pair.getLeft(), training));
         return "ranklist_score";
     }
 

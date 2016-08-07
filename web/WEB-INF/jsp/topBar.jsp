@@ -7,7 +7,19 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<script>
+    $.extend( $.fn.dataTable.defaults, {
+        lengthChange: true,
+        ordering: true,
+        processing: true,
+        searching:true,
+        stateSave: true,<!--状态保存-->
+        stateDuration:-1,
+        pageLength: 50,<!--初始化单页显示数-->
+        orderClasses: false,<!--排序列不高亮显示-->
+        dom: '<"top"if>rt<"bottom"lp>',
+    } );
+</script>
 <c:url value="/" var="url_index"/>
 <c:url value="/uva/showTable" var="url_uvaTable"/>
 <c:url value="/auth/login" var="url_login"/>

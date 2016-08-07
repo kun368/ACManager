@@ -3,6 +3,7 @@ package com.zzkun.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.persistence.criteria.CriteriaBuilder;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,7 +33,12 @@ public class Training implements Serializable {
 
     private Integer addUid;
 
-    private Double standard, expand;
+    private Double standard, expand; //数据标准化时的两个参数
+
+    private Integer waCapcity;  //题目错误处理
+
+    private Double mergeLimit; //Rank聚类时的合并阈值
+
 
     public Training() {
     }
@@ -108,6 +114,22 @@ public class Training implements Serializable {
 
     public void setExpand(Double expand) {
         this.expand = expand;
+    }
+
+    public Integer getWaCapcity() {
+        return waCapcity;
+    }
+
+    public void setWaCapcity(Integer waCapcity) {
+        this.waCapcity = waCapcity;
+    }
+
+    public Double getMergeLimit() {
+        return mergeLimit;
+    }
+
+    public void setMergeLimit(Double mergeLimit) {
+        this.mergeLimit = mergeLimit;
     }
 
     @Override

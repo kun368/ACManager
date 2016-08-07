@@ -82,6 +82,12 @@ public class TeamRanking implements Serializable, Comparable<TeamRanking> {
         return calcSumPenalty().compareTo(o.calcSumPenalty());
     }
 
+    public boolean[] judgeTValid(int maxWA) {
+        boolean[] ok = new boolean[pbStatus.size()];
+        //TODO
+        return null;
+    }
+
     @Override
     public String toString() {
         return "TeamRanking{" +

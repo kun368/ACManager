@@ -43,9 +43,9 @@ public class AgnesClusterer {
         dis.set(pos, ans);
     }
 
-    public void clusterOne() {
+    public boolean clusterOne(double disLimit) {
         if(list.size() <= 1)
-            return;
+            return false;
         double minDis = Double.MAX_VALUE;
         int minPos = 0;
         for(int i = 0; i < dis.size(); ++i) {
@@ -55,6 +55,10 @@ public class AgnesClusterer {
             }
         }
         logger.info("当前最小距离：{}", minDis);
+        if(minDis > disLimit) {
+            logger.info("当前距离大于阈值{}", disLimit);
+            return false;
+        }
         list.get(minPos).addAll(list.get(minPos+1));
         list.remove(minPos+1);
         dis.remove(minPos);
@@ -62,10 +66,18 @@ public class AgnesClusterer {
         if(minPos < list.size()-1) updateDis(minPos);
         logger.info("单次聚类完成，剩余类数：{}", list.size());
         logger.info("当前结果：{}", list);
+        return true;
     }
 
-    public void cluster() {
-        while(list.size() > 1)
-            clusterOne();
+
+    public Map<Double, Integer> clusterWithLimit(double disLimit, boolean inv) {
+        while(clusterOne(disLimit));
+        Map<Double, Integer> map = new HashMap<>();
+        for(int i = 0; i < list.size(); ++i) {
+            for (Double val :list.get(i)) {
+                map.put(val, inv ? (list.size()-i-1) : i);
+            }
+        }
+        return map;
     }
 }

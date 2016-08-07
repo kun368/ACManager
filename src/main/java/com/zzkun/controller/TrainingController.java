@@ -188,13 +188,15 @@ public class TrainingController {
                                  @RequestParam String endTime,
                                  @RequestParam String remark,
                                  @RequestParam Double standard,
-                                 @RequestParam Double expand) {
-        logger.info("修改集训：user = [" + user + "], id = [" + id + "], name = [" + name + "], beginTime = [" + beginTime + "], endTime = [" + endTime + "], remark = [" + remark + "], standard = [" + standard + "], expand = [" + expand + "]");
+                                 @RequestParam Double expand,
+                                 @RequestParam Double mergeLimit,
+                                 @RequestParam Integer waCapcity) {
+        logger.info("修改集训：user = [" + user + "], id = [" + id + "], name = [" + name + "], beginTime = [" + beginTime + "], endTime = [" + endTime + "], remark = [" + remark + "], standard = [" + standard + "], expand = [" + expand + "], mergeLimit = [" + mergeLimit + "], waCapcity = [" + waCapcity + "]");
         if(user == null || !user.isAdmin()) {
             return "没有权限！";
         }
         try {
-            trainingService.modifyTraining(id, name, beginTime, endTime, remark, standard, expand);
+            trainingService.modifyTraining(id, name, beginTime, endTime, remark, standard, expand, mergeLimit, waCapcity);
             return "修改成功";
         } catch (Exception e) {
             e.printStackTrace();

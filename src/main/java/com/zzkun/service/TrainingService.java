@@ -2,6 +2,7 @@ package com.zzkun.service;
 
 import com.zzkun.dao.*;
 import com.zzkun.model.*;
+import com.zzkun.util.cluster.AgnesClusterer;
 import com.zzkun.util.stder.DataStder;
 import com.zzkun.util.stder.RawData;
 import com.zzkun.util.vjudge.VJRankParser;
@@ -95,7 +96,8 @@ public class TrainingService {
 
     public void modifyTraining(Integer id, String name,
                                String beginTime, String endTime, String remark,
-                               Double standard, Double expand) {
+                               Double standard, Double expand,
+                               Double mergeLimit, Integer waCapcity) {
         Training training = getTrainingById(id);
         if(StringUtils.hasText(name))
             training.setName(name);
@@ -105,6 +107,8 @@ public class TrainingService {
         training.setEndDate(LocalDate.parse(endTime));
         training.setStandard(standard);
         training.setExpand(expand);
+        training.setMergeLimit(mergeLimit);
+        training.setWaCapcity(waCapcity);
         trainingRepo.save(training);
     }
 
@@ -233,16 +237,24 @@ public class TrainingService {
         return Pair.of(ans, preT);
     }
 
-    public int[] calcRank(double[] score) {
+
+    public int[] calcRank(double[] score, Training training) {
         if(score == null) return null;
-        int[] rank = new int[score.length];
-        List<Pair<Double, Integer>> pairs = new ArrayList<>();
-        for(int i = 0; i < score.length; ++i)
-            pairs.add(Pair.of(score[i], i));
-        Collections.sort(pairs, (x, y) -> (y.getLeft().compareTo(x.getLeft())));
-        for(int i = 0; i < pairs.size(); ++i)
-            rank[pairs.get(i).getRight()] = i;
-        return rank;
+        AgnesClusterer clusterer = new AgnesClusterer(score);
+        Map<Double, Integer> map = clusterer.clusterWithLimit(training.getExpand() * training.getMergeLimit(), true);
+        int[] ans = new int[score.length];
+        for(int i = 0; i < score.length; ++i) {
+            ans[i] = map.get(score[i]);
+        }
+        return ans;
+//        int[] rank = new int[score.length];
+//        List<Pair<Double, Integer>> pairs = new ArrayList<>();
+//        for(int i = 0; i < score.length; ++i)
+//            pairs.add(Pair.of(score[i], i));
+//        Collections.sort(pairs, (x, y) -> (y.getLeft().compareTo(x.getLeft())));
+//        for(int i = 0; i < pairs.size(); ++i)
+//            rank[pairs.get(i).getRight()] = i;
+//        return rank;
     }
 
     public int[] calcRank(List<? extends Comparable> list) {

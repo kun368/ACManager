@@ -31,14 +31,6 @@
     <script>
         $(document).ready(function () {
             $('#mytable').DataTable({
-                lengthChange: true,
-                ordering: true,
-                processing: true,
-                searching: true,
-                stateSave: true,<!--状态保存-->
-                pageLength: 50,<!--初始化单页显示数-->
-                orderClasses: false,<!--排序列不高亮显示-->
-                dom: '<"top"if>rt<"bottom"lp>',
                 "order": [[3, "desc"]]
             });
             $('#savabutton').click(function () {
@@ -62,7 +54,9 @@
                     endTime: $('#endTime2').val(),
                     remark:$('#remark2').val(),
                     standard:$('#standard2').val(),
-                    expand:$('#expand2').val()
+                    expand:$('#expand2').val(),
+                    mergeLimit:$('#mergeLimit2').val(),
+                    waCapcity:$('#waCapcity2').val()
                 }, function (data) {
                     alert(data);
                     location.reload();
@@ -124,11 +118,11 @@
             $('#remark2').val(tds.eq(4).text());
             $('#standard2').val(tds.eq(5).text());
             $('#expand2').val(tds.eq(6).text());
+            $('#mergeLimit2').val(tds.eq(7).text());
+            $('#waCapcity2').val(tds.eq(8).text());
             $('#id2').val(id);
         }
-
     </script>
-
 </head>
 <body>
 
@@ -166,6 +160,8 @@
                         <th hidden>备注</th>
                         <th hidden>基准分</th>
                         <th hidden>标准偏差</th>
+                        <th hidden>mergeLimit</th>
+                        <th hidden>waCapcity</th>
                         <th>阶段数</th>
                         <th>创建者</th>
                         <c:if test="${!empty user}">
@@ -205,6 +201,8 @@
                             <td hidden>${training.remark}</td>
                             <td hidden>${training.standard}</td>
                             <td hidden>${training.expand}</td>
+                            <td hidden>${training.mergeLimit}</td>
+                            <td hidden>${training.waCapcity}</td>
                             <td>${trainingSizeMap.get(training.id)}</td>
                             <td>${trainingAddUserList.get(training.addUid).username}</td>
                             <c:if test="${!empty user}">
@@ -274,12 +272,12 @@
                         <textarea rows="5" class="form-control" placeholder="备注" id="remark"></textarea>
                     </div>
                     <div class="row">
-                    <div class="form-group col-lg-6">
-                        <input type="number" class="form-control" placeholder="基准分" id="standard" required>
-                    </div>
-                    <div class="form-group col-lg-6">
-                        <input type="number" class="form-control" placeholder="标准偏差" id="expand" required>
-                    </div>
+                        <div class="form-group col-lg-6">
+                            <input type="number" class="form-control" placeholder="基准分" id="standard" required>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            <input type="number" class="form-control" placeholder="标准偏差" id="expand" required>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -312,13 +310,18 @@
                         备注：<textarea rows="5" class="form-control" placeholder="备注" id="remark2"></textarea>
                     </div>
                     <div class="row">
-                    <div class="form-group col-lg-6">
-                        基准分：<input type="number" class="form-control" placeholder="名称" id="standard2" required>
+                        <div class="form-group col-lg-6">
+                            基准分：<input type="number" class="form-control" placeholder="名称" id="standard2" required>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            标准偏差：<input type="number" class="form-control" placeholder="名称" id="expand2" required>
+                        </div>
                     </div>
-
-                    <div class="form-group col-lg-6">
-                        标准偏差：<input type="number" class="form-control" placeholder="名称" id="expand2" required>
+                    <div class="form-group">
+                        mergeLimit：<input type="text" class="form-control"  id="mergeLimit2" required>
                     </div>
+                    <div class="form-group">
+                        waCapcity：<input type="text" class="form-control" id="waCapcity2" required>
                     </div>
                     <div class="form-group" hidden>
                         集训id：<input type="text" class="form-control" placeholder="id" id="id2" hidden>

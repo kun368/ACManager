@@ -30,14 +30,6 @@
 
         $(document).ready(function () {
             $('#mytable').DataTable({
-                lengthChange: true,
-                ordering: true,
-                processing: true,
-                searching:true,
-                stateSave: true,<!--状态保存-->
-                pageLength: 50,<!--初始化单页显示数-->
-                orderClasses: false,<!--排序列不高亮显示-->
-                dom: '<"top"if>rt<"bottom"lp>',
                 columnDefs: [
                     //给第一列指定宽度为表格整个宽度的20%
                     { "width": "30px", "targets": 2 }

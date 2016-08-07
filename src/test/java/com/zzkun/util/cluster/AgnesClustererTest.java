@@ -10,8 +10,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by Administrator on 2016/8/4.
  */
@@ -27,11 +25,11 @@ public class AgnesClustererTest {
         Contest contest = trainingService.getContest(7);
         double[] left = trainingService.calcContestScore(contest).getLeft();
         System.out.println(Arrays.toString(left));
-
-        for(int i = 0; i < 100; ++i) {
-            AgnesClusterer clusterer = new AgnesClusterer(left);
-            clusterer.cluster();
-        }
+//
+//        for(int i = 0; i < 100; ++i) {
+//            AgnesClusterer clusterer = new AgnesClusterer(left);
+//            clusterer.clusterAll();
+//        }
     }
 
 }
