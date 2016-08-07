@@ -59,6 +59,7 @@ public class TeamAssignService {
         logger.info("历次分队set{}，PairSET：{}", teamSet, pairSet);
         for(int k = 0; k < 100; ++k) {
             AssignResult result = randomAssign(users, trainingId);
+            result.setType(Type.NoRepeat);
             boolean ok = true;
             for (List<Integer> list : result.getTeamList()) {
                 if(teamSet.contains(list))

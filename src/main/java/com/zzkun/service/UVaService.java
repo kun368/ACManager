@@ -12,6 +12,7 @@ import com.zzkun.util.uhunt.UHuntWebGetter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -58,6 +59,7 @@ public class UVaService {
      * 更新所有用户的提交数据
      * 多线程...
      */
+    @Scheduled(cron="0 0 0/1 * * ?")
     public void flushUVaSubmit() {
         logger.info("收到更新uva提交db请求...");
         List<User> userList = userRepo.findAll();

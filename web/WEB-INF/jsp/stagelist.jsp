@@ -196,6 +196,7 @@
                         <th>结束时间</th>
                         <th hidden>备注</th>
                         <th>添加时间</th>
+                        <th>比赛数</th>
                         <th>创建者</th>
                         <c:if test="${(!empty user) && (user.isAdmin())}">
                             <th>操作</th>
@@ -214,6 +215,7 @@
                             <td>${stage.endDate}</td>
                             <td hidden>${stage.remark}</td>
                             <td>${stage.addTime}</td>
+                            <td>${stageSizeMap.get(stage.id)}</td>
                             <td>${stageAddUserList.get(stage.addUid).username}</td>
                             <c:if test="${(!empty user) && (user.isAdmin())}">
                                 <td>
@@ -221,7 +223,6 @@
                                        onclick="updata(this,${stage.id})">编辑</a>
                                 </td>
                             </c:if>
-
                         </tr>
                     </c:forEach>
                     </tbody>

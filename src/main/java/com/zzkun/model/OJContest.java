@@ -1,11 +1,19 @@
 package com.zzkun.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 /**
  * Created by Administrator on 2016/8/3.
  */
+@Entity
+@Table(name = "oj_contest")
 public class OJContest {
 
+    @Id
     private Integer id;
+
     private String oj;
     private String link;
     private String name;

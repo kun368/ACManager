@@ -76,6 +76,7 @@
                         <th>结束时间</th>
                         <th>比赛类型</th>
                         <th>添加时间</th>
+                        <th>比赛人数</th>
                         <th>创建者</th>
                         <c:if test="${(!empty user) && (user.isAdmin())}">
                             <th>操作</th>
@@ -107,6 +108,7 @@
                                 </c:choose>
                             </td>
                             <td>${contest.addTime}</td>
+                            <td>${contest.ranks.size()}</td>
                             <td>${contestAddUserList.get(contest.addUid).username}</td>
                             <c:if test="${(!empty user) && (user.isAdmin())}">
                                 <td>

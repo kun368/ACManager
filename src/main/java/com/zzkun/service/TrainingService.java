@@ -108,6 +108,15 @@ public class TrainingService {
         trainingRepo.save(training);
     }
 
+    public Map<Integer, Integer> trainingSizeMap(List<Training> allTraining) {
+        Map<Integer, Integer> map = new HashMap<>(allTraining.size());
+        for (Training training : allTraining) {
+            Integer trainingId = training.getId();
+            map.put(trainingId, (int) stageRepo.countByTrainingId(trainingId));
+        }
+        return map;
+    }
+
     //用户申请参加集训
     public void applyJoinTraining(Integer userId, Integer trainingId) {
         User user = userRepo.findOne(userId);
@@ -156,6 +165,15 @@ public class TrainingService {
         stage.setStartDate(LocalDate.parse(beginTime));
         stage.setEndDate(LocalDate.parse(endTime));
         stageRepo.save(stage);
+    }
+
+    public Map<Integer, Integer> getstageSizeMap(List<Stage> stageList) {
+        Map<Integer, Integer> map = new HashMap<>(stageList.size());
+        for (Stage stage : stageList) {
+            Integer stageId = stage.getId();
+            map.put(stageId, (int) contestRepo.countByStageId(stageId));
+        }
+        return map;
     }
 
     //// Contest
@@ -275,5 +293,4 @@ public class TrainingService {
         logger.info("解析完毕：{}", contest);
         return contest;
     }
-
 }

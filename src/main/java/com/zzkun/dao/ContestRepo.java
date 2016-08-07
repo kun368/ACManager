@@ -22,4 +22,9 @@ public interface ContestRepo extends JpaRepository<Contest, Integer> {
 
     @Override
     void delete(Integer integer);
+
+    @Override
+    long count();
+
+    long countByStageId(Integer stageId);
 }

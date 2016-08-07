@@ -166,6 +166,7 @@
                         <th hidden>备注</th>
                         <th hidden>基准分</th>
                         <th hidden>标准偏差</th>
+                        <th>阶段数</th>
                         <th>创建者</th>
                         <c:if test="${!empty user}">
                             <th>状态</th>
@@ -204,6 +205,7 @@
                             <td hidden>${training.remark}</td>
                             <td hidden>${training.standard}</td>
                             <td hidden>${training.expand}</td>
+                            <td>${trainingSizeMap.get(training.id)}</td>
                             <td>${trainingAddUserList.get(training.addUid).username}</td>
                             <c:if test="${!empty user}">
                                 <td>

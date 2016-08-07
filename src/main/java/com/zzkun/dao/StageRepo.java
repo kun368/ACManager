@@ -20,4 +20,9 @@ public interface StageRepo extends JpaRepository<Stage, Integer> {
     Stage findOne(Integer integer);
 
     List<Stage> findByTrainingId(Integer id);
+
+    @Override
+    long count();
+
+    long countByTrainingId(Integer trainingId);
 }

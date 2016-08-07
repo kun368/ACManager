@@ -38,6 +38,7 @@ public class TrainingController {
                          HttpSession session) {
         List<Training> allTraining = trainingService.getAllTraining();
         model.addAttribute("allList", allTraining);
+        model.addAttribute("trainingSizeMap", trainingService.trainingSizeMap(allTraining));
         model.addAttribute("trainingAddUserList", userService.getUserInfoByTList(allTraining));
         model.addAttribute("ujointMap", trainingService.getUserRelativeTraining((User) session.getAttribute("user")));
         return "trainingsetlist";
@@ -64,6 +65,7 @@ public class TrainingController {
         List<Stage> stageList = trainingService.getAllStageByTrainingId(id);
         model.addAttribute("info", trainingService.getTrainingById(id));
         model.addAttribute("stageList", stageList);
+        model.addAttribute("stageSizeMap", trainingService.getstageSizeMap(stageList));
         model.addAttribute("stageAddUserList", userService.getUserInfoBySList(stageList));
         model.addAttribute("ujoinT", trainingService.getTrainingAllUser(id));
         session.setAttribute("trainingId", id);
