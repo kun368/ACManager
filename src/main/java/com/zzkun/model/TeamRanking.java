@@ -68,6 +68,14 @@ public class TeamRanking implements Serializable, Comparable<TeamRanking> {
         return sum;
     }
 
+    public String calcSumPenaltyStr() {
+        int penalty = calcSumPenalty();
+        int s = penalty % 60; penalty /= 60;
+        int m = penalty % 60; penalty /= 60;
+        int h = penalty;
+        return String.format("%d:%02d:%02d\n", h, m, s);
+    }
+
     public String memberToString() {
         StringJoiner joiner = new StringJoiner(" ");
         for (String s : member)

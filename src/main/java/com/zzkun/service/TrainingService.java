@@ -38,6 +38,8 @@ public class TrainingService {
 
     @Autowired private AssignResultRepo assignResultRepo;
 
+    @Autowired private FixedTeamRepo fixedTeamRepo;
+
     @Autowired private VJRankParser vjRankParser;
 
     @Autowired private DataStder dataStder;
@@ -145,6 +147,11 @@ public class TrainingService {
         uJoinTRepo.save(uJoinT);
     }
 
+    ///// fixedTeam
+    public List<FixedTeam> getAllTrainingFixedTeam(Integer trainingId) {
+        return fixedTeamRepo.findByTrainingId(trainingId);
+    }
+
     //// Stage
 
     public List<Stage> getAllStageByTrainingId(Integer id) {
@@ -214,17 +221,23 @@ public class TrainingService {
      * @param contest Contest实体类
      * @return first各队标准分, second:各题每队得分
      */
-    public Pair<double[], double[][]> calcContestScore(Contest contest) {
+    public Pair<double[], double[][]> calcContestScore(Contest contest, boolean[][] waClear) {
         Training training = getTrainingByContestId(contest.getId());
         ArrayList<TeamRanking> ranks = contest.getRanks();
         Integer pbCnt = contest.getPbCnt();
         double[] ans = new double[ranks.size()];
         double[][] preT = new double[pbCnt][];
+
+        //超出wa限制判断
+        for(int i = 0; i < ranks.size(); ++i) {
+            waClear[i] = teatWaClear(ranks.get(i), -training.getWaCapcity());
+        }
+
         for(int i = 0; i < pbCnt; ++i) {
             List<RawData> list = new ArrayList<>();
-            for (TeamRanking rank : ranks) {
-                PbStatus pbStatus = rank.getPbStatus().get(i);
-                list.add(new RawData((double) -pbStatus.calcPenalty(), pbStatus.isSolved()));
+            for(int j = 0; j < ranks.size(); ++j) {
+                PbStatus pbStatus = ranks.get(j).getPbStatus().get(i);
+                list.add(new RawData((double) -pbStatus.calcPenalty(), pbStatus.isSolved() && !waClear[j][i]));
             }
             preT[i] = dataStder.std(list, training.getExpand(), training.getStandard());
             for(int j = 0; j < ranks.size(); ++j)
@@ -237,11 +250,31 @@ public class TrainingService {
         return Pair.of(ans, preT);
     }
 
+    private boolean[] teatWaClear(TeamRanking ranking, int capacity) {
+        List<PbStatus> list = ranking.getPbStatus();
+        boolean[] ans = new boolean[list.size()];
+        TreeMap<PbStatus, Integer> ac = new TreeMap<>();
+        int waCnt = 0;
+        for (int i = 0; i < list.size(); ++i) {
+            if(list.get(i).isSolved()) {
+                waCnt += list.get(i).getWaCount();
+                ac.put(list.get(i), i);
+            }
+        }
+        while(ac.size() >= 2 && waCnt > ac.size() * capacity) {
+            Map.Entry<PbStatus, Integer> entry = ac.lastEntry();
+            ans[entry.getValue()] = true;
+            waCnt -= entry.getKey().getWaCount();
+            ac.remove(entry.getKey());
+        }
+        return ans;
+    }
+
 
     public int[] calcRank(double[] score, Training training) {
         if(score == null) return null;
         AgnesClusterer clusterer = new AgnesClusterer(score);
-        Map<Double, Integer> map = clusterer.clusterWithLimit(training.getExpand() * training.getMergeLimit(), true);
+        Map<Double, Integer> map = clusterer.clusterWithLimit(training.getMergeLimit(), true);
         int[] ans = new int[score.length];
         for(int i = 0; i < score.length; ++i) {
             ans[i] = map.get(score[i]);

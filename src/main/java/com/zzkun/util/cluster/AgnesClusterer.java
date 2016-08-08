@@ -38,8 +38,7 @@ public class AgnesClusterer {
         for (Double a : list.get(pos))
             for (Double b : list.get(pos + 1))
                 disList.add(Math.abs(a - b));
-        Collections.sort(disList);
-        double ans = disList.get(disList.size()/2);
+        double ans = Collections.max(disList);
         dis.set(pos, ans);
     }
 

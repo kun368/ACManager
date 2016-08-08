@@ -1,10 +1,7 @@
 package com.zzkun.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.zzkun.model.Contest;
-import com.zzkun.model.Stage;
-import com.zzkun.model.Training;
-import com.zzkun.model.User;
+import com.zzkun.model.*;
 import com.zzkun.service.TrainingService;
 import com.zzkun.service.UserService;
 import org.slf4j.Logger;
@@ -83,6 +80,15 @@ public class TrainingController {
         model.addAttribute("contestAddUserList", userService.getUserInfoByCList(contestList));
         session.setAttribute("stageId", id);
         return "gamelist";
+    }
+
+    @RequestMapping("/fixedTeam")
+    public String fixedTeam(@SessionAttribute Integer trainingId,
+                            Model model) {
+        List<FixedTeam> teamList = trainingService.getAllTrainingFixedTeam(trainingId);
+        model.addAttribute("fixedList", teamList);
+        model.addAttribute("userMap", userService.getUserInfoByFixedTList(teamList));
+        return "fixed";
     }
 
     ///////// ajax

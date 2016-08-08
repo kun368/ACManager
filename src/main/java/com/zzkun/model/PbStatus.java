@@ -6,7 +6,7 @@ import java.io.Serializable;
  * 题目的一个人解题情况
  * Created by Administrator on 2016/6/27.
  */
-public class PbStatus implements Serializable {
+public class PbStatus implements Serializable, Comparable<PbStatus> {
 
     private static final long serialVersionUID = 8822201624970861661L;
 
@@ -83,5 +83,12 @@ public class PbStatus implements Serializable {
 
     public static void main(String[] args) {
         System.out.println(getHTime(1024));
+    }
+
+    @Override
+    public int compareTo(PbStatus o) {
+        if(waCount != o.waCount)
+            return Integer.compare(waCount, o.waCount);
+        return Integer.compare(o.time, time);
     }
 }

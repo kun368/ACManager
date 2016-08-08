@@ -24,4 +24,6 @@ public interface FixedTeamRepo extends JpaRepository<FixedTeam, Integer> {
 
     @Override
     void delete(Integer integer);
+
+    List<FixedTeam> findByTrainingId(Integer trainingId);
 }

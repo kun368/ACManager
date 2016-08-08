@@ -46,19 +46,19 @@ public class UVaController {
         return "tablefile";
     }
 
-//    @RequestMapping(value = "/updatedb", produces = "text/html;charset=UTF-8")
-//    @ResponseBody
-//    public String updatedb(@SessionAttribute(required = false) User user) {
-//        if(user == null || !user.isAdmin())
-//            return "没有权限操作！";
-//        if(!uhuntUpdateStatus.canUpdate())
-//            return "正在更新，或者刚刚更新完毕，请稍后再试...";
-//        uhuntUpdateStatus.preUpdate();
-//
-//        uVaService.flushUVaSubmit();
-//        cfService.flushCFUserInfo();
-//
-//        uhuntUpdateStatus.afterUpdate();
-//        return "恭喜，更新完毕！";
-//    }
+    @RequestMapping(value = "/updatedb", produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String updatedb(@SessionAttribute(required = false) User user) {
+        if(user == null || !user.isAdmin())
+            return "没有权限操作！";
+        if(!uhuntUpdateStatus.canUpdate())
+            return "正在更新，或者刚刚更新完毕，请稍后再试...";
+        uhuntUpdateStatus.preUpdate();
+
+        uVaService.flushUVaSubmit();
+        cfService.flushCFUserInfo();
+
+        uhuntUpdateStatus.afterUpdate();
+        return "恭喜，更新完毕！";
+    }
 }

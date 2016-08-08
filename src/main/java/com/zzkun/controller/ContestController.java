@@ -110,11 +110,13 @@ public class ContestController {
                             Model model) {
         Contest contest = trainingService.getContest(id);
         Training training = trainingService.getTrainingByContestId(id);
-        Pair<double[], double[][]> pair = trainingService.calcContestScore(contest);
+        boolean[][] waClear = new boolean[contest.getRanks().size()][];
+        Pair<double[], double[][]> pair = trainingService.calcContestScore(contest, waClear);
         model.addAttribute("contest", contest);
         model.addAttribute("ranks", contest.getRanks());
         model.addAttribute("sum", pair.getLeft());
         model.addAttribute("pre", pair.getRight());
+        model.addAttribute("waClear", waClear);
         model.addAttribute("myrank", trainingService.calcRank(pair.getLeft(), training));
         return "ranklist_score";
     }

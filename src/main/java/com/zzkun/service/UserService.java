@@ -139,7 +139,19 @@ public class UserService {
         for (User info : infos)
             map.put(info.getId(), info);
         return map;
+    }
 
+    public Map<Integer, User> getUserInfoByFixedTList(List<FixedTeam> teamList) {
+        Map<Integer, User> map = new HashMap<>();
+        if(teamList == null) return map;
+        Set<Integer> users = new HashSet<>();
+        teamList.forEach(x -> users.addAll(x.getUids()));
+        List<User> infos = userRepo.findAll();
+        for (User info : infos) {
+            if(users.contains(info.getId()))
+                map.put(info.getId(), info);
+        }
+        return map;
     }
 
     public User applyInACM(Integer id) {

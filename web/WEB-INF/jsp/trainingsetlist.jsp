@@ -159,7 +159,7 @@
                         <th>添加时间</th>
                         <th hidden>备注</th>
                         <th hidden>基准分</th>
-                        <th hidden>标准偏差</th>
+                        <th hidden>标准偏差距离</th>
                         <th hidden>mergeLimit</th>
                         <th hidden>waCapcity</th>
                         <th>阶段数</th>
@@ -276,7 +276,7 @@
                             <input type="number" class="form-control" placeholder="基准分" id="standard" required>
                         </div>
                         <div class="form-group col-lg-6">
-                            <input type="number" class="form-control" placeholder="标准偏差" id="expand" required>
+                            <input type="number" class="form-control" placeholder="标准偏差距离" id="expand" required>
                         </div>
                     </div>
                 </form>
@@ -310,16 +310,17 @@
                         备注：<textarea rows="5" class="form-control" placeholder="备注" id="remark2"></textarea>
                     </div>
                     <div class="row">
-                        <div class="form-group col-lg-6">
+                        <div class="form-group col-lg-4">
                             基准分：<input type="number" class="form-control" placeholder="名称" id="standard2" required>
                         </div>
-                        <div class="form-group col-lg-6">
-                            标准偏差：<input type="number" class="form-control" placeholder="名称" id="expand2" required>
+                        <div class="form-group col-lg-4">
+                            标准偏差距离：<input type="number" class="form-control" placeholder="名称" id="expand2" required>
+                        </div>
+                        <div class="form-group col-lg-4">
+                            平局偏差距离：<input type="number" class="form-control"  id="mergeLimit2" required>
                         </div>
                     </div>
-                    <div class="form-group">
-                        mergeLimit：<input type="text" class="form-control"  id="mergeLimit2" required>
-                    </div>
+
                     <div class="form-group">
                         waCapcity：<input type="text" class="form-control" id="waCapcity2" required>
                     </div>

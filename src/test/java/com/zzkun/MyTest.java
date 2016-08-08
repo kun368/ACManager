@@ -77,20 +77,20 @@ public class MyTest {
 
     @Test
     public void test2() throws Exception {
-        Contest contest = trainingService.getContest(7);
-        Pair<double[], double[][]> pair = trainingService.calcContestScore(contest);
-        double[] left = pair.getLeft();
-        System.out.println(Arrays.toString(left));
-
-        KMeansPlusPlusClusterer<DoublePoint> clusterer = new KMeansPlusPlusClusterer<DoublePoint>(20);
-
-        List<DoublePoint> list = new ArrayList<>();
-        for (double v : left) {
-            list.add(new DoublePoint(new double[]{v}));
-        }
-        List<? extends Cluster<DoublePoint>> res = clusterer.cluster(list);
-        for (Cluster<DoublePoint> re : res) {
-            System.out.println(re.getPoints());
-        }
+//        Contest contest = trainingService.getContest(7);
+//        Pair<double[], double[][]> pair = trainingService.calcContestScore(contest);
+//        double[] left = pair.getLeft();
+//        System.out.println(Arrays.toString(left));
+//
+//        KMeansPlusPlusClusterer<DoublePoint> clusterer = new KMeansPlusPlusClusterer<DoublePoint>(20);
+//
+//        List<DoublePoint> list = new ArrayList<>();
+//        for (double v : left) {
+//            list.add(new DoublePoint(new double[]{v}));
+//        }
+//        List<? extends Cluster<DoublePoint>> res = clusterer.cluster(list);
+//        for (Cluster<DoublePoint> re : res) {
+//            System.out.println(re.getPoints());
+//        }
     }
 }

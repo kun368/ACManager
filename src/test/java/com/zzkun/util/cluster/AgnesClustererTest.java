@@ -22,9 +22,9 @@ public class AgnesClustererTest {
 
     @Test
     public void cluster() throws Exception {
-        Contest contest = trainingService.getContest(7);
-        double[] left = trainingService.calcContestScore(contest).getLeft();
-        System.out.println(Arrays.toString(left));
+//        Contest contest = trainingService.getContest(7);
+//        double[] left = trainingService.calcContestScore(contest).getLeft();
+//        System.out.println(Arrays.toString(left));
 //
 //        for(int i = 0; i < 100; ++i) {
 //            AgnesClusterer clusterer = new AgnesClusterer(left);

@@ -107,4 +107,17 @@ public class MyTest2 {
         String s = IOUtils.toString(new URI("http://acm.hust.edu.cn/vjudge/data/contest_standing/125874.json"), "utf8");
         System.out.println(s);
     }
+
+
+    public void test9(boolean[] x) throws Exception {
+        x = new boolean[10];
+    }
+
+    @Test
+    public void test10() throws Exception {
+        boolean[] x = new boolean[100];
+        test9(x);
+        System.out.println(x.length);
+
+    }
 }

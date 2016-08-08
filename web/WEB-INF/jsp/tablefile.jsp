@@ -168,30 +168,30 @@
             </div>
         </div>
     </div>
-    <%--<c:if test="${(!empty user) and (user.isAdmin())}">--%>
-        <%--<div class="row">--%>
-            <%--<div class="pull-left">--%>
-                <%--<button class="btn btn-info" id="addbutton">更新数据&nbsp;(LastUpdate: ${lastUpdate})</button>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-    <%--</c:if>--%>
+    <c:if test="${(!empty user) and (user.isAdmin())}">
+        <div class="row">
+            <div class="pull-left">
+                <button class="btn btn-info" id="addbutton">更新数据&nbsp;(LastUpdate: ${lastUpdate})</button>
+            </div>
+        </div>
+    </c:if>
 
 </div>
 
-<%--<c:url value="/uva/updatedb" var="url_updatedb"/>--%>
-<%--<script>--%>
-    <%--$(document).ready(function () {--%>
-        <%--$('#addbutton').click(function () {--%>
-            <%--$.post("${url_updatedb}", {--%>
+<c:url value="/uva/updatedb" var="url_updatedb"/>
+<script>
+    $(document).ready(function () {
+        $('#addbutton').click(function () {
+            $.post("${url_updatedb}", {
 
-                    <%--},function (data) {--%>
-                        <%--alert(data);--%>
-                        <%--location.reload()--%>
-                    <%--}--%>
-            <%--);--%>
-        <%--})--%>
-    <%--});--%>
-<%--</script>--%>
+                    },function (data) {
+                        alert(data);
+                        location.reload()
+                    }
+            );
+        })
+    });
+</script>
 
 <jsp:include page="footerInfo.jsp"/>
 <c:if test="${!empty tip}">

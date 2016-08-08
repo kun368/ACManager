@@ -34,7 +34,7 @@
                     //给第一列指定宽度为表格整个宽度的20%
                     { "width": "30px", "targets": 2 }
                 ],
-                "order": [[4, "desc"]]
+                "order": [[3, "desc"]]
             });
         });
     </script>
@@ -56,7 +56,7 @@
 
     <div class="row" style="padding-bottom: 20px">
         <div class="pull-right">
-            <a href="<c:url value="/contest/showContest/${contest.id}"/>" class="btn btn-primary">比赛详情</a>
+            <%--<a href="<c:url value="/contest/showContest/${contest.id}"/>" class="btn btn-primary">比赛详情</a>--%>
         </div>
     </div>
 
@@ -83,15 +83,15 @@
                 <table class="table table-condensed table-striped table-hover display" id="mytable">
                     <thead class="tab-header-area">
                     <tr>
-                        <th>排名</th>
-                        <th>比赛账号</th>
-                        <th>成员</th>
-                        <th>题数</th>
-                        <th>得分</th>
-                        <c:set value="ABCDEFGHIJKLMNOPQRSTUVWXYZ" var="ti"/>
-                        <c:forEach begin="1" end="${contest.pbCnt}" var="i">
-                            <th>${ti.charAt(i-1)}</th>
-                        </c:forEach>
+                            <th>排名</th>
+                            <th>比赛账号</th>
+                            <th>成员</th>
+                            <th>分数</th>
+                            <th>罚时</th>
+                            <c:set value="ABCDEFGHIJKLMNOPQRSTUVWXYZ" var="ti"/>
+                            <c:forEach begin="1" end="${contest.pbCnt}" var="i">
+                                <th><center>${ti.charAt(i-1)}</center></th>
+                            </c:forEach>
                         <%--<th>操作</th>--%>
                     </tr>
                     </thead>
@@ -102,20 +102,41 @@
                     <tbody>
                         <c:forEach items="${ranks}" var="team" varStatus="i">
                             <tr>
-                                <td>${myrank[i.index]+1}</td>
+                                <td><center><strong>${myrank[i.index]+1}</strong></center></td>
                                 <td>${team.account}</td>
                                 <td>${team.memberToString()}</td>
-                                <td>${team.solvedCount}</td>
                                 <td>
-                                    <c:if test="${sum[i.index] != 0}">
-                                        <fmt:formatNumber type="number" value="${sum[i.index]}" maxFractionDigits="1" minFractionDigits="1"/>
-                                    </c:if>
+                                    <strong>
+                                        <c:if test="${sum[i.index] != 0}">
+                                            <fmt:formatNumber type="number" value="${sum[i.index]}" maxFractionDigits="1" minFractionDigits="1"/>
+                                        </c:if>
+                                    </strong>
+                                    </td>
+                                <td>
+                                       <center>
+                                        ${team.solvedCount}
+                                        </br>
+                                            <small>
+                                                ${team.calcSumPenaltyStr()}
+                                            </small>
+                                        </center>
+
                                 </td>
+
                                 <c:forEach begin="1" end="${contest.pbCnt}" var="j">
                                     <td>
-                                        <c:if test="${pre[j-1][i.index] != 0}">
-                                            <fmt:formatNumber type="number" value="${pre[j-1][i.index]}" maxFractionDigits="1" minFractionDigits="1"/>
-                                        </c:if>
+                                        <center>
+                                            <c:if test="${waClear[i.index][j-1]}">
+                                                <small style="color: red">WA</small>
+                                            </c:if>
+                                            <c:if test="${pre[j-1][i.index] != 0}">
+                                                <fmt:formatNumber type="number" value="${pre[j-1][i.index]}" maxFractionDigits="1" minFractionDigits="1"/>
+                                            </c:if>
+                                            </br>
+                                            <small>
+                                                    ${team.pbStatus.get(j-1).toHString()}
+                                            </small>
+                                        </center>
                                     </td>
                                 </c:forEach>
                                 <%--<td>--%>
