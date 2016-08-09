@@ -69,7 +69,8 @@
                 <p>比赛时间：${contest.startTime} —— ${contest.endTime}</p>
                 <p>
                     <c:set value="PERSONAL" var="Personal"/>
-                    <c:set value="TEAN" var="Team"/>
+                    <c:set value="TEAM" var="Team"/>
+                    <c:set value="MIX_TEAM" var="MixTeam"/>
                     比赛类型：
                     <c:choose>
                         <c:when test="${contest.type eq Personal}">
@@ -77,6 +78,9 @@
                         </c:when>
                         <c:when test="${contest.type eq Team}">
                             组队赛
+                        </c:when>
+                        <c:when test="${contest.type eq MixTeam}">
+                            混合组队赛
                         </c:when>
                     </c:choose>
                 </p>
@@ -126,11 +130,11 @@
                                 <c:forEach begin="1" end="${contest.pbCnt}" var="j">
                                     <td>
                                         <center>
-                                            <c:if test="${waClear[i.index][j-1]}">
-                                                <small style="color: red">WA</small>
-                                            </c:if>
-                                            <c:if test="${pre[j-1][i.index] != 0}">
-                                                <fmt:formatNumber type="number" value="${pre[j-1][i.index]}" maxFractionDigits="1" minFractionDigits="1"/>
+                                            <%--没有wa太多扣除--%>
+                                            <c:if test="${!waClear[i.index][j-1]}">
+                                                <c:if test="${pre[j-1][i.index] != 0}">
+                                                    <fmt:formatNumber type="number" value="${pre[j-1][i.index]}" maxFractionDigits="1" minFractionDigits="1"/>
+                                                </c:if>
                                             </c:if>
                                             </br>
                                             <small>

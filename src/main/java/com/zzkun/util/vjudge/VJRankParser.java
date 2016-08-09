@@ -107,7 +107,8 @@ public class VJRankParser {
             parseSetTeamName(split[1].trim(), team);
             team.setSolvedCount(parseInt(split[2].trim()));
 
-            if(Contest.TYPE_TEAM.equals(contest.getType())) {
+            if(Contest.TYPE_TEAM.equals(contest.getType()) ||
+                    Contest.TYPE_MIX_TEAM.equals(contest.getType())) {
                 if(!account2team.containsKey(team.getAccount()))
                     continue;
                 team.setMember(account2team.get(team.getAccount()));

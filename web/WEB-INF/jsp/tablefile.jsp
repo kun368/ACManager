@@ -105,6 +105,8 @@
                     <c:set value="Acmer" var="Acmer"/>
                     <c:set value="Expeled" var="Expeled"/>
                     <c:set value="Retired" var="Retired"/>
+                    <c:set value="Quit" var="Quit"/>
+                    <c:set value="Coach" var="Coach"/>
                     <c:forEach items="${users}" var="curUser" varStatus="i">
                         <tr>
                             <td hidden>${curUser.id}</td>
@@ -143,6 +145,12 @@
                                     </c:when>
                                     <c:when test="${curType eq Retired}">
                                         退役
+                                    </c:when>
+                                    <c:when test="${curType eq Quit}">
+                                        退出
+                                    </c:when>
+                                    <c:when test="${curType eq Coach}">
+                                        教练
                                     </c:when>
                                     <c:otherwise>
                                         未知
@@ -239,6 +247,8 @@
                             <option value="Reject">拒绝</option>
                             <option value="Verifying">申请</option>
                             <option value="New">用户</option>
+                            <option value="Quit">退出</option>
+                            <option value="Coach">教练</option>
                             <option value="Admin">管理员</option>
                         </select>
                     </div>

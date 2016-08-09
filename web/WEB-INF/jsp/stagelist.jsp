@@ -54,6 +54,7 @@
                 pageLength: 25,<!--初始化单页显示数-->
                 orderClasses: false,<!--排序列不高亮显示-->
                 dom: '<"top"if>rt<"bottom"lp>',
+                responsive: true
             });
             $('#fendui').click(function () {
                 location.href="${suijifendui}"

@@ -99,6 +99,7 @@
                                     <select class="form-control" name="contestType" id="Type">
                                         <option value="PERSONAL">个人赛</option>
                                         <option value="TEAM">组队赛</option>
+                                        <option value="MIX_TEAM">混合组队赛</option>
                                     </select>
                                 </div>
                                 <div class="form-group">

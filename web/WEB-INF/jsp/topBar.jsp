@@ -7,6 +7,8 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<link  rel="stylesheet" href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.dataTables.min.css">
+<script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
 <script>
     $.extend( $.fn.dataTable.defaults, {
         lengthChange: true,
@@ -18,6 +20,7 @@
         pageLength: 50,<!--初始化单页显示数-->
         orderClasses: false,<!--排序列不高亮显示-->
         dom: '<"top"if>rt<"bottom"lp>',
+        responsive: true
     } );
 </script>
 <c:url value="/" var="url_index"/>
@@ -25,7 +28,6 @@
 <c:url value="/auth/login" var="url_login"/>
 <c:url value="/auth/rg" var="url_rg"/>
 <c:url value="/training/list" var="url_traininglist"/>
-<c:url value="/cf/showTable" var="url_cftable"/>
 <style>
     body {
         font-family:"Microsoft Yahei",微软雅黑,Consolas,Arial,sans-serif;
@@ -35,6 +37,11 @@
     <nav class="nav navbar-default" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
+                <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
                 <div class="navbar-brand"> ACManager</div>
             </div>
             <div class="collapse navbar-collapse">

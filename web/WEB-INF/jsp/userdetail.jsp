@@ -133,6 +133,9 @@
                             CF用户名:<input type="text" name="cfname" id="inputCF" class="form-control" value="${user.cfname}">
                         </div>
                         <div class="form-group">
+                            BC用户名:<input type="text" name="bcname" id="inputBC" class="form-control" value="${user.bcname}">
+                        </div>
+                        <div class="form-group">
                             VJ用户名:<input type="text" name="vjname" id="inputVJ" class="form-control" value="${user.vjname}">
                         </div>
                         <div class="form-group">

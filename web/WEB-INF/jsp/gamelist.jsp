@@ -89,6 +89,7 @@
                             <td>${contest.endTime}</td>
                             <c:set value="PERSONAL" var="Personal"/>
                             <c:set value="TEAM" var="Team"/>
+                            <c:set value="MIX_TEAM" var="MixTeam"/>
                             <td>
                                 <c:choose>
                                     <c:when test="${contest.type eq Personal}">
@@ -96,6 +97,9 @@
                                     </c:when>
                                     <c:when test="${contest.type eq Team}">
                                         组队赛
+                                    </c:when>
+                                    <c:when test="${contest.type eq MixTeam}">
+                                        混合组队赛
                                     </c:when>
                                 </c:choose>
                             </td>

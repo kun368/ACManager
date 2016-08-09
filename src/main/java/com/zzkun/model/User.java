@@ -19,16 +19,16 @@ public class User implements Serializable {
     public enum Type {
         Retired,        //退役
         Expeled,        //开除
+        Quit,           //退出
         Acmer,          //正式集训队员
         Reject,         //拒绝进队
         Verifying,      //已申请进队，待进队
         New,            //新人
+        Coach,          //教练
         Admin           //管理员
     }
 
     @Id
-//    @GeneratedValue(generator = "increment")
-//    @GenericGenerator(name = "increment", strategy = "increment")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -48,6 +48,9 @@ public class User implements Serializable {
 
     @Column(unique = true)
     private String vjname;
+
+    @Column(unique = true)
+    private String bcname;
 
     private String major;
 
@@ -150,13 +153,22 @@ public class User implements Serializable {
         this.vjname = vjname;
     }
 
+    public String getBcname() {
+        return bcname;
+    }
+
+    public void setBcname(String bcname) {
+        this.bcname = bcname;
+    }
+
     public boolean isAdmin() {
-        return getType().equals(Type.Admin);
+        return getType().equals(Type.Admin) || getType().equals(Type.Coach);
     }
 
     public boolean isACMer() {
         return getType().equals(Type.Acmer);
     }
+
 
     @Override
     public String toString() {
@@ -168,6 +180,7 @@ public class User implements Serializable {
                 ", uvaId=" + uvaId +
                 ", cfname='" + cfname + '\'' +
                 ", vjname='" + vjname + '\'' +
+                ", bcname='" + bcname + '\'' +
                 ", major='" + major + '\'' +
                 ", type=" + type +
                 '}';

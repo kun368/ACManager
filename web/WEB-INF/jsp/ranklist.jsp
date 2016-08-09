@@ -69,13 +69,18 @@
                 <p>比赛时间：${contest.startTime} —— ${contest.endTime}</p>
                 <p>
                     <c:set value="PERSONAL" var="Personal"/>
-                    <c:set value="TEAN" var="Team"/>
+                    <c:set value="TEAM" var="Team"/>
+                    <c:set value="MIX_TEAM" var="MixTeam"/>
+
                     比赛类型：
                     <c:choose>
                         <c:when test="${contest.type eq Personal}">
                             个人赛
                         </c:when>
                         <c:when test="${contest.type eq Team}">
+                            组队赛
+                        </c:when>
+                        <c:when test="${contest.type eq MixTeam}">
                             组队赛
                         </c:when>
                     </c:choose>

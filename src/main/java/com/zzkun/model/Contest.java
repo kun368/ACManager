@@ -20,6 +20,7 @@ public class Contest implements Serializable {
 
     public static final String TYPE_PERSONAL = "PERSONAL";
     public static final String TYPE_TEAM = "TEAM";
+    public static final String TYPE_MIX_TEAM = "MIX_TEAM";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

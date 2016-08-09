@@ -49,8 +49,7 @@ public class UserService {
         List<User> all = userRepo.findAll();
         List<User> list = new ArrayList<>();
         all.forEach(x -> {
-            if(!User.Type.Admin.equals(x.getType())
-                    && x.getUvaId() != null
+            if(!x.isAdmin() && x.getUvaId() != null
                     && x.getUvaId().toString().length() >= 6)
                 list.add(x);
         });
@@ -71,6 +70,8 @@ public class UserService {
             user.setCfname(null);
         if(user.getVjname().trim().isEmpty())
             user.setVjname(null);
+        if(!StringUtils.hasText(user.getBcname()))
+            user.setBcname(null);
         return userRepo.save(user);
     }
 
