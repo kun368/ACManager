@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 用户类
@@ -56,6 +57,9 @@ public class User implements Serializable {
 
     @Enumerated(value = EnumType.STRING)
     private Type type;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<UJoinT> uJoinTList;
 
     public User() {
     }
@@ -159,6 +163,14 @@ public class User implements Serializable {
 
     public void setBcname(String bcname) {
         this.bcname = bcname;
+    }
+
+    public List<UJoinT> getuJoinTList() {
+        return uJoinTList;
+    }
+
+    public void setuJoinTList(List<UJoinT> uJoinTList) {
+        this.uJoinTList = uJoinTList;
     }
 
     public boolean isAdmin() {

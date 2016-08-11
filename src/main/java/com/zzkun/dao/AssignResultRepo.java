@@ -28,6 +28,4 @@ public interface AssignResultRepo extends JpaRepository<AssignResult, Integer> {
 
     @Override
     Page<AssignResult> findAll(Pageable pageable);
-
-    List<AssignResult> findByTrainingId(Integer trainingId);
 }

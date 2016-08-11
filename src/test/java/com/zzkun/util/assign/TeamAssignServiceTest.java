@@ -2,6 +2,7 @@ package com.zzkun.util.assign;
 
 import com.zzkun.dao.UserRepo;
 import com.zzkun.model.AssignResult;
+import com.zzkun.model.User;
 import com.zzkun.service.TeamAssignService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,11 +26,11 @@ public class TeamAssignServiceTest {
 
     @Test
     public void assign() throws Exception {
+        List<User> all = userRepo.findAll();
         List<Integer> users = new ArrayList<>();
-        for(int i = 0; i < 10; ++i) {
-            users.add(i);
-        }
-        teamAssignService.assign(users, 1, AssignResult.Type.NoRepeat);
+        for (User user : all)
+            users.add(user.getId());
+        teamAssignService.assign(users, 5, AssignResult.Type.NoRepeat);
     }
 
 }

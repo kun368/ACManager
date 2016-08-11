@@ -20,9 +20,13 @@ public class UJoinT implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private Integer userId;
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "userId")
+    private User user;
 
-    private Integer trainingId;
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "trainingId")
+    private Training training;
 
     @Enumerated(value = EnumType.STRING)
     private Status status;
@@ -30,34 +34,34 @@ public class UJoinT implements Serializable {
     public UJoinT() {
     }
 
-    public Integer getId() {
-        return id;
+    public UJoinT(User user, Training training, Status status) {
+        this.user = user;
+        this.training = training;
+        this.status = status;
     }
 
-    public UJoinT(Integer userId, Integer trainingId, Status status) {
-        this.userId = userId;
-        this.trainingId = trainingId;
-        this.status = status;
+    public Integer getId() {
+        return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Integer getTrainingId() {
-        return trainingId;
+    public Training getTraining() {
+        return training;
     }
 
-    public void setTrainingId(Integer trainingId) {
-        this.trainingId = trainingId;
+    public void setTraining(Training training) {
+        this.training = training;
     }
 
     public Status getStatus() {
@@ -72,8 +76,8 @@ public class UJoinT implements Serializable {
     public String toString() {
         return "UJoinT{" +
                 "id=" + id +
-                ", userId=" + userId +
-                ", trainingId=" + trainingId +
+                ", user=" + user +
+                ", training=" + training +
                 ", status=" + status +
                 '}';
     }

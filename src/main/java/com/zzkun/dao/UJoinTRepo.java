@@ -1,6 +1,8 @@
 package com.zzkun.dao;
 
+import com.zzkun.model.Training;
 import com.zzkun.model.UJoinT;
+import com.zzkun.model.User;
 import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,16 +13,11 @@ import java.util.List;
  */
 public interface UJoinTRepo extends JpaRepository<UJoinT, Integer> {
 
-
     @Override
     <S extends UJoinT> S save(S s);
 
     @Override
     UJoinT findOne(Integer integer);
 
-    UJoinT findByUserIdAndTrainingId(Integer userId, Integer trainingId);
-
-    List<UJoinT> findByUserId(Integer userId);
-
-    List<UJoinT> findByTrainingId(Integer trainingId);
+    UJoinT findByUserAndTraining(User user, Training training);
 }

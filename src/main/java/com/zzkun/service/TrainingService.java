@@ -56,17 +56,15 @@ public class TrainingService {
     }
 
     public Training getTrainingByContestId(Integer contestId) {
-        Integer stageId = getContest(contestId).getStageId();
-        Integer trainingId = getStageById(stageId).getTrainingId();
-        return getTrainingById(trainingId);
+        return getContest(contestId).getStage().getTraining();
     }
 
     public Map<Integer, UJoinT> getUserRelativeTraining(User user) {
         Map<Integer, UJoinT> result = new HashMap<>();
         if(user == null)
             return result;
-        List<UJoinT> list = uJoinTRepo.findByUserId(user.getId());
-        list.forEach(x -> result.put(x.getTrainingId(), x));
+        List<UJoinT> list = user.getuJoinTList();
+        list.forEach(x -> result.put(x.getTraining().getId(), x));
         logger.info("获取用户参加的所有集训信息：{}", result);
         return result;
     }
@@ -76,23 +74,23 @@ public class TrainingService {
     }
 
     public List<User> getTrainingAllOkUser(Integer trainingId) {
-        List<UJoinT> all = uJoinTRepo.findByTrainingId(trainingId);
+        List<UJoinT> all = getTrainingById(trainingId).getuJoinTList();
         List<Integer> uids = new ArrayList<>();
         all.forEach(x -> {
             if(x.getStatus().equals(UJoinT.Status.Success))
-                uids.add(x.getUserId());
+                uids.add(x.getUser().getId());
         });
         return userRepo.findAll(uids);
     }
 
     public Map<User, String> getTrainingAllUser(Integer trainingId) {
-        List<UJoinT> all = uJoinTRepo.findByTrainingId(trainingId);
+        List<UJoinT> all = trainingRepo.findOne(trainingId).getuJoinTList();
         List<User> userList = userRepo.findAll();
         Map<Integer, User> userMap = new HashMap<>();
         userList.forEach(x -> userMap.put(x.getId(), x));
         Map<User, String> map = new LinkedHashMap<>();
-        all.forEach(x -> map.put(userMap.get(x.getUserId()), x.getStatus().name()));
-        logger.info("查询集训所有用户情况：{}", map);
+        all.forEach(x -> map.put(userMap.get(x.getUser().getId()), x.getStatus().name()));
+        logger.info("查询集训所有用户情况：size{}", map.size());
         return map;
     }
 
@@ -115,10 +113,9 @@ public class TrainingService {
     }
 
     public Map<Integer, Integer> trainingSizeMap(List<Training> allTraining) {
-        Map<Integer, Integer> map = new HashMap<>(allTraining.size());
+        Map<Integer, Integer> map = new HashMap<>();
         for (Training training : allTraining) {
-            Integer trainingId = training.getId();
-            map.put(trainingId, (int) stageRepo.countByTrainingId(trainingId));
+            map.put(training.getId(), training.getStageList().size());
         }
         return map;
     }
@@ -126,19 +123,22 @@ public class TrainingService {
     //用户申请参加集训
     public void applyJoinTraining(Integer userId, Integer trainingId) {
         User user = userRepo.findOne(userId);
+        Training training = trainingRepo.findOne(trainingId);
         if(user == null || !user.isACMer()) //管理员不能加入集训
             return;
-        UJoinT uJoinT = uJoinTRepo.findByUserIdAndTrainingId(userId, trainingId);
+        UJoinT uJoinT = uJoinTRepo.findByUserAndTraining(user, training);
         if(uJoinT != null) {
             uJoinT.setStatus(UJoinT.Status.Pending);
         } else {
-            uJoinT = new UJoinT(userId, trainingId, UJoinT.Status.Pending);
+            uJoinT = new UJoinT(user, training, UJoinT.Status.Pending);
         }
         uJoinTRepo.save(uJoinT);
     }
 
     public void verifyUserJoin(Integer userId, Integer trainingId, String op) {
-        UJoinT uJoinT = uJoinTRepo.findByUserIdAndTrainingId(userId, trainingId);
+        User user = userRepo.findOne(userId);
+        Training training = trainingRepo.findOne(trainingId);
+        UJoinT uJoinT = uJoinTRepo.findByUserAndTraining(user, training);
         if("true".equals(op)) {
             uJoinT.setStatus(UJoinT.Status.Success);
         } else if("false".equals(op)) {
@@ -153,11 +153,6 @@ public class TrainingService {
     }
 
     //// Stage
-
-    public List<Stage> getAllStageByTrainingId(Integer id) {
-        List<Stage> list = stageRepo.findByTrainingId(id);
-        return list;
-    }
 
     public Stage getStageById(Integer id) {
         return stageRepo.findOne(id);
@@ -328,7 +323,7 @@ public class TrainingService {
         contest.setName(contestName.trim());
         contest.setStartTime(LocalDateTime.parse(stTime));
         contest.setEndTime(LocalDateTime.parse(edTime));
-        contest.setStageId(stageId);
+        contest.setStage(getStageById(stageId));
         contest.setAddUid(addUser.getId());
 
         logger.info("导入比赛原始信息加载完毕：{}", contest);

@@ -36,7 +36,9 @@ public class AssignResult implements Serializable {
     @Enumerated(EnumType.STRING)
     private Type type;
 
-    private Integer trainingId;
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "trainingId")
+    private Training training;
 
     public AssignResult() {
     }
@@ -73,20 +75,20 @@ public class AssignResult implements Serializable {
         this.type = type;
     }
 
-    public Integer getTrainingId() {
-        return trainingId;
-    }
-
-    public void setTrainingId(Integer trainingId) {
-        this.trainingId = trainingId;
-    }
-
     public ArrayList<String> getAccountList() {
         return accountList;
     }
 
     public void setAccountList(ArrayList<String> accountList) {
         this.accountList = accountList;
+    }
+
+    public Training getTraining() {
+        return training;
+    }
+
+    public void setTraining(Training training) {
+        this.training = training;
     }
 
     public void setAccount(Integer pos, String account) {
@@ -103,8 +105,10 @@ public class AssignResult implements Serializable {
         return "AssignResult{" +
                 "id=" + id +
                 ", date=" + date +
+                ", teamList=" + teamList +
+                ", accountList=" + accountList +
                 ", type=" + type +
-                ", trainingId=" + trainingId +
+                ", training=" + training +
                 '}';
     }
 }

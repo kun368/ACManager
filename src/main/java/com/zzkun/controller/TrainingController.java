@@ -59,8 +59,9 @@ public class TrainingController {
     public String detail(@PathVariable Integer id,
                          Model model,
                          HttpSession session) {
-        List<Stage> stageList = trainingService.getAllStageByTrainingId(id);
-        model.addAttribute("info", trainingService.getTrainingById(id));
+        Training training = trainingService.getTrainingById(id);
+        List<Stage> stageList = training.getStageList();
+        model.addAttribute("info", training);
         model.addAttribute("stageList", stageList);
         model.addAttribute("stageSizeMap", trainingService.getstageSizeMap(stageList));
         model.addAttribute("stageAddUserList", userService.getUserInfoBySList(stageList));
@@ -76,7 +77,7 @@ public class TrainingController {
         List<Contest> contestList = trainingService.getContestByStageId(id);
         model.addAttribute("info", trainingService.getStageById(id));
         model.addAttribute("contestList", contestList);
-        model.addAttribute("trainingId", trainingService.getStageById(id).getTrainingId());
+        model.addAttribute("trainingId", trainingService.getStageById(id).getTraining().getId());
         model.addAttribute("contestAddUserList", userService.getUserInfoByCList(contestList));
         session.setAttribute("stageId", id);
         return "gamelist";
@@ -96,7 +97,7 @@ public class TrainingController {
     @RequestMapping(value = "/getstatge",produces = "text/html;charset=UTF-8" )
     @ResponseBody
     public String getstatge(@RequestParam Integer id) {
-        List<Stage> stages = trainingService.getAllStageByTrainingId(id);
+        List<Stage> stages = trainingService.getTrainingById(id).getStageList();
         String s = JSON.toJSONString(stages);
         logger.info("获取集训阶段信息：{}", s);
         return s;
@@ -142,12 +143,14 @@ public class TrainingController {
         logger.info("收到添加Stage请求：name = [" + name + "], startDate = [" + startDate + "], endDate = [" + endDate + "], remark = [" + remark + "]");
         try {
             User user = (User) session.getAttribute("user");
+            Integer trainingId = (Integer) session.getAttribute("trainingId");
+
             Stage stage = new Stage();
             stage.setName(name);
             stage.setStartDate(LocalDate.parse(startDate));
             stage.setEndDate(LocalDate.parse(endDate));
             stage.setRemark(remark);
-            stage.setTrainingId((Integer) session.getAttribute("trainingId"));
+            stage.setTraining(trainingService.getTrainingById(trainingId));
             stage.setAddTime(LocalDateTime.now());
             stage.setAddUid(user.getId());
             trainingService.addStage(stage);

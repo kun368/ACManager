@@ -32,7 +32,9 @@ public class TrainingRepoTest {
 
     @Test
     public void findOne() throws Exception {
-
+        Training one = trainingRepo.findOne(2);
+        System.out.println(one);
+        System.out.println(one.getStageList());
     }
 
     @Test

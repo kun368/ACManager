@@ -40,10 +40,4 @@ public class AssignResultRepoTest {
     public void save() throws Exception {
 
     }
-
-    @Test
-    public void findByTrainingIdDesc() throws Exception {
-        System.out.println(assignResultRepo.findByTrainingId(1));
-
-    }
 }

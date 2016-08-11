@@ -1,6 +1,7 @@
 package com.zzkun.service;
 
 import com.zzkun.dao.AssignResultRepo;
+import com.zzkun.dao.TrainingRepo;
 import com.zzkun.model.AssignResult;
 import com.zzkun.model.User;
 import org.slf4j.Logger;
@@ -24,6 +25,8 @@ public class TeamAssignService {
 
     @Autowired private AssignResultRepo assignResultRepo;
 
+    @Autowired private TrainingRepo trainingRepo;
+
     @Autowired private UserService userService;
 
     /**
@@ -37,7 +40,7 @@ public class TeamAssignService {
             result =  randomAssign(users, trainingId);
         else if(type.equals(Type.NoRepeat))
             result =  noRepeatAssign(users, trainingId);
-        logger.info("分队结束：{}, {}", result, result.getTeamList());
+        logger.info("分队结束：{}", result);
         return result;
     }
 
@@ -45,7 +48,7 @@ public class TeamAssignService {
      * 分队方法：不能跟历次完全相同，两人5次内不能重复组队
      */
     private AssignResult noRepeatAssign(List<Integer> users, Integer trainingId) {
-        List<AssignResult> pre = assignResultRepo.findByTrainingId(trainingId);
+        List<AssignResult> pre = trainingRepo.findOne(trainingId).getAssignResultList();
         Set<List<Integer>> teamSet = new HashSet<>();
         Set<List<Integer>> pairSet = new HashSet<>();
         for (AssignResult result : pre) {
@@ -57,7 +60,7 @@ public class TeamAssignService {
                     for(int k = j + 1; k < list.size(); ++k)
                         pairSet.add(new ArrayList<>(Arrays.asList(list.get(j), list.get(k))));
         logger.info("历次分队set{}，PairSET：{}", teamSet, pairSet);
-        for(int k = 0; k < 100; ++k) {
+        for(int k = 0; k < 777; ++k) {
             AssignResult result = randomAssign(users, trainingId);
             result.setType(Type.NoRepeat);
             boolean ok = true;
@@ -86,7 +89,7 @@ public class TeamAssignService {
     private AssignResult randomAssign(List<Integer> users, Integer trainingId) {
         AssignResult result = new AssignResult();
         result.setType(Type.RANDOM);
-        result.setTrainingId(trainingId);
+        result.setTraining(trainingRepo.findOne(trainingId));
 
         Collections.shuffle(users);
         for(int i = 0; i < users.size(); i += 3) {
@@ -100,11 +103,12 @@ public class TeamAssignService {
             team.sort(Integer::compareTo);
             result.getTeamList().add(team);
         }
+        logger.info("真正随机分队完毕...");
         return result;
     }
 
     public AssignResult getLastAssign(Integer trainingId) {
-        List<AssignResult> list = assignResultRepo.findByTrainingId(trainingId);
+        List<AssignResult> list = trainingRepo.findOne(trainingId).getAssignResultList();
         if(list != null && list.size() >= 1)
             return list.get(list.size()-1);
         return new AssignResult();

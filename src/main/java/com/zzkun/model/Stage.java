@@ -35,11 +35,12 @@ public class Stage implements Serializable {
 
     private Integer addUid;
 
-    private Integer trainingId;
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "trainingId")
+    private Training training;
 
-//    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
-//    @JoinTable()
-//    private Training training;
+    @OneToMany(mappedBy = "stage", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Contest> contestList;
 
     public Stage() {
     }
@@ -84,12 +85,12 @@ public class Stage implements Serializable {
         this.endDate = endDate;
     }
 
-    public Integer getTrainingId() {
-        return trainingId;
+    public Training getTraining() {
+        return training;
     }
 
-    public void setTrainingId(Integer trainingId) {
-        this.trainingId = trainingId;
+    public void setTraining(Training training) {
+        this.training = training;
     }
 
     public LocalDateTime getAddTime() {
@@ -108,6 +109,14 @@ public class Stage implements Serializable {
         this.addUid = addUid;
     }
 
+    public List<Contest> getContestList() {
+        return contestList;
+    }
+
+    public void setContestList(List<Contest> contestList) {
+        this.contestList = contestList;
+    }
+
     @Override
     public String toString() {
         return "Stage{" +
@@ -118,7 +127,7 @@ public class Stage implements Serializable {
                 ", endDate=" + endDate +
                 ", addTime=" + addTime +
                 ", addUid=" + addUid +
-                ", trainingId=" + trainingId +
+                ", training=" + training +
                 '}';
     }
 }

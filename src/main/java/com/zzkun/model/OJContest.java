@@ -5,6 +5,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
+ * acmicpc info 网站上的近期oj比赛
  * Created by Administrator on 2016/8/3.
  */
 @Entity

@@ -25,11 +25,11 @@ public class UJoinTRepoTest {
 
     @Test
     public void save() throws Exception {
-        List<Integer> list = Arrays.asList(92, 99, 103);
-        for (Integer integer : list) {
-            UJoinT cur = new UJoinT(integer, 4, UJoinT.Status.Pending);
-            uJoinTRepo.save(cur);
-        }
+//        List<Integer> list = Arrays.asList(92, 99, 103);
+//        for (Integer integer : list) {
+//            UJoinT cur = new UJoinT(integer, 4, UJoinT.Status.Pending);
+//            uJoinTRepo.save(cur);
+//        }
     }
 
     @Test
@@ -39,10 +39,10 @@ public class UJoinTRepoTest {
 
     @Test
     public void findByUserIdAndTrainingId() throws Exception {
-        UJoinT res = uJoinTRepo.findByUserIdAndTrainingId(2, 1);
-        System.out.println(res);
-        res.setStatus(UJoinT.Status.Success);
-        uJoinTRepo.save(res);
-        System.out.println(res);
+//        UJoinT res = uJoinTRepo.findByUserIdAndTrainingId(2, 1);
+//        System.out.println(res);
+//        res.setStatus(UJoinT.Status.Success);
+//        uJoinTRepo.save(res);
+//        System.out.println(res);
     }
 }

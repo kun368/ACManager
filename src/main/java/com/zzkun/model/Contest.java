@@ -41,9 +41,6 @@ public class Contest implements Serializable {
 
     private Integer addUid;
 
-
-    private Integer stageId;
-
     private Integer pbCnt;
 
     @Lob
@@ -51,6 +48,10 @@ public class Contest implements Serializable {
 
     @Lob
     private Pair<String, String> rawData;
+
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "stageId")
+    private Stage stage;
 
 
     public Contest() {
@@ -136,14 +137,6 @@ public class Contest implements Serializable {
         this.ranks = ranks;
     }
 
-    public Integer getStageId() {
-        return stageId;
-    }
-
-    public void setStageId(Integer stageId) {
-        this.stageId = stageId;
-    }
-
     public Pair<String, String> getRawData() {
         return rawData;
     }
@@ -152,6 +145,13 @@ public class Contest implements Serializable {
         this.rawData = rawData;
     }
 
+    public Stage getStage() {
+        return stage;
+    }
+
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
 
     @Override
     public String toString() {
@@ -164,7 +164,6 @@ public class Contest implements Serializable {
                 ", endTime=" + endTime +
                 ", addTime=" + addTime +
                 ", addUid=" + addUid +
-                ", stageId=" + stageId +
                 ", pbCnt=" + pbCnt +
                 '}';
     }

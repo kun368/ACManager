@@ -1,12 +1,12 @@
 package com.zzkun.model;
 
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * 集训
@@ -39,6 +39,15 @@ public class Training implements Serializable {
 
     private Double mergeLimit; //Rank聚类时的合并阈值
 
+    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Stage> stageList;
+
+    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OrderBy(value = "date")
+    private List<AssignResult> assignResultList;
+
+    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<UJoinT> uJoinTList;
 
     public Training() {
     }
@@ -130,6 +139,30 @@ public class Training implements Serializable {
 
     public void setMergeLimit(Double mergeLimit) {
         this.mergeLimit = mergeLimit;
+    }
+
+    public List<Stage> getStageList() {
+        return stageList;
+    }
+
+    public void setStageList(List<Stage> stageList) {
+        this.stageList = stageList;
+    }
+
+    public List<AssignResult> getAssignResultList() {
+        return assignResultList;
+    }
+
+    public void setAssignResultList(List<AssignResult> assignResultList) {
+        this.assignResultList = assignResultList;
+    }
+
+    public List<UJoinT> getuJoinTList() {
+        return uJoinTList;
+    }
+
+    public void setuJoinTList(List<UJoinT> uJoinTList) {
+        this.uJoinTList = uJoinTList;
     }
 
     @Override
