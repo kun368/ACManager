@@ -38,6 +38,7 @@
                     major: $('#major').val(),
                     cfname: $('#cfname').val(),
                     vjname: $('#vjname').val(),
+                    bcname: $('#bcname').val(),
                     uvaId:$('#uvaId').val(),
                     type:$('#status option:selected').val()
                 }, function (data) {
@@ -55,7 +56,8 @@
             $('#uvaId').val(tds.eq(4).text());
             $('#cfname').val(tds.eq(5).text());
             $('#vjname').val(tds.eq(7).text());
-            $('#status').val(tds.eq(11).text());
+            $('#bcname').val(tds.eq(8).text());
+            $('#status').val(tds.eq(13).text());
         }
     </script>
 </head>
@@ -82,6 +84,8 @@
                         <th hidden>CfName</th>
                         <th>Cf Rating</th>
                         <th hidden>VJName</th>
+                        <th hidden>BCName</th>
+                        <th>BC Rating</th>
                         <th>合计</th>
                         <c:forEach items="${booksName}" var="bookname">
                             <th>${bookname}</th>
@@ -121,6 +125,12 @@
                                 </a>
                             </td>
                             <td hidden>${curUser.vjname}</td>
+                            <td hidden>${curUser.bcname}</td>
+                            <td>
+                                <a href="http://bestcoder.hdu.edu.cn/rating.php?user=${curUser.bcname}" target="_blank">
+                                        ${bcInfoMap.get(curUser.bcname).rating}
+                                </a>
+                            </td>
                             <td>${bookCnt.get(i.index).get(0) + bookCnt.get(i.index).get(1)}</td>
                             <c:forEach items="${bookCnt.get(i.index)}" var="j">
                                 <td>${j}</td>
@@ -231,10 +241,13 @@
                         专业:<input type="text" class="form-control" id="major" required>
                     </div>
                     <div class="form-group">
-                        CF用户名:<input type="text" class="form-control" id="cfname" >
+                        Codeforces 用户名:<input type="text" class="form-control" id="cfname" >
                     </div>
                     <div class="form-group">
-                        VJ用户名:<input type="text" class="form-control" id="vjname" >
+                        Virtual Judge 用户名:<input type="text" class="form-control" id="vjname" >
+                    </div>
+                    <div class="form-group">
+                        BestCoder 用户名:<input type="text" class="form-control" id="bcname" >
                     </div>
                     <div class="form-group">
                         UVaId:<input class="form-control" id="uvaId" required>

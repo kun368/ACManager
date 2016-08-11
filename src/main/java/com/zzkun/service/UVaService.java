@@ -59,7 +59,7 @@ public class UVaService {
      * 更新所有用户的提交数据
      * 多线程...
      */
-    @Scheduled(cron="0 0 0/1 * * ?")
+    @Scheduled(cron="0 0 0/6 * * ?")
     public void flushUVaSubmit() {
         logger.info("收到更新uva提交db请求...");
         List<User> userList = userRepo.findAll();

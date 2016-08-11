@@ -83,15 +83,17 @@ public class UserService {
 
     public void modifyUserByAdmin(User user) {
         User pre = getUserById(user.getId());
-        if(StringUtils.hasLength(user.getRealName()))
+        if(StringUtils.hasText(user.getRealName()))
             pre.setRealName(user.getRealName());
         if(user.getUvaId() != null && user.getUvaId() > 0)
             pre.setUvaId(user.getUvaId());
-        if(StringUtils.hasLength(user.getCfname()))
+        if(StringUtils.hasText(user.getCfname()))
             pre.setCfname(user.getCfname());
-        if(StringUtils.hasLength(user.getVjname()))
+        if(StringUtils.hasText(user.getVjname()))
             pre.setVjname(user.getVjname());
-        if(StringUtils.hasLength(user.getMajor()))
+        if(StringUtils.hasText(user.getBcname()))
+            pre.setBcname(user.getBcname());
+        if(StringUtils.hasText(user.getMajor()))
             pre.setMajor(user.getMajor());
         if(user.getType() != null)
             pre.setType(user.getType());

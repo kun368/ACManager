@@ -112,7 +112,7 @@
                                 <td>
                                     <strong>
                                         <c:if test="${sum[i.index] != 0}">
-                                            <fmt:formatNumber type="number" value="${sum[i.index]}" maxFractionDigits="1" minFractionDigits="1"/>
+                                            <fmt:formatNumber type="number" value="${sum[i.index]}" maxFractionDigits="2" minFractionDigits="2"/>
                                         </c:if>
                                     </strong>
                                     </td>
@@ -133,7 +133,7 @@
                                             <%--没有wa太多扣除--%>
                                             <c:if test="${!waClear[i.index][j-1]}">
                                                 <c:if test="${pre[j-1][i.index] != 0}">
-                                                    <fmt:formatNumber type="number" value="${pre[j-1][i.index]}" maxFractionDigits="1" minFractionDigits="1"/>
+                                                    <fmt:formatNumber type="number" value="${pre[j-1][i.index]}" maxFractionDigits="2" minFractionDigits="2"/>
                                                 </c:if>
                                             </c:if>
                                             </br>

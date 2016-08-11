@@ -37,6 +37,10 @@ public class Stage implements Serializable {
 
     private Integer trainingId;
 
+//    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+//    @JoinTable()
+//    private Training training;
+
     public Stage() {
     }
 

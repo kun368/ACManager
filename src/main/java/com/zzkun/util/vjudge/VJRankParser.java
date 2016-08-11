@@ -1,14 +1,17 @@
 package com.zzkun.util.vjudge;
 
+import com.zzkun.dao.UJoinTRepo;
 import com.zzkun.dao.UserRepo;
 import com.zzkun.model.Contest;
 import com.zzkun.model.PbStatus;
 import com.zzkun.model.TeamRanking;
 import com.zzkun.model.User;
+import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 import java.io.*;
 import java.util.*;
@@ -27,6 +30,7 @@ public class VJRankParser {
     private static final Logger logger = LoggerFactory.getLogger(VJRankParser.class);
 
     @Autowired private UserRepo userRepo;
+    @Autowired private UJoinTRepo uJoinTRepo;
 
     private int parseTime(String str) {
         Pattern pattern = Pattern.compile("([\\d]+):([\\d]+):([\\d]+)");
@@ -97,6 +101,7 @@ public class VJRankParser {
 
         //读取比赛情况
         List<String> rankFile = Arrays.asList(contest.getRawData().getLeft().split("\n"));
+        logger.info("共有{}行数据", rankFile.size());
         for (int i = 0; i < rankFile.size(); i++) {
             String[] split = rankFile.get(i).split("\t");
             if(i == 0) {
@@ -139,6 +144,7 @@ public class VJRankParser {
                     pbStatus.add(new PbStatus(time > 0, time, wacnt));
                 }
             }
+            logger.info("解析第{}行数据:{}", i, team);
             contest.getRanks().add(team);
         }
         logger.info("榜单解析Rank结果：{}", contest.getRanks());

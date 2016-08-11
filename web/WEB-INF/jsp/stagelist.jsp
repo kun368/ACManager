@@ -170,7 +170,7 @@
             <a href="<c:url value="/assign/lastAssign"/>" class="btn btn-primary" id="lastfendui">分队详情</a>
             <c:if test="${(!empty user) && (user.isAdmin())}">
                 <button class="btn btn-info" id="fendui">随机分队</button>
-                <button class="btn btn-in   fo" id="addbutton" data-toggle="modal" data-target="#myModal">添加阶段</button>
+                <button class="btn btn-info" id="addbutton" data-toggle="modal" data-target="#myModal">添加阶段</button>
             </c:if>
             </div>
     </div>

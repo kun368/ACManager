@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kun on 2016/8/9.
@@ -34,5 +36,15 @@ public class BCWebGetter {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public List<BCUserInfo> getBCUserInfos(List<String> nameList) {
+        List<BCUserInfo> list = new ArrayList<>(nameList.size());
+        for (String s : nameList) {
+            BCUserInfo info = getBCUserInfo(s);
+            if(info != null)
+                list.add(info);
+        }
+        return list;
     }
 }

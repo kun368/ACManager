@@ -1,9 +1,12 @@
 package com.zzkun.service;
 
+import com.zzkun.dao.BCUserInfoRepo;
 import com.zzkun.dao.CFUserInfoRepo;
 import com.zzkun.dao.UserRepo;
+import com.zzkun.model.BCUserInfo;
 import com.zzkun.model.CFUserInfo;
 import com.zzkun.model.User;
+import com.zzkun.util.bcapi.BCWebGetter;
 import com.zzkun.util.cfapi.CFWebGetter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,11 +23,15 @@ import java.util.stream.Collectors;
  * Created by Administrator on 2016/8/5.
  */
 @Service
-public class CFService {
-    private static final Logger logger = LoggerFactory.getLogger(CFService.class);
+public class CFBCService {
+    private static final Logger logger = LoggerFactory.getLogger(CFBCService.class);
 
     @Autowired private CFWebGetter cfWebGetter;
     @Autowired private CFUserInfoRepo cfUserInfoRepo;
+
+    @Autowired private BCWebGetter bcWebGetter;
+    @Autowired private BCUserInfoRepo bcUserInfoRepo;
+
     @Autowired private UserRepo userRepo;
 
     @Scheduled(cron="0 0 0/1 * * ?")
@@ -44,5 +51,24 @@ public class CFService {
         List<CFUserInfo> infoList = cfUserInfoRepo.findAll();
         return infoList.stream()
                 .collect(Collectors.toMap(CFUserInfo::getCfname, x -> x));
+    }
+
+    @Scheduled(cron="0 0 0/1 * * ?")
+    public void flushBCUserInfo() {
+        List<User> userList = userRepo.findAll();
+        List<String> bcnameList = userList.stream()
+                .filter(x -> (!x.isAdmin() && StringUtils.hasText(x.getBcname())))
+                .map(User::getBcname)
+                .collect(Collectors.toList());
+        logger.info("数据库所有BC用户：{}", bcnameList);
+        List<BCUserInfo> infoList = bcWebGetter.getBCUserInfos(bcnameList);
+        bcUserInfoRepo.save(infoList);
+        logger.info("BC数据更新完毕！");
+    }
+
+    public Map<String, BCUserInfo> getBCUserInfoMap() {
+        List<BCUserInfo> infoList = bcUserInfoRepo.findAll();
+        return infoList.stream()
+                .collect(Collectors.toMap(BCUserInfo::getBcname, x -> x));
     }
 }

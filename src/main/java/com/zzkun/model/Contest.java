@@ -166,7 +166,6 @@ public class Contest implements Serializable {
                 ", addUid=" + addUid +
                 ", stageId=" + stageId +
                 ", pbCnt=" + pbCnt +
-                ", rawData=" + rawData +
                 '}';
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2016/8/5.
  */
-public interface CFUserInfoRepo extends JpaRepository<CFUserInfo, Integer> {
+public interface CFUserInfoRepo extends JpaRepository<CFUserInfo, String> {
     @Override
     List<CFUserInfo> findAll();
 
@@ -16,7 +16,7 @@ public interface CFUserInfoRepo extends JpaRepository<CFUserInfo, Integer> {
     <S extends CFUserInfo> S save(S entity);
 
     @Override
-    CFUserInfo findOne(Integer integer);
+    CFUserInfo findOne(String integer);
 
     @Override
     <S extends CFUserInfo> List<S> save(Iterable<S> iterable);
@@ -25,5 +25,5 @@ public interface CFUserInfoRepo extends JpaRepository<CFUserInfo, Integer> {
     long count();
 
     @Override
-    void delete(Integer integer);
+    void delete(String integer);
 }

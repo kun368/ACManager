@@ -2,7 +2,7 @@ package com.zzkun.controller;
 
 import com.zzkun.config.UhuntUpdateStatus;
 import com.zzkun.model.User;
-import com.zzkun.service.CFService;
+import com.zzkun.service.CFBCService;
 import com.zzkun.service.UVaService;
 import com.zzkun.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class UVaController {
 
     @Autowired private UVaService uVaService;
 
-    @Autowired private CFService cfService;
+    @Autowired private CFBCService cfbcService;
 
     @Autowired private UserService userService;
 
@@ -39,7 +39,8 @@ public class UVaController {
         List<User> users = userService.allNormalNotNullUsers();
         List<Integer> uvaids = users.stream().map(User::getUvaId).collect(Collectors.toList());
         model.addAttribute("users", users);
-        model.addAttribute("cfInfoMap", cfService.getCFUserInfoMap());
+        model.addAttribute("cfInfoMap", cfbcService.getCFUserInfoMap());
+        model.addAttribute("bcInfoMap", cfbcService.getBCUserInfoMap());
         model.addAttribute("bookCnt", uVaService.getBookCnt(uvaids));
         model.addAttribute("cptCnt", uVaService.getCptCnt(uvaids));
         model.addAttribute("lastUpdate", uhuntUpdateStatus.getLastTime());
@@ -56,7 +57,8 @@ public class UVaController {
         uhuntUpdateStatus.preUpdate();
 
         uVaService.flushUVaSubmit();
-        cfService.flushCFUserInfo();
+        cfbcService.flushCFUserInfo();
+        cfbcService.flushBCUserInfo();
 
         uhuntUpdateStatus.afterUpdate();
         return "恭喜，更新完毕！";

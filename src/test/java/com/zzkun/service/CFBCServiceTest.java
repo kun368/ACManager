@@ -9,25 +9,23 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Map;
 
-import static org.junit.Assert.*;
-
 /**
  * Created by Administrator on 2016/8/5.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:springmvc-servlet.xml")
-public class CFServiceTest {
+public class CFBCServiceTest {
 
-    @Autowired private CFService cfService;
+    @Autowired private CFBCService CFBCService;
 
     @Test
     public void flushCFUserInfo() throws Exception {
-        cfService.flushCFUserInfo();
+        CFBCService.flushCFUserInfo();
     }
 
     @Test
     public void getCFUserInfoMap() throws Exception {
-        Map<String, CFUserInfo> map = cfService.getCFUserInfoMap();
+        Map<String, CFUserInfo> map = CFBCService.getCFUserInfoMap();
         System.out.println(map);
     }
 }

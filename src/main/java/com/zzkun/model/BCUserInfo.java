@@ -3,6 +3,7 @@ package com.zzkun.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 
 /**
  * Created by kun on 2016/8/9.
@@ -16,9 +17,15 @@ public class BCUserInfo {
 
     private Integer rating;
 
+    private LocalDateTime updateTime;
+
+    public BCUserInfo() {
+    }
+
     public BCUserInfo(String bcname, Integer rating) {
         this.bcname = bcname;
         this.rating = rating;
+        updateTime = LocalDateTime.now();
     }
 
     public String getBcname() {
@@ -35,6 +42,7 @@ public class BCUserInfo {
 
     public void setRating(Integer rating) {
         this.rating = rating;
+        updateTime = LocalDateTime.now();
     }
 
     @Override
@@ -42,6 +50,7 @@ public class BCUserInfo {
         return "BCUserInfo{" +
                 "bcname='" + bcname + '\'' +
                 ", rating=" + rating +
+                ", updateTime=" + updateTime +
                 '}';
     }
 }
