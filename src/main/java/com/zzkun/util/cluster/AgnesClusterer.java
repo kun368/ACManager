@@ -35,10 +35,13 @@ public class AgnesClusterer {
 
     private void updateDis(int pos) {
         List<Double> disList = new ArrayList<>();
+        double sum = 0;
         for (Double a : list.get(pos))
-            for (Double b : list.get(pos + 1))
+            for (Double b : list.get(pos + 1)) {
                 disList.add(Math.abs(a - b));
-        double ans = Collections.max(disList);
+                sum += Math.abs(a - b);
+            }
+        double ans = disList.isEmpty() ? 0 : sum / disList.size();
         dis.set(pos, ans);
     }
 

@@ -34,10 +34,11 @@ public class TrainingController {
     public String mylist(Model model,
                          HttpSession session) {
         List<Training> allTraining = trainingService.getAllTraining();
+        User user = (User) session.getAttribute("user");
         model.addAttribute("allList", allTraining);
         model.addAttribute("trainingSizeMap", trainingService.trainingSizeMap(allTraining));
         model.addAttribute("trainingAddUserList", userService.getUserInfoByTList(allTraining));
-        model.addAttribute("ujointMap", trainingService.getUserRelativeTraining((User) session.getAttribute("user")));
+        model.addAttribute("ujointMap", trainingService.getUserRelativeTraining(user));
         return "trainingsetlist";
     }
 

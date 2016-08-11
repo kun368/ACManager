@@ -113,8 +113,8 @@ public class AuthController {
                            HttpSession session,
                            RedirectAttributes redirectAttributes) {
         logger.info("收到修改请求：{}", user);
-        User newUser = userService.modifyUser(user);
-        session.setAttribute("user", newUser);
+        userService.modifyUser(user);
+        session.setAttribute("user", userService.getUserById(user.getId()));
         redirectAttributes.addFlashAttribute("tip", "信息修改成功！");
         return "redirect:/";
     }
