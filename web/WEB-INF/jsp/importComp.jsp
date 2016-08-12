@@ -118,7 +118,7 @@
                         </div>
 
                         <div class="form-group pull-right">
-                            <button class="btn btn-lg btn-primary btn-block" type="submit">下一步</button>
+                            <button class="btn btn-lg btn-primary btn-block" type="submit">导入</button>
                         </div>
                     </div>
                 </form>

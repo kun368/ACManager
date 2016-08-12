@@ -2,10 +2,7 @@ package com.zzkun.util.vjudge;
 
 import com.zzkun.dao.UJoinTRepo;
 import com.zzkun.dao.UserRepo;
-import com.zzkun.model.Contest;
-import com.zzkun.model.PbStatus;
-import com.zzkun.model.TeamRanking;
-import com.zzkun.model.User;
+import com.zzkun.model.*;
 import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +14,7 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static java.lang.Integer.parseInt;
 
@@ -81,13 +79,16 @@ public class VJRankParser {
         }
         logger.info("解析得到自定义账户对应表：{}", account2team);
 
+        List<UJoinT> trainingUser = contest.getStage().getTraining().getuJoinTList();
+        Set<Integer> trainingUserSet = trainingUser.stream().map(x -> x.getUser().getId()).collect(Collectors.toSet());
+
         List<User> userList = userRepo.findAll();
         Set<String> vjnames = new HashSet<>();
         Set<String> realnames = new HashSet<>();
         userList.forEach(x -> {
-            if(!x.isAdmin()) {
-                if(x.getVjname() != null) vjnames.add(x.getVjname());
-                if(x.getRealName() != null) realnames.add(x.getRealName());
+            if(!x.isAdmin() && trainingUserSet.contains(x.getId())) {
+                if(StringUtils.hasText(x.getVjname())) vjnames.add(x.getVjname());
+                if(StringUtils.hasText(x.getRealName())) realnames.add(x.getRealName());
             }
         });
         for (Map.Entry<String, List<String>> entry : account2team.entrySet()) {
