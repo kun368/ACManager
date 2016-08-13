@@ -36,11 +36,22 @@
             <version>3.4</version>
         </dependency>
 
+
         <!--数学计算-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
             <version>3.5</version>
+        </dependency>
+        <dependency>
+            <groupId>fr.nargit.rating</groupId>
+            <artifactId>algorithms</artifactId>
+            <version>1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ejml</groupId>
+            <artifactId>simple</artifactId>
+            <version>0.28</version>
         </dependency>
 
 

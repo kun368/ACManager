@@ -193,7 +193,7 @@ public class TrainingService {
     }
 
     public List<Contest> getContestByStageId(Integer id) {
-        return contestRepo.findByStageId(id);
+        return stageRepo.findOne(id).getContestList();
     }
 
     public void deleteContestTeam(Integer contestId, Integer pos) {

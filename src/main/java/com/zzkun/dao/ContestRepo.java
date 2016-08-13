@@ -1,6 +1,7 @@
 package com.zzkun.dao;
 
 import com.zzkun.model.Contest;
+import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -17,8 +18,6 @@ public interface ContestRepo extends JpaRepository<Contest, Integer> {
 
     @Override
     <S extends Contest> S save(S entity);
-
-    List<Contest> findByStageId(Integer id);
 
     @Override
     void delete(Integer integer);

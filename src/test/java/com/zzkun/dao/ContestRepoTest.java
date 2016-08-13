@@ -7,6 +7,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -33,11 +34,15 @@ public class ContestRepoTest {
 
     @Test
     public void findAll() throws Exception {
-        List<Contest> all = contestRepo.findAll();
-        for (Contest contest : all) {
-            System.out.println(contest);
-            System.out.println(contest.getRanks());
-        }
+//        List<Contest> all = contestRepo.findAll();
+//        for (Contest contest : all) {
+//            System.out.println(contest);
+//            System.out.println(contest.getRanks());
+//        }
+//        Contest contest = new Contest();
+//        contest.setAddUid(1);
+//        List<Contest> all = contestRepo.findAll(Example.of(contest));
+//        System.out.println(all);
     }
 
     @Test
