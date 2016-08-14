@@ -8,9 +8,15 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -43,6 +49,11 @@ public class ContestRepoTest {
 //        contest.setAddUid(1);
 //        List<Contest> all = contestRepo.findAll(Example.of(contest));
 //        System.out.println(all);
+        List<Contest> list = contestRepo.findAll((root, query, cb) -> {
+            Predicate p1 = cb.equal(root.get("addUid").as(Integer.class), 1);
+            return query.where(p1).getRestriction();
+        });
+        System.out.println(list);
     }
 
     @Test

@@ -36,31 +36,41 @@ public class TeamAssignService {
      */
     public AssignResult assign(List<Integer> users, Integer trainingId, Type type) {
         AssignResult result = null;
-        if(type.equals(Type.RANDOM))
+        if(type.equals(Type.RANDOM)) {
             result =  randomAssign(users, trainingId);
-        else if(type.equals(Type.NoRepeat))
-            result =  noRepeatAssign(users, trainingId);
+        }
+        else if(type.equals(Type.NoRepeat)) {
+            result =  noRepeatAssign(users, trainingId, 7);
+            if(result == null)
+                result = noRepeatAssign(users, trainingId, 5);
+            if(result == null)
+                result = noRepeatAssign(users, trainingId, 3);
+            if(result == null)
+                result = noRepeatAssign(users, trainingId, 1);
+            if(result == null)
+                result = randomAssign(users, trainingId);
+        }
         logger.info("分队结束：{}", result);
         return result;
     }
 
     /**
-     * 分队方法：不能跟历次完全相同，两人5次内不能重复组队
+     * 分队方法：不能跟历次完全相同，两人次noRepeatLimit内不能重复组队
      */
-    private AssignResult noRepeatAssign(List<Integer> users, Integer trainingId) {
+    private AssignResult noRepeatAssign(List<Integer> users, Integer trainingId, int noRepeatLimit) {
         List<AssignResult> pre = trainingRepo.findOne(trainingId).getAssignResultList();
         Set<List<Integer>> teamSet = new HashSet<>();
         Set<List<Integer>> pairSet = new HashSet<>();
         for (AssignResult result : pre) {
             teamSet.addAll(result.getTeamList());
         }
-        for(int i = pre.size()-1; i >= pre.size()-5 && i >= 0; --i)
+        for(int i = pre.size()-1; i >= pre.size()-noRepeatLimit && i >= 0; --i)
             for (List<Integer> list : pre.get(i).getTeamList())
                 for(int j = 0; j < list.size(); ++j)
                     for(int k = j + 1; k < list.size(); ++k)
                         pairSet.add(new ArrayList<>(Arrays.asList(list.get(j), list.get(k))));
         logger.info("历次分队set{}，PairSET：{}", teamSet, pairSet);
-        for(int k = 0; k < 777; ++k) {
+        for(int k = 0; k < 1024; ++k) {
             AssignResult result = randomAssign(users, trainingId);
             result.setType(Type.NoRepeat);
             boolean ok = true;
@@ -78,7 +88,7 @@ public class TeamAssignService {
             }
             if(ok) return result;
         }
-        return randomAssign(users, trainingId);
+        return null;
     }
 
     /**

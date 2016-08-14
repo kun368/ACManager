@@ -44,7 +44,11 @@ public class RatingRecord {
 
     private Double standardDeviation;
 
+    private Double conservativeRating;
+
     private LocalDateTime generateTime;
+
+
 
     public Integer getId() {
         return id;
@@ -110,6 +114,14 @@ public class RatingRecord {
         this.standardDeviation = standardDeviation;
     }
 
+    public Double getConservativeRating() {
+        return conservativeRating;
+    }
+
+    public void setConservativeRating(Double conservativeRating) {
+        this.conservativeRating = conservativeRating;
+    }
+
     public LocalDateTime getGenerateTime() {
         return generateTime;
     }
@@ -123,11 +135,13 @@ public class RatingRecord {
         return "RatingRecord{" +
                 "id=" + id +
                 ", scope=" + scope +
+                ", scopeId=" + scopeId +
                 ", type=" + type +
                 ", identifier='" + identifier + '\'' +
                 ", contestId=" + contestId +
                 ", mean=" + mean +
                 ", standardDeviation=" + standardDeviation +
+                ", conservativeRating=" + conservativeRating +
                 ", generateTime=" + generateTime +
                 '}';
     }

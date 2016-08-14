@@ -77,7 +77,7 @@ public class AgnesClusterer {
         Map<Double, Integer> map = new HashMap<>();
         for(int i = 0; i < list.size(); ++i) {
             for (Double val :list.get(i)) {
-                map.put(val, inv ? (list.size()-i-1) : i);
+                map.put(val, inv ? (list.size()-i) : i + 1);
             }
         }
         return map;

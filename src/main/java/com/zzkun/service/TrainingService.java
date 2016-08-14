@@ -176,8 +176,7 @@ public class TrainingService {
     public Map<Integer, Integer> getstageSizeMap(List<Stage> stageList) {
         Map<Integer, Integer> map = new HashMap<>(stageList.size());
         for (Stage stage : stageList) {
-            Integer stageId = stage.getId();
-            map.put(stageId, (int) contestRepo.countByStageId(stageId));
+            map.put(stage.getId(), stage.getContestList().size());
         }
         return map;
     }
@@ -275,14 +274,6 @@ public class TrainingService {
             ans[i] = map.get(score[i]);
         }
         return ans;
-//        int[] rank = new int[score.length];
-//        List<Pair<Double, Integer>> pairs = new ArrayList<>();
-//        for(int i = 0; i < score.length; ++i)
-//            pairs.add(Pair.of(score[i], i));
-//        Collections.sort(pairs, (x, y) -> (y.getLeft().compareTo(x.getLeft())));
-//        for(int i = 0; i < pairs.size(); ++i)
-//            rank[pairs.get(i).getRight()] = i;
-//        return rank;
     }
 
     public int[] calcRank(List<? extends Comparable> list) {

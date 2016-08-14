@@ -106,7 +106,7 @@
                     <tbody>
                         <c:forEach items="${ranks}" var="team" varStatus="i">
                             <tr>
-                                <td><center><strong>${myrank[i.index]+1}</strong></center></td>
+                                <td><center><strong>${myrank[i.index]}</strong></center></td>
                                 <td>${team.account}</td>
                                 <td>${team.memberToString()}</td>
                                 <td>
