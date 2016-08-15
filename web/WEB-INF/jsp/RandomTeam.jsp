@@ -50,9 +50,9 @@
         </ol>
     </div>
     <div class="row">
-        <div class="col-lg-2">
+        <div class="col-sm-1">
         </div>
-        <div class="col-lg-8">
+        <div class="col-sm-10">
             <div class="page-header">
                 <h1>队员分组 <small>（随机）</small></h1>
             </div>
@@ -79,7 +79,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-lg-2"></div>
+        <div class="col-sm-1"></div>
     </div>
 </div>
 <jsp:include page="footerInfo.jsp"/>

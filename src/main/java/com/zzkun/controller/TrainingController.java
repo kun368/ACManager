@@ -140,8 +140,9 @@ public class TrainingController {
                              @RequestParam String startDate,
                              @RequestParam String endDate,
                              @RequestParam(required = false) String remark,
+                             @RequestParam Boolean countToRating,
                              HttpSession session) {
-        logger.info("收到添加Stage请求：name = [" + name + "], startDate = [" + startDate + "], endDate = [" + endDate + "], remark = [" + remark + "]");
+        logger.info("收到添加Stage请求：name = [" + name + "], startDate = [" + startDate + "], endDate = [" + endDate + "], remark = [" + remark + "], countToRating = [" + countToRating + "]");
         try {
             User user = (User) session.getAttribute("user");
             Integer trainingId = (Integer) session.getAttribute("trainingId");
@@ -151,6 +152,7 @@ public class TrainingController {
             stage.setStartDate(LocalDate.parse(startDate));
             stage.setEndDate(LocalDate.parse(endDate));
             stage.setRemark(remark);
+            stage.setCountToRating(countToRating);
             stage.setTraining(trainingService.getTrainingById(trainingId));
             stage.setAddTime(LocalDateTime.now());
             stage.setAddUid(user.getId());
@@ -217,17 +219,18 @@ public class TrainingController {
     @RequestMapping(value = "/modifyStage", produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String modifyStage(@SessionAttribute(required = false) User user,
-                                 @RequestParam Integer id,
-                                 @RequestParam String name,
-                                 @RequestParam String beginTime,
-                                 @RequestParam String endTime,
-                                 @RequestParam String remark) {
+                              @RequestParam Integer id,
+                              @RequestParam String name,
+                              @RequestParam String beginTime,
+                              @RequestParam String endTime,
+                              @RequestParam String remark,
+                              @RequestParam Boolean countToRating) {
         logger.info("修改阶段：user = [" + user + "], id = [" + id + "], name = [" + name + "], beginTime = [" + beginTime + "], endTime = [" + endTime + "], remark = [" + remark + "]");
         if(user == null || !user.isAdmin()) {
             return "没有权限！";
         }
         try {
-            trainingService.modifyStage(id, name, beginTime, endTime, remark);
+            trainingService.modifyStage(id, name, beginTime, endTime, remark, countToRating);
             return "修改成功";
         } catch (Exception e) {
             e.printStackTrace();

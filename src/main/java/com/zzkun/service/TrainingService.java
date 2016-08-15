@@ -162,7 +162,7 @@ public class TrainingService {
         stageRepo.save(stage);
     }
 
-    public void modifyStage(Integer id, String name, String beginTime, String endTime, String remark) {
+    public void modifyStage(Integer id, String name, String beginTime, String endTime, String remark, Boolean countToRating) {
         Stage stage = getStageById(id);
         if(StringUtils.hasText(name))
             stage.setName(name);
@@ -170,6 +170,7 @@ public class TrainingService {
             stage.setRemark(remark);
         stage.setStartDate(LocalDate.parse(beginTime));
         stage.setEndDate(LocalDate.parse(endTime));
+        stage.setCountToRating(countToRating);
         stageRepo.save(stage);
     }
 
@@ -300,10 +301,9 @@ public class TrainingService {
 
     public Contest parseVj(String contestName,
                            String contestType,
-                           String stTime,
-                           String edTime,
-                           String myConfig,
-                           String vjContest,
+                           String stTime, String edTime,
+                           String source, String sourceUrl,
+                           String myConfig, String vjContest,
                            User addUser,
                            Integer stageId) throws IOException {
         Pair<String, String> rawDate = Pair.of(vjContest, myConfig);
@@ -314,6 +314,8 @@ public class TrainingService {
         contest.setName(contestName.trim());
         contest.setStartTime(LocalDateTime.parse(stTime));
         contest.setEndTime(LocalDateTime.parse(edTime));
+        contest.setSource(source);
+        contest.setSourceUrl(sourceUrl);
         contest.setStage(getStageById(stageId));
         contest.setAddUid(addUser.getId());
 

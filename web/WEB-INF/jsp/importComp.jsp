@@ -99,8 +99,14 @@
                                     <select class="form-control" name="contestType" id="Type">
                                         <option value="PERSONAL">个人赛</option>
                                         <option value="TEAM">组队赛</option>
-                                        <option value="MIX_TEAM">混合组队赛</option>
+                                        <option value="MIX_TEAM">混合赛</option>
                                     </select>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" value="${preContest.source}"  name="source" class="form-control" placeholder="比赛来源*" autofocus required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" value="${preContest.sourceUrl}"  name="sourceUrl" class="form-control" placeholder="比赛来源URL*" autofocus required>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" value="${preContest.startTime}" id="startTime" name="stTime" class="form-control" autofocus required>

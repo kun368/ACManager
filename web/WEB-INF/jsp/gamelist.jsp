@@ -66,9 +66,9 @@
                         <th>比赛名称</th>
                         <th>开始时间</th>
                         <th>结束时间</th>
-                        <th>比赛类型</th>
-                        <th>添加时间</th>
-                        <th>比赛人数</th>
+                        <th>类型</th>
+                        <th>来源</th>
+                        <th>队伍</th>
                         <th>创建者</th>
                         <c:if test="${(!empty user) && (user.isAdmin())}">
                             <th>操作</th>
@@ -99,11 +99,13 @@
                                         组队赛
                                     </c:when>
                                     <c:when test="${contest.type eq MixTeam}">
-                                        混合组队赛
+                                        混合赛
                                     </c:when>
                                 </c:choose>
                             </td>
-                            <td>${contest.addTime}</td>
+                            <td>
+                                <a href="${contest.sourceUrl}" target="_blank">${contest.source}</a>
+                            </td>
                             <td>${contest.ranks.size()}</td>
                             <td>${contestAddUserList.get(contest.addUid).username}</td>
                             <c:if test="${(!empty user) && (user.isAdmin())}">

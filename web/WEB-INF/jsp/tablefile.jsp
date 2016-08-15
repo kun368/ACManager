@@ -57,7 +57,14 @@
             $('#cfname').val(tds.eq(5).text());
             $('#vjname').val(tds.eq(7).text());
             $('#bcname').val(tds.eq(8).text());
-            $('#status').val(tds.eq(13).text());
+            var form_text=$.trim(tds.eq(13).text());
+            $("#status option").each(function (i,item) {
+                var option_text=$(this).text();
+                if(option_text==form_text){
+                    $(this).attr("selected","selected")
+                }
+
+            })
         }
     </script>
 </head>

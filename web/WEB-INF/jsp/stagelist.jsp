@@ -21,9 +21,11 @@
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="//cdn.bootcss.com/jquery-datetimepicker/2.5.4/build/jquery.datetimepicker.full.js"></script>
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/jquery-datetimepicker/2.5.4/jquery.datetimepicker.css"/>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <c:url value="/assign/listTraining/${trainingId}" var="suijifendui"/>
     <c:url value="/training/doAddStage" var="url_doadstage"/>
     <c:url value="/training/verifyUserJoin" var="url_verifyUserJoin"/>
@@ -64,7 +66,8 @@
                     name: $('#name').val(),
                     startDate: $('#beginTime').val(),
                     endDate: $('#endTime').val(),
-                    remark: $('#remark').val()
+                    remark: $('#remark').val(),
+                    countToRating: $('#true_false').prop('checked')
                 }, function (data) {
                     alert(data);
                     location.reload();
@@ -77,7 +80,8 @@
                     name: $('#name2').val(),
                     beginTime: $('#beginTime2').val(),
                     endTime: $('#endTime2').val(),
-                    remark:$('#remark2').val()
+                    remark:$('#remark2').val(),
+                    countToRating: $('#true_false2').prop('checked')
                 }, function (data) {
                     alert(data);
                     location.reload();
@@ -147,6 +151,11 @@
             $('#endTime2').val(tds.eq(2).text());
             $('#remark2').val(tds.eq(3).text());
             $('#id2').val(id);
+            var chec_true_false=tds.eq(7).text();
+            if(chec_true_false=='true')
+                $('#true_false2').prop("checked",true).change();
+            else
+                $('#true_false2').prop("checked",false).change();
         }
     </script>
 
@@ -162,7 +171,6 @@
             <li class="active">阶段列表</li>
         </ol>
     </div>
-
 
 
     <div class="row" style="padding-bottom: 20px">
@@ -189,9 +197,10 @@
                         <th>开始时间</th>
                         <th>结束时间</th>
                         <th hidden>备注</th>
-                        <th>添加时间</th>
-                        <th>比赛数</th>
+                        <th hidden>添加时间</th>
+                        <th>比赛</th>
                         <th>创建者</th>
+                        <th hidden>是否计算Rating</th>
                         <c:if test="${(!empty user) && (user.isAdmin())}">
                             <th>操作</th>
                         </c:if>
@@ -208,9 +217,10 @@
                             <td>${stage.startDate}</td>
                             <td>${stage.endDate}</td>
                             <td hidden>${stage.remark}</td>
-                            <td>${stage.addTime}</td>
+                            <td hidden>${stage.addTime}</td>
                             <td>${stageSizeMap.get(stage.id)}</td>
                             <td>${stageAddUserList.get(stage.addUid).username}</td>
+                            <td hidden>${stage.countToRating}</td>
                             <c:if test="${(!empty user) && (user.isAdmin())}">
                                 <td>
                                     <a id="modifybutton" data-toggle="modal" data-target="#myModal2"
@@ -218,6 +228,7 @@
                                 </td>
                             </c:if>
                         </tr>
+
                     </c:forEach>
                     </tbody>
                 </table>
@@ -301,6 +312,15 @@
                     <div class="form-group">
                         <textarea rows="5" id="remark" class="form-control" placeholder="备注"></textarea>
                     </div>
+                    <div class="form-group">
+                        <label>
+                            <input id="true_false"
+                                    type="checkbox" checked data-toggle="toggle" data-style="ios"
+                                   data-onstyle="info" data-size="small"
+                                   data-on="是" data-off="否">
+                            是否计算Rating
+                        </label>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -333,6 +353,15 @@
                     </div>
                     <div class="form-group" hidden>
                         <input type="text" id="id2" class="form-control" placeholder="id" hidden>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input id="true_false2"
+                                   type="checkbox" checked data-toggle="toggle" data-style="ios"
+                                   data-onstyle="info" data-size="small"
+                                   data-on="是" data-off="否">
+                            是否计算Rating
+                        </label>
                     </div>
                 </form>
             </div>

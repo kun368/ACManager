@@ -1,8 +1,5 @@
 package com.zzkun.model;
 
-
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -34,6 +31,8 @@ public class Stage implements Serializable {
     private LocalDateTime addTime;
 
     private Integer addUid;
+
+    private boolean countToRating;
 
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "trainingId")
@@ -109,6 +108,14 @@ public class Stage implements Serializable {
         this.addUid = addUid;
     }
 
+    public boolean isCountToRating() {
+        return countToRating;
+    }
+
+    public void setCountToRating(boolean countToRating) {
+        this.countToRating = countToRating;
+    }
+
     public List<Contest> getContestList() {
         return contestList;
     }
@@ -127,6 +134,7 @@ public class Stage implements Serializable {
                 ", endDate=" + endDate +
                 ", addTime=" + addTime +
                 ", addUid=" + addUid +
+                ", countToRating=" + countToRating +
                 ", training=" + training +
                 '}';
     }

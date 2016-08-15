@@ -53,6 +53,11 @@ public class Contest implements Serializable {
     @JoinColumn(name = "stageId")
     private Stage stage;
 
+    private String source;
+
+    @Column(length = 10240)
+    private String sourceUrl;
+
 
     public Contest() {
     }
@@ -153,6 +158,22 @@ public class Contest implements Serializable {
         this.stage = stage;
     }
 
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getSourceUrl() {
+        return sourceUrl;
+    }
+
+    public void setSourceUrl(String sourceUrl) {
+        this.sourceUrl = sourceUrl;
+    }
+
     @Override
     public String toString() {
         return "Contest{" +
@@ -165,6 +186,9 @@ public class Contest implements Serializable {
                 ", addTime=" + addTime +
                 ", addUid=" + addUid +
                 ", pbCnt=" + pbCnt +
+                ", stage=" + stage +
+                ", source='" + source + '\'' +
+                ", sourceUrl='" + sourceUrl + '\'' +
                 '}';
     }
 }

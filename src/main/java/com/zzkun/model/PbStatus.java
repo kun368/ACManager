@@ -81,10 +81,6 @@ public class PbStatus implements Serializable, Comparable<PbStatus> {
                 '}';
     }
 
-    public static void main(String[] args) {
-        System.out.println(getHTime(1024));
-    }
-
     @Override
     public int compareTo(PbStatus o) {
         if(waCount != o.waCount)

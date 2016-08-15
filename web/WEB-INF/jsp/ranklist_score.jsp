@@ -80,7 +80,7 @@
                             组队赛
                         </c:when>
                         <c:when test="${contest.type eq MixTeam}">
-                            混合组队赛
+                            混合赛
                         </c:when>
                     </c:choose>
                 </p>

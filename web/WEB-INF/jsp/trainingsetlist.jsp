@@ -156,13 +156,13 @@
                         <th>集训名称</th>
                         <th>开始时间</th>
                         <th>结束时间</th>
-                        <th>添加时间</th>
+                        <th hidden>添加时间</th>
                         <th hidden>备注</th>
                         <th hidden>基准分</th>
                         <th hidden>标准距离</th>
                         <th hidden>mergeLimit</th>
                         <th hidden>waCapcity</th>
-                        <th>阶段数</th>
+                        <th>阶段</th>
                         <th>创建者</th>
                         <c:if test="${!empty user}">
                             <th>状态</th>
@@ -197,7 +197,7 @@
                             </td>
                             <td>${training.startDate}</td>
                             <td>${training.endDate}</td>
-                            <td>${training.addTime}</td>
+                            <td hidden>${training.addTime}</td>
                             <td hidden>${training.remark}</td>
                             <td hidden>${training.standard}</td>
                             <td hidden>${training.expand}</td>

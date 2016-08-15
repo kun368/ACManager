@@ -65,6 +65,8 @@ public class ContestController {
                                 @RequestParam String contestType,
                                 @RequestParam String stTime,
                                 @RequestParam String edTime,
+                                @RequestParam String source,
+                                @RequestParam String sourceUrl,
                                 @RequestParam(required = false, defaultValue = "") String myConfig,
                                 @RequestParam String vjContest,
                                 @SessionAttribute User user,
@@ -73,7 +75,7 @@ public class ContestController {
         logger.info("导入/修改比赛。。。");
         logger.info("contestId = [" + contestId + "], contestName = [" + contestName + "], contestType = [" + contestType + "], stTime = [" + stTime + "], edTime = [" + edTime + "], myConfig = [" + myConfig + "], vjContest = [" + vjContest + "], user = [" + user + "], stageId = [" + stageId + "]");
         try {
-            Contest contest = trainingService.parseVj(contestName, contestType, stTime, edTime, myConfig, vjContest, user, stageId);
+            Contest contest = trainingService.parseVj(contestName, contestType, stTime, edTime, source, sourceUrl, myConfig, vjContest, user, stageId);
             logger.info("比赛ID：{}", contestId);
             if(contestId == -1) {
                 trainingService.saveContest(contest);
