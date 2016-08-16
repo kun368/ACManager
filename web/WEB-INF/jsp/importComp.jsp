@@ -97,16 +97,19 @@
                                 </div>
                                 <div class="form-group">
                                     <select class="form-control" name="contestType" id="Type">
-                                        <option value="PERSONAL">个人赛</option>
-                                        <option value="TEAM">组队赛</option>
-                                        <option value="MIX_TEAM">混合赛</option>
+                                        <option value="PERSONAL">个人</option>
+                                        <option value="TEAM">组队</option>
+                                        <option value="MIX_TEAM">混合</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" value="${preContest.source}"  name="source" class="form-control" placeholder="比赛来源*" autofocus required>
+                                    <input type="text" value="${preContest.source}"  name="source" class="form-control" placeholder="比赛来源" autofocus>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" value="${preContest.sourceUrl}"  name="sourceUrl" class="form-control" placeholder="比赛来源URL*" autofocus required>
+                                    <input type="text" value="${preContest.sourceDetail}"  name="sourceDetail" class="form-control" placeholder="详细比赛来源" autofocus>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" value="${preContest.sourceUrl}"  name="sourceUrl" class="form-control" placeholder="比赛来源URL" autofocus>
                                 </div>
                                 <div class="form-group">
                                     <input type="text" value="${preContest.startTime}" id="startTime" name="stTime" class="form-control" autofocus required>

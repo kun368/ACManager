@@ -56,9 +56,9 @@ public class AgnesClusterer {
                 minPos = i;
             }
         }
-        logger.info("当前最小距离：{}", minDis);
+        //logger.info("当前最小距离：{}", minDis);
         if(minDis > disLimit) {
-            logger.info("当前距离大于阈值{}", disLimit);
+            //logger.info("当前距离大于阈值{}", disLimit);
             return false;
         }
         list.get(minPos).addAll(list.get(minPos+1));
@@ -66,8 +66,8 @@ public class AgnesClusterer {
         dis.remove(minPos);
         if(minPos > 0) updateDis(minPos-1);
         if(minPos < list.size()-1) updateDis(minPos);
-        logger.info("单次聚类完成，剩余类数：{}", list.size());
-        logger.info("当前结果：{}", list);
+        //logger.info("单次聚类完成，剩余类数：{}", list.size());
+        //logger.info("当前结果：{}", list);
         return true;
     }
 

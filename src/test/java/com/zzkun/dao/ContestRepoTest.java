@@ -1,28 +1,15 @@
 package com.zzkun.dao;
 
 import com.zzkun.model.Contest;
-import com.zzkun.util.vjudge.VJRankParser;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.tuple.Pair;
+import com.zzkun.util.rank.VJRankParser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by kun on 2016/7/13.
@@ -33,10 +20,6 @@ public class ContestRepoTest {
 
     @Autowired
     private ContestRepo contestRepo;
-
-    @Autowired
-    private VJRankParser vjRankParser;
-
 
     @Test
     public void findAll() throws Exception {
@@ -68,14 +51,14 @@ public class ContestRepoTest {
 
     @Test
     public void save() throws Exception {
-//        List<String> list = FileUtils.readLines(new File("temp/vjudge"), "utf8");
+//        List<String> list = FileUtils.readLines(new File("temp/rank"), "utf8");
 //        Contest contest = vjRankParser.parseRank(list, new HashMap<>());
 //        contestRepo.save(contest);
     }
 
     @Test(timeout = 10000)
     public void calcTemesStdScore() throws Exception {
-//        List<String> list = FileUtils.readLines(new File("temp/vjudge"), "utf8");
+//        List<String> list = FileUtils.readLines(new File("temp/rank"), "utf8");
 //        for(int i = 0; i < 1000; ++i) {
 //            Contest contest = vjRankParser.parseRank(list, new HashMap<>());
 //            double[] doubles = contest.calcContestScore(20, 100);

@@ -27,7 +27,7 @@
     <script>
         $(document).ready(function () {
             $('#mytable').DataTable({
-                "order": [[2, "desc"]]
+                "orderId": [[2, "desc"]]
             });
         });
     </script>
@@ -93,13 +93,13 @@
                             <td>
                                 <c:choose>
                                     <c:when test="${contest.type eq Personal}">
-                                        个人赛
+                                        个人
                                     </c:when>
                                     <c:when test="${contest.type eq Team}">
-                                        组队赛
+                                        组队
                                     </c:when>
                                     <c:when test="${contest.type eq MixTeam}">
-                                        混合赛
+                                        混合
                                     </c:when>
                                 </c:choose>
                             </td>

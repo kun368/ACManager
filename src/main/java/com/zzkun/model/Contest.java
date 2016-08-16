@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "contest")
-public class Contest implements Serializable {
+public class Contest implements Serializable, Comparable<Contest> {
 
     public static final String TYPE_PERSONAL = "PERSONAL";
     public static final String TYPE_TEAM = "TEAM";
@@ -54,6 +54,8 @@ public class Contest implements Serializable {
     private Stage stage;
 
     private String source;
+
+    private String sourceDetail;
 
     @Column(length = 10240)
     private String sourceUrl;
@@ -166,6 +168,14 @@ public class Contest implements Serializable {
         this.source = source;
     }
 
+    public String getSourceDetail() {
+        return sourceDetail;
+    }
+
+    public void setSourceDetail(String sourceDetail) {
+        this.sourceDetail = sourceDetail;
+    }
+
     public String getSourceUrl() {
         return sourceUrl;
     }
@@ -188,7 +198,15 @@ public class Contest implements Serializable {
                 ", pbCnt=" + pbCnt +
                 ", stage=" + stage +
                 ", source='" + source + '\'' +
+                ", sourceDetail='" + sourceDetail + '\'' +
                 ", sourceUrl='" + sourceUrl + '\'' +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Contest o) {
+        if(endTime.equals(o.endTime))
+            return id.compareTo(o.id);
+        return endTime.compareTo(o.endTime);
     }
 }

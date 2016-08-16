@@ -12,7 +12,7 @@ import java.util.List;
  * Created by kun on 2016/8/13.
  */
 public interface RatingRecordRepo
-        extends JpaRepository<RatingRecord, Integer>, JpaSpecificationExecutor<RatingRecord> {
+        extends JpaRepository<RatingRecord, Long>, JpaSpecificationExecutor<RatingRecord> {
     @Override
     List<RatingRecord> findAll();
 
@@ -29,7 +29,7 @@ public interface RatingRecordRepo
     <S extends RatingRecord> S save(S entity);
 
     @Override
-    RatingRecord findOne(Integer integer);
+    RatingRecord findOne(Long integer);
 
     @Override
     RatingRecord findOne(Specification<RatingRecord> spec);

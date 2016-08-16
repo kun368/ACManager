@@ -36,7 +36,7 @@
         }
         $(document).ready(function () {
             $('#mytable').DataTable({
-                "order": [[3, "desc"]]
+                "orderId": [[3, "desc"]]
             });
             $('#mytable1').DataTable({
                 lengthChange: true,

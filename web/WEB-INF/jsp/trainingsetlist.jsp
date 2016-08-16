@@ -31,7 +31,7 @@
     <script>
         $(document).ready(function () {
             $('#mytable').DataTable({
-                "order": [[3, "desc"]]
+                "orderId": [[3, "desc"]]
             });
             $('#savabutton').click(function () {
                 $.post("${url_doAddTraining}", {

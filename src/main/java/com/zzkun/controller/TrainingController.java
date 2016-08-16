@@ -2,6 +2,7 @@ package com.zzkun.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.zzkun.model.*;
+import com.zzkun.service.RatingService;
 import com.zzkun.service.TrainingService;
 import com.zzkun.service.UserService;
 import org.slf4j.Logger;
@@ -26,8 +27,8 @@ public class TrainingController {
     private static final Logger logger = LoggerFactory.getLogger(TrainingController.class);
 
     @Autowired private TrainingService trainingService;
-
     @Autowired private UserService userService;
+    @Autowired private RatingService ratingService;
 
 
     @RequestMapping("/list")
@@ -66,7 +67,8 @@ public class TrainingController {
         model.addAttribute("stageList", stageList);
         model.addAttribute("stageSizeMap", trainingService.getstageSizeMap(stageList));
         model.addAttribute("stageAddUserList", userService.getUserInfoBySList(stageList));
-        model.addAttribute("ujoinT", trainingService.getTrainingAllUser(id));
+        model.addAttribute("ujoinT", trainingService.getTrainingAllOkUser(id));
+        model.addAttribute("ratingMap", ratingService.getTrainingUserRatingMap(id));
         session.setAttribute("trainingId", id);
         return "stagelist";
     }

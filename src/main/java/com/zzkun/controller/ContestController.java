@@ -66,6 +66,7 @@ public class ContestController {
                                 @RequestParam String stTime,
                                 @RequestParam String edTime,
                                 @RequestParam String source,
+                                @RequestParam String sourceDetail,
                                 @RequestParam String sourceUrl,
                                 @RequestParam(required = false, defaultValue = "") String myConfig,
                                 @RequestParam String vjContest,
@@ -73,9 +74,9 @@ public class ContestController {
                                 @SessionAttribute Integer stageId,
                                 RedirectAttributes redirectAttributes) {
         logger.info("导入/修改比赛。。。");
-        logger.info("contestId = [" + contestId + "], contestName = [" + contestName + "], contestType = [" + contestType + "], stTime = [" + stTime + "], edTime = [" + edTime + "], myConfig = [" + myConfig + "], vjContest = [" + vjContest + "], user = [" + user + "], stageId = [" + stageId + "]");
+        logger.info("contestId = [" + contestId + "], contestName = [" + contestName + "], contestType = [" + contestType + "], stTime = [" + stTime + "], edTime = [" + edTime + "], source = [" + source + "], sourceDetail = [" + sourceDetail + "], sourceUrl = [" + sourceUrl + "], myConfig = [" + myConfig + "], vjContest = [" + vjContest + "], user = [" + user + "], stageId = [" + stageId + "]");
         try {
-            Contest contest = trainingService.parseVj(contestName, contestType, stTime, edTime, source, sourceUrl, myConfig, vjContest, user, stageId);
+            Contest contest = trainingService.parseVj(contestName, contestType, stTime, edTime, source, sourceDetail, sourceUrl, myConfig, vjContest, user, stageId);
             logger.info("比赛ID：{}", contestId);
             if(contestId == -1) {
                 trainingService.saveContest(contest);
@@ -85,6 +86,8 @@ public class ContestController {
                 logger.info("修改比赛：原：{}", pre);
                 contest.setId(contestId);
                 contest.setAddTime(pre.getAddTime());
+                contest.setAddUid(pre.getAddUid());
+                contest.setStage(pre.getStage());
                 logger.info("修改比赛：现：{}", contest);
                 trainingService.saveContest(contest);
                 redirectAttributes.addFlashAttribute("tip", "修改成功！");

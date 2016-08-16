@@ -28,7 +28,7 @@
         $(document).ready(function () {
             $("#id").hide();
             $('#mytable').DataTable({
-                "order": [[2, "asc"]]
+                "orderId": [[2, "asc"]]
             });
             $('#savabutton').click(function () {
                 $.post("${url_modify}", {

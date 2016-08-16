@@ -20,11 +20,11 @@ public class MyELOTest {
 
     @Test
     public void calcPersonal() throws Exception {
-        List<Pair<String, Integer>> list = new ArrayList<>();
-        list.add(Pair.of("zzk", 1));
-        list.add(Pair.of("heheda", 2));
-        list.add(Pair.of("nihao", 3));
-        Map<String, Rating> map = myELO.calcPersonal(new HashMap<>(), list);
-        System.out.println(map);
+//        List<Pair<String, Integer>> list = new ArrayList<>();
+//        list.add(Pair.of("zzk", 1));
+//        list.add(Pair.of("heheda", 2));
+//        list.add(Pair.of("nihao", 3));
+//        Map<String, Rating> map = myELO.calcPersonal(new HashMap<>(), list);
+//        System.out.println(map);
     }
 }

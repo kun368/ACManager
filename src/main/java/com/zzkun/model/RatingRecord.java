@@ -1,7 +1,5 @@
 package com.zzkun.model;
 
-import jskills.Rating;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -26,7 +24,7 @@ public class RatingRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Enumerated(value = EnumType.STRING)
     private Scope scope;
@@ -40,6 +38,8 @@ public class RatingRecord {
 
     private Integer contestId;
 
+    private Integer orderId;
+
     private Double mean;
 
     private Double standardDeviation;
@@ -48,13 +48,15 @@ public class RatingRecord {
 
     private LocalDateTime generateTime;
 
+    private Boolean isLast;
 
 
-    public Integer getId() {
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -98,6 +100,14 @@ public class RatingRecord {
         this.contestId = contestId;
     }
 
+    public Integer getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Integer orderId) {
+        this.orderId = orderId;
+    }
+
     public Double getMean() {
         return mean;
     }
@@ -130,6 +140,14 @@ public class RatingRecord {
         this.generateTime = generateTime;
     }
 
+    public Boolean getLast() {
+        return isLast;
+    }
+
+    public void setLast(Boolean last) {
+        isLast = last;
+    }
+
     @Override
     public String toString() {
         return "RatingRecord{" +
@@ -139,10 +157,12 @@ public class RatingRecord {
                 ", type=" + type +
                 ", identifier='" + identifier + '\'' +
                 ", contestId=" + contestId +
+                ", orderId=" + orderId +
                 ", mean=" + mean +
                 ", standardDeviation=" + standardDeviation +
                 ", conservativeRating=" + conservativeRating +
                 ", generateTime=" + generateTime +
+                ", isLast=" + isLast +
                 '}';
     }
 }

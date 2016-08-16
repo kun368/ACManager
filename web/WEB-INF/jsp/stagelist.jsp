@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -30,6 +31,7 @@
     <c:url value="/training/doAddStage" var="url_doadstage"/>
     <c:url value="/training/verifyUserJoin" var="url_verifyUserJoin"/>
     <c:url value="/training/modifyStage" var="url_modify"/>
+    <c:url value="/rating/updateTraining/${trainingId}" var="url_update_rating"/>
   <!-- <style type="text/css">
        .table-striped tbody tr:nth-child(odd) td {
            background-color: MediumSpringGreen;
@@ -45,7 +47,7 @@
         $(document).ready(function () {
             $('#mytable').DataTable({
                 pageLength: 25,<!--初始化单页显示数-->
-                "order": [[4, "desc"]]
+                "orderId": [[4, "desc"]]
             });
             $('#mytable1').DataTable({
                 lengthChange: true,
@@ -143,6 +145,14 @@
                 // disabledDates:['1986-01-08 ','1986-01-09','1986-01-10'],
                 //startDate:	'1986-01-05'
             });
+            $('#update_Rating').click(function () {
+                $(this).attr("disabled","disabled");
+                $.post("${url_update_rating}",{
+                },function(data){
+                    alert(data);
+                    location.reload();
+                });
+            })
         });
         function updata(obj,id) {
             var tds=$(obj).parent().parent().find('td');
@@ -179,6 +189,8 @@
             <c:if test="${(!empty user) && (user.isAdmin())}">
                 <button class="btn btn-info" id="fendui">随机分队</button>
                 <button class="btn btn-info" id="addbutton" data-toggle="modal" data-target="#myModal">添加阶段</button>
+                <button class="btn btn-info" id="update_Rating">更新Rating</button>
+
             </c:if>
             </div>
     </div>
@@ -254,7 +266,6 @@
                     <tr>
                         <th>姓名</th>
                         <th>班级</th>
-                        <th>状态</th>
                         <th>Rating</th>
                     </tr>
                     </thead>
@@ -265,22 +276,12 @@
                     <tbody>
                     <c:forEach items="${ujoinT}" var="user">
                         <tr>
-                            <td>${user.key.realName}</td>
-                            <td>${user.key.major}</td>
+                            <td>${user.realName}</td>
+                            <td>${user.major}</td>
                             <td>
-                                <c:choose>
-                                    <c:when test="${user.value eq success}">
-                                        成功加入
-                                    </c:when>
-                                    <c:when test="${user.value eq pending}">
-                                        申请中
-                                    </c:when>
-                                    <c:when test="${user.value eq reject}">
-                                        被拒绝
-                                    </c:when>
-                                </c:choose>
+                                <fmt:formatNumber value="${ratingMap.get(user.realName).conservativeRating}"
+                                    maxFractionDigits="2" minFractionDigits="2"/>
                             </td>
-                            <td>...</td>
                         </tr>
                     </c:forEach>
                     </tbody>

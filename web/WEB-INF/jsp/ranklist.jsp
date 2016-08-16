@@ -34,7 +34,7 @@
                     //给第一列指定宽度为表格整个宽度的20%
                     { "width": "30px", "targets": 2 }
                 ],
-                "order": [[3, "desc"], [4, "asc"]]
+                "orderId": [[3, "desc"], [4, "asc"]]
             });
         });
     </script>
@@ -75,13 +75,13 @@
                     比赛类型：
                     <c:choose>
                         <c:when test="${contest.type eq Personal}">
-                            个人赛
+                            个人
                         </c:when>
                         <c:when test="${contest.type eq Team}">
-                            组队赛
+                            组队
                         </c:when>
                         <c:when test="${contest.type eq MixTeam}">
-                            组队赛
+                            组队
                         </c:when>
                     </c:choose>
                 </p>

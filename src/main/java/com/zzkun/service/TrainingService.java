@@ -5,7 +5,7 @@ import com.zzkun.model.*;
 import com.zzkun.util.cluster.AgnesClusterer;
 import com.zzkun.util.stder.DataStder;
 import com.zzkun.util.stder.RawData;
-import com.zzkun.util.vjudge.VJRankParser;
+import com.zzkun.util.rank.VJRankParser;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -297,12 +297,12 @@ public class TrainingService {
         assignResultRepo.save(assign);
     }
 
-    ////// vjudge
+    ////// rank
 
     public Contest parseVj(String contestName,
                            String contestType,
                            String stTime, String edTime,
-                           String source, String sourceUrl,
+                           String source, String sourceDetail, String sourceUrl,
                            String myConfig, String vjContest,
                            User addUser,
                            Integer stageId) throws IOException {
@@ -315,6 +315,7 @@ public class TrainingService {
         contest.setStartTime(LocalDateTime.parse(stTime));
         contest.setEndTime(LocalDateTime.parse(edTime));
         contest.setSource(source);
+        contest.setSourceDetail(sourceDetail);
         contest.setSourceUrl(sourceUrl);
         contest.setStage(getStageById(stageId));
         contest.setAddUid(addUser.getId());

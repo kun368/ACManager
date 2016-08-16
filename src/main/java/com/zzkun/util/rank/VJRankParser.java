@@ -1,16 +1,14 @@
-package com.zzkun.util.vjudge;
+package com.zzkun.util.rank;
 
 import com.zzkun.dao.UJoinTRepo;
 import com.zzkun.dao.UserRepo;
 import com.zzkun.model.*;
-import org.apache.commons.lang3.ArrayUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
-import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,7 +21,7 @@ import static java.lang.Integer.parseInt;
  * Created by Administrator on 2016/6/27.
  */
 @Component
-public class VJRankParser {
+public class VJRankParser implements RankParser {
 
     private static final Logger logger = LoggerFactory.getLogger(VJRankParser.class);
 
@@ -67,6 +65,7 @@ public class VJRankParser {
         return new ArrayList<>(Arrays.asList(split));
     }
 
+    @Override
     public Contest parseRank(Contest contest) {
 
         String[] config = contest.getRawData().getRight().split("\n");
