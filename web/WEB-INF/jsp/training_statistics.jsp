@@ -83,6 +83,7 @@
                         <th>Sigma</th>
                         <th>场次</th>
                         <th>平均Rank</th>
+                        <th>时长(分钟)</th>
                     </tr>
                     </thead>
                     <tfoot>
@@ -108,7 +109,7 @@
                                 <fmt:formatNumber value="${averageRankMap.get(user.realName)}"
                                                   maxFractionDigits="2" minFractionDigits="2"/>
                             </td>
-
+                            <td>${durationMap.get(user.realName)}</td>
                         </tr>
                     </c:forEach>
                     </tbody>

@@ -47,8 +47,10 @@ public class RatingService {
         Map<String, Rating> result = new HashMap<>(); //每用户Rating结果
         Map<String, Integer> timeCnt = new HashMap<>(); //每用户参加场次
         Map<String, Integer> rankSum = new HashMap<>(); //每用户参加比赛的Rank加和
+        Map<String, Integer> duration = new HashMap<>(); //每用户参加比赛时长加和
         int count = 1;
         for (Contest contest : contests) {
+            int contestLen = contest.lengeh();
             int[] rank = trainingService.calcRank(contest);
             List<Pair<List<String>, Integer>> pairList = new ArrayList<>();
             for (int i = 0; i < contest.getRanks().size(); i++) {
@@ -59,6 +61,8 @@ public class RatingService {
                     timeCnt.put(s, pretimeCnt + 1);
                     int prerankSum = rankSum.getOrDefault(s, 0);
                     rankSum.put(s, prerankSum + rank[i]);
+                    int preDuration = duration.getOrDefault(s, 0);
+                    duration.put(s, preDuration + contestLen);
                 }
             }
             result = myELO.calcPersonal(result, pairList);
@@ -70,6 +74,7 @@ public class RatingService {
                 record.setIdentifier(entry.getKey());
                 record.setUserTimes(timeCnt.get(entry.getKey()));
                 record.setUserRankSum(rankSum.get(entry.getKey()));
+                record.setUserPlayDuration(duration.get(entry.getKey()));
                 record.setMean(entry.getValue().getMean());
                 record.setStandardDeviation(entry.getValue().getStandardDeviation());
                 record.setConservativeRating(entry.getValue().getConservativeRating());
@@ -175,6 +180,14 @@ public class RatingService {
         Map<String, Integer> map = new HashMap<>(list.size());
         for (RatingRecord record : list)
             map.put(record.getIdentifier(), record.getUserTimes());
+        return map;
+    }
+
+    public Map<String, Integer> getPsersonalPlayDuration(RatingRecord.Scope scope, Integer scopeId) {
+        List<RatingRecord> list = getLastRating(scope, scopeId, RatingRecord.Type.Personal);
+        Map<String, Integer> map = new HashMap<>(list.size());
+        for (RatingRecord record : list)
+            map.put(record.getIdentifier(), record.getUserPlayDuration());
         return map;
     }
 

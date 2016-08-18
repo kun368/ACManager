@@ -40,6 +40,8 @@ public class RatingRecord {
 
     private Integer userRankSum; //用户参加所有场次名次加和
 
+    private Integer userPlayDuration; //用户参与时长
+
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "contestId")
     private Contest contest;
@@ -55,7 +57,6 @@ public class RatingRecord {
     private LocalDateTime generateTime;
 
     private Boolean isLast;
-
 
 
     public Long getId() {
@@ -170,6 +171,14 @@ public class RatingRecord {
         this.userRankSum = userRankSum;
     }
 
+    public Integer getUserPlayDuration() {
+        return userPlayDuration;
+    }
+
+    public void setUserPlayDuration(Integer userPlayDuration) {
+        this.userPlayDuration = userPlayDuration;
+    }
+
     @Override
     public String toString() {
         return "RatingRecord{" +
@@ -180,6 +189,7 @@ public class RatingRecord {
                 ", identifier='" + identifier + '\'' +
                 ", userTimes=" + userTimes +
                 ", userRankSum=" + userRankSum +
+                ", userPlayDuration=" + userPlayDuration +
                 ", contestId=" + contest.getId() +
                 ", orderId=" + orderId +
                 ", mean=" + mean +

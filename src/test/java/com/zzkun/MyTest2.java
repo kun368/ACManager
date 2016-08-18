@@ -11,6 +11,8 @@ import org.springframework.data.util.Pair;
 
 import java.math.BigInteger;
 import java.net.URI;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -118,5 +120,15 @@ public class MyTest2 {
         boolean[] x = new boolean[100];
         test9(x);
         System.out.println(x.length);
+    }
+
+    @Test
+    public void test11() throws Exception {
+        LocalDateTime time0 = LocalDateTime.now();
+        LocalDateTime time1 = LocalDateTime.of(1996, 2, 27, 12, 0, 0);
+        Duration between = Duration.between(time1, time0);
+        System.out.println(between.toNanos());
+
+        System.out.println(Duration.ofDays(365 * 77).toNanos());
     }
 }

@@ -67,11 +67,6 @@ public class TrainingController {
         model.addAttribute("stageList", stageList);
         model.addAttribute("stageSizeMap", trainingService.getstageSizeMap(stageList));
         model.addAttribute("stageAddUserList", userService.getUserInfoBySList(stageList));
-//        model.addAttribute("ujoinT", trainingService.getTrainingAllOkUser(id));
-//        model.addAttribute("ratingMap",
-//                ratingService.getPersonalRatingMap(RatingRecord.Scope.Training, id));
-//        model.addAttribute("playcntMap",
-//                ratingService.getPersonalPlayCnt(RatingRecord.Scope.Training, id));
         session.setAttribute("trainingId", id);
         return "stagelist";
     }
@@ -88,6 +83,8 @@ public class TrainingController {
                 ratingService.getPersonalPlayCnt(RatingRecord.Scope.Training, trainingId));
         model.addAttribute("averageRankMap",
                 ratingService.getPsersonalAverageRank(RatingRecord.Scope.Training, trainingId));
+        model.addAttribute("durationMap",
+                ratingService.getPsersonalPlayDuration(RatingRecord.Scope.Training, trainingId));
         return "training_statistics";
     }
 

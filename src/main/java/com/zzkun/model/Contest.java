@@ -5,6 +5,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -98,20 +99,12 @@ public class Contest implements Serializable, Comparable<Contest> {
         return startTime;
     }
 
-    public String getStartTimeStr() {
-        return MyDateFormater.toStr1(getStartTime());
-    }
-
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
     public LocalDateTime getEndTime() {
         return endTime;
-    }
-
-    public String getEndTimeStr() {
-        return MyDateFormater.toStr1(getEndTime());
     }
 
     public void setEndTime(LocalDateTime endTime) {
@@ -214,5 +207,18 @@ public class Contest implements Serializable, Comparable<Contest> {
         if(endTime.equals(o.endTime))
             return id.compareTo(o.id);
         return endTime.compareTo(o.endTime);
+    }
+
+    public String getEndTimeStr() {
+        return MyDateFormater.toStr1(getEndTime());
+    }
+
+    public String getStartTimeStr() {
+        return MyDateFormater.toStr1(getStartTime());
+    }
+
+    //竞赛时长
+    public int lengeh() {
+        return (int) Duration.between(startTime, endTime).toMinutes();
     }
 }
