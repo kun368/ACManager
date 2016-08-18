@@ -36,7 +36,11 @@ public class RatingRecord {
 
     private String identifier; //用户、队唯一标示
 
-    private Integer contestId;
+    private Integer userTimes; //此用户参加的场次
+
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "contestId")
+    private Contest contest;
 
     private Integer orderId;
 
@@ -92,12 +96,12 @@ public class RatingRecord {
         this.identifier = identifier;
     }
 
-    public Integer getContestId() {
-        return contestId;
+    public Contest getContest() {
+        return contest;
     }
 
-    public void setContestId(Integer contestId) {
-        this.contestId = contestId;
+    public void setContest(Contest contest) {
+        this.contest = contest;
     }
 
     public Integer getOrderId() {
@@ -148,15 +152,23 @@ public class RatingRecord {
         isLast = last;
     }
 
+    public Integer getUserTimes() {
+        return userTimes;
+    }
+
+    public void setUserTimes(Integer userTimes) {
+        this.userTimes = userTimes;
+    }
+
     @Override
     public String toString() {
-        return "RatingRecord{" +
-                "id=" + id +
+        return "RatingRecord{" + "id=" + id +
                 ", scope=" + scope +
                 ", scopeId=" + scopeId +
                 ", type=" + type +
                 ", identifier='" + identifier + '\'' +
-                ", contestId=" + contestId +
+                ", userTimes=" + userTimes +
+                ", contest=" + contest +
                 ", orderId=" + orderId +
                 ", mean=" + mean +
                 ", standardDeviation=" + standardDeviation +

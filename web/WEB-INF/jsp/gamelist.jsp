@@ -85,8 +85,8 @@
                             <c:url value="/contest/showContest/${contest.id}" var="url_curcontest"/>
                             <c:url value="/contest/showScore/${contest.id}" var="url_curcontestScore"/>
                             <td><a href="${url_curcontestScore}">${contest.name}</a></td>
-                            <td>${contest.startTime}</td>
-                            <td>${contest.endTime}</td>
+                            <td>${contest.startTimeStr}</td>
+                            <td>${contest.endTimeStr}</td>
                             <c:set value="PERSONAL" var="Personal"/>
                             <c:set value="TEAM" var="Team"/>
                             <c:set value="MIX_TEAM" var="MixTeam"/>

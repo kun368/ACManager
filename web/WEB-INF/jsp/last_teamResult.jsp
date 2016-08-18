@@ -64,12 +64,14 @@
                                                     <input name="account" value="${assign.accountList.get(i.index)}" type="text" class="form-control" id="exampleInputtext3" placeholder="使用的VJ账号">
                                                 </c:if>
                                             </div>
-                                            <c:if test="${team.contains(user.id)}">
-                                                <button type="submit" class="btn btn-default">确认</button>
-                                            </c:if>
-                                            <c:if test="${!team.contains(user.id)}">
-                                                <button type="submit" class="btn btn-default" disabled>确认</button>
-                                            </c:if>
+                                            <c:choose>
+                                                <c:when test="${team.contains(user.id) or user.isAdmin()}">
+                                                    <button type="submit" class="btn btn-default">确认</button>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <button type="submit" class="btn btn-default" disabled>确认</button>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </form>
                                     </p>
                                 </li>

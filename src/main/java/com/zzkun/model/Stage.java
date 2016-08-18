@@ -1,5 +1,7 @@
 package com.zzkun.model;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;

@@ -7,6 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -24,11 +25,15 @@
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
 
     <c:url value="/auth/modifyUserByAdmin" var="url_modify"/>
+    <c:url value="/rating/updateGlobal" var="url_update_rating"/>
     <script>
         $(document).ready(function () {
             $("#id").hide();
-            $('#mytable').DataTable({
-                "orderId": [[2, "asc"]]
+            var table=$('#mytable').DataTable({
+                "orderId": [[2, "asc"]],
+                "columnDefs": [
+                    { "type": "chinese-string", targets: 1}
+                ],
             });
             $('#savabutton').click(function () {
                 $.post("${url_modify}", {
@@ -46,6 +51,14 @@
                     location.reload();
                 })
             });
+            $('#update_Rating').click(function () {
+                $(this).attr("disabled","disabled");
+                $.post("${url_update_rating}",{
+                },function(data){
+                    alert(data);
+                    location.reload();
+                });
+            })
         });
         function updata(obj) {
             var tds=$(obj).parent().parent().find('td');
@@ -63,7 +76,6 @@
                 if(option_text==form_text){
                     $(this).attr("selected","selected")
                 }
-
             })
         }
     </script>
@@ -79,7 +91,7 @@
             <div class="panel-heading">
                 <h3 class="panel-title">队内统计结果</h3>
             </div>
-            <div class="panel-body">
+            <div class="panel-body" id="table-div">
                 <table class="table table-condensed table-striped table-hover display" id="mytable">
                     <thead class="tab-header-area">
                     <tr>
@@ -87,12 +99,15 @@
                         <th>姓名</th>
                         <th hidden>用户名</th>
                         <th>班级</th>
-                        <th>UVaId</th>
+                        <th hidden>UVaId</th>
                         <th hidden>CfName</th>
-                        <th>Cf Rating</th>
+                        <th>CF</th>
                         <th hidden>VJName</th>
                         <th hidden>BCName</th>
-                        <th>BC Rating</th>
+                        <th>BC</th>
+                        <th>Rating</th>
+                        <th>Miu</th>
+                        <th>Sigma</th>
                         <th>合计</th>
                         <c:forEach items="${booksName}" var="bookname">
                             <th>${bookname}</th>
@@ -124,7 +139,7 @@
                             <td>${curUser.realName}</td>
                             <td hidden>${curUser.username}</td>
                             <td>${curUser.major}</td>
-                            <td>${curUser.uvaId}</td>
+                            <td hidden>${curUser.uvaId}</td>
                             <td hidden>${curUser.cfname}</td>
                             <td>
                                 <a href="http://codeforces.com/profile/${curUser.cfname}" target="_blank">
@@ -137,6 +152,18 @@
                                 <a href="http://bestcoder.hdu.edu.cn/rating.php?user=${curUser.bcname}" target="_blank">
                                         ${bcInfoMap.get(curUser.bcname).rating}
                                 </a>
+                            </td>
+                            <td>${ratingMap.get(curUser.realName).myRating}</td>
+                            <td>
+                                <fmt:formatNumber value="${ratingMap.get(curUser.realName).mean}"
+                                                  maxFractionDigits="2" minFractionDigits="2"/>
+                            </td>
+                            <td>
+                                <c:if test="${playcntMap.containsKey(curUser.realName)}">
+                                    <fmt:formatNumber value="${ratingMap.get(curUser.realName).standardDeviation}"
+                                                      maxFractionDigits="2" minFractionDigits="2"/>
+                                    (${playcntMap.get(curUser.realName)})
+                                </c:if>
                             </td>
                             <td>${bookCnt.get(i.index).get(0) + bookCnt.get(i.index).get(1)}</td>
                             <c:forEach items="${bookCnt.get(i.index)}" var="j">
@@ -177,7 +204,7 @@
 
                             <c:if test="${(!empty user) and (user.isAdmin())}">
                                 <td>
-                                    <a data-toggle="modal" data-target="#myModal" class="btn btn-sm btn-info"  onclick="updata(this);">编辑</a>&nbsp;
+                                    <a data-toggle="modal" data-target="#myModal" onclick="updata(this);">编辑</a>&nbsp;
                                     <c:url value="/auth/dealApplyInACM/${curUser.id}/1" var="url_y"/>
                                     <c:url value="/auth/dealApplyInACM/${curUser.id}/0" var="url_n"/>
                                     <c:if test="${curType eq Verifying}">
@@ -197,6 +224,7 @@
         <div class="row">
             <div class="pull-left">
                 <button class="btn btn-info" id="addbutton">更新数据&nbsp;(LastUpdate: ${lastUpdate})</button>
+                <button class="btn btn-info" id="update_Rating">更新Rating</button>
             </div>
         </div>
     </c:if>

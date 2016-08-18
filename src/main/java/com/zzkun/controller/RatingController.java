@@ -30,4 +30,11 @@ public class RatingController {
         ratingService.flushTrainingUserRating(training);
         return "更新完毕~";
     }
+
+    @RequestMapping(value = "/updateGlobal", produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String updateGlobal() {
+        ratingService.flushGlobalUserRating();
+        return "更新完毕~";
+    }
 }

@@ -3,6 +3,7 @@ package com.zzkun.service;
 import com.zzkun.dao.*;
 import com.zzkun.model.*;
 import com.zzkun.util.cluster.AgnesClusterer;
+import com.zzkun.util.date.MyDateFormater;
 import com.zzkun.util.stder.DataStder;
 import com.zzkun.util.stder.RawData;
 import com.zzkun.util.rank.VJRankParser;
@@ -245,6 +246,7 @@ public class TrainingService {
         return Pair.of(ans, preT);
     }
 
+    //超出wa限制判断
     private boolean[] teatWaClear(TeamRanking ranking, int capacity) {
         List<PbStatus> list = ranking.getPbStatus();
         boolean[] ans = new boolean[list.size()];
@@ -265,7 +267,7 @@ public class TrainingService {
         return ans;
     }
 
-
+    //计算得分数组聚类计算Rank
     public int[] calcRank(double[] score, Training training) {
         if(score == null) return null;
         AgnesClusterer clusterer = new AgnesClusterer(score);
@@ -277,21 +279,14 @@ public class TrainingService {
         return ans;
     }
 
-    public int[] calcRank(List<? extends Comparable> list) {
-        if(list == null) return null;
-        int[] rank = new int[list.size()];
-        List<Pair<Comparable, Integer>> pairs = new ArrayList<>();
-        for(int i = 0; i < list.size(); ++i)
-            pairs.add(Pair.of(list.get(i), i));
-        Collections.sort(pairs);
-        for(int i = 0; i< pairs.size(); ++i)
-            rank[pairs.get(i).getRight()] = i;
-        return rank;
+    //计算比赛最终Rank，是对 分数标准化+超出wa限制+聚类 的封装
+    public int[] calcRank(Contest contest) {
+        boolean[][] waClear = new boolean[contest.getRanks().size()][];
+        Pair<double[], double[][]> pair = calcContestScore(contest, waClear);
+        return calcRank(pair.getLeft(), contest.getStage().getTraining());
     }
 
-
     /// Assign
-
 
     public void saveAssign(AssignResult assign) {
         assignResultRepo.save(assign);
@@ -312,8 +307,8 @@ public class TrainingService {
         contest.setType(contestType);
         contest.setAddTime(LocalDateTime.now());
         contest.setName(contestName.trim());
-        contest.setStartTime(LocalDateTime.parse(stTime));
-        contest.setEndTime(LocalDateTime.parse(edTime));
+        contest.setStartTime(MyDateFormater.toDT1(stTime));
+        contest.setEndTime(MyDateFormater.toDT1(edTime));
         contest.setSource(source);
         contest.setSourceDetail(sourceDetail);
         contest.setSourceUrl(sourceUrl);

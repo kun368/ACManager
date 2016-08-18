@@ -47,7 +47,8 @@
         $(document).ready(function () {
             $('#mytable').DataTable({
                 pageLength: 25,<!--初始化单页显示数-->
-                "orderId": [[4, "desc"]]
+                "orderId": [[4
+                    , "desc"]]
             });
             $('#mytable1').DataTable({
                 lengthChange: true,
@@ -58,7 +59,10 @@
                 pageLength: 25,<!--初始化单页显示数-->
                 orderClasses: false,<!--排序列不高亮显示-->
                 dom: '<"top"if>rt<"bottom"lp>',
-                responsive: true
+                responsive: true,
+                columnDefs: [
+                    { "type": "chinese-string", targets: 0}
+                ],
             });
             $('#fendui').click(function () {
                 location.href="${suijifendui}"
@@ -212,7 +216,7 @@
                         <th hidden>添加时间</th>
                         <th>比赛</th>
                         <th>创建者</th>
-                        <th hidden>是否计算Rating</th>
+                        <th hidden>计分阶段</th>
                         <c:if test="${(!empty user) && (user.isAdmin())}">
                             <th>操作</th>
                         </c:if>
@@ -266,7 +270,9 @@
                     <tr>
                         <th>姓名</th>
                         <th>班级</th>
-                        <th>Rating</th>
+                        <th>Score</th>
+                        <th>Miu</th>
+                        <th>Sigma</th>
                     </tr>
                     </thead>
                     <tfoot>
@@ -278,9 +284,17 @@
                         <tr>
                             <td>${user.realName}</td>
                             <td>${user.major}</td>
+                            <td>${ratingMap.get(user.realName).myRating}</td>
                             <td>
-                                <fmt:formatNumber value="${ratingMap.get(user.realName).conservativeRating}"
-                                    maxFractionDigits="2" minFractionDigits="2"/>
+                                <fmt:formatNumber value="${ratingMap.get(user.realName).mean}"
+                                                  maxFractionDigits="2" minFractionDigits="2"/>
+                            </td>
+                            <td>
+                                <c:if test="${playcntMap.containsKey(user.realName)}">
+                                    <fmt:formatNumber value="${ratingMap.get(user.realName).standardDeviation}"
+                                                      maxFractionDigits="2" minFractionDigits="2"/>
+                                    (${playcntMap.get(user.realName)})
+                                </c:if>
                             </td>
                         </tr>
                     </c:forEach>
@@ -319,7 +333,7 @@
                                     type="checkbox" checked data-toggle="toggle" data-style="ios"
                                    data-onstyle="info" data-size="small"
                                    data-on="是" data-off="否">
-                            是否计算Rating
+                            计分阶段
                         </label>
                     </div>
                 </form>
@@ -361,7 +375,7 @@
                                    type="checkbox" checked data-toggle="toggle" data-style="ios"
                                    data-onstyle="info" data-size="small"
                                    data-on="是" data-off="否">
-                            是否计算Rating
+                            计分阶段
                         </label>
                     </div>
                 </form>

@@ -32,7 +32,8 @@
             $('#mytable').DataTable({
                 columnDefs: [
                     //给第一列指定宽度为表格整个宽度的20%
-                    { "width": "30px", "targets": 2 }
+                    { "width": "30px", "targets": 2 },
+                { "type": "chinese-string", targets: 2}
                 ],
                 "orderId": [[3, "desc"]]
             });
@@ -66,7 +67,7 @@
                 <h3 class="panel-title">${contest.name}&nbsp;&nbsp;统计</h3>
             </div>
             <div class="panel-body">
-                <p>比赛时间：${contest.startTime} —— ${contest.endTime}</p>
+                <p>比赛时间：${contest.startTimeStr} —— ${contest.endTimeStr}</p>
                 <p>
                     <c:set value="PERSONAL" var="Personal"/>
                     <c:set value="TEAM" var="Team"/>

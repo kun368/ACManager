@@ -1,8 +1,10 @@
 package com.zzkun.controller;
 
 import com.zzkun.config.UhuntUpdateStatus;
+import com.zzkun.model.RatingRecord;
 import com.zzkun.model.User;
 import com.zzkun.service.CFBCService;
+import com.zzkun.service.RatingService;
 import com.zzkun.service.UVaService;
 import com.zzkun.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +26,9 @@ import java.util.stream.Collectors;
 public class UVaController {
 
     @Autowired private UVaService uVaService;
-
     @Autowired private CFBCService cfbcService;
-
     @Autowired private UserService userService;
-
+    @Autowired private RatingService ratingService;
     @Autowired private UhuntUpdateStatus uhuntUpdateStatus;
 
 
@@ -44,6 +44,10 @@ public class UVaController {
         model.addAttribute("bookCnt", uVaService.getBookCnt(uvaids));
         model.addAttribute("cptCnt", uVaService.getCptCnt(uvaids));
         model.addAttribute("lastUpdate", uhuntUpdateStatus.getLastTime());
+        model.addAttribute("ratingMap",
+                ratingService.getPersonalRatingMap(RatingRecord.Scope.Global, 1));
+        model.addAttribute("playcntMap",
+                ratingService.getPersonalPlayCnt(RatingRecord.Scope.Global, 1));
         return "tablefile";
     }
 

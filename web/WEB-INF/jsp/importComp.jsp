@@ -34,19 +34,8 @@
                 dayOfWeekStart : 1,
                 lang:'en',
                 step:1
-                // stepSecond: 1,
-                // disabledDates:['1986-01-08 ','1986-01-09','1986-01-10'],
-                //startDate:	'1986-01-05'
-
             });
-            $('#startTime').change(function () {
-                str=$('#startTime').val();
-                re=new RegExp(" ","i");
-                var newstart=str.replace(re,"T");
-                $('#startTime').val(newstart);
-            })
             $('#endTime').datetimepicker({
-
                 format:'Y-m-d'+' '+'H:i:s',
                 formatDate:'Y-m-d',
                 formatTime:'H:i',
@@ -55,17 +44,7 @@
                 dayOfWeekStart : 1,
                 lang:'en',
                 step:1
-                // stepSecond: 1,
-                // disabledDates:['1986-01-08 ','1986-01-09','1986-01-10'],
-                //startDate:	'1986-01-05'
-
             });
-            $('#endTime').change(function () {
-                str=$('#endTime').val();
-                re=new RegExp(" ","i");
-                var newstart=str.replace(re,"T");
-                $('#endTime').val(newstart);
-            })
             $("#Type option[value='${preContest.type}']").attr("selected","selected");
         })
     </script>
@@ -112,10 +91,10 @@
                                     <input type="text" value="${preContest.sourceUrl}"  name="sourceUrl" class="form-control" placeholder="比赛来源URL" autofocus>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" value="${preContest.startTime}" id="startTime" name="stTime" class="form-control" autofocus required>
+                                    <input type="text" value="${preContest.startTimeStr}" id="startTime" name="stTime" class="form-control" autofocus required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" value="${preContest.endTime}" id="endTime"  name="edTime" class="form-control" autofocus required>
+                                    <input type="text" value="${preContest.endTimeStr}" id="endTime"  name="edTime" class="form-control" autofocus required>
                                 </div>
                             </div>
                         </div>

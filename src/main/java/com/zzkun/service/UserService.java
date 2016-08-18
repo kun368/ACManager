@@ -60,6 +60,10 @@ public class UserService {
         return userRepo.findOne(id);
     }
 
+    public User getUserByUsername(String username) {
+        return userRepo.findByUsername(username);
+    }
+
     public User modifyUser(User user) {
         User pre = getUserById(user.getId());
         user.setType(pre.getType());

@@ -26,51 +26,49 @@ public class RatingService {
     @Autowired private RatingRecordRepo ratingRecordRepo;
     @Autowired private TrainingService trainingService;
 
-
-    public void flushTrainingUserRating(Training training) {
-        List<Stage> stages = training.getStageList();
-        List<Contest> contests = new ArrayList<>();
-        for (Stage stage : stages) {
-            if(!stage.isCountToRating()) continue;
-            for (Contest contest : stage.getContestList())
-                contests.add(contest);
-        }
-        Collections.sort(contests);
-        logger.info("需要计算rating的contest.size:{}", contests.size());
-
-        //删除之前生成的纪录
+    //删除之前生成的纪录
+    private void deleteRatingDate(RatingRecord.Scope scope, Integer scopeId, RatingRecord.Type type) {
         List<RatingRecord> preList = ratingRecordRepo.findAll((root, query, cb) -> {
             Predicate p1 = cb.equal(root.get("scope").as(RatingRecord.Scope.class), RatingRecord.Scope.Training);
-            Predicate p2 = cb.equal(root.get("scopeId").as(Integer.class), training.getId());
-            return query.where(cb.and(p1, p2)).getRestriction();
+            Predicate p2 = cb.equal(root.get("scopeId").as(Integer.class), scopeId);
+            Predicate p3 = cb.equal(root.get("type").as(RatingRecord.Type.class), type);
+            return query.where(cb.and(p1, cb.and(p2, p3))).getRestriction();
         });
         ratingRecordRepo.delete(preList);
-        logger.info("已经删除之前计算的rating...");
+        logger.info("删除之前生成的数据：scope = [" + scope + "], scopeId = [" + scopeId + "], type = [" + type + "]");
+    }
 
-        //开始生成
+    //生成Rating
+    private List<RatingRecord> generateRating(List<Contest> contests, RatingRecord.Scope scope, Integer scopeId, RatingRecord.Type type) {
+        logger.info("开始计算新Rating：scope = [" + scope + "], scopeId = [" + scopeId + "], type = [" + type + "]");
+        Collections.sort(contests);
         List<RatingRecord> willUpdateRecord = new ArrayList<>();
         Map<String, Rating> result = new HashMap<>();
+        Map<String, Integer> timeCnt = new HashMap<>();
         int count = 1;
         for (Contest contest : contests) {
-            boolean[][] waClear = new boolean[contest.getRanks().size()][];
-            Pair<double[], double[][]> pair = trainingService.calcContestScore(contest, waClear);
-            int[] rank = trainingService.calcRank(pair.getLeft(), training);
+            int[] rank = trainingService.calcRank(contest);
             List<Pair<List<String>, Integer>> pairList = new ArrayList<>();
             for (int i = 0; i < contest.getRanks().size(); i++) {
                 TeamRanking teamRanking = contest.getRanks().get(i);
                 pairList.add(Pair.of(teamRanking.getMember(), rank[i]));
+                for (String s : teamRanking.getMember()) {
+                    int pre = timeCnt.getOrDefault(s, 0);
+                    timeCnt.put(s, pre + 1);
+                }
             }
             result = myELO.calcPersonal(result, pairList);
             for (Map.Entry<String, Rating> entry : result.entrySet()) {
                 RatingRecord record = new RatingRecord();
-                record.setScope(RatingRecord.Scope.Training);
-                record.setScopeId(training.getId());
-                record.setType(RatingRecord.Type.Personal);
+                record.setScope(scope);
+                record.setScopeId(scopeId);
+                record.setType(type);
                 record.setIdentifier(entry.getKey());
+                record.setUserTimes(timeCnt.get(entry.getKey()));
                 record.setMean(entry.getValue().getMean());
                 record.setStandardDeviation(entry.getValue().getStandardDeviation());
                 record.setConservativeRating(entry.getValue().getConservativeRating());
-                record.setContestId(contest.getId());
+                record.setContest(contest);
                 record.setOrderId(count);
                 record.setGenerateTime(LocalDateTime.now());
                 record.setLast(count == contests.size());
@@ -78,61 +76,110 @@ public class RatingService {
             }
             count += 1;
         }
-        ratingRecordRepo.save(willUpdateRecord);
+        logger.info("计算完毕，数据量：{}", willUpdateRecord.size());
+        return willUpdateRecord;
     }
 
-    private List<RatingRecord> getTrainingContestAllPersonRatingByContestId(int trainingId, int contestId) {
-        return ratingRecordRepo.findAll((root, query, cb) -> {
-            Predicate p1 = cb.equal(root.get("scope").as(RatingRecord.Scope.class), RatingRecord.Scope.Training);
-            Predicate p2 = cb.equal(root.get("scopeId").as(Integer.class), trainingId);
-            Predicate p3 = cb.equal(root.get("contestId").as(Integer.class), contestId);
-            Predicate p4 = cb.equal(root.get("type").as(RatingRecord.Type.class), RatingRecord.Type.Personal);
-            return query.where(cb.and(p1, cb.and(p2, cb.and(p3, p4)))).getRestriction();
-        });
-    }
-
-    private List<RatingRecord> getTrainingContestAllPersonRatingByOrderId(int trainingId, int orderId) {
-        return ratingRecordRepo.findAll((root, query, cb) -> {
-            Predicate p1 = cb.equal(root.get("scope").as(RatingRecord.Scope.class), RatingRecord.Scope.Training);
-            Predicate p2 = cb.equal(root.get("scopeId").as(Integer.class), trainingId);
-            Predicate p3 = cb.equal(root.get("orderId").as(Integer.class), orderId);
-            Predicate p4 = cb.equal(root.get("type").as(RatingRecord.Type.class), RatingRecord.Type.Personal);
-            return query.where(cb.and(p1, cb.and(p2, cb.and(p3, p4)))).getRestriction();
-        });
-    }
-
-    public Map<String, Pair<Rating, Rating>> getTrainingContestPersonalRatingChangeStatus(int trainingId, int contestId) {
-        List<RatingRecord> curList = getTrainingContestAllPersonRatingByContestId(trainingId, contestId);
-        if(curList == null || curList.isEmpty())
-            return new HashMap<>();
-        int preOrderId = curList.get(0).getOrderId() - 1;
-        List<RatingRecord> preList = getTrainingContestAllPersonRatingByOrderId(trainingId, preOrderId);
-
-        Map<String, Rating> preMap = ratingRecord2Map(preList);
-        Map<String, Rating> curMap = ratingRecord2Map(curList);
-        Map<String, Pair<Rating, Rating>> result = new HashMap<>(curMap.size());
-        for (String id : curMap.keySet()) {
-            result.put(id, Pair.of(preMap.get(id), curMap.get(id)));
+    //刷新集训内Rating
+    public void flushTrainingUserRating(Training training) {
+        List<Contest> contests = new ArrayList<>();
+        for (Stage stage : training.getStageList()) {
+            if(!stage.isCountToRating()) continue;
+            for (Contest contest : stage.getContestList())
+                contests.add(contest);
         }
-        return result;
+        deleteRatingDate(RatingRecord.Scope.Training, training.getId(), RatingRecord.Type.Personal);
+        List<RatingRecord> list =
+                generateRating(contests, RatingRecord.Scope.Training, training.getId(), RatingRecord.Type.Personal);
+        ratingRecordRepo.save(list);
     }
 
-    private Map<String, Rating> ratingRecord2Map(List<RatingRecord> records) {
-        Map<String, Rating> map = new HashMap<>(records.size());
-        for (RatingRecord record : records) {
+    //刷新全局Rating
+    public void flushGlobalUserRating() {
+        List<Contest> contests = new ArrayList<>();
+        for (Training i : trainingService.getAllTraining()) {
+            for (Stage stage : i.getStageList()) {
+                if(!stage.isCountToRating()) continue;
+                for (Contest contest : stage.getContestList())
+                    contests.add(contest);
+            }
+        }
+        deleteRatingDate(RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal);
+        List<RatingRecord> list =
+                generateRating(contests, RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal);
+        ratingRecordRepo.save(list);
+    }
+
+//    private List<RatingRecord> getTrainingContestAllPersonRatingByOrderId(int trainingId, int orderId) {
+//        return ratingRecordRepo.findAll((root, query, cb) -> {
+//            Predicate p1 = cb.equal(root.get("scope").as(RatingRecord.Scope.class), RatingRecord.Scope.Training);
+//            Predicate p2 = cb.equal(root.get("scopeId").as(Integer.class), trainingId);
+//            Predicate p3 = cb.equal(root.get("orderId").as(Integer.class), orderId);
+//            Predicate p4 = cb.equal(root.get("type").as(RatingRecord.Type.class), RatingRecord.Type.Personal);
+//            return query.where(cb.and(p1, cb.and(p2, cb.and(p3, p4)))).getRestriction();
+//        });
+//    }
+//
+//    private List<RatingRecord> getTrainingContestAllPersonRatingByContestId(int trainingId, int contestId) {
+//        Contest contest = trainingService.getContest(contestId);
+//        return ratingRecordRepo.findAll((root, query, cb) -> {
+//            Predicate p1 = cb.equal(root.get("scope").as(RatingRecord.Scope.class), RatingRecord.Scope.Training);
+//            Predicate p2 = cb.equal(root.get("scopeId").as(Integer.class), trainingId);
+//            Predicate p3 = cb.equal(root.get("contest").as(Contest.class), contest);
+//            Predicate p4 = cb.equal(root.get("type").as(RatingRecord.Type.class), RatingRecord.Type.Personal);
+//            return query.where(cb.and(p1, cb.and(p2, cb.and(p3, p4)))).getRestriction();
+//        });
+//    }
+//
+//    public Map<String, Pair<Rating, Rating>> getTrainingContestPersonalRatingChangeStatus(int trainingId, int contestId) {
+//        List<RatingRecord> curList = getTrainingContestAllPersonRatingByContestId(trainingId, contestId);
+//        if(curList == null || curList.isEmpty())
+//            return new HashMap<>();
+//        int preOrderId = curList.get(0).getOrderId() - 1;
+//        List<RatingRecord> preList = getTrainingContestAllPersonRatingByOrderId(trainingId, preOrderId);
+//
+//        Map<String, Rating> preMap = ratingRecord2Map(preList);
+//        Map<String, Rating> curMap = ratingRecord2Map(curList);
+//        Map<String, Pair<Rating, Rating>> result = new HashMap<>(curMap.size());
+//        for (String id : curMap.keySet()) {
+//            result.put(id, Pair.of(preMap.get(id), curMap.get(id)));
+//        }
+//        return result;
+//    }
+
+    public List<RatingRecord> getPersonalRatingHistory(RatingRecord.Scope scope, Integer scopeId, String identifier) {
+        return ratingRecordRepo.findAll((root, query, cb) -> {
+            Predicate p1 = cb.equal(root.get("scope").as(RatingRecord.Scope.class), scope);
+            Predicate p2 = cb.equal(root.get("scopeId").as(Integer.class), scopeId);
+            Predicate p3 = cb.equal(root.get("type").as(RatingRecord.Type.class), RatingRecord.Type.Personal);
+            Predicate p4 = cb.equal(root.get("identifier").as(String.class), identifier);
+            return query.where(cb.and(p1, cb.and(p2, cb.and(p3, p4)))).getRestriction();
+        });
+    }
+
+    public Map<String, Rating> getPersonalRatingMap(RatingRecord.Scope scope, Integer scopeId) {
+        List<RatingRecord> list = getLastRating(scope, scopeId, RatingRecord.Type.Personal);
+        Map<String, Rating> map = new HashMap<>(list.size());
+        for (RatingRecord record : list)
             map.put(record.getIdentifier(), new Rating(record.getMean(), record.getStandardDeviation()));
-        }
         return map;
     }
 
-    public Map<String, Rating> getTrainingUserRatingMap(int trainingId) {
-        List<RatingRecord> list = ratingRecordRepo.findAll((root, query, cb) -> {
-            Predicate p1 = cb.equal(root.get("scope").as(RatingRecord.Scope.class), RatingRecord.Scope.Training);
-            Predicate p2 = cb.equal(root.get("scopeId").as(Integer.class), trainingId);
-            Predicate p3 = cb.equal(root.get("type").as(RatingRecord.Type.class), RatingRecord.Type.Personal);
+    public Map<String, Integer> getPersonalPlayCnt(RatingRecord.Scope scope, Integer scopeId) {
+        List<RatingRecord> list = getLastRating(scope, scopeId, RatingRecord.Type.Personal);
+        Map<String, Integer> map = new HashMap<>(list.size());
+        for (RatingRecord record : list)
+            map.put(record.getIdentifier(), record.getUserTimes());
+        return map;
+    }
+
+    private List<RatingRecord> getLastRating(RatingRecord.Scope scope, Integer scopeId, RatingRecord.Type type) {
+        return  ratingRecordRepo.findAll((root, query, cb) -> {
+            Predicate p1 = cb.equal(root.get("scope").as(RatingRecord.Scope.class), scope);
+            Predicate p2 = cb.equal(root.get("scopeId").as(Integer.class), scopeId);
+            Predicate p3 = cb.equal(root.get("type").as(RatingRecord.Type.class), type);
             Predicate p4 = cb.equal(root.get("isLast").as(Boolean.class), Boolean.TRUE);
             return query.where(cb.and(p1, cb.and(p2, cb.and(p3, p4)))).getRestriction();
         });
-        return ratingRecord2Map(list);
     }
 }

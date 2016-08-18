@@ -1,14 +1,12 @@
 package com.zzkun.model;
 
-import com.zzkun.util.stder.DataStder;
-import com.zzkun.util.stder.RawData;
+import com.zzkun.util.date.MyDateFormater;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 比赛整体情况（排行榜）
@@ -100,12 +98,20 @@ public class Contest implements Serializable, Comparable<Contest> {
         return startTime;
     }
 
+    public String getStartTimeStr() {
+        return MyDateFormater.toStr1(getStartTime());
+    }
+
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
     }
 
     public LocalDateTime getEndTime() {
         return endTime;
+    }
+
+    public String getEndTimeStr() {
+        return MyDateFormater.toStr1(getEndTime());
     }
 
     public void setEndTime(LocalDateTime endTime) {

@@ -100,16 +100,6 @@ public class ContestController {
         return "redirect:/training/stage/" + stageId;
     }
 
-    @RequestMapping("/showContest/{id}")
-    public String showContest(@PathVariable Integer id,
-                              Model model) {
-        Contest contest = trainingService.getContest(id);
-        model.addAttribute("contest", contest);
-        model.addAttribute("ranks", contest.getRanks());
-        model.addAttribute("myrank", trainingService.calcRank(contest.getRanks()));
-        return "ranklist";
-    }
-
     @RequestMapping("/showScore/{id}")
     public String showScore(@PathVariable Integer id,
                             Model model) {
