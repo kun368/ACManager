@@ -118,6 +118,5 @@ public class MyTest2 {
         boolean[] x = new boolean[100];
         test9(x);
         System.out.println(x.length);
-
     }
 }

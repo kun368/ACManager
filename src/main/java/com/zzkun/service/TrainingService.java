@@ -66,7 +66,6 @@ public class TrainingService {
             return result;
         List<UJoinT> list = user.getuJoinTList();
         list.forEach(x -> result.put(x.getTraining().getId(), x));
-        logger.info("获取用户参加的所有集训信息：{}", result);
         return result;
     }
 
@@ -98,7 +97,8 @@ public class TrainingService {
     public void modifyTraining(Integer id, String name,
                                String beginTime, String endTime, String remark,
                                Double standard, Double expand,
-                               Double mergeLimit, Integer waCapcity) {
+                               Double mergeLimit, Integer waCapcity,
+                               Double ratingBase, Double ratingMultiple) {
         Training training = getTrainingById(id);
         if(StringUtils.hasText(name))
             training.setName(name);
@@ -110,6 +110,9 @@ public class TrainingService {
         training.setExpand(expand);
         training.setMergeLimit(mergeLimit);
         training.setWaCapcity(waCapcity);
+        training.setRatingBase(ratingBase);
+        training.setRatingMultiple(ratingMultiple);
+        logger.info("修改后的Training：{}", training);
         trainingRepo.save(training);
     }
 

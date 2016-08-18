@@ -38,9 +38,7 @@
                     name: $('#name').val(),
                     startDate: $('#beginTime').val(),
                     endDate: $('#endTime').val(),
-                    remark: $('#remark').val(),
-                    standard: $('#standard').val(),
-                    expand: $('#expand').val()
+                    remark: $('#remark').val()
                 }, function (data) {
                     alert(data);
                     location.reload();
@@ -56,7 +54,9 @@
                     standard:$('#standard2').val(),
                     expand:$('#expand2').val(),
                     mergeLimit:$('#mergeLimit2').val(),
-                    waCapcity:$('#waCapcity2').val()
+                    waCapcity:$('#waCapcity2').val(),
+                    ratingBase:$('#ratingBase2').val(),
+                    ratingMultiple:$('#ratingMultiple2').val()
                 }, function (data) {
                     alert(data);
                     location.reload();
@@ -120,6 +120,8 @@
             $('#expand2').val(tds.eq(6).text());
             $('#mergeLimit2').val(tds.eq(7).text());
             $('#waCapcity2').val(tds.eq(8).text());
+            $('#ratingBase2').val(tds.eq(9).text());
+            $('#ratingMultiple2').val(tds.eq(10).text());
             $('#id2').val(id);
         }
     </script>
@@ -162,6 +164,8 @@
                         <th hidden>标准距离</th>
                         <th hidden>mergeLimit</th>
                         <th hidden>waCapcity</th>
+                        <td hidden>ratingBase</td>
+                        <td hidden>ratingMultiple</td>
                         <th>阶段</th>
                         <th>创建者</th>
                         <c:if test="${!empty user}">
@@ -185,15 +189,7 @@
                         <c:set value="${ujointMap.get(training.id).status.name()}" var="curUStatus"/>
                         <tr>
                             <td>
-                                <%--<c:choose>--%>
-                                    <%--<c:when test="${(user.isAdmin()) or (curUStatus eq success)}">--%>
-                                        <%--<a href="<c:url value="/training/detail/${training.id}"/> ">${training.name}</a>--%>
-                                    <%--</c:when>--%>
-                                    <%--<c:otherwise>--%>
-                                        <%--${training.name}--%>
-                                    <%--</c:otherwise>--%>
-                                <%--</c:choose>--%>
-                                    <a href="<c:url value="/training/detail/${training.id}"/> ">${training.name}</a>
+                                <a href="<c:url value="/training/detail/${training.id}"/> ">${training.name}</a>
                             </td>
                             <td>${training.startDate}</td>
                             <td>${training.endDate}</td>
@@ -203,6 +199,8 @@
                             <td hidden>${training.expand}</td>
                             <td hidden>${training.mergeLimit}</td>
                             <td hidden>${training.waCapcity}</td>
+                            <td hidden>${training.ratingBase}</td>
+                            <td hidden>${training.ratingMultiple}</td>
                             <td>${trainingSizeMap.get(training.id)}</td>
                             <td>${trainingAddUserList.get(training.addUid).username}</td>
                             <c:if test="${!empty user}">
@@ -271,14 +269,6 @@
                     <div class="form-group">
                         <textarea rows="5" class="form-control" placeholder="备注" id="remark"></textarea>
                     </div>
-                    <div class="row">
-                        <div class="form-group col-lg-6">
-                            <input type="number" class="form-control" placeholder="基准分" id="standard" required>
-                        </div>
-                        <div class="form-group col-lg-6">
-                            <input type="number" class="form-control" placeholder="标准距离" id="expand" required>
-                        </div>
-                    </div>
                 </form>
             </div>
             <div class="modal-footer">
@@ -311,18 +301,25 @@
                     </div>
                     <div class="row">
                         <div class="form-group col-lg-4">
-                            基准分：<input type="number" class="form-control" placeholder="名称" id="standard2" required>
+                            基准分：<input type="number" class="form-control" id="standard2" required>
                         </div>
                         <div class="form-group col-lg-4">
-                            标准距离：<input type="number" class="form-control" placeholder="名称" id="expand2" required>
+                            标准距离：<input type="number" class="form-control" id="expand2" required>
                         </div>
                         <div class="form-group col-lg-4">
                             平局偏差距离：<input type="number" class="form-control"  id="mergeLimit2" required>
                         </div>
                     </div>
-
                     <div class="form-group">
-                        waCapcity：<input type="text" class="form-control" id="waCapcity2" required>
+                        WACapcity：<input type="text" class="form-control" id="waCapcity2" required>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-6">
+                            RatingBase：<input type="number" class="form-control" id="ratingBase2" required>
+                        </div>
+                        <div class="form-group col-lg-6">
+                            RatingMultiple：<input type="number" class="form-control" id="ratingMultiple2" required>
+                        </div>
                     </div>
                     <div class="form-group" hidden>
                         集训id：<input type="text" class="form-control" placeholder="id" id="id2" hidden>

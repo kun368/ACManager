@@ -190,11 +190,11 @@
     <div class="row" style="padding-bottom: 20px">
         <div class="pull-right">
             <a href="<c:url value="/assign/lastAssign"/>" class="btn btn-primary" id="lastfendui">分队详情</a>
+            <a href="<c:url value="/training/statistic/${trainingId}"/>" class="btn btn-primary" id="lastfendui">队员统计</a>
             <c:if test="${(!empty user) && (user.isAdmin())}">
                 <button class="btn btn-info" id="fendui">随机分队</button>
                 <button class="btn btn-info" id="addbutton" data-toggle="modal" data-target="#myModal">添加阶段</button>
                 <button class="btn btn-info" id="update_Rating">更新Rating</button>
-
             </c:if>
             </div>
     </div>
@@ -252,58 +252,6 @@
         </div>
     </div>
 
-
-
-    <div class="row">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">${info.name}&nbsp;&nbsp;队员</h3>
-            </div>
-            <div class="panel-body">
-
-
-                <c:set value="Success" var="success"/>
-                <c:set value="Pending" var="pending"/>
-                <c:set value="Reject" var="reject"/>
-                <table class="table table-condensed table-striped table-hover display" id="mytable1">
-                    <thead class="tab-header-area">
-                    <tr>
-                        <th>姓名</th>
-                        <th>班级</th>
-                        <th>Score</th>
-                        <th>Miu</th>
-                        <th>Sigma</th>
-                    </tr>
-                    </thead>
-                    <tfoot>
-
-                    </tfoot>
-
-                    <tbody>
-                    <c:forEach items="${ujoinT}" var="user">
-                        <tr>
-                            <td>${user.realName}</td>
-                            <td>${user.major}</td>
-                            <td>${ratingMap.get(user.realName).myRating}</td>
-                            <td>
-                                <fmt:formatNumber value="${ratingMap.get(user.realName).mean}"
-                                                  maxFractionDigits="2" minFractionDigits="2"/>
-                            </td>
-                            <td>
-                                <c:if test="${playcntMap.containsKey(user.realName)}">
-                                    <fmt:formatNumber value="${ratingMap.get(user.realName).standardDeviation}"
-                                                      maxFractionDigits="2" minFractionDigits="2"/>
-                                    (${playcntMap.get(user.realName)})
-                                </c:if>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
-    </div>
 
 </div>
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">

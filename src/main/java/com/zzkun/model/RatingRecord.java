@@ -38,6 +38,8 @@ public class RatingRecord {
 
     private Integer userTimes; //此用户参加的场次
 
+    private Integer userRankSum; //用户参加所有场次名次加和
+
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "contestId")
     private Contest contest;
@@ -160,15 +162,25 @@ public class RatingRecord {
         this.userTimes = userTimes;
     }
 
+    public Integer getUserRankSum() {
+        return userRankSum;
+    }
+
+    public void setUserRankSum(Integer userRankSum) {
+        this.userRankSum = userRankSum;
+    }
+
     @Override
     public String toString() {
-        return "RatingRecord{" + "id=" + id +
+        return "RatingRecord{" +
+                "id=" + id +
                 ", scope=" + scope +
                 ", scopeId=" + scopeId +
                 ", type=" + type +
                 ", identifier='" + identifier + '\'' +
                 ", userTimes=" + userTimes +
-                ", contest=" + contest +
+                ", userRankSum=" + userRankSum +
+                ", contestId=" + contest.getId() +
                 ", orderId=" + orderId +
                 ", mean=" + mean +
                 ", standardDeviation=" + standardDeviation +

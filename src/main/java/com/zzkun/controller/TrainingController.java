@@ -67,13 +67,28 @@ public class TrainingController {
         model.addAttribute("stageList", stageList);
         model.addAttribute("stageSizeMap", trainingService.getstageSizeMap(stageList));
         model.addAttribute("stageAddUserList", userService.getUserInfoBySList(stageList));
-        model.addAttribute("ujoinT", trainingService.getTrainingAllOkUser(id));
-        model.addAttribute("ratingMap",
-                ratingService.getPersonalRatingMap(RatingRecord.Scope.Training, id));
-        model.addAttribute("playcntMap",
-                ratingService.getPersonalPlayCnt(RatingRecord.Scope.Training, id));
+//        model.addAttribute("ujoinT", trainingService.getTrainingAllOkUser(id));
+//        model.addAttribute("ratingMap",
+//                ratingService.getPersonalRatingMap(RatingRecord.Scope.Training, id));
+//        model.addAttribute("playcntMap",
+//                ratingService.getPersonalPlayCnt(RatingRecord.Scope.Training, id));
         session.setAttribute("trainingId", id);
         return "stagelist";
+    }
+
+    @RequestMapping("/statistic/{trainingId}")
+    public String statistic(@PathVariable Integer trainingId,
+                            Model model) {
+        Training training = trainingService.getTrainingById(trainingId);
+        model.addAttribute("info", training);
+        model.addAttribute("ujoinT", trainingService.getTrainingAllOkUser(trainingId));
+        model.addAttribute("ratingMap",
+                ratingService.getPersonalRatingMap(RatingRecord.Scope.Training, trainingId));
+        model.addAttribute("playcntMap",
+                ratingService.getPersonalPlayCnt(RatingRecord.Scope.Training, trainingId));
+        model.addAttribute("averageRankMap",
+                ratingService.getPsersonalAverageRank(RatingRecord.Scope.Training, trainingId));
+        return "training_statistics";
     }
 
     @RequestMapping("/stage/{id}")
@@ -115,8 +130,6 @@ public class TrainingController {
                                 @RequestParam String startDate,
                                 @RequestParam String endDate,
                                 @RequestParam(required = false) String remark,
-                                @RequestParam Double standard,
-                                @RequestParam Double expand,
                                 HttpSession session) {
         logger.info("收到添加Training请求：name = [" + name + "], startDate = [" + startDate + "], endDate = [" + endDate + "], remark = [" + remark + "]");
         try {
@@ -126,8 +139,6 @@ public class TrainingController {
             training.setStartDate(LocalDate.parse(startDate));
             training.setEndDate(LocalDate.parse(endDate));
             training.setRemark(remark);
-            training.setStandard(standard);
-            training.setExpand(expand);
             training.setAddTime(LocalDateTime.now());
             training.setAddUid(user.getId());
             trainingService.addTraining(training);
@@ -207,13 +218,15 @@ public class TrainingController {
                                  @RequestParam Double standard,
                                  @RequestParam Double expand,
                                  @RequestParam Double mergeLimit,
-                                 @RequestParam Integer waCapcity) {
-        logger.info("修改集训：user = [" + user + "], id = [" + id + "], name = [" + name + "], beginTime = [" + beginTime + "], endTime = [" + endTime + "], remark = [" + remark + "], standard = [" + standard + "], expand = [" + expand + "], mergeLimit = [" + mergeLimit + "], waCapcity = [" + waCapcity + "]");
+                                 @RequestParam Integer waCapcity,
+                                 @RequestParam Double ratingBase,
+                                 @RequestParam Double ratingMultiple) {
+        logger.info("修改集训：user = [" + user + "], id = [" + id + "], name = [" + name + "], beginTime = [" + beginTime + "], endTime = [" + endTime + "], remark = [" + remark + "], standard = [" + standard + "], expand = [" + expand + "], mergeLimit = [" + mergeLimit + "], waCapcity = [" + waCapcity + "], ratingBase = [" + ratingBase + "], ratingMultiple = [" + ratingMultiple + "]");
         if(user == null || !user.isAdmin()) {
             return "没有权限！";
         }
         try {
-            trainingService.modifyTraining(id, name, beginTime, endTime, remark, standard, expand, mergeLimit, waCapcity);
+            trainingService.modifyTraining(id, name, beginTime, endTime, remark, standard, expand, mergeLimit, waCapcity, ratingBase, ratingMultiple);
             return "修改成功";
         } catch (Exception e) {
             e.printStackTrace();

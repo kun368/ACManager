@@ -39,6 +39,9 @@ public class Training implements Serializable {
 
     private Double mergeLimit; //Rank聚类时的合并阈值
 
+    private Double ratingBase; //计算rating的基准值
+    private Double ratingMultiple; //计算rating的倍数
+
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Stage> stageList;
 
@@ -165,6 +168,22 @@ public class Training implements Serializable {
         this.uJoinTList = uJoinTList;
     }
 
+    public Double getRatingBase() {
+        return ratingBase;
+    }
+
+    public void setRatingBase(Double ratingBase) {
+        this.ratingBase = ratingBase;
+    }
+
+    public Double getRatingMultiple() {
+        return ratingMultiple;
+    }
+
+    public void setRatingMultiple(Double ratingMultiple) {
+        this.ratingMultiple = ratingMultiple;
+    }
+
     @Override
     public String toString() {
         return "Training{" +
@@ -177,6 +196,10 @@ public class Training implements Serializable {
                 ", addUid=" + addUid +
                 ", standard=" + standard +
                 ", expand=" + expand +
+                ", waCapcity=" + waCapcity +
+                ", mergeLimit=" + mergeLimit +
+                ", ratingBase=" + ratingBase +
+                ", ratingMultiple=" + ratingMultiple +
                 '}';
     }
 }

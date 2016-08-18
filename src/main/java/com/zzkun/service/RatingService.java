@@ -4,6 +4,7 @@ import com.zzkun.dao.RatingRecordRepo;
 import com.zzkun.model.*;
 import com.zzkun.util.elo.MyELO;
 import jskills.Rating;
+import org.apache.commons.lang3.math.NumberUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,8 +44,9 @@ public class RatingService {
         logger.info("开始计算新Rating：scope = [" + scope + "], scopeId = [" + scopeId + "], type = [" + type + "]");
         Collections.sort(contests);
         List<RatingRecord> willUpdateRecord = new ArrayList<>();
-        Map<String, Rating> result = new HashMap<>();
-        Map<String, Integer> timeCnt = new HashMap<>();
+        Map<String, Rating> result = new HashMap<>(); //每用户Rating结果
+        Map<String, Integer> timeCnt = new HashMap<>(); //每用户参加场次
+        Map<String, Integer> rankSum = new HashMap<>(); //每用户参加比赛的Rank加和
         int count = 1;
         for (Contest contest : contests) {
             int[] rank = trainingService.calcRank(contest);
@@ -53,8 +55,10 @@ public class RatingService {
                 TeamRanking teamRanking = contest.getRanks().get(i);
                 pairList.add(Pair.of(teamRanking.getMember(), rank[i]));
                 for (String s : teamRanking.getMember()) {
-                    int pre = timeCnt.getOrDefault(s, 0);
-                    timeCnt.put(s, pre + 1);
+                    int pretimeCnt = timeCnt.getOrDefault(s, 0);
+                    timeCnt.put(s, pretimeCnt + 1);
+                    int prerankSum = rankSum.getOrDefault(s, 0);
+                    rankSum.put(s, prerankSum + rank[i]);
                 }
             }
             result = myELO.calcPersonal(result, pairList);
@@ -65,6 +69,7 @@ public class RatingService {
                 record.setType(type);
                 record.setIdentifier(entry.getKey());
                 record.setUserTimes(timeCnt.get(entry.getKey()));
+                record.setUserRankSum(rankSum.get(entry.getKey()));
                 record.setMean(entry.getValue().getMean());
                 record.setStandardDeviation(entry.getValue().getStandardDeviation());
                 record.setConservativeRating(entry.getValue().getConservativeRating());
@@ -170,6 +175,20 @@ public class RatingService {
         Map<String, Integer> map = new HashMap<>(list.size());
         for (RatingRecord record : list)
             map.put(record.getIdentifier(), record.getUserTimes());
+        return map;
+    }
+
+    public Map<String, Double> getPsersonalAverageRank(RatingRecord.Scope scope, Integer scopeId) {
+        List<RatingRecord> list = getLastRating(scope, scopeId, RatingRecord.Type.Personal);
+        Map<String, Double> map = new HashMap<>(list.size());
+        for (RatingRecord record : list) {
+            System.out.println(record);
+            if(record.getUserRankSum() != null
+                    && record.getUserTimes() != null
+                    && record.getUserTimes() > 0) {
+                map.put(record.getIdentifier(), record.getUserRankSum() * 1.0 / record.getUserTimes());
+            }
+        }
         return map;
     }
 
