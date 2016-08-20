@@ -1,8 +1,14 @@
 package com.zzkun.model;
 
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.tuple.Pair;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.TreeSet;
 
 /**
  * Created by Administrator on 2016/7/30.
@@ -21,10 +27,15 @@ public class FixedTeam implements Serializable {
 
     private String vjname;
 
-    private Integer trainingId;
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @JoinColumn(name = "trainingId")
+    private Training training;
 
-    @Lob
-    private ArrayList<Integer> uids = new ArrayList<>();
+    private Integer user1Id;
+    private Integer user2Id;
+    private Integer user3Id;
+
+    ////
 
     public FixedTeam() {
     }
@@ -53,14 +64,6 @@ public class FixedTeam implements Serializable {
         this.name2 = name2;
     }
 
-    public ArrayList<Integer> getUids() {
-        return uids;
-    }
-
-    public void setUids(ArrayList<Integer> uids) {
-        this.uids = uids;
-    }
-
     public String getVjname() {
         return vjname;
     }
@@ -69,12 +72,36 @@ public class FixedTeam implements Serializable {
         this.vjname = vjname;
     }
 
-    public Integer getTrainingId() {
-        return trainingId;
+    public Training getTraining() {
+        return training;
     }
 
-    public void setTrainingId(Integer trainingId) {
-        this.trainingId = trainingId;
+    public void setTraining(Training training) {
+        this.training = training;
+    }
+
+    public Integer getUser1Id() {
+        return user1Id;
+    }
+
+    public void setUser1Id(Integer user1Id) {
+        this.user1Id = user1Id;
+    }
+
+    public Integer getUser2Id() {
+        return user2Id;
+    }
+
+    public void setUser2Id(Integer user2Id) {
+        this.user2Id = user2Id;
+    }
+
+    public Integer getUser3Id() {
+        return user3Id;
+    }
+
+    public void setUser3Id(Integer user3Id) {
+        this.user3Id = user3Id;
     }
 
     @Override
@@ -84,8 +111,24 @@ public class FixedTeam implements Serializable {
                 ", name1='" + name1 + '\'' +
                 ", name2='" + name2 + '\'' +
                 ", vjname='" + vjname + '\'' +
-                ", trainingId=" + trainingId +
-                ", uids=" + uids +
+                ", training=" + training +
+                ", user1Id=" + user1Id +
+                ", user2Id=" + user2Id +
+                ", user3Id=" + user3Id +
                 '}';
+    }
+
+    ////
+
+    public boolean userEquals(int u1, int u2, int u3) {
+        int[] rhs = new int[]{u1, u2, u3};
+        int[] lhs = new int[]{user1Id, user2Id, user3Id};
+        Arrays.sort(rhs);
+        Arrays.sort(lhs);
+        return new EqualsBuilder()
+                .append(lhs[0], rhs[0])
+                .append(lhs[1], rhs[1])
+                .append(lhs[2], rhs[2])
+                .isEquals();
     }
 }

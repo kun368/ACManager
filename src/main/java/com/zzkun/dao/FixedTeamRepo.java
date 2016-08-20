@@ -17,6 +17,9 @@ public interface FixedTeamRepo extends JpaRepository<FixedTeam, Integer> {
     <S extends FixedTeam> List<S> save(Iterable<S> iterable);
 
     @Override
+    <S extends FixedTeam> S save(S entity);
+
+    @Override
     FixedTeam findOne(Integer integer);
 
     @Override
@@ -24,6 +27,4 @@ public interface FixedTeamRepo extends JpaRepository<FixedTeam, Integer> {
 
     @Override
     void delete(Integer integer);
-
-    List<FixedTeam> findByTrainingId(Integer trainingId);
 }

@@ -52,6 +52,9 @@ public class Training implements Serializable {
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<UJoinT> uJoinTList;
 
+    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<FixedTeam> fixedTeamList;
+
     public Training() {
     }
 
@@ -182,6 +185,14 @@ public class Training implements Serializable {
 
     public void setRatingMultiple(Double ratingMultiple) {
         this.ratingMultiple = ratingMultiple;
+    }
+
+    public List<FixedTeam> getFixedTeamList() {
+        return fixedTeamList;
+    }
+
+    public void setFixedTeamList(List<FixedTeam> fixedTeamList) {
+        this.fixedTeamList = fixedTeamList;
     }
 
     @Override

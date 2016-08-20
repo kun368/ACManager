@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "user")
-public class User implements Serializable {
+public class User implements Serializable, Comparable<User> {
 
     /**
      * 用户类型
@@ -173,15 +173,6 @@ public class User implements Serializable {
         this.uJoinTList = uJoinTList;
     }
 
-    public boolean isAdmin() {
-        return getType().equals(Type.Admin) || getType().equals(Type.Coach);
-    }
-
-    public boolean isACMer() {
-        return getType().equals(Type.Acmer);
-    }
-
-
     @Override
     public String toString() {
         return "User{" +
@@ -196,5 +187,20 @@ public class User implements Serializable {
                 ", major='" + major + '\'' +
                 ", type=" + type +
                 '}';
+    }
+
+    ///////
+
+    public boolean isAdmin() {
+        return getType().equals(Type.Admin) || getType().equals(Type.Coach);
+    }
+
+    public boolean isACMer() {
+        return getType().equals(Type.Acmer);
+    }
+
+    @Override
+    public int compareTo(User o) {
+        return Integer.compare(id, o.id);
     }
 }

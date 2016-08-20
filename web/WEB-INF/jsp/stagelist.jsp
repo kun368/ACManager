@@ -191,6 +191,7 @@
         <div class="pull-right">
             <a href="<c:url value="/assign/lastAssign"/>" class="btn btn-primary" id="lastfendui">分队详情</a>
             <a href="<c:url value="/training/statistic/${trainingId}"/>" class="btn btn-primary" id="lastfendui">队员统计</a>
+            <a href="<c:url value="/training/fixedTeam/${trainingId}"/>" class="btn btn-primary" id="lastfendui">固定队伍</a>
             <c:if test="${(!empty user) && (user.isAdmin())}">
                 <button class="btn btn-info" id="fendui">随机分队</button>
                 <button class="btn btn-info" id="addbutton" data-toggle="modal" data-target="#myModal">添加阶段</button>

@@ -101,18 +101,20 @@ public class TrainingController {
         return "gamelist";
     }
 
-    @RequestMapping("/fixedTeam")
-    public String fixedTeam(@SessionAttribute Integer trainingId,
+    @RequestMapping("/fixedTeam/{trainingId}")
+    public String fixedTeam(@PathVariable @ModelAttribute Integer trainingId,
                             Model model) {
-        List<FixedTeam> teamList = trainingService.getAllTrainingFixedTeam(trainingId);
+        Training training = trainingService.getTrainingById(trainingId);
+        List<FixedTeam> teamList = training.getFixedTeamList();
         model.addAttribute("fixedList", teamList);
-        model.addAttribute("userMap", userService.getUserInfoByFixedTList(teamList));
+        model.addAttribute("userInfoMap", userService.getUserInfoByFixedTeamList(teamList));
+        model.addAttribute("userList", trainingService.getTrainingAllOkUser(trainingId));
         return "fixed";
     }
 
     ///////// ajax
 
-    @RequestMapping(value = "/getstatge",produces = "text/html;charset=UTF-8" )
+    @RequestMapping(value = "/getstatge", produces = "text/html;charset=UTF-8" )
     @ResponseBody
     public String getstatge(@RequestParam Integer id) {
         List<Stage> stages = trainingService.getTrainingById(id).getStageList();
@@ -251,5 +253,22 @@ public class TrainingController {
             e.printStackTrace();
         }
         return "修改失败！";
+    }
+
+    @RequestMapping(value = "/{trainingId}/fixedTeam/add_modify", produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String fixedTeamAddModify(@PathVariable Integer trainingId,
+                                     FixedTeam fixedTeam) {
+        logger.info("添加/修改集训固定队伍：{}, {}", trainingId, fixedTeam);
+        trainingService.addOrModifyFixedTeam(trainingId, fixedTeam);
+        return "操作成功！";
+    }
+
+    @RequestMapping(value = "/{trainingId}/fixedTeam/delete", produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String fixedTeamDelete(@RequestParam Integer fixedTeamId) {
+        logger.info("删除固定队伍:{}", fixedTeamId);
+        trainingService.deleteFixedTeam(fixedTeamId);
+        return "操作成功！";
     }
 }

@@ -151,11 +151,6 @@ public class TrainingService {
         uJoinTRepo.save(uJoinT);
     }
 
-    ///// fixedTeam
-    public List<FixedTeam> getAllTrainingFixedTeam(Integer trainingId) {
-        return fixedTeamRepo.findByTrainingId(trainingId);
-    }
-
     //// Stage
 
     public Stage getStageById(Integer id) {
@@ -184,6 +179,21 @@ public class TrainingService {
             map.put(stage.getId(), stage.getContestList().size());
         }
         return map;
+    }
+
+    //// fixed Team
+
+    public void addOrModifyFixedTeam(Integer trainingId, FixedTeam fixedTeam) {
+        Training training = getTrainingById(trainingId);
+        if(fixedTeam.getId() == -1) {
+            fixedTeam.setId(null);
+        }
+        fixedTeam.setTraining(training);
+        fixedTeamRepo.save(fixedTeam);
+    }
+
+    public void deleteFixedTeam(Integer fixedTeamId) {
+        fixedTeamRepo.delete(fixedTeamId);
     }
 
     //// Contest

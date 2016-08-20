@@ -109,7 +109,6 @@ public class RatingService {
         List<Contest> contests = new ArrayList<>();
         for (Training i : trainingService.getAllTraining()) {
             for (Stage stage : i.getStageList()) {
-                if(!stage.isCountToRating()) continue;
                 for (Contest contest : stage.getContestList())
                     contests.add(contest);
             }

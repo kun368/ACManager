@@ -9,6 +9,7 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by kun on 2016/7/7.
@@ -148,17 +149,17 @@ public class UserService {
         return map;
     }
 
-    public Map<Integer, User> getUserInfoByFixedTList(List<FixedTeam> teamList) {
-        Map<Integer, User> map = new HashMap<>();
-        if(teamList == null) return map;
-        Set<Integer> users = new HashSet<>();
-        teamList.forEach(x -> users.addAll(x.getUids()));
-        List<User> infos = userRepo.findAll();
-        for (User info : infos) {
-            if(users.contains(info.getId()))
-                map.put(info.getId(), info);
+    public Map<Integer, User> getUserInfoByFixedTeamList(List<FixedTeam> teamList) {
+        if(teamList == null)
+            return new HashMap<>();
+        List<Integer> userIdList = new ArrayList<>();
+        for (FixedTeam team : teamList) {
+            userIdList.add(team.getUser1Id());
+            userIdList.add(team.getUser2Id());
+            userIdList.add(team.getUser3Id());
         }
-        return map;
+        List<User> infos = userRepo.findAll(userIdList);
+        return infos.stream().collect(Collectors.toMap(User::getId, x -> x));
     }
 
     public User applyInACM(Integer id) {
