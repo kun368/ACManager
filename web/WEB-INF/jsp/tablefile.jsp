@@ -30,7 +30,7 @@
         $(document).ready(function () {
             $("#id").hide();
             var table=$('#mytable').DataTable({
-                "orderId": [[2, "asc"]],
+                "order": [[10, "desc"]],
                 "columnDefs": [
                     { "type": "chinese-string", targets: 1}
                 ],

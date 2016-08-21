@@ -28,24 +28,50 @@ public class MyELO {
      * @param pre 原来的rating
      * @param rank 本次排名，从1开始，名次可重复
      */
-    public Map<String, Rating> calcPersonal(final Map<String, Rating> pre, final List<Pair<List<String>, Integer>> rank) {
+    public Map<String, Rating> calcPersonal(Map<String, Rating> pre,
+                                            List<Pair<List<String>, Integer>> rank,
+                                            String contestType) {
         List<ITeam> teamList = new ArrayList<>(rank.size());
         int[] ranks = new int[rank.size()];
         for (int i = 0; i < rank.size(); i++) {
+            Team team = new Team();
             Pair<List<String>, Integer> pair = rank.get(i);
             ranks[i] = pair.getRight();
-            Team team = new Team();
-            for (String s : pair.getLeft()) {
+            List<String> member = new ArrayList<>(pair.getLeft());
+            if(contestType != null && contestType.contains("TEAM")) {
+                if(member.size() == 2) {
+                    String x = "#" + member.get(0) + "#" + member.get(1);
+                    pre.put(x, Rating.average(pre.getOrDefault(member.get(0), gameInfo.getDefaultRating()),
+                            pre.getOrDefault(member.get(1), gameInfo.getDefaultRating())));
+                    member.add(x);
+                }
+                else if(member.size() == 1) {
+                    String x = "#1" + member.get(0);
+                    String y = "#2" + member.get(0);
+                    pre.put(x, pre.getOrDefault(member.get(0), gameInfo.getDefaultRating()));
+                    pre.put(y, pre.getOrDefault(member.get(0), gameInfo.getDefaultRating()));
+                    member.add(x);
+                    member.add(y);
+                }
+            }
+            for (String s : member) {
                 team.addPlayer(new Player<>(s),
                         pre.getOrDefault(s, gameInfo.getDefaultRating()));
             }
             teamList.add(team);
         }
         Map<IPlayer, Rating> newRatings = calculator.calculateNewRatings(gameInfo, teamList, ranks);
-        Map<String, Rating> result = new HashMap<>(pre);
+        Map<String, Rating> result = new HashMap<>();
+        for (Map.Entry<String, Rating> entry : pre.entrySet()) {
+            if(!entry.getKey().startsWith("#")) {
+                result.put(entry.getKey(), entry.getValue());
+            }
+        }
         for (Map.Entry<IPlayer, Rating> entry : newRatings.entrySet()) {
             Player<String> player = (Player<String>) entry.getKey();
-            result.put(player.getId(), entry.getValue());
+            if(!player.getId().startsWith("#")) {
+                result.put(player.getId(), entry.getValue());
+            }
         }
         return result;
     }

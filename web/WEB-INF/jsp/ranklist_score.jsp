@@ -35,7 +35,7 @@
                     { "width": "30px", "targets": 2 },
                 { "type": "chinese-string", targets: 2}
                 ],
-                "orderId": [[3, "desc"]]
+                "order": [[3, "desc"]]
             });
         });
     </script>

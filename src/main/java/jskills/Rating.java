@@ -69,9 +69,19 @@ public class Rating {
         return conservativeRating;
     }
 
+    //----------------------------
+
     public int getMyRating() {
-        return (int) Math.round(1000 + 50 * getConservativeRating());
+//        return (int) Math.round(1000 + 50 * getConservativeRating());
+        return (int) Math.round(500 + 100 * getConservativeRating());
     }
+
+    public static Rating average(Rating x, Rating y) {
+        return new Rating((x.getMean() + y.getMean()) / 2.0, (x.getStandardDeviation() + y.getStandardDeviation()) / 2.0);
+    }
+
+    //----------------------------
+
 
     public static Rating partialUpdate(Rating prior, Rating fullPosterior, double updatePercentage) {
         GaussianDistribution priorGaussian = new GaussianDistribution(prior),

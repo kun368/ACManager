@@ -39,6 +39,7 @@
                 orderClasses: false,<!--排序列不高亮显示-->
                 dom: '<"top"if>rt<"bottom"lp>',
                 responsive: true,
+                order:[[2,'desc']],
                 columnDefs: [
                     { "type": "chinese-string", targets: 0}
                 ]

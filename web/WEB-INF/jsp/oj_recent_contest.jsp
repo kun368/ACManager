@@ -25,7 +25,7 @@
     <script>
         $(document).ready(function () {
             $('#mytable').DataTable({
-                "orderId": [[2, "asc"]]
+                "order": [[2, "asc"]]
             });
         });
     </script>

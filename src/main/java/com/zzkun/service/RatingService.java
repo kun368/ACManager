@@ -65,7 +65,7 @@ public class RatingService {
                     duration.put(s, preDuration + contestLen);
                 }
             }
-            result = myELO.calcPersonal(result, pairList);
+            result = myELO.calcPersonal(result, pairList, contest.getType());
             for (Map.Entry<String, Rating> entry : result.entrySet()) {
                 RatingRecord record = new RatingRecord();
                 record.setScope(scope);
