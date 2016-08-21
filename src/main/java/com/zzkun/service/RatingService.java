@@ -28,7 +28,9 @@ public class RatingService {
     @Autowired private TrainingService trainingService;
 
     //删除之前生成的纪录
-    private void deleteRatingDate(RatingRecord.Scope scope, Integer scopeId, RatingRecord.Type type) {
+    private void deleteRatingDate(RatingRecord.Scope scope,
+                                  Integer scopeId,
+                                  RatingRecord.Type type) {
         List<RatingRecord> preList = ratingRecordRepo.findAll((root, query, cb) -> {
             Predicate p1 = cb.equal(root.get("scope").as(RatingRecord.Scope.class), RatingRecord.Scope.Training);
             Predicate p2 = cb.equal(root.get("scopeId").as(Integer.class), scopeId);
@@ -40,7 +42,10 @@ public class RatingService {
     }
 
     //生成Rating
-    private List<RatingRecord> generateRating(List<Contest> contests, RatingRecord.Scope scope, Integer scopeId, RatingRecord.Type type) {
+    private List<RatingRecord> generateRating(List<Contest> contests,
+                                              RatingRecord.Scope scope,
+                                              Integer scopeId,
+                                              RatingRecord.Type type) {
         logger.info("开始计算新Rating：scope = [" + scope + "], scopeId = [" + scopeId + "], type = [" + type + "]");
         Collections.sort(contests);
         List<RatingRecord> willUpdateRecord = new ArrayList<>();
@@ -55,8 +60,20 @@ public class RatingService {
             List<Pair<List<String>, Integer>> pairList = new ArrayList<>();
             for (int i = 0; i < contest.getRanks().size(); i++) {
                 TeamRanking teamRanking = contest.getRanks().get(i);
-                pairList.add(Pair.of(teamRanking.getMember(), rank[i]));
-                for (String s : teamRanking.getMember()) {
+                if(RatingRecord.Type.Personal.equals(type)) { //计算个人Rating
+                    pairList.add(Pair.of(teamRanking.getMember(), rank[i]));
+                    for (String s : teamRanking.getMember()) {
+                        int pretimeCnt = timeCnt.getOrDefault(s, 0);
+                        timeCnt.put(s, pretimeCnt + 1);
+                        int prerankSum = rankSum.getOrDefault(s, 0);
+                        rankSum.put(s, prerankSum + rank[i]);
+                        int preDuration = duration.getOrDefault(s, 0);
+                        duration.put(s, preDuration + contestLen);
+                    }
+                }
+                else if(RatingRecord.Type.Team.equals(type)) { //计算组队Rating
+                    pairList.add(Pair.of(Collections.singletonList(teamRanking.getAccount()), rank[i]));
+                    String s = teamRanking.getAccount();
                     int pretimeCnt = timeCnt.getOrDefault(s, 0);
                     timeCnt.put(s, pretimeCnt + 1);
                     int prerankSum = rankSum.getOrDefault(s, 0);
@@ -65,7 +82,11 @@ public class RatingService {
                     duration.put(s, preDuration + contestLen);
                 }
             }
-            result = myELO.calcPersonal(result, pairList, contest.getType());
+            System.out.println(pairList); //////
+            if(RatingRecord.Type.Personal.equals(type))
+                result = myELO.calcPersonal(result, pairList, contest.getType());
+            else if(RatingRecord.Type.Team.equals(type))
+                result = myELO.calcTeam(result, pairList);
             for (Map.Entry<String, Rating> entry : result.entrySet()) {
                 RatingRecord record = new RatingRecord();
                 record.setScope(scope);
@@ -90,7 +111,7 @@ public class RatingService {
         return willUpdateRecord;
     }
 
-    //刷新集训内Rating
+    //刷新集训内个人Rating
     public void flushTrainingUserRating(Training training) {
         List<Contest> contests = new ArrayList<>();
         for (Stage stage : training.getStageList()) {
@@ -104,7 +125,22 @@ public class RatingService {
         ratingRecordRepo.save(list);
     }
 
-    //刷新全局Rating
+    //刷新集训内组队Rating
+    public void flushTrainingTeamRating(Training training) {
+        List<Contest> contests = new ArrayList<>();
+        for (Stage stage : training.getStageList()) {
+            for (Contest contest : stage.getContestList()) {
+                if(Contest.TYPE_TEAM.equals(contest.getType()))
+                    contests.add(contest);
+            }
+        }
+        deleteRatingDate(RatingRecord.Scope.Training, training.getId(), RatingRecord.Type.Team);
+        List<RatingRecord> list =
+                generateRating(contests, RatingRecord.Scope.Training, training.getId(), RatingRecord.Type.Team);
+        ratingRecordRepo.save(list);
+    }
+
+    //刷新全局个人Rating
     public void flushGlobalUserRating() {
         List<Contest> contests = new ArrayList<>();
         for (Training i : trainingService.getAllTraining()) {
@@ -119,42 +155,8 @@ public class RatingService {
         ratingRecordRepo.save(list);
     }
 
-//    private List<RatingRecord> getTrainingContestAllPersonRatingByOrderId(int trainingId, int orderId) {
-//        return ratingRecordRepo.findAll((root, query, cb) -> {
-//            Predicate p1 = cb.equal(root.get("scope").as(RatingRecord.Scope.class), RatingRecord.Scope.Training);
-//            Predicate p2 = cb.equal(root.get("scopeId").as(Integer.class), trainingId);
-//            Predicate p3 = cb.equal(root.get("orderId").as(Integer.class), orderId);
-//            Predicate p4 = cb.equal(root.get("type").as(RatingRecord.Type.class), RatingRecord.Type.Personal);
-//            return query.where(cb.and(p1, cb.and(p2, cb.and(p3, p4)))).getRestriction();
-//        });
-//    }
-//
-//    private List<RatingRecord> getTrainingContestAllPersonRatingByContestId(int trainingId, int contestId) {
-//        Contest contest = trainingService.getContest(contestId);
-//        return ratingRecordRepo.findAll((root, query, cb) -> {
-//            Predicate p1 = cb.equal(root.get("scope").as(RatingRecord.Scope.class), RatingRecord.Scope.Training);
-//            Predicate p2 = cb.equal(root.get("scopeId").as(Integer.class), trainingId);
-//            Predicate p3 = cb.equal(root.get("contest").as(Contest.class), contest);
-//            Predicate p4 = cb.equal(root.get("type").as(RatingRecord.Type.class), RatingRecord.Type.Personal);
-//            return query.where(cb.and(p1, cb.and(p2, cb.and(p3, p4)))).getRestriction();
-//        });
-//    }
-//
-//    public Map<String, Pair<Rating, Rating>> getTrainingContestPersonalRatingChangeStatus(int trainingId, int contestId) {
-//        List<RatingRecord> curList = getTrainingContestAllPersonRatingByContestId(trainingId, contestId);
-//        if(curList == null || curList.isEmpty())
-//            return new HashMap<>();
-//        int preOrderId = curList.get(0).getOrderId() - 1;
-//        List<RatingRecord> preList = getTrainingContestAllPersonRatingByOrderId(trainingId, preOrderId);
-//
-//        Map<String, Rating> preMap = ratingRecord2Map(preList);
-//        Map<String, Rating> curMap = ratingRecord2Map(curList);
-//        Map<String, Pair<Rating, Rating>> result = new HashMap<>(curMap.size());
-//        for (String id : curMap.keySet()) {
-//            result.put(id, Pair.of(preMap.get(id), curMap.get(id)));
-//        }
-//        return result;
-//    }
+
+
 
     public List<RatingRecord> getPersonalRatingHistory(RatingRecord.Scope scope, Integer scopeId, String identifier) {
         return ratingRecordRepo.findAll((root, query, cb) -> {
@@ -166,32 +168,40 @@ public class RatingService {
         });
     }
 
-    public Map<String, Rating> getPersonalRatingMap(RatingRecord.Scope scope, Integer scopeId) {
-        List<RatingRecord> list = getLastRating(scope, scopeId, RatingRecord.Type.Personal);
+    public Map<String, Rating> getRatingMap(RatingRecord.Scope scope,
+                                            Integer scopeId,
+                                            RatingRecord.Type type) {
+        List<RatingRecord> list = getLastRating(scope, scopeId, type);
         Map<String, Rating> map = new HashMap<>(list.size());
         for (RatingRecord record : list)
             map.put(record.getIdentifier(), new Rating(record.getMean(), record.getStandardDeviation()));
         return map;
     }
 
-    public Map<String, Integer> getPersonalPlayCnt(RatingRecord.Scope scope, Integer scopeId) {
-        List<RatingRecord> list = getLastRating(scope, scopeId, RatingRecord.Type.Personal);
+    public Map<String, Integer> getPlayCnt(RatingRecord.Scope scope,
+                                           Integer scopeId,
+                                           RatingRecord.Type type) {
+        List<RatingRecord> list = getLastRating(scope, scopeId, type);
         Map<String, Integer> map = new HashMap<>(list.size());
         for (RatingRecord record : list)
             map.put(record.getIdentifier(), record.getUserTimes());
         return map;
     }
 
-    public Map<String, Integer> getPsersonalPlayDuration(RatingRecord.Scope scope, Integer scopeId) {
-        List<RatingRecord> list = getLastRating(scope, scopeId, RatingRecord.Type.Personal);
+    public Map<String, Integer> getPlayDuration(RatingRecord.Scope scope,
+                                                Integer scopeId,
+                                                RatingRecord.Type type) {
+        List<RatingRecord> list = getLastRating(scope, scopeId, type);
         Map<String, Integer> map = new HashMap<>(list.size());
         for (RatingRecord record : list)
             map.put(record.getIdentifier(), record.getUserPlayDuration());
         return map;
     }
 
-    public Map<String, Double> getPsersonalAverageRank(RatingRecord.Scope scope, Integer scopeId) {
-        List<RatingRecord> list = getLastRating(scope, scopeId, RatingRecord.Type.Personal);
+    public Map<String, Double> getAverageRank(RatingRecord.Scope scope,
+                                              Integer scopeId,
+                                              RatingRecord.Type type) {
+        List<RatingRecord> list = getLastRating(scope, scopeId, type);
         Map<String, Double> map = new HashMap<>(list.size());
         for (RatingRecord record : list) {
             System.out.println(record);

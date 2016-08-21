@@ -23,14 +23,13 @@
 </head>
 <body>
 
-<div class="container-fluid"  style="margin-right: 3%;margin-left: 3%">
+<div class="container-fluid" style="margin-right: 3%;margin-left: 3%">
     <jsp:include page="topBar.jsp"/>
     <div class="row">
         <ol class="breadcrumb">
             <li>您所在的位置：</li>
             <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
-            <li><a href="<c:url value="/training/detail/${trainingId}"/> ">当前集训</a></li>
-            <li class="active">当前分队</li>
+            <li class="active">集训详情</li>
         </ol>
     </div>
 
@@ -38,66 +37,81 @@
         <div class="panel panel-info">
             <div class="panel-heading" style="padding: 0px">
                 <ul class="nav nav-tabs" id="hehedadada">
-                    <%@include file="training_topbar.jsp"%>
+                    <%@include file="training_topbar.jsp" %>
                 </ul>
             </div>
             <div class="panel-body">
                 <c:if test="${(!empty user) && (user.isAdmin())}">
                     <div class="row" style="padding-left: 20px">
                         <div class="pull-left">
-                            <a href="<c:url value="/assign/listTraining/${trainingId}"/>" class="btn btn-info btn-sm" id="fendui">随机分队</a>
+                            <a href="<c:url value="/assign/listTraining/${trainingId}"/>" class="btn btn-info btn-sm"
+                               id="fendui">随机分队</a>
                         </div>
                     </div>
                     <hr style="margin:10px "/>
                 </c:if>
                 <div class="form-group">
+                    <c:choose>
+                    <c:when test="${!empty teamList}">
                     <h3>即将进行的随机组队赛组队情况，请设置自己队的账号</h3>
-                    <ul class="list-group">
-                        <c:forEach items="${teamList}" var="team" varStatus="i">
-                            <li class="list-group-item">
-                                <h4 class="list-group-item-heading">
-                                    <span class="badge">${i.index+1}</span>
-                                    <c:forEach items="${team}" var="member">
-                                        ${userInfo[member].realName}&nbsp;&nbsp;
-                                    </c:forEach>
-                                </h4>
-                                <div style="padding-top: 15px"></div>
-                                <p class="list-group-item-text">
-                                <form class="form-inline" method="post" action="<c:url value="/assign/setAssignAccount"/> ">
-                                    <input name="assignId" value="${assign.id}" hidden>
-                                    <input name="pos" value="${i.index}" hidden>
-                                    <div class="form-group">
-                                        <label class="sr-only" for="exampleInputtext3">使用的VJ账号</label>
-                                        <c:if test="${i.index >= assign.accountList.size()}">
-                                            <input name="account" value="" type="text" class="form-control" id="exampleInputtext3" placeholder="使用的VJ账号">
-                                        </c:if>
-                                        <c:if test="${i.index < assign.accountList.size()}">
-                                            <input name="account" value="${assign.accountList.get(i.index)}" type="text" class="form-control" id="exampleInputtext3" placeholder="使用的VJ账号">
-                                        </c:if>
-                                    </div>
-                                    <c:choose>
-                                        <c:when test="${team.contains(user.id) or user.isAdmin()}">
-                                            <button type="submit" class="btn btn-default">确认</button>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <button type="submit" class="btn btn-default" disabled>确认</button>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </form>
-                                </p>
-                            </li>
-                        </c:forEach>
-                    </ul>
+
+                        <ul class="list-group">
+                                <c:forEach items="${teamList}" var="team" varStatus="i">
+                                    <li class="list-group-item">
+                                        <h4 class="list-group-item-heading">
+                                            <span class="badge">${i.index+1}</span>
+                                            <c:forEach items="${team}" var="member">
+                                                ${userInfo[member].realName}&nbsp;&nbsp;
+                                            </c:forEach>
+                                        </h4>
+                                        <div style="padding-top: 15px"></div>
+                                        <p class="list-group-item-text">
+                                        <form class="form-inline" method="post"
+                                              action="<c:url value="/assign/setAssignAccount"/> ">
+                                            <input name="trainingId" value="${trainingId}" hidden>
+                                            <input name="assignId" value="${assign.id}" hidden>
+                                            <input name="pos" value="${i.index}" hidden>
+                                            <div class="form-group">
+                                                <label class="sr-only" for="exampleInputtext3">使用的VJ账号</label>
+                                                <c:if test="${i.index >= assign.accountList.size()}">
+                                                    <input name="account" value="" type="text" class="form-control"
+                                                           id="exampleInputtext3" placeholder="使用的VJ账号">
+                                                </c:if>
+                                                <c:if test="${i.index < assign.accountList.size()}">
+                                                    <input name="account" value="${assign.accountList.get(i.index)}"
+                                                           type="text" class="form-control" id="exampleInputtext3"
+                                                           placeholder="使用的VJ账号">
+                                                </c:if>
+                                            </div>
+                                            <c:choose>
+                                                <c:when test="${team.contains(user.id) or user.isAdmin()}">
+                                                    <button type="submit" class="btn btn-default">确认</button>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <%--<button type="submit" class="btn btn-default" disabled>确认</button>--%>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </form>
+                                        </p>
+                                    </li>
+                                </c:forEach>
+                        </ul>
+
+                        </c:when>
+                        <c:otherwise>
+                            <h3>暂时没有随机分队数据O(∩_∩)O~</h3>
+                        </c:otherwise>
+                        </c:choose>
+
                 </div>
             </div>
         </div>
     </div>
-</div>
-<jsp:include page="footerInfo.jsp"/>
-<c:if test="${!empty tip}">
+    <jsp:include page="footerInfo.jsp"/>
+    <c:if test="${!empty tip}">
     <script>
         alert("${tip}");
     </script>
-</c:if>
+    </c:if>
 </body>
 </html>

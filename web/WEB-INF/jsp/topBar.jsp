@@ -9,7 +9,17 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--<link  rel="stylesheet" href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.dataTables.min.css">--%>
 <%--<script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>--%>
-<script src="//cdn.datatables.net/plug-ins/1.10.12/sorting/chinese-string.js"></script>
+<%--<script src="//cdn.datatables.net/plug-ins/1.10.12/sorting/chinese-string.js"></script>--%>
+<script>
+    jQuery.extend( jQuery.fn.dataTableExt.oSort, {
+        "chinese-string-asc" : function (s1, s2) {
+            return s1.localeCompare(s2);
+        },
+        "chinese-string-desc" : function (s1, s2) {
+            return s2.localeCompare(s1);
+        }
+    } );
+</script>
 <script>
     $.extend( $.fn.dataTable.defaults, {
         lengthChange: true,

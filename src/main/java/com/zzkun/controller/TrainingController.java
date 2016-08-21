@@ -78,13 +78,13 @@ public class TrainingController {
         model.addAttribute("info", training);
         model.addAttribute("ujoinT", trainingService.getTrainingAllOkUser(trainingId));
         model.addAttribute("ratingMap",
-                ratingService.getPersonalRatingMap(RatingRecord.Scope.Training, trainingId));
+                ratingService.getRatingMap(RatingRecord.Scope.Training, trainingId, RatingRecord.Type.Personal));
         model.addAttribute("playcntMap",
-                ratingService.getPersonalPlayCnt(RatingRecord.Scope.Training, trainingId));
+                ratingService.getPlayCnt(RatingRecord.Scope.Training, trainingId, RatingRecord.Type.Personal));
         model.addAttribute("averageRankMap",
-                ratingService.getPsersonalAverageRank(RatingRecord.Scope.Training, trainingId));
+                ratingService.getAverageRank(RatingRecord.Scope.Training, trainingId, RatingRecord.Type.Personal));
         model.addAttribute("durationMap",
-                ratingService.getPsersonalPlayDuration(RatingRecord.Scope.Training, trainingId));
+                ratingService.getPlayDuration(RatingRecord.Scope.Training, trainingId, RatingRecord.Type.Personal));
         return "training_statistics";
     }
 
@@ -109,6 +109,8 @@ public class TrainingController {
         model.addAttribute("fixedList", teamList);
         model.addAttribute("userInfoMap", userService.getUserInfoByFixedTeamList(teamList));
         model.addAttribute("userList", trainingService.getTrainingAllOkUser(trainingId));
+        model.addAttribute("ratingMap",
+                ratingService.getRatingMap(RatingRecord.Scope.Training, trainingId, RatingRecord.Type.Team));
         return "fixed";
     }
 

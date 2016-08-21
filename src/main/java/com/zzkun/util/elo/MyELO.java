@@ -76,4 +76,23 @@ public class MyELO {
         return result;
     }
 
+
+    public Map<String, Rating> calcTeam(Map<String, Rating> pre,
+                                        List<Pair<List<String>, Integer>> rank) {
+        List<ITeam> teamList = new ArrayList<>(rank.size());
+        int[] ranks = new int[rank.size()];
+        for (int i = 0; i < rank.size(); i++) {
+            Pair<List<String>, Integer> pair = rank.get(i);
+            ranks[i] = pair.getRight();
+            String name = pair.getKey().get(0);
+            teamList.add(new Team(new Player<>(name), pre.getOrDefault(name, gameInfo.getDefaultRating())));
+        }
+        Map<IPlayer, Rating> newRatings = calculator.calculateNewRatings(gameInfo, teamList, ranks);
+        Map<String, Rating> result = new HashMap<>(pre);
+        for (Map.Entry<IPlayer, Rating> entry : newRatings.entrySet()) {
+            Player<String> player = (Player<String>) entry.getKey();
+            result.put(player.getId(), entry.getValue());
+        }
+        return result;
+    }
 }

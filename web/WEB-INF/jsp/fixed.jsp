@@ -30,6 +30,8 @@
 
     <c:url value="/training/${trainingId}/fixedTeam/add_modify" var="url_add_modify"/>
     <c:url value="/training/${trainingId}/fixedTeam/delete" var="url_delete_fixedteam"/>
+    <c:url value="/rating/updateTrainingTeam/${trainingId}" var="url_update_rating"/>
+
     <script>
         $(document).ready(function () {
             $('#mytable1').DataTable({
@@ -42,12 +44,12 @@
                 orderClasses: false,<!--排序列不高亮显示-->
                 dom: '<"top"if>rt<"bottom"lp>',
 //                responsive: true,
+                order:[[7,'desc']],
                 columnDefs: [
                     { "type": "chinese-string", targets: 2},
                     {"orderable": false,targets:4},
                     {"orderable": false,targets:5},
                     {"orderable": false,targets:6},
-                    {"orderable": false,targets:7}
                 ]
             });
             $('#trueModel').click(function () {
@@ -71,8 +73,16 @@
                 $('#C_teamname').val('');
                 $('#VJ_teamname').val('');
                 $('select option[value="-1"]').prop("selected","selected");
-            })
+            });
             $('#duiwu').addClass('active');
+            $('#update_Rating').click(function () {
+                $(this).attr("disabled","disabled");
+                $.post("${url_update_rating}",{
+                },function(data){
+                    alert(data);
+                    location.reload();
+                });
+            });
         });
         function updata (obj) {
             var ths=$(obj).parent().parent().children();
@@ -121,8 +131,7 @@
         <ol class="breadcrumb">
             <li>您所在的位置：</li>
             <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
-            <li><a href="<c:url value="/training/detail/${trainingId}"/> ">阶段列表</a></li>
-            <li class="active">队伍统计</li>
+            <li class="active">集训详情</li>
         </ol>
     </div>
 
@@ -138,6 +147,7 @@
                     <div class="row" style="padding-left: 20px">
                         <div class="pull-left">
                             <a class="btn btn-info btn-sm"  data-toggle="modal" data-target="#modifyModel" id="tianjia">添加队伍</a>
+                            <button class="btn btn-info btn-sm" id="update_Rating">更新Rating</button>
                         </div>
                     </div>
                     <hr style="margin:10px "/>
@@ -152,6 +162,9 @@
                         <th>队员1</th>
                         <th>队员2</th>
                         <th>队员3</th>
+                        <th>Score</th>
+                        <th>Miu</th>
+                        <th>Sigma</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -169,6 +182,15 @@
                             <td>${userInfoMap.get(team.user1Id).realName}</td>
                             <td>${userInfoMap.get(team.user2Id).realName}</td>
                             <td>${userInfoMap.get(team.user3Id).realName}</td>
+                            <td>${ratingMap.get(team.vjname).myRating}</td>
+                            <td>
+                                <fmt:formatNumber value="${ratingMap.get(team.vjname).mean}"
+                                    maxFractionDigits="2" minFractionDigits="2"/>
+                            </td>
+                            <td>
+                                <fmt:formatNumber value="${ratingMap.get(team.vjname).standardDeviation}"
+                                                  maxFractionDigits="2" minFractionDigits="2"/>
+                            </td>
                             <td>
                                 <a data-toggle="modal" data-target="#modifyModel" onclick="updata(this)">编辑</a>
                                 <a id="delete" onclick="delate(this)">删除</a>

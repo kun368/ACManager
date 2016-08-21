@@ -1,6 +1,7 @@
 package com.zzkun.model;
 
 import com.zzkun.util.date.MyDateFormater;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.tuple.Pair;
 
 import javax.persistence.*;
@@ -202,11 +203,15 @@ public class Contest implements Serializable, Comparable<Contest> {
                 '}';
     }
 
+    /////--------------
+
     @Override
     public int compareTo(Contest o) {
-        if(endTime.equals(o.endTime))
-            return id.compareTo(o.id);
-        return endTime.compareTo(o.endTime);
+        return new CompareToBuilder()
+                .append(endTime, o.endTime)
+                .append(startTime, o.stage)
+                .append(id, o.id)
+                .toComparison();
     }
 
     public String getEndTimeStr() {

@@ -31,6 +31,14 @@ public class RatingController {
         return "更新完毕~";
     }
 
+    @RequestMapping(value = "/updateTrainingTeam/{trainingId}", produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String updateTrainingTeam(@PathVariable Integer trainingId) {
+        Training training = trainingService.getTrainingById(trainingId);
+        ratingService.flushTrainingTeamRating(training);
+        return "更新完毕~";
+    }
+
     @RequestMapping(value = "/updateGlobal", produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String updateGlobal() {

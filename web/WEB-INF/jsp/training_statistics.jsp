@@ -53,7 +53,7 @@
                     alert(data);
                     location.reload();
                 });
-            })
+            });
             $('#duiyuan').addClass('active');
         });
 
@@ -67,7 +67,7 @@
         <ol class="breadcrumb">
             <li>您所在的位置：</li>
             <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
-            <li class="active">集训统计</li>
+            <li class="active">集训详情</li>
         </ol>
     </div>
 

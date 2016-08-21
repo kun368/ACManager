@@ -41,6 +41,7 @@ public class AssignController {
         model.addAttribute("assign", assign);
         model.addAttribute("teamList", assign.getTeamList());
         model.addAttribute("userInfo", userService.getUserInfoByAssign(assign));
+        model.addAttribute("trainingId", trainingId);
         return "last_teamResult";
     }
 
@@ -48,11 +49,12 @@ public class AssignController {
     public String setAssignAccount(@RequestParam Integer assignId,
                                    @RequestParam String account,
                                    @RequestParam Integer pos,
+                                   @RequestParam Integer trainingId,
                                    RedirectAttributes redirectAttributes) {
         logger.info("设置分队账号请求：assignId = [" + assignId + "], account = [" + account + "], pos = [" + pos + "]");
         teamAssignService.setAssignAccount(assignId, pos, account);
         redirectAttributes.addFlashAttribute("tip", "设置账号为" + account + "成功！");
-        return "redirect:/assign/lastAssign";
+        return "redirect:/assign/lastAssign/" + trainingId;
     }
 
     @RequestMapping(value = "/exportAssign/{assignId}", produces = "text/html;charset=UTF-8")

@@ -45,11 +45,11 @@ public class UVaController {
         model.addAttribute("cptCnt", uVaService.getCptCnt(uvaids));
         model.addAttribute("lastUpdate", uhuntUpdateStatus.getLastTime());
         model.addAttribute("ratingMap",
-                ratingService.getPersonalRatingMap(RatingRecord.Scope.Global, 1));
+                ratingService.getRatingMap(RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal));
         model.addAttribute("playcntMap",
-                ratingService.getPersonalPlayCnt(RatingRecord.Scope.Global, 1));
+                ratingService.getPlayCnt(RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal));
         model.addAttribute("playDuration",
-                ratingService.getPsersonalPlayDuration(RatingRecord.Scope.Global, 1));
+                ratingService.getPlayDuration(RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal));
         return "tablefile";
     }
 
