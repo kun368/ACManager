@@ -45,13 +45,13 @@
                 lang:'en',
                 step:1
             });
-            $("#Type option[value='${preContest.type}']").attr("selected","selected");
+            $("#Type option[value='${preContest.type}']").prop("selected","selected");
         })
     </script>
 </head>
 <body>
 
-<div class="container">
+<div class="container-fluid"  style="margin-right: 3%;margin-left: 3%">
     <jsp:include page="topBar.jsp"/>
     <div class="row">
         <div class="col-lg-2">
@@ -82,19 +82,10 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" value="${preContest.source}"  name="source" class="form-control" placeholder="比赛来源" autofocus>
+                                    <input type="text" value="${preContest.startTimeStr}" id="startTime" name="stTime" class="form-control" placeholder="开始时间" autofocus required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" value="${preContest.sourceDetail}"  name="sourceDetail" class="form-control" placeholder="详细比赛来源" autofocus>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" value="${preContest.sourceUrl}"  name="sourceUrl" class="form-control" placeholder="比赛来源URL" autofocus>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" value="${preContest.startTimeStr}" id="startTime" name="stTime" class="form-control" autofocus required>
-                                </div>
-                                <div class="form-group">
-                                    <input type="text" value="${preContest.endTimeStr}" id="endTime"  name="edTime" class="form-control" autofocus required>
+                                    <input type="text" value="${preContest.endTimeStr}" id="endTime"  name="edTime" class="form-control" placeholder="结束时间" autofocus required>
                                 </div>
                             </div>
                         </div>
@@ -104,8 +95,24 @@
                         <div class="form-group">
                             <textarea name="myConfig" class="form-control" rows="8" placeholder="配置文件">${preContest.rawData.right}</textarea>
                         </div>
+                        <div class="form-group">
+                            <input type="text" value="${preContest.source}"  name="source" class="form-control" placeholder="比赛来源" autofocus>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" value="${preContest.sourceDetail}"  name="sourceDetail" class="form-control" placeholder="比赛全称" autofocus>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" value="${preContest.sourceUrl}"  name="sourceUrl" class="form-control" placeholder="比赛链接" autofocus>
+                        </div>
 
                         <div class="form-group pull-right">
+                                <%--<label>--%>
+                                    <%--<input id="true_false"--%>
+                                           <%--type="checkbox" checked data-toggle="toggle" data-style="ios"--%>
+                                           <%--data-onstyle="info" data-size="small"--%>
+                                           <%--data-on="是" data-off="否" name="checkItem">--%>
+                                    <%--Real Contest--%>
+                                <%--</label>--%>
                             <button class="btn btn-lg btn-primary btn-block" type="submit">导入</button>
                         </div>
                     </div>

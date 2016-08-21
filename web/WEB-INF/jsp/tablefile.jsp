@@ -32,7 +32,8 @@
             var table=$('#mytable').DataTable({
                 "order": [[10, "desc"]],
                 "columnDefs": [
-                    { "type": "chinese-string", targets: 1}
+                    { "type": "chinese-string", targets: 1},
+                    { "contentPadding": "" ,targets:1 }
                 ],
             });
             $('#savabutton').click(function () {
@@ -70,11 +71,11 @@
             $('#cfname').val(tds.eq(5).text());
             $('#vjname').val(tds.eq(7).text());
             $('#bcname').val(tds.eq(8).text());
-            var form_text=$.trim(tds.eq(13).text());
+            var form_text=$.trim(tds.eq(18).text());
             $("#status option").each(function (i,item) {
                 var option_text=$(this).text();
                 if(option_text==form_text){
-                    $(this).attr("selected","selected")
+                    $(this).prop("selected","selected")
                 }
             })
         }
@@ -82,8 +83,18 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container-fluid" style="margin-right: 3%;margin-left: 3%">
     <jsp:include page="topBar.jsp" />
+    <div class="row" style="padding-bottom: 10px">
+    </div>
+    <c:if test="${(!empty user) and (user.isAdmin())}">
+        <div class="row">
+            <div class="pull-right">
+                <button class="btn btn-info" id="addbutton">更新数据</button>
+                <button class="btn btn-info" id="update_Rating">更新Rating</button>
+            </div>
+        </div>
+    </c:if>
     <div class="row" style="padding-bottom: 10px">
     </div>
     <div class="row">
@@ -108,6 +119,9 @@
                         <th>Rating</th>
                         <th>Miu</th>
                         <th>Sigma</th>
+                        <th>场次</th>
+                        <th>参赛分</th>
+                        </p>
                         <th>合计</th>
                         <c:forEach items="${booksName}" var="bookname">
                             <th>${bookname}</th>
@@ -153,21 +167,45 @@
                                         ${bcInfoMap.get(curUser.bcname).rating}
                                 </a>
                             </td>
-                            <td>${ratingMap.get(curUser.realName).myRating}</td>
                             <td>
+                                <p style="text-align: right">
+                                    ${ratingMap.get(curUser.realName).myRating}
+                                </p>
+                            </td>
+                            <td>
+                                <p style="text-align: right">
                                 <fmt:formatNumber value="${ratingMap.get(curUser.realName).mean}"
                                                   maxFractionDigits="2" minFractionDigits="2"/>
+                                </p>
                             </td>
                             <td>
-                                <c:if test="${playcntMap.containsKey(curUser.realName)}">
+                                <p style="text-align: right">
                                     <fmt:formatNumber value="${ratingMap.get(curUser.realName).standardDeviation}"
                                                       maxFractionDigits="2" minFractionDigits="2"/>
-                                    (${playcntMap.get(curUser.realName)})
-                                </c:if>
+                                </p>
                             </td>
-                            <td>${bookCnt.get(i.index).get(0) + bookCnt.get(i.index).get(1)}</td>
+                            <td>
+                                <p style="text-align: right">
+                                    ${playcntMap.get(curUser.realName)}
+                                </p>
+                            </td>
+                            <td>
+                                <p style="text-align: right">
+                                    <fmt:formatNumber value="${playDuration.get(curUser.realName) / 15.0}"
+                                                      maxFractionDigits="0" minFractionDigits="0"/>
+                                </p>
+                            </td>
+                            <td>
+                                <p style="text-align: right">
+                                ${bookCnt.get(i.index).get(0) + bookCnt.get(i.index).get(1)}
+                                </p>
+                            </td>
                             <c:forEach items="${bookCnt.get(i.index)}" var="j">
-                                <td>${j}</td>
+                                <td>
+                                    <p style="text-align: right">
+                                         ${j}
+                                    </p>
+                                </td>
                             </c:forEach>
                             <c:set value="${curUser.type.name()}" var="curType"/>
                             <td>
@@ -220,15 +258,6 @@
             </div>
         </div>
     </div>
-    <c:if test="${(!empty user) and (user.isAdmin())}">
-        <div class="row">
-            <div class="pull-left">
-                <button class="btn btn-info" id="addbutton">更新数据&nbsp;(LastUpdate: ${lastUpdate})</button>
-                <button class="btn btn-info" id="update_Rating">更新Rating</button>
-            </div>
-        </div>
-    </c:if>
-
 </div>
 
 <c:url value="/uva/updatedb" var="url_updatedb"/>

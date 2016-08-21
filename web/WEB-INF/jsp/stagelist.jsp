@@ -134,14 +134,7 @@
                 // disabledDates:['1986-01-08 ','1986-01-09','1986-01-10'],
                 //startDate:	'1986-01-05'
             });
-            $('#update_Rating').click(function () {
-                $(this).attr("disabled","disabled");
-                $.post("${url_update_rating}",{
-                },function(data){
-                    alert(data);
-                    location.reload();
-                });
-            })
+            $('#jieduan').addClass('active');
         });
         function updata(obj,id) {
             var tds=$(obj).parent().parent().find('td');
@@ -161,37 +154,33 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container-fluid"  style="margin-right: 3%;margin-left: 3%">
     <jsp:include page="topBar.jsp" />
     <div class="row">
         <ol class="breadcrumb">
             <li>您所在的位置：</li>
             <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
-            <li class="active">阶段列表</li>
+            <li class="active">集训详情</li>
         </ol>
-    </div>
-
-
-    <div class="row" style="padding-bottom: 20px">
-        <div class="pull-right">
-            <a href="<c:url value="/assign/lastAssign"/>" class="btn btn-primary" id="lastfendui">分队详情</a>
-            <a href="<c:url value="/training/statistic/${trainingId}"/>" class="btn btn-primary" id="lastfendui">队员统计</a>
-            <a href="<c:url value="/training/fixedTeam/${trainingId}"/>" class="btn btn-primary" id="lastfendui">固定队伍</a>
-            <c:if test="${(!empty user) && (user.isAdmin())}">
-                <button class="btn btn-info" id="fendui">随机分队</button>
-                <button class="btn btn-info" id="addbutton" data-toggle="modal" data-target="#myModal">添加阶段</button>
-                <button class="btn btn-info" id="update_Rating">更新Rating</button>
-            </c:if>
-            </div>
     </div>
 
 
     <div class="row">
         <div class="panel panel-info">
-            <div class="panel-heading">
-                <h3 class="panel-title">${info.name}&nbsp;&nbsp;详情</h3>
+            <div class="panel-heading" style="padding: 0px">
+                <%@include file="training_topbar.jsp"%>
             </div>
+
             <div class="panel-body">
+                <c:if test="${(!empty user) && (user.isAdmin())}">
+                    <div class="row" style="padding-left: 20px">
+                        <div class="pull-left">
+                            <button class="btn btn-info btn-sm" id="addbutton" data-toggle="modal" data-target="#myModal" style="">添加阶段</button>
+                        </div>
+                    </div>
+                    <hr style="margin:10px "/>
+                </c:if>
+
                 <table class="table table-condensed table-striped table-hover display" id="mytable">
                     <thead class="tab-header-area">
                     <tr>

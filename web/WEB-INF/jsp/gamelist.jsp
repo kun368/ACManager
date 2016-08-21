@@ -35,7 +35,7 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container-fluid"  style="margin-right: 3%;margin-left: 3%">
     <jsp:include page="topBar.jsp" />
     <div class="row">
         <ol class="breadcrumb">
@@ -104,7 +104,14 @@
                                 </c:choose>
                             </td>
                             <td>
-                                <a href="${contest.sourceUrl}" target="_blank">${contest.source}</a>
+                                <c:choose>
+                                    <c:when test="${empty contest.sourceUrl}">
+                                        ${contest.source}
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="${contest.sourceUrl}" target="_blank">${contest.source}</a>
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
                             <td>${contest.ranks.size()}</td>
                             <td>${contestAddUserList.get(contest.addUid).username}</td>

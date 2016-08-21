@@ -81,13 +81,14 @@
                     location.reload();
                 });
             });
+            $('#shenhe').addClass('active');
         });
     </script>
 
 </head>
 <body>
 
-<div class="container">
+<div class="container-fluid"  style="margin-right: 3%;margin-left: 3%">
     <jsp:include page="topBar.jsp" />
     <div class="row">
         <ol class="breadcrumb">
@@ -96,15 +97,12 @@
             <li class="active">集训队员</li>
         </ol>
     </div>
-    <div class="row" style="padding-bottom: 20px">
-    </div>
-
 
 
     <div class="row">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">${info.name}&nbsp;&nbsp;队员加入审核</h3>
+        <div class="panel panel-info">
+            <div class="panel-heading" style="padding: 0px">
+                <%@include file="training_topbar.jsp"%>
             </div>
             <div class="panel-body">
                 <div style="padding-bottom: 10px">
@@ -122,18 +120,18 @@
                     <c:forEach items="${ujoinT}" var="user">
                         <c:if test="${user.value eq success}">
                             <li class="list-group-item list-group-item-success">
-                                ${user.key.username}(${user.key.realName}，${user.key.major})
+                                    ${user.key.username}(${user.key.realName}，${user.key.major})
                             </li>
                         </c:if>
                         <c:if test="${user.value eq pending}">
                             <a class="list-group-item list-group-item-warning" href="#memberModel" data-toggle="modal" id="pendingli"
                                onclick="userinfo(${user.key.id}, ${info.id})">
-                               ${user.key.username}(${user.key.realName}，${user.key.major})
+                                    ${user.key.username}(${user.key.realName}，${user.key.major})
                             </a>
                         </c:if>
                         <c:if test="${user.value eq reject}">
                             <li class="list-group-item list-group-item-danger">
-                                ${user.key.username}(${user.key.realName}，${user.key.major})
+                                    ${user.key.username}(${user.key.realName}，${user.key.major})
                             </li>
                         </c:if>
                     </c:forEach>

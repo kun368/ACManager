@@ -27,6 +27,8 @@
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/jquery-datetimepicker/2.5.4/jquery.datetimepicker.css"/>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <c:url value="/rating/updateTraining/${trainingId}" var="url_update_rating"/>
+
     <script>
         $(document).ready(function () {
             $('#mytable1').DataTable({
@@ -44,14 +46,22 @@
                     { "type": "chinese-string", targets: 0}
                 ]
             });
-
+            $('#update_Rating').click(function () {
+                $(this).attr("disabled","disabled");
+                $.post("${url_update_rating}",{
+                },function(data){
+                    alert(data);
+                    location.reload();
+                });
+            })
+            $('#duiyuan').addClass('active');
         });
 
     </script>
 </head>
 <body>
 
-<div class="container">
+<div class="container-fluid"  style="margin-right: 3%;margin-left: 3%">
     <jsp:include page="topBar.jsp" />
     <div class="row">
         <ol class="breadcrumb">
@@ -62,18 +72,20 @@
     </div>
 
 
-    <div class="row" style="padding-bottom: 20px">
-        <div class="pull-right">
-            <a href="<c:url value="/training/detail/${trainingId}"/>" class="btn btn-primary" id="lastfendui">阶段列表</a>
-        </div>
-    </div>
-
     <div class="row">
         <div class="panel panel-info">
-            <div class="panel-heading">
-                <h3 class="panel-title">${info.name}&nbsp;&nbsp;队员统计</h3>
+            <div class="panel-heading" style="padding: 0px">
+                <%@include file="training_topbar.jsp"%>
             </div>
             <div class="panel-body">
+                <c:if test="${(!empty user) && (user.isAdmin())}">
+                    <div class="row" style="padding-left: 20px">
+                        <div class="pull-left">
+                            <button class="btn btn-info btn-sm" id="update_Rating">更新Rating</button>
+                        </div>
+                    </div>
+                    <hr style="margin:10px "/>
+                </c:if>
                 <table class="table table-condensed table-striped table-hover display" id="mytable1">
                     <thead class="tab-header-area">
                     <tr>
@@ -84,7 +96,7 @@
                         <th>Sigma</th>
                         <th>场次</th>
                         <th>平均Rank</th>
-                        <th>时长(分钟)</th>
+                        <th>参赛分</th>
                     </tr>
                     </thead>
                     <tfoot>
@@ -110,7 +122,10 @@
                                 <fmt:formatNumber value="${averageRankMap.get(user.realName)}"
                                                   maxFractionDigits="2" minFractionDigits="2"/>
                             </td>
-                            <td>${durationMap.get(user.realName)}</td>
+                            <td>
+                                <fmt:formatNumber value="${durationMap.get(user.realName) / 15.0}"
+                                                  maxFractionDigits="0" minFractionDigits="0"/>
+                            </td>
                         </tr>
                     </c:forEach>
                     </tbody>

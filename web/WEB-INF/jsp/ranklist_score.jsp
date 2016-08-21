@@ -43,7 +43,7 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container-fluid"  style="margin-right: 3%;margin-left: 3%">
     <jsp:include page="topBar.jsp" />
     <div class="row">
         <ol class="breadcrumb">
@@ -85,7 +85,17 @@
                         </c:when>
                     </c:choose>
                 </p>
-                <p>比赛来源：<a href="${contest.sourceUrl}" target="_blank">${contest.sourceDetail}</a></p>
+                <p>
+                    比赛来源：
+                    <c:choose>
+                        <c:when test="${empty contest.sourceUrl}">
+                            ${contest.sourceDetail}
+                        </c:when>
+                        <c:otherwise>
+                            <a href="${contest.sourceUrl}" target="_blank">${contest.sourceDetail}</a>
+                        </c:otherwise>
+                    </c:choose>
+                </p>
                 <table class="table table-condensed table-striped table-hover display" id="mytable">
                     <thead class="tab-header-area">
                     <tr>

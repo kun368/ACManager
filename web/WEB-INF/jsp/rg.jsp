@@ -86,7 +86,7 @@
 
 <body>
 
-<div class="container">
+<div class="container-fluid"  style="margin-right: 3%;margin-left: 3%">
     <jsp:include page="topBar.jsp"/>
     <div class="row">
         <div class="col-lg-2">

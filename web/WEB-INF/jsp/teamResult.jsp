@@ -40,7 +40,7 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container-fluid"  style="margin-right: 3%;margin-left: 3%">
     <jsp:include page="topBar.jsp"/>
     <div class="row">
         <ol class="breadcrumb">
@@ -60,9 +60,9 @@
                 <div class="page-header">
                     <h3>&nbsp;&nbsp;分组情况：</h3>
                 </div>
-                <div class="col-md-10">
+                <div class="col-lg-10">
                     <br/>
-                    <div class="col-md-12 form-group">
+                    <div class="col-lg-12 form-group">
                         <ul class="list-group">
                             <c:forEach items="${teamList}" var="team" varStatus="i">
                                 <li class="list-group-item">

@@ -79,7 +79,7 @@
 <body>
 
 
-<div class="container">
+<div class="container-fluid"  style="margin-right: 3%;margin-left: 3%">
     <jsp:include page="topBar.jsp"/>
     <div class="row" style="padding-top: 15px; padding-bottom: 15px">
     </div>

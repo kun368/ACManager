@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <title>固定队伍 - ACManager</title>
+    <title>队伍统计 - ACManager</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -72,6 +72,7 @@
                 $('#VJ_teamname').val('');
                 $('select option[value="-1"]').prop("selected","selected");
             })
+            $('#duiwu').addClass('active');
         });
         function updata (obj) {
             var ths=$(obj).parent().parent().children();
@@ -114,30 +115,33 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container-fluid"  style="margin-right: 3%;margin-left: 3%">
     <jsp:include page="topBar.jsp" />
     <div class="row">
         <ol class="breadcrumb">
             <li>您所在的位置：</li>
             <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
             <li><a href="<c:url value="/training/detail/${trainingId}"/> ">阶段列表</a></li>
-            <li class="active">固定队伍</li>
+            <li class="active">队伍统计</li>
         </ol>
-    </div>
-
-
-    <div class="row" style="padding-bottom: 20px">
-        <div class="pull-right">
-            <a class="btn btn-primary"  data-toggle="modal" data-target="#modifyModel" id="tianjia">添加队伍</a>
-        </div>
     </div>
 
     <div class="row">
         <div class="panel panel-info">
-            <div class="panel-heading">
-                <h3 class="panel-title">${info.name}&nbsp;&nbsp;固定队伍</h3>
+            <div class="panel-heading" style="padding: 0px">
+                <ul class="nav nav-tabs" id="hehedadada">
+                    <%@include file="training_topbar.jsp"%>
+                </ul>
             </div>
             <div class="panel-body">
+                <c:if test="${(!empty user) && (user.isAdmin())}">
+                    <div class="row" style="padding-left: 20px">
+                        <div class="pull-left">
+                            <a class="btn btn-info btn-sm"  data-toggle="modal" data-target="#modifyModel" id="tianjia">添加队伍</a>
+                        </div>
+                    </div>
+                    <hr style="margin:10px "/>
+                </c:if>
                 <table class="table table-condensed table-striped table-hover display" id="mytable1">
                     <thead class="tab-header-area">
                     <tr>

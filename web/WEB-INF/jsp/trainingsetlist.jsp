@@ -68,8 +68,6 @@
                 timepicker:false,
                 dayOfWeekStart : 1,
                 lang:'en',
-                // disabledDates:['1986-01-08 ','1986-01-09','1986-01-10'],
-                //startDate:	'1986-01-05'
             });
             $('#beginTime2').datetimepicker({
                 format:'Y-m-d',
@@ -77,8 +75,6 @@
                 timepicker:false,
                 dayOfWeekStart : 1,
                 lang:'en',
-                // disabledDates:['1986-01-08 ','1986-01-09','1986-01-10'],
-                //startDate:	'1986-01-05'
             });
             $('#endTime').datetimepicker({
                 format:'Y-m-d',
@@ -86,8 +82,6 @@
                 timepicker:false,
                 dayOfWeekStart : 1,
                 lang:'en',
-                // disabledDates:['1986-01-08 ','1986-01-09','1986-01-10'],
-                //startDate:	'1986-01-05'
             });
             $('#endTime2').datetimepicker({
                 format:'Y-m-d',
@@ -95,8 +89,6 @@
                 timepicker:false,
                 dayOfWeekStart : 1,
                 lang:'en',
-                // disabledDates:['1986-01-08 ','1986-01-09','1986-01-10'],
-                //startDate:	'1986-01-05'
             });
         });
         function applyJoin(trainingId) {
@@ -128,7 +120,7 @@
 </head>
 <body>
 
-<div class="container">
+<div class="container-fluid"  style="margin-right: 3%;margin-left: 3%">
     <jsp:include page="topBar.jsp"/>
     <div class="row">
         <ol class="breadcrumb">

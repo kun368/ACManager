@@ -34,10 +34,9 @@ public class AssignController {
 
     @Autowired private UserService userService;
 
-    @RequestMapping("/lastAssign")
+    @RequestMapping("/lastAssign/{trainingId}")
     public String lastAssign(Model model,
-                             HttpSession session,
-                             @SessionAttribute Integer trainingId) {
+                             @PathVariable Integer trainingId) {
         AssignResult assign = teamAssignService.getLastAssign(trainingId);
         model.addAttribute("assign", assign);
         model.addAttribute("teamList", assign.getTeamList());

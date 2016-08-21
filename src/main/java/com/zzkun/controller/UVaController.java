@@ -48,6 +48,8 @@ public class UVaController {
                 ratingService.getPersonalRatingMap(RatingRecord.Scope.Global, 1));
         model.addAttribute("playcntMap",
                 ratingService.getPersonalPlayCnt(RatingRecord.Scope.Global, 1));
+        model.addAttribute("playDuration",
+                ratingService.getPsersonalPlayDuration(RatingRecord.Scope.Global, 1));
         return "tablefile";
     }
 
