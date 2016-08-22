@@ -120,7 +120,7 @@
 </head>
 <body>
 
-<div class="container-fluid"  style="margin-right: 3%;margin-left: 3%">
+<div class="container-fluid"  style="margin-right: 0.5%;margin-left: 0.5%">
     <jsp:include page="topBar.jsp"/>
     <div class="row">
         <ol class="breadcrumb">
@@ -159,6 +159,7 @@
                         <td hidden>ratingBase</td>
                         <td hidden>ratingMultiple</td>
                         <th>阶段</th>
+                        <th>比赛</th>
                         <th>创建者</th>
                         <c:if test="${!empty user}">
                             <th>状态</th>
@@ -193,7 +194,8 @@
                             <td hidden>${training.waCapcity}</td>
                             <td hidden>${training.ratingBase}</td>
                             <td hidden>${training.ratingMultiple}</td>
-                            <td>${trainingSizeMap.get(training.id)}</td>
+                            <td>${training.stageList.size()}</td>
+                            <td>${training.contestCount()}</td>
                             <td>${trainingAddUserList.get(training.addUid).username}</td>
                             <c:if test="${!empty user}">
                                 <td>

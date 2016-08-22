@@ -47,7 +47,8 @@
         $(document).ready(function () {
             $('#mytable').DataTable({
                 pageLength: 25,<!--初始化单页显示数-->
-                "order": [[2, "desc"]]
+                "order": [[2, "desc"]],
+                responsive: true
             });
             $('#fendui').click(function () {
                 location.href="${suijifendui}"
@@ -103,36 +104,28 @@
                 formatDate:'Y-m-d',
                 timepicker:false,
                 dayOfWeekStart : 1,
-                lang:'en',
-                // disabledDates:['1986-01-08 ','1986-01-09','1986-01-10'],
-                //startDate:	'1986-01-05'
+                lang:'en'
             });
             $('#beginTime2').datetimepicker({
                 format:'Y-m-d',
                 formatDate:'Y-m-d',
                 timepicker:false,
                 dayOfWeekStart : 1,
-                lang:'en',
-                // disabledDates:['1986-01-08 ','1986-01-09','1986-01-10'],
-                //startDate:	'1986-01-05'
+                lang:'en'
             });
             $('#endTime').datetimepicker({
                 format:'Y-m-d',
                 formatDate:'Y-m-d',
                 timepicker:false,
                 dayOfWeekStart : 1,
-                lang:'en',
-                // disabledDates:['1986-01-08 ','1986-01-09','1986-01-10'],
-                //startDate:	'1986-01-05'
+                lang:'en'
             });
             $('#endTime2').datetimepicker({
                 format:'Y-m-d',
                 formatDate:'Y-m-d',
                 timepicker:false,
                 dayOfWeekStart : 1,
-                lang:'en',
-                // disabledDates:['1986-01-08 ','1986-01-09','1986-01-10'],
-                //startDate:	'1986-01-05'
+                lang:'en'
             });
             $('#jieduan').addClass('active');
         });
@@ -154,7 +147,7 @@
 </head>
 <body>
 
-<div class="container-fluid"  style="margin-right: 3%;margin-left: 3%">
+<div class="container-fluid"  style="margin-right: 0.5%;margin-left: 0.5%">
     <jsp:include page="topBar.jsp" />
     <div class="row">
         <ol class="breadcrumb">

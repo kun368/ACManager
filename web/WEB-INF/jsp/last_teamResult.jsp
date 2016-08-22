@@ -23,7 +23,7 @@
 </head>
 <body>
 
-<div class="container-fluid" style="margin-right: 3%;margin-left: 3%">
+<div class="container-fluid" style="margin-right: 0.5%;margin-left: 0.5%">
     <jsp:include page="topBar.jsp"/>
     <div class="row">
         <ol class="breadcrumb">
@@ -52,10 +52,9 @@
                 </c:if>
                 <div class="form-group">
                     <c:choose>
-                    <c:when test="${!empty teamList}">
-                    <h3>即将进行的随机组队赛组队情况，请设置自己队的账号</h3>
-
-                        <ul class="list-group">
+                        <c:when test="${!empty teamList}">
+                            <h3>即将进行的随机组队赛组队情况，请设置自己队的账号</h3>
+                            <ul class="list-group">
                                 <c:forEach items="${teamList}" var="team" varStatus="i">
                                     <li class="list-group-item">
                                         <h4 class="list-group-item-heading">
@@ -63,6 +62,7 @@
                                             <c:forEach items="${team}" var="member">
                                                 ${userInfo[member].realName}&nbsp;&nbsp;
                                             </c:forEach>
+
                                         </h4>
                                         <div style="padding-top: 15px"></div>
                                         <p class="list-group-item-text">
@@ -83,26 +83,25 @@
                                                            placeholder="使用的VJ账号">
                                                 </c:if>
                                             </div>
-                                            <c:choose>
-                                                <c:when test="${team.contains(user.id) or user.isAdmin()}">
-                                                    <button type="submit" class="btn btn-default">确认</button>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <%--<button type="submit" class="btn btn-default" disabled>确认</button>--%>
-                                                </c:otherwise>
-                                            </c:choose>
+                                            <c:if test="${team.contains(user.id) or user.isAdmin()}">
+                                                <button type="submit" class="btn btn-default">确认</button>
+                                            </c:if>
                                         </form>
                                         </p>
                                     </li>
                                 </c:forEach>
-                        </ul>
-
+                            </ul>
+                            <div class="row">
+                                <div class="pull-left" style="padding-left: 20px">
+                                    <c:url value="/assign/exportAssign/${assign.id}" var="url_export"/>
+                                    <a href="${url_export}" target="_blank" class="btn btn-primary">导出数据</a>
+                                </div>
+                            </div>
                         </c:when>
                         <c:otherwise>
                             <h3>暂时没有随机分队数据O(∩_∩)O~</h3>
                         </c:otherwise>
-                        </c:choose>
-
+                    </c:choose>
                 </div>
             </div>
         </div>

@@ -27,7 +27,7 @@
     <script>
         $(document).ready(function () {
             $('#mytable').DataTable({
-                "order": [[2, "desc"]]
+                "order": [[2, "desc"]],
             });
         });
     </script>
@@ -35,7 +35,7 @@
 </head>
 <body>
 
-<div class="container-fluid"  style="margin-right: 3%;margin-left: 3%">
+<div class="container-fluid"  style="margin-right: 0.5%;margin-left: 0.5%">
     <jsp:include page="topBar.jsp" />
     <div class="row">
         <ol class="breadcrumb">

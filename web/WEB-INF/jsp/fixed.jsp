@@ -125,7 +125,7 @@
 </head>
 <body>
 
-<div class="container-fluid"  style="margin-right: 3%;margin-left: 3%">
+<div class="container-fluid"  style="margin-right: 0.5%;margin-left: 0.5%">
     <jsp:include page="topBar.jsp" />
     <div class="row">
         <ol class="breadcrumb">
@@ -147,7 +147,7 @@
                     <div class="row" style="padding-left: 20px">
                         <div class="pull-left">
                             <a class="btn btn-info btn-sm"  data-toggle="modal" data-target="#modifyModel" id="tianjia">添加队伍</a>
-                            <button class="btn btn-info btn-sm" id="update_Rating">更新Rating</button>
+                            <button class="btn btn-info btn-sm" id="update_Rating">更新积分</button>
                         </div>
                     </div>
                     <hr style="margin:10px "/>
@@ -155,7 +155,7 @@
                 <table class="table table-condensed table-striped table-hover display" id="mytable1">
                     <thead class="tab-header-area">
                     <tr>
-                        <th hidden>ID</th>
+                        <th style="display: none">ID</th>
                         <th>英文队名</th>
                         <th>中文队名</th>
                         <th>VJ账号</th>
@@ -175,7 +175,7 @@
                     <tbody>
                     <c:forEach items="${fixedList}" var="team">
                         <tr>
-                            <td hidden>${team.id}</td>
+                            <td style="display: none">${team.id}</td>
                             <td>${team.name1}</td>
                             <td>${team.name2}</td>
                             <td>${team.vjname}</td>

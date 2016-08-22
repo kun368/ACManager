@@ -58,6 +58,9 @@ public class RatingRecord {
 
     private Boolean isLast;
 
+    private Boolean isPartIn;
+
+    ///////
 
     public Long getId() {
         return id;
@@ -179,6 +182,14 @@ public class RatingRecord {
         this.userPlayDuration = userPlayDuration;
     }
 
+    public Boolean getPartIn() {
+        return isPartIn;
+    }
+
+    public void setPartIn(Boolean partIn) {
+        isPartIn = partIn;
+    }
+
     @Override
     public String toString() {
         return "RatingRecord{" +
@@ -190,13 +201,14 @@ public class RatingRecord {
                 ", userTimes=" + userTimes +
                 ", userRankSum=" + userRankSum +
                 ", userPlayDuration=" + userPlayDuration +
-                ", contestId=" + contest.getId() +
+                ", contest=" + contest +
                 ", orderId=" + orderId +
                 ", mean=" + mean +
                 ", standardDeviation=" + standardDeviation +
                 ", conservativeRating=" + conservativeRating +
                 ", generateTime=" + generateTime +
                 ", isLast=" + isLast +
+                ", isPartIn=" + isPartIn +
                 '}';
     }
 }

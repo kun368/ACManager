@@ -40,7 +40,6 @@
                 pageLength: 25,<!--初始化单页显示数-->
                 orderClasses: false,<!--排序列不高亮显示-->
                 dom: '<"top"if>rt<"bottom"lp>',
-                responsive: true,
                 order:[[2,'desc']],
                 columnDefs: [
                     { "type": "chinese-string", targets: 0}
@@ -61,7 +60,7 @@
 </head>
 <body>
 
-<div class="container-fluid"  style="margin-right: 3%;margin-left: 3%">
+<div class="container-fluid"  style="margin-right: 0.5%;margin-left: 0.5%">
     <jsp:include page="topBar.jsp" />
     <div class="row">
         <ol class="breadcrumb">
@@ -81,7 +80,7 @@
                 <c:if test="${(!empty user) && (user.isAdmin())}">
                     <div class="row" style="padding-left: 20px">
                         <div class="pull-left">
-                            <button class="btn btn-info btn-sm" id="update_Rating">更新Rating</button>
+                            <button class="btn btn-info btn-sm" id="update_Rating">更新积分</button>
                         </div>
                     </div>
                     <hr style="margin:10px "/>

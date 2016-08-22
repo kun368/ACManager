@@ -55,6 +55,7 @@ public class RatingService {
         Map<String, Integer> duration = new HashMap<>(); //每用户参加比赛时长加和
         int count = 1;
         for (Contest contest : contests) {
+            Set<String> userIdSet = new HashSet<>(); //本场次所用参与用户Set
             int contestLen = contest.lengeh();
             int[] rank = trainingService.calcRank(contest);
             List<Pair<List<String>, Integer>> pairList = new ArrayList<>();
@@ -63,6 +64,7 @@ public class RatingService {
                 if(RatingRecord.Type.Personal.equals(type)) { //计算个人Rating
                     pairList.add(Pair.of(teamRanking.getMember(), rank[i]));
                     for (String s : teamRanking.getMember()) {
+                        userIdSet.add(s);
                         int pretimeCnt = timeCnt.getOrDefault(s, 0);
                         timeCnt.put(s, pretimeCnt + 1);
                         int prerankSum = rankSum.getOrDefault(s, 0);
@@ -74,6 +76,7 @@ public class RatingService {
                 else if(RatingRecord.Type.Team.equals(type)) { //计算组队Rating
                     pairList.add(Pair.of(Collections.singletonList(teamRanking.getAccount()), rank[i]));
                     String s = teamRanking.getAccount();
+                    userIdSet.add(s);
                     int pretimeCnt = timeCnt.getOrDefault(s, 0);
                     timeCnt.put(s, pretimeCnt + 1);
                     int prerankSum = rankSum.getOrDefault(s, 0);
@@ -82,7 +85,6 @@ public class RatingService {
                     duration.put(s, preDuration + contestLen);
                 }
             }
-            System.out.println(pairList); //////
             if(RatingRecord.Type.Personal.equals(type))
                 result = myELO.calcPersonal(result, pairList, contest.getType());
             else if(RatingRecord.Type.Team.equals(type))
@@ -103,6 +105,7 @@ public class RatingService {
                 record.setOrderId(count);
                 record.setGenerateTime(LocalDateTime.now());
                 record.setLast(count == contests.size());
+                record.setPartIn(userIdSet.contains(entry.getKey()));
                 willUpdateRecord.add(record);
             }
             count += 1;

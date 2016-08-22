@@ -213,4 +213,13 @@ public class Training implements Serializable {
                 ", ratingMultiple=" + ratingMultiple +
                 '}';
     }
+
+    ////
+
+    public int contestCount() {
+        int sum = 0;
+        for (Stage stage : stageList)
+            sum += stage.getContestList().size();
+        return sum;
+    }
 }

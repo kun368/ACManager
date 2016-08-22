@@ -116,14 +116,6 @@ public class TrainingService {
         trainingRepo.save(training);
     }
 
-    public Map<Integer, Integer> trainingSizeMap(List<Training> allTraining) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for (Training training : allTraining) {
-            map.put(training.getId(), training.getStageList().size());
-        }
-        return map;
-    }
-
     //用户申请参加集训
     public void applyJoinTraining(Integer userId, Integer trainingId) {
         User user = userRepo.findOne(userId);

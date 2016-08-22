@@ -32,7 +32,7 @@
         orderClasses: false,<!--排序列不高亮显示-->
         order:[],
         dom: '<"top"if>rt<"bottom"lp>',
-//        responsive: true
+        responsive: true
     } );
 </script>
 <c:url value="/" var="url_index"/>
