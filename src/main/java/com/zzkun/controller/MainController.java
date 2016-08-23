@@ -18,9 +18,4 @@ public class MainController {
     public String page404() {
         return "page_404";
     }
-
-    @RequestMapping("/500")
-    public String page500() {
-        return "page_500";
-    }
 }

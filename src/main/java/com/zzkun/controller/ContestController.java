@@ -70,7 +70,7 @@ public class ContestController {
                                 @RequestParam String sourceUrl,
                                 @RequestParam(required = false, defaultValue = "") String myConfig,
                                 @RequestParam String vjContest,
-                                @RequestParam Boolean realContest,
+                                @RequestParam(required = false, defaultValue = "false") Boolean realContest,
                                 @SessionAttribute User user,
                                 @SessionAttribute Integer stageId,
                                 RedirectAttributes redirectAttributes) {

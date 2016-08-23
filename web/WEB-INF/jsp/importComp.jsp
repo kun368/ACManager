@@ -112,7 +112,7 @@
                             <label>
                                 <input id="true_false"
                                        type="checkbox"
-                                       name="realContest">
+                                       name="realContest" value="true">
                                 Real Contest
                             </label>
                         </div>
