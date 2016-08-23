@@ -88,13 +88,13 @@
 </head>
 <body>
 
-<div class="container-fluid"  style="margin-right: 0.5%;margin-left: 0.5%">
+<div class="container-fluid"  style="margin-right: 0.7%;margin-left: 0.7%">
     <jsp:include page="topBar.jsp" />
     <div class="row">
         <ol class="breadcrumb">
             <li>您所在的位置：</li>
             <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
-            <li class="active">集训详情</li>
+            <li class="active">${info.name}</li>
         </ol>
     </div>
 

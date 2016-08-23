@@ -38,6 +38,7 @@ public class AssignController {
     public String lastAssign(Model model,
                              @PathVariable Integer trainingId) {
         AssignResult assign = teamAssignService.getLastAssign(trainingId);
+        model.addAttribute("info", trainingService.getTrainingById(trainingId));
         model.addAttribute("assign", assign);
         model.addAttribute("teamList", assign.getTeamList());
         model.addAttribute("userInfo", userService.getUserInfoByAssign(assign));

@@ -60,6 +60,8 @@ public class Contest implements Serializable, Comparable<Contest> {
     @Column(length = 10240)
     private String sourceUrl;
 
+    private Boolean realContest;
+
 
     public Contest() {
     }
@@ -184,6 +186,14 @@ public class Contest implements Serializable, Comparable<Contest> {
         this.sourceUrl = sourceUrl;
     }
 
+    public Boolean getRealContest() {
+        return realContest;
+    }
+
+    public void setRealContest(Boolean realContest) {
+        this.realContest = realContest;
+    }
+
     @Override
     public String toString() {
         return "Contest{" +
@@ -200,6 +210,7 @@ public class Contest implements Serializable, Comparable<Contest> {
                 ", source='" + source + '\'' +
                 ", sourceDetail='" + sourceDetail + '\'' +
                 ", sourceUrl='" + sourceUrl + '\'' +
+                ", realContest=" + realContest +
                 '}';
     }
 
@@ -209,7 +220,7 @@ public class Contest implements Serializable, Comparable<Contest> {
     public int compareTo(Contest o) {
         return new CompareToBuilder()
                 .append(endTime, o.endTime)
-                .append(startTime, o.stage)
+                .append(startTime, o.startTime)
                 .append(id, o.id)
                 .toComparison();
     }

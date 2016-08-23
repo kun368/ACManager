@@ -43,7 +43,7 @@
 </head>
 <body>
 
-<div class="container-fluid"  style="margin-right: 0.5%;margin-left: 0.5%">
+<div class="container-fluid"  style="margin-right: 0.7%;margin-left: 0.7%">
     <jsp:include page="topBar.jsp" />
     <div class="row">
         <ol class="breadcrumb">
@@ -51,20 +51,16 @@
             <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
             <li><a href="<c:url value="/training/detail/${trainingId}"/> ">阶段列表</a></li>
             <li><a href="<c:url value="/training/stage/${stageId}"/> ">比赛列表</a></li>
-            <li class="active">比赛统计</li>
+            <li class="active">${contest.name}</li>
         </ol>
     </div>
 
-    <div class="row" style="padding-bottom: 20px">
-        <div class="pull-right">
-            <%--<a href="<c:url value="/contest/showContest/${contest.id}"/>" class="btn btn-primary">比赛详情</a>--%>
-        </div>
-    </div>
+
 
     <div class="row">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">${contest.name}&nbsp;&nbsp;统计</h3>
+                <h3 class="panel-title">比赛统计</h3>
             </div>
             <div class="panel-body">
                 <p>比赛时间：${contest.startTimeStr} —— ${contest.endTimeStr}</p>

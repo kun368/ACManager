@@ -4,7 +4,7 @@
     <%----%>
 <%--</div>--%>
 <footer class="footer">
-    <div class="container-fluid"  style="margin-right: 0.5%;margin-left: 0.5%">
+    <div class="container-fluid"  style="margin-right: 0.7%;margin-left: 0.7%">
         <hr/>
         <div class="text-muted">
             <p class="text-center text-muted">

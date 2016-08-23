@@ -65,6 +65,9 @@ public class VJRankParser implements RankParser {
         return new ArrayList<>(Arrays.asList(split));
     }
 
+    /**
+     * 根据原始Contest的RawDate和其他属性解析榜单Rank
+     */
     @Override
     public Contest parseRank(Contest contest) {
 
@@ -144,11 +147,10 @@ public class VJRankParser implements RankParser {
                     pbStatus.add(new PbStatus(time > 0, time, wacnt));
                 }
             }
-            logger.info("解析第{}行数据:{}", i, team);
+            //logger.info("解析第{}行数据:{}", i, team);
             contest.getRanks().add(team);
         }
         logger.info("榜单解析Rank结果：{}", contest.getRanks());
         return contest;
     }
-
 }

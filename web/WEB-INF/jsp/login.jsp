@@ -28,7 +28,7 @@
 
 
 
-<div class="container-fluid"  style="margin-right: 0.5%;margin-left: 0.5%">
+<div class="container-fluid"  style="margin-right: 0.7%;margin-left: 0.7%">
     <jsp:include page="topBar.jsp"/>
     <div class="row">
         <div class="col-lg-2">

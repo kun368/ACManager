@@ -105,6 +105,7 @@ public class TrainingController {
                             Model model) {
         Training training = trainingService.getTrainingById(trainingId);
         List<FixedTeam> teamList = training.getFixedTeamList();
+        model.addAttribute("info", trainingService.getTrainingById(trainingId));
         model.addAttribute("fixedList", teamList);
         model.addAttribute("userInfoMap", userService.getUserInfoByFixedTeamList(teamList));
         model.addAttribute("userList", trainingService.getTrainingAllOkUser(trainingId));

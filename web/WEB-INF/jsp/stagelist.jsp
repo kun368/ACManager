@@ -136,7 +136,7 @@
             $('#endTime2').val(tds.eq(2).text());
             $('#remark2').val(tds.eq(3).text());
             $('#id2').val(id);
-            var chec_true_false=tds.eq(7).text();
+            var chec_true_false=tds.eq(6).text();
             if(chec_true_false=='true')
                 $('#true_false2').prop("checked",true).change();
             else
@@ -147,18 +147,21 @@
 </head>
 <body>
 
-<div class="container-fluid"  style="margin-right: 0.5%;margin-left: 0.5%">
+<div class="container-fluid"  style="margin-right: 0.7%;margin-left: 0.7%">
     <jsp:include page="topBar.jsp" />
     <div class="row">
         <ol class="breadcrumb">
             <li>您所在的位置：</li>
             <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
-            <li class="active">集训详情</li>
+            <li class="active">${info.name}</li>
         </ol>
     </div>
 
 
+
+
     <div class="row">
+        <%--<p style="text-align: center; font-weight: bold">${info.name}</p>--%>
         <div class="panel panel-info">
             <div class="panel-heading" style="padding: 0px">
                 <%@include file="training_topbar.jsp"%>
@@ -183,8 +186,8 @@
                         <th hidden>备注</th>
                         <th hidden>添加时间</th>
                         <th>比赛</th>
+                        <th>计分</th>
                         <th>创建者</th>
-                        <th hidden>计分阶段</th>
                         <c:if test="${(!empty user) && (user.isAdmin())}">
                             <th>操作</th>
                         </c:if>
@@ -203,8 +206,8 @@
                             <td hidden>${stage.remark}</td>
                             <td hidden>${stage.addTime}</td>
                             <td>${stageSizeMap.get(stage.id)}</td>
+                            <td>${stage.countToRating ? '是' : '否'}</td>
                             <td>${stageAddUserList.get(stage.addUid).username}</td>
-                            <td hidden>${stage.countToRating}</td>
                             <c:if test="${(!empty user) && (user.isAdmin())}">
                                 <td>
                                     <a id="modifybutton" data-toggle="modal" data-target="#myModal2"

@@ -25,7 +25,6 @@
     <script>
         $(document).ready(function () {
             $('#startTime').datetimepicker({
-
                 format:'Y-m-d'+' '+'H:i:s',
                 formatDate:'Y-m-d',
                 formatTime:'H:i',
@@ -46,12 +45,17 @@
                 step:1
             });
             $("#Type option[value='${preContest.type}']").prop("selected","selected");
+            var ok = ${preContest.realContest};
+            if(ok)
+                $('#true_false').prop("checked",true);
+            else
+                $('#true_false').prop("checked",false);
         })
     </script>
 </head>
 <body>
 
-<div class="container-fluid"  style="margin-right: 0.5%;margin-left: 0.5%">
+<div class="container-fluid"  style="margin-right: 0.7%;margin-left: 0.7%">
     <jsp:include page="topBar.jsp"/>
     <div class="row">
         <div class="col-lg-2">
@@ -104,15 +108,15 @@
                         <div class="form-group">
                             <input type="text" value="${preContest.sourceUrl}"  name="sourceUrl" class="form-control" placeholder="比赛链接" autofocus>
                         </div>
-
+                        <div class="form-group pull-light">
+                            <label>
+                                <input id="true_false"
+                                       type="checkbox"
+                                       name="realContest">
+                                Real Contest
+                            </label>
+                        </div>
                         <div class="form-group pull-right">
-                                <%--<label>--%>
-                                    <%--<input id="true_false"--%>
-                                           <%--type="checkbox" checked data-toggle="toggle" data-style="ios"--%>
-                                           <%--data-onstyle="info" data-size="small"--%>
-                                           <%--data-on="是" data-off="否" name="checkItem">--%>
-                                    <%--Real Contest--%>
-                                <%--</label>--%>
                             <button class="btn btn-lg btn-primary btn-block" type="submit">导入</button>
                         </div>
                     </div>

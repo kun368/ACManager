@@ -17,9 +17,7 @@ import java.util.stream.Collectors;
 @Service
 public class UserService {
 
-
-    @Autowired
-    private UserRepo userRepo;
+    @Autowired private UserRepo userRepo;
 
     public boolean hasUser(String username) {
         return userRepo.findByUsername(username) != null;
@@ -180,7 +178,4 @@ public class UserService {
         }
         userRepo.save(one);
     }
-
-
-
 }

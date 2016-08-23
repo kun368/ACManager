@@ -304,6 +304,7 @@ public class TrainingService {
                            String stTime, String edTime,
                            String source, String sourceDetail, String sourceUrl,
                            String myConfig, String vjContest,
+                           Boolean realContest,
                            User addUser,
                            Integer stageId) throws IOException {
         Pair<String, String> rawDate = Pair.of(vjContest, myConfig);
@@ -317,6 +318,7 @@ public class TrainingService {
         contest.setSource(source);
         contest.setSourceDetail(sourceDetail);
         contest.setSourceUrl(sourceUrl);
+        contest.setRealContest(realContest);
         contest.setStage(getStageById(stageId));
         contest.setAddUid(addUser.getId());
 

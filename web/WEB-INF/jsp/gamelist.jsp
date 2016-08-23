@@ -35,31 +35,33 @@
 </head>
 <body>
 
-<div class="container-fluid"  style="margin-right: 0.5%;margin-left: 0.5%">
+<div class="container-fluid"  style="margin-right: 0.7%;margin-left: 0.7%">
     <jsp:include page="topBar.jsp" />
     <div class="row">
         <ol class="breadcrumb">
             <li>您所在的位置：</li>
             <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
             <li><a href="<c:url value="/training/detail/${trainingId}"/>">阶段列表</a></li>
-            <li class="active">比赛列表</li>
+            <li class="active">${info.name}</li>
         </ol>
     </div>
 
-    <div class="row" style="padding-bottom: 20px">
-        <div class="pull-right">
-            <c:if test="${(!empty user) && (user.isAdmin())}">
-                <button class="btn btn-info" id="addbutton">添加比赛</button>
-            </c:if>
-        </div>
-    </div>
+
 
     <div class="row">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">${info.name}&nbsp;&nbsp;详情</h3>
+                <h3 class="panel-title">比赛列表</h3>
             </div>
             <div class="panel-body">
+                <c:if test="${user.isAdmin()}">
+                    <div class="row" style="padding-left: 20px">
+                        <div class="pull-left">
+                            <button class="btn btn-info btn-sm" id="addbutton">添加比赛</button>
+                        </div>
+                    </div>
+                    <hr style="margin:10px "/>
+                </c:if>
                 <table class="table table-condensed table-striped table-hover display" id="mytable">
                     <thead class="tab-header-area">
                     <tr>
