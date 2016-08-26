@@ -4,9 +4,9 @@ import com.zzkun.dao.*;
 import com.zzkun.model.*;
 import com.zzkun.util.cluster.AgnesClusterer;
 import com.zzkun.util.date.MyDateFormater;
+import com.zzkun.util.rank.VJRankParser;
 import com.zzkun.util.stder.DataStder;
 import com.zzkun.util.stder.RawData;
-import com.zzkun.util.rank.VJRankParser;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -260,6 +260,8 @@ public class TrainingService {
         for (int i = 0; i < list.size(); ++i) {
             if(list.get(i).isSolved()) {
                 waCnt += list.get(i).getWaCount();
+                if(list.get(i).getWaCount() == 0) //1A奖励
+                    waCnt -= 1;
                 ac.put(list.get(i), i);
             }
         }

@@ -187,7 +187,7 @@ public class Contest implements Serializable, Comparable<Contest> {
     }
 
     public Boolean getRealContest() {
-        return realContest;
+        return realContest != null && realContest;
     }
 
     public void setRealContest(Boolean realContest) {

@@ -4,7 +4,7 @@ import com.zzkun.dao.RatingRecordRepo;
 import com.zzkun.model.*;
 import com.zzkun.util.elo.MyELO;
 import jskills.Rating;
-import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,8 +41,43 @@ public class RatingService {
         logger.info("删除之前生成的数据：scope = [" + scope + "], scopeId = [" + scopeId + "], type = [" + type + "]");
     }
 
+    private class Team implements Comparable<Team> {
+        TeamRanking ranking;
+        Integer rank;
+        Double score;
+
+        public Team(TeamRanking ranking, Integer rank, Double score) {
+            this.ranking = ranking;
+            this.rank = rank;
+            this.score = score;
+        }
+
+        @Override
+        public int compareTo(Team o) {
+            return new CompareToBuilder()
+                    .append(rank, o.rank)
+                    .append(score, o.score)
+                    .toComparison();
+        }
+    }
+
+    private List<Team> generateRanks(Contest contest) {
+        ///计算分数和名次
+        boolean[][] waClear = new boolean[contest.getRanks().size()][];
+        double[] score = trainingService.calcContestScore(contest, waClear).getLeft();
+        int[] rank = trainingService.calcRank(score, contest.getStage().getTraining());
+        ///根据分数和Rank排序，解决TrueSkill同名次算分问题
+        List<Team> teamList = new ArrayList<>();
+        for (int i = 0; i < contest.getRanks().size(); i++) {
+            TeamRanking teamRanking = contest.getRanks().get(i);
+            teamList.add(new Team(teamRanking, rank[i], score[i]));
+        }
+        Collections.sort(teamList);
+        return teamList;
+    }
+
     //生成Rating
-    private List<RatingRecord> generateRating(List<Contest> contests,
+    public List<RatingRecord> generateRating(List<Contest> contests,
                                               RatingRecord.Scope scope,
                                               Integer scopeId,
                                               RatingRecord.Type type) {
@@ -57,34 +92,36 @@ public class RatingService {
         for (Contest contest : contests) {
             Set<String> userIdSet = new HashSet<>(); //本场次所用参与用户Set
             int contestLen = contest.lengeh();
-            int[] rank = trainingService.calcRank(contest);
+            List<Team> teamList = generateRanks(contest);
             List<Pair<List<String>, Integer>> pairList = new ArrayList<>();
-            for (int i = 0; i < contest.getRanks().size(); i++) {
-                TeamRanking teamRanking = contest.getRanks().get(i);
+            for (Team team : teamList) {
+                if(contest.getRealContest() && !team.ranking.getLocalTeam())
+                    continue;
                 if(RatingRecord.Type.Personal.equals(type)) { //计算个人Rating
-                    pairList.add(Pair.of(teamRanking.getMember(), rank[i]));
-                    for (String s : teamRanking.getMember()) {
+                    pairList.add(Pair.of(team.ranking.getMember(), team.rank));
+                    for (String s : team.ranking.getMember()) {
                         userIdSet.add(s);
                         int pretimeCnt = timeCnt.getOrDefault(s, 0);
                         timeCnt.put(s, pretimeCnt + 1);
                         int prerankSum = rankSum.getOrDefault(s, 0);
-                        rankSum.put(s, prerankSum + rank[i]);
+                        rankSum.put(s, prerankSum + team.rank);
                         int preDuration = duration.getOrDefault(s, 0);
                         duration.put(s, preDuration + contestLen);
                     }
                 }
                 else if(RatingRecord.Type.Team.equals(type)) { //计算组队Rating
-                    pairList.add(Pair.of(Collections.singletonList(teamRanking.getAccount()), rank[i]));
-                    String s = teamRanking.getAccount();
+                    pairList.add(Pair.of(Collections.singletonList(team.ranking.getAccount()), team.rank));
+                    String s = team.ranking.getAccount();
                     userIdSet.add(s);
                     int pretimeCnt = timeCnt.getOrDefault(s, 0);
                     timeCnt.put(s, pretimeCnt + 1);
                     int prerankSum = rankSum.getOrDefault(s, 0);
-                    rankSum.put(s, prerankSum + rank[i]);
+                    rankSum.put(s, prerankSum + team.rank);
                     int preDuration = duration.getOrDefault(s, 0);
                     duration.put(s, preDuration + contestLen);
                 }
             }
+//            logger.info("{}", pairList);
             if(RatingRecord.Type.Personal.equals(type))
                 result = myELO.calcPersonal(result, pairList, contest.getType());
             else if(RatingRecord.Type.Team.equals(type))
@@ -110,7 +147,7 @@ public class RatingService {
             }
             count += 1;
         }
-        logger.info("计算完毕，数据量：{}", willUpdateRecord.size());
+//        logger.info("计算完毕，数据量：{}", willUpdateRecord.size());
         return willUpdateRecord;
     }
 
@@ -207,7 +244,6 @@ public class RatingService {
         List<RatingRecord> list = getLastRating(scope, scopeId, type);
         Map<String, Double> map = new HashMap<>(list.size());
         for (RatingRecord record : list) {
-            System.out.println(record);
             if(record.getUserRankSum() != null
                     && record.getUserTimes() != null
                     && record.getUserTimes() > 0) {

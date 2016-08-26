@@ -23,12 +23,29 @@
     <script src="//cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="//cdn.bootcss.com/jquery-datetimepicker/2.5.4/build/jquery.datetimepicker.full.js"></script>
     <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script src="http://d3js.org/d3.v3.js"></script>
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
     <link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/jquery-datetimepicker/2.5.4/jquery.datetimepicker.css"/>
     <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <c:url value="/rating/updateTraining/${trainingId}" var="url_update_rating"/>
 
+    <style type="text/css">
+        #container{
+            background: #dddddd;
+            width: 500px;
+            height: 250px;
+        }
+        path{
+            fill:none;
+            stroke: #4682B4;
+            stroke-width: 2;
+        }
+        .domain,.tick line{
+            stroke:gray;
+            stroke-width: 1;
+        }
+    </style>
     <script>
         $(document).ready(function () {
             $('#mytable1').DataTable({
@@ -40,7 +57,7 @@
                 pageLength: 25,<!--初始化单页显示数-->
                 orderClasses: false,<!--排序列不高亮显示-->
                 dom: '<"top"if>rt<"bottom"lp>',
-                order:[[2,'desc']],
+                order:[[3,'desc']],
                 columnDefs: [
                     { "type": "chinese-string", targets: 0}
                 ]
@@ -55,18 +72,94 @@
             });
             $('#duiyuan').addClass('active');
         });
+        function updata(obj,id) {
+            var tds=$(obj).parent().parent().find('td');
+            var username=tds.eq(2).text();
+            $.get("/ACManager/api/rating/training/"+id+"/username/"+username,{},function (data) {
+                $("#my_container").html("")
+                $("#my_container2").html("")
+                json_data=$.parseJSON(data)
+                var rate=new Array()
+                var rank=new Array()
+                $.each(json_data['result'],function (i,item) {
+                    rate[i]=item.myRating
+                    rank[i]=item.playRankSum/(i+1)
+                })
+                var width=500,
+                        height=250,
+                        margin={left:50,top:30,right:20,bottom:20},
+                        g_width=width-margin.left-margin.right,
+                        g_height=height-margin.top-margin.bottom;
+                var svg = d3.select("#my_container").append("svg").attr("width",width).attr("height",height)
+                var g = d3.select("svg").append("g").attr("transform","translate("+margin.left+","+margin.top+")")
+                var scale_x = d3.scale.linear().domain([0,rate.length-1]).range([0,g_width])
+                var scale_y = d3.scale.linear().domain([d3.min(rate),d3.max(rate)]).range([g_height,0])
+                var line_generator = d3.svg.line()
+                        .x(function (d,i) {return scale_x(i);})
+                        .y(function (d) {return scale_y(d);})
+                        .interpolate("cardinal")
+                g.append("path").attr("d",line_generator(rate))
+
+                g.selectAll("circle").data(rate).enter()
+                        .append("svg:circle")
+                        .attr("r", 4)
+                        .attr("cx", function(d,i) { return scale_x(i)})
+                        .attr("cy", function(d) { return scale_y(d)})
+
+                var x_axis=d3.svg.axis().scale(scale_x),
+                        y_axis=d3.svg.axis().scale(scale_y).orient("left")
+
+                g.append("g").call(x_axis).attr("transform","translate(0,"+g_height+")")
+
+                g.append("g")
+                        .call(y_axis)
+                        .append("text")
+                        .text("Score")
+                        .attr("transform","rotate(-90)")
+                        .attr("text-anchor","end")
+                        .attr("dy","1em")
+
+                var svg2 = d3.select("#my_container2").append("svg").attr("width",width).attr("height",height)
+                var g2 = svg2.append("g").attr("transform","translate("+margin.left+","+margin.top+")")
+                var scale_x2 = d3.scale.linear().domain([0,rank.length-1]).range([0,g_width])
+                var scale_y2 = d3.scale.linear().domain([d3.min(rank),d3.max(rank)]).range([g_height,0])
+                var line_generator2 = d3.svg.line()
+                        .x(function (d,i) {return scale_x2(i);})
+                        .y(function (d) {return scale_y2(d);})
+                        .interpolate("cardinal")
+                g2.append("path").attr("d",line_generator2(rank))
+
+                var x_axis2=d3.svg.axis().scale(scale_x2),
+                        y_axis2=d3.svg.axis().scale(scale_y2).orient("left")
+
+                g2.append("g").call(x_axis2).attr("transform","translate(0,"+g_height+")")
+
+                g2.append("g")
+                        .call(y_axis2)
+                        .append("text")
+                        .text("Rank")
+                        .attr("transform","rotate(-90)")
+                        .attr("text-anchor","end")
+                        .attr("dy","1em")
+
+                g2.selectAll("circle").data(rank).enter()
+                        .append("svg:circle")
+                        .attr("r", 4)
+                        .attr("cx", function(d,i) { return scale_x2(i)})
+                        .attr("cy", function(d) { return scale_y2(d)})
+            })
+        }
 
     </script>
 </head>
 <body>
-
 <div class="container-fluid"  style="margin-right: 0.7%;margin-left: 0.7%">
     <jsp:include page="topBar.jsp" />
     <div class="row">
         <ol class="breadcrumb">
             <li>您所在的位置：</li>
             <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
-            <li class="active">${info.name}</li>
+            <li class="active">集训详情</li>
         </ol>
     </div>
 
@@ -90,12 +183,12 @@
                     <tr>
                         <th>姓名</th>
                         <th>班级</th>
+                        <th hidden>username</th>
                         <th>Score</th>
-                        <th>Miu</th>
-                        <th>Sigma</th>
-                        <th>场次</th>
-                        <th>平均Rank</th>
-                        <th>参赛分</th>
+                        <th>Base</th>
+                        <th>Rating</th>
+                        <th>Param</th>
+                        <th>Match</th>
                     </tr>
                     </thead>
                     <tfoot>
@@ -103,27 +196,35 @@
                     </tfoot>
 
                     <tbody>
-                    <c:forEach items="${ujoinT}" var="user">
+                    <c:forEach items="${ujoinT}" var="curUser">
                         <tr>
-                            <td>${user.realName}</td>
-                            <td>${user.major}</td>
-                            <td>${ratingMap.get(user.realName).myRating}</td>
+                            <td><a  id="pictrue_btn" data-toggle="modal" data-target="#myModal"
+                                    onclick="updata(this,${trainingId})">${curUser.realName}</a></td>
+                            <td>${curUser.major}</td>
+                            <td hidden>${curUser.username}</td>
+                            <td>${ratingMap.get(curUser.realName).calcRating(playDuration.get(curUser.realName))}</td>
                             <td>
-                                <fmt:formatNumber value="${ratingMap.get(user.realName).mean}"
-                                                  maxFractionDigits="2" minFractionDigits="2"/>
+                                <fmt:formatNumber value="${playDuration.get(curUser.realName)/60}"
+                                                  maxFractionDigits="0"
+                                                  minFractionDigits="0"
+                                                  groupingUsed="false"/>
                             </td>
                             <td>
-                                <fmt:formatNumber value="${ratingMap.get(user.realName).standardDeviation}"
-                                                  maxFractionDigits="2" minFractionDigits="2"/>
-                            </td>
-                            <td>${playcntMap.get(user.realName)}</td>
-                            <td>
-                                <fmt:formatNumber value="${averageRankMap.get(user.realName)}"
-                                                  maxFractionDigits="2" minFractionDigits="2"/>
+                                    ${ratingMap.get(curUser.realName).myRating}
                             </td>
                             <td>
-                                <fmt:formatNumber value="${durationMap.get(user.realName) / 15.0}"
-                                                  maxFractionDigits="0" minFractionDigits="0"/>
+                                <fmt:formatNumber value="${ratingMap.get(curUser.realName).mean}"
+                                                  maxFractionDigits="2"
+                                                  minFractionDigits="2"/>
+                                (<fmt:formatNumber value="${ratingMap.get(curUser.realName).standardDeviation}"
+                                                   maxFractionDigits="2"
+                                                   minFractionDigits="2"/>)
+                            </td>
+                            <td>
+                                <fmt:formatNumber value="${playcntMap.get(curUser.realName)}"
+                                                  maxFractionDigits="0"
+                                                  minFractionDigits="0"
+                                                  groupingUsed="false"/>
                             </td>
                         </tr>
                     </c:forEach>
@@ -134,7 +235,26 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
+            </div>
+            <div class="modal-body">
+                <h4 class="modal-title" id="myModalLabel">队员成绩曲线</h4>
+                <div id="my_container">
+                </div>
+                <h4 class="modal-title" id="myModalLabel2">队员平均Rank曲线</h4>
+                <div id="my_container2">
+                </div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
 <jsp:include page="footerInfo.jsp"/>
 <c:if test="${!empty tip}">
     <script>

@@ -80,9 +80,9 @@ public class TrainingController {
                 ratingService.getRatingMap(RatingRecord.Scope.Training, trainingId, RatingRecord.Type.Personal));
         model.addAttribute("playcntMap",
                 ratingService.getPlayCnt(RatingRecord.Scope.Training, trainingId, RatingRecord.Type.Personal));
-        model.addAttribute("averageRankMap",
-                ratingService.getAverageRank(RatingRecord.Scope.Training, trainingId, RatingRecord.Type.Personal));
-        model.addAttribute("durationMap",
+//        model.addAttribute("averageRankMap",
+//                ratingService.getAverageRank(RatingRecord.Scope.Training, trainingId, RatingRecord.Type.Personal));
+        model.addAttribute("playDuration",
                 ratingService.getPlayDuration(RatingRecord.Scope.Training, trainingId, RatingRecord.Type.Personal));
         return "training_statistics";
     }

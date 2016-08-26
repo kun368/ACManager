@@ -17,6 +17,6 @@ public class MyDateFormater {
     }
 
     public static LocalDateTime toDT1(String str) {
-        return LocalDateTime.parse(str, f1);
+        return LocalDateTime.parse(str.trim(), f1);
     }
 }

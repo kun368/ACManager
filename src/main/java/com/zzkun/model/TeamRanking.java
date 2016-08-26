@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
-import java.util.zip.Inflater;
 
 /**
  * 队伍的原始解题情况
@@ -20,6 +19,7 @@ public class TeamRanking implements Serializable, Comparable<TeamRanking> {
     private int solvedCount;
     private List<String> member = new ArrayList<>();
     private List<PbStatus> pbStatus = new ArrayList<>();
+    private Boolean localTeam;
 
     public String getAccount() {
         return account;
@@ -61,6 +61,28 @@ public class TeamRanking implements Serializable, Comparable<TeamRanking> {
         this.pbStatus = pbStatus;
     }
 
+    public Boolean getLocalTeam() {
+        return localTeam != null && localTeam;
+    }
+
+    public void setLocalTeam(Boolean localTeam) {
+        this.localTeam = localTeam;
+    }
+
+    @Override
+    public String toString() {
+        return "TeamRanking{" +
+                "account='" + account + '\'' +
+                ", teamName='" + teamName + '\'' +
+                ", solvedCount=" + solvedCount +
+                ", member=" + member +
+                ", pbStatus=" + pbStatus +
+                ", localTeam=" + localTeam +
+                '}';
+    }
+
+    ///////----------
+
     public Integer calcSumPenalty() {
         int sum = 0;
         for (PbStatus pbStatu : pbStatus)
@@ -88,22 +110,5 @@ public class TeamRanking implements Serializable, Comparable<TeamRanking> {
         if(solvedCount != o.solvedCount)
             return Integer.compare(o.solvedCount, solvedCount);
         return calcSumPenalty().compareTo(o.calcSumPenalty());
-    }
-
-    public boolean[] judgeTValid(int maxWA) {
-        boolean[] ok = new boolean[pbStatus.size()];
-        //TODO
-        return null;
-    }
-
-    @Override
-    public String toString() {
-        return "TeamRanking{" +
-                "account='" + account + '\'' +
-                ", teamName='" + teamName + '\'' +
-                ", solvedCount=" + solvedCount +
-                ", member=" + member +
-                ", pbStatus=" + pbStatus +
-                '}';
     }
 }

@@ -111,28 +111,52 @@ public class VJRankParser implements RankParser {
                 contest.setPbCnt(split.length - 4);
                 continue;
             }
+            if(contest.getRealContest() && i > 200) { //realContest取前200
+                break;
+            }
             TeamRanking team = new TeamRanking(); //当前队伍
             parseSetTeamName(split[1].trim(), team);
             team.setSolvedCount(parseInt(split[2].trim()));
 
-            if(Contest.TYPE_TEAM.equals(contest.getType()) ||
-                    Contest.TYPE_MIX_TEAM.equals(contest.getType())) {
-                if(!account2team.containsKey(team.getAccount()))
-                    continue;
-                team.setMember(account2team.get(team.getAccount()));
-            }
-            else if(Contest.TYPE_PERSONAL.equals(contest.getType())) {
-                if(vjnames.contains(team.getAccount())) {
-                    team.setMember(new ArrayList<>(Collections.singletonList(
-                            userRepo.findByVjname(team.getAccount()).getRealName()
-                    )));
+            if(!contest.getRealContest()) {
+                if(Contest.TYPE_TEAM.equals(contest.getType()) ||
+                        Contest.TYPE_MIX_TEAM.equals(contest.getType())) {
+                    if(!account2team.containsKey(team.getAccount()))
+                        continue;
+                    team.setMember(account2team.get(team.getAccount()));
                 }
-                else if(realnames.contains(team.getTeamName())) {
-                    team.setMember(new ArrayList<>(Collections.singletonList(
-                            team.getTeamName()
-                    )));
-                } else {
-                    continue;
+                else if(Contest.TYPE_PERSONAL.equals(contest.getType())) {
+                    if(vjnames.contains(team.getAccount())) {
+                        team.setMember(new ArrayList<>(Collections.singletonList(
+                                userRepo.findByVjname(team.getAccount()).getRealName()
+                        )));
+                    }
+                    else if(realnames.contains(team.getTeamName())) {
+                        team.setMember(new ArrayList<>(Collections.singletonList(
+                                team.getTeamName()
+                        )));
+                    } else {
+                        continue;
+                    }
+                }
+            } else { //realContest
+                if(Contest.TYPE_TEAM.equals(contest.getType()) ||
+                        Contest.TYPE_MIX_TEAM.equals(contest.getType())) {
+                    if(account2team.containsKey(team.getAccount())) {
+                        team.setMember(account2team.get(team.getAccount()));
+                        team.setLocalTeam(true);
+                    }
+                }
+                else if(Contest.TYPE_PERSONAL.equals(contest.getType())) {
+                    if(vjnames.contains(team.getAccount())) {
+                        String realName = userRepo.findByVjname(team.getAccount()).getRealName();
+                        team.setMember(new ArrayList<>(Collections.singletonList(realName)));
+                        team.setLocalTeam(true);
+                    }
+                    else if(realnames.contains(team.getTeamName())) {
+                        team.setMember(new ArrayList<>(Collections.singletonList(team.getTeamName())));
+                        team.setLocalTeam(true);
+                    }
                 }
             }
 

@@ -29,12 +29,12 @@
     <script>
         $(document).ready(function () {
             $("#id").hide();
-            var table=$('#mytable').DataTable({
-                "order": [[10, "desc"]],
+            var table = $('#mytable').DataTable({
+                "order": [[8, "desc"]],
                 "columnDefs": [
-                    { "type": "chinese-string", targets: 1},
-                    { "contentPadding": "" ,targets:1 }
-                ],
+                    {"type": "chinese-string", targets: 1},
+                    {"contentPadding": "", targets: 1}
+                ]
             });
             $('#savabutton').click(function () {
                 $.post("${url_modify}", {
@@ -45,37 +45,36 @@
                     cfname: $('#cfname').val(),
                     vjname: $('#vjname').val(),
                     bcname: $('#bcname').val(),
-                    uvaId:$('#uvaId').val(),
-                    type:$('#status option:selected').val()
+                    uvaId: $('#uvaId').val(),
+                    type: $('#status option:selected').val()
                 }, function (data) {
                     alert(data);
                     location.reload();
                 })
             });
             $('#update_Rating').click(function () {
-                $(this).attr("disabled","disabled");
-                $.post("${url_update_rating}",{
-                },function(data){
+                $(this).attr("disabled", "disabled");
+                $.post("${url_update_rating}", {}, function (data) {
                     alert(data);
                     location.reload();
                 });
             })
         });
         function updata(obj) {
-            var tds=$(obj).parent().parent().find('td');
+            var tds = $(obj).parent().parent().find('td');
             $('#id').val(tds.eq(0).text());
-            $('#realname').val(tds.eq(1).text());
-            $('#username').val(tds.eq(2).text());
-            $('#major').val(tds.eq(3).text());
-            $('#uvaId').val(tds.eq(4).text());
-            $('#cfname').val(tds.eq(5).text());
-            $('#vjname').val(tds.eq(7).text());
-            $('#bcname').val(tds.eq(8).text());
-            var form_text=$.trim(tds.eq(18).text());
-            $("#status option").each(function (i,item) {
-                var option_text=$(this).text();
-                if(option_text==form_text){
-                    $(this).prop("selected","selected")
+            $('#username').val(tds.eq(1).text());
+            $('#uvaId').val(tds.eq(2).text());
+            $('#cfname').val(tds.eq(3).text());
+            $('#vjname').val(tds.eq(4).text());
+            $('#bcname').val(tds.eq(5).text());
+            $('#realname').val(tds.eq(6).text());
+            $('#major').val(tds.eq(7).text());
+            var form_text = $.trim(tds.eq(18).text());
+            $("#status option").each(function (i, item) {
+                var option_text = $(this).text();
+                if (option_text == form_text) {
+                    $(this).prop("selected", "selected")
                 }
             })
         }
@@ -84,7 +83,7 @@
 <body>
 
 <div class="container-fluid" style="margin-right: 0.5%;margin-left: 0.5%">
-    <jsp:include page="topBar.jsp" />
+    <jsp:include page="topBar.jsp"/>
     <div class="row" style="padding-bottom: 10px">
     </div>
     <c:if test="${(!empty user) and (user.isAdmin())}">
@@ -107,21 +106,20 @@
                     <thead class="tab-header-area">
                     <tr>
                         <th hidden>ID</th>
-                        <th>姓名</th>
                         <th hidden>用户名</th>
-                        <th>班级</th>
                         <th hidden>UVaId</th>
                         <th hidden>CfName</th>
-                        <th>CF</th>
                         <th hidden>VJName</th>
                         <th hidden>BCName</th>
-                        <th>BC</th>
+                        <th>姓名</th>
+                        <th>班级</th>
+                        <th>Score</th>
+                        <th>Base</th>
                         <th>Rating</th>
-                        <th>Miu</th>
-                        <th>Sigma</th>
-                        <th>场次</th>
-                        <th>参赛分</th>
-                        </p>
+                        <th>Param</th>
+                        <th>Match</th>
+                        <th>CF</th>
+                        <th>BC</th>
                         <th>合计</th>
                         <c:forEach items="${booksName}" var="bookname">
                             <th>${bookname}</th>
@@ -130,7 +128,6 @@
                         <c:if test="${(!empty user) and (user.isAdmin())}">
                             <th>操作</th>
                         </c:if>
-
                     </tr>
                     </thead>
                     <tfoot>
@@ -150,62 +147,55 @@
                     <c:forEach items="${users}" var="curUser" varStatus="i">
                         <tr>
                             <td hidden>${curUser.id}</td>
-                            <td>${curUser.realName}</td>
                             <td hidden>${curUser.username}</td>
-                            <td>${curUser.major}</td>
                             <td hidden>${curUser.uvaId}</td>
                             <td hidden>${curUser.cfname}</td>
-                            <td>
-                                <a href="http://codeforces.com/profile/${curUser.cfname}" target="_blank">
-                                    ${cfInfoMap.get(curUser.cfname).rating}
-                                </a>
-                            </td>
                             <td hidden>${curUser.vjname}</td>
                             <td hidden>${curUser.bcname}</td>
+                            <td>${curUser.realName}</td>
+                            <td>${curUser.major}</td>
+                            <td>${ratingMap.get(curUser.realName).calcRating(playDuration.get(curUser.realName))}</td>
+                            <td>
+                                <fmt:formatNumber value="${playDuration.get(curUser.realName)/60}"
+                                                  maxFractionDigits="0"
+                                                  minFractionDigits="0"
+                                                  groupingUsed="false"/>
+                            </td>
+                            <td>
+                                ${ratingMap.get(curUser.realName).myRating}
+                            </td>
+                            <td>
+                                <fmt:formatNumber value="${ratingMap.get(curUser.realName).mean}"
+                                                  maxFractionDigits="2"
+                                                  minFractionDigits="2"/>
+                                (<fmt:formatNumber value="${ratingMap.get(curUser.realName).standardDeviation}"
+                                                   maxFractionDigits="2"
+                                                   minFractionDigits="2"/>)
+                            </td>
+                            <td>
+                                <fmt:formatNumber value="${playcntMap.get(curUser.realName)}"
+                                                  maxFractionDigits="0"
+                                                  minFractionDigits="0"
+                                                  groupingUsed="false"/>
+                            </td>
+
+                            <td>
+                                <a href="http://codeforces.com/profile/${curUser.cfname}" target="_blank">
+                                        ${cfInfoMap.get(curUser.cfname).rating}
+                                </a>
+                            </td>
                             <td>
                                 <a href="http://bestcoder.hdu.edu.cn/rating.php?user=${curUser.bcname}" target="_blank">
                                         ${bcInfoMap.get(curUser.bcname).rating}
                                 </a>
                             </td>
+
+
                             <td>
-                                <p style="text-align: right">
-                                    ${ratingMap.get(curUser.realName).myRating}
-                                </p>
-                            </td>
-                            <td>
-                                <p style="text-align: right">
-                                <fmt:formatNumber value="${ratingMap.get(curUser.realName).mean}"
-                                                  maxFractionDigits="2" minFractionDigits="2"/>
-                                </p>
-                            </td>
-                            <td>
-                                <p style="text-align: right">
-                                    <fmt:formatNumber value="${ratingMap.get(curUser.realName).standardDeviation}"
-                                                      maxFractionDigits="2" minFractionDigits="2"/>
-                                </p>
-                            </td>
-                            <td>
-                                <p style="text-align: right">
-                                    ${playcntMap.get(curUser.realName)}
-                                </p>
-                            </td>
-                            <td>
-                                <p style="text-align: right">
-                                    <fmt:formatNumber value="${playDuration.get(curUser.realName) / 15.0}"
-                                                      maxFractionDigits="0" minFractionDigits="0"/>
-                                </p>
-                            </td>
-                            <td>
-                                <p style="text-align: right">
-                                ${bookCnt.get(i.index).get(0) + bookCnt.get(i.index).get(1)}
-                                </p>
+                                    ${bookCnt.get(i.index).get(0) + bookCnt.get(i.index).get(1)}
                             </td>
                             <c:forEach items="${bookCnt.get(i.index)}" var="j">
-                                <td>
-                                    <p style="text-align: right">
-                                         ${j}
-                                    </p>
-                                </td>
+                                <td>${j}</td>
                             </c:forEach>
                             <c:set value="${curUser.type.name()}" var="curType"/>
                             <td>
@@ -264,9 +254,7 @@
 <script>
     $(document).ready(function () {
         $('#addbutton').click(function () {
-            $.post("${url_updatedb}", {
-
-                    },function (data) {
+            $.post("${url_updatedb}", {}, function (data) {
                         alert(data);
                         location.reload()
                     }
@@ -286,14 +274,15 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">修改用户信息</h4>
             </div>
             <div class="modal-body">
                 <form class="form" action="" method="post">
                     <!--填写提交地址-->
                     <div class="form-group">
-                        <input type="text" class="form-control"  value="" placeholder="id" id="id" disabled>
+                        <input type="text" class="form-control" value="" placeholder="id" id="id" disabled>
                     </div>
                     <div class="form-group">
                         用户名:<input type="text" class="form-control" id="username" readonly>
@@ -305,29 +294,29 @@
                         专业:<input type="text" class="form-control" id="major" required>
                     </div>
                     <div class="form-group">
-                        Codeforces 用户名:<input type="text" class="form-control" id="cfname" >
+                        Codeforces 用户名:<input type="text" class="form-control" id="cfname">
                     </div>
                     <div class="form-group">
-                        Virtual Judge 用户名:<input type="text" class="form-control" id="vjname" >
+                        Virtual Judge 用户名:<input type="text" class="form-control" id="vjname">
                     </div>
                     <div class="form-group">
-                        BestCoder 用户名:<input type="text" class="form-control" id="bcname" >
+                        BestCoder 用户名:<input type="text" class="form-control" id="bcname">
                     </div>
                     <div class="form-group">
                         UVaId:<input class="form-control" id="uvaId" required>
                     </div>
                     <div class="form-group">
                         状态:<select class="form-control" id="status" required>
-                            <option value="Retired">退役</option>
-                            <option value="Expeled">除名</option>
-                            <option value="Acmer">队员</option>
-                            <option value="Reject">拒绝</option>
-                            <option value="Verifying">申请</option>
-                            <option value="New">用户</option>
-                            <option value="Quit">退出</option>
-                            <option value="Coach">教练</option>
-                            <option value="Admin">管理员</option>
-                        </select>
+                        <option value="Retired">退役</option>
+                        <option value="Expeled">除名</option>
+                        <option value="Acmer">队员</option>
+                        <option value="Reject">拒绝</option>
+                        <option value="Verifying">申请</option>
+                        <option value="New">用户</option>
+                        <option value="Quit">退出</option>
+                        <option value="Coach">教练</option>
+                        <option value="Admin">管理员</option>
+                    </select>
                     </div>
                 </form>
             </div>

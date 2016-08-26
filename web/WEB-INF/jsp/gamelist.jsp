@@ -120,7 +120,7 @@
                             <c:if test="${(!empty user) && (user.isAdmin())}">
                                 <td>
                                     <a href="<c:url value="/contest/modify/${contest.id}"/> ">编辑</a>&nbsp;
-                                    <a href="<c:url value="/contest/deleteContest/${contest.id}"/> ">删除</a>
+                                    <%--<a href="<c:url value="/contest/deleteContest/${contest.id}"/> ">删除</a>--%>
                                 </td>
                             </c:if>
                         </tr>
