@@ -1,15 +1,10 @@
 package com.zzkun;
 
 import com.zzkun.dao.UVaPbInfoRepo;
-import com.zzkun.model.Contest;
 import com.zzkun.model.UHuntTreeNode;
 import com.zzkun.model.UVaPbInfo;
 import com.zzkun.service.TrainingService;
 import com.zzkun.util.uhunt.UhuntTreeManager;
-import org.apache.commons.lang3.tuple.Pair;
-import org.apache.commons.math3.ml.clustering.*;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,10 +14,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 /**
  * Created by kun on 2016/7/5.
@@ -78,7 +69,7 @@ public class MyTest {
     @Test
     public void test2() throws Exception {
 //        Contest contest = trainingService.getContest(7);
-//        Pair<double[], double[][]> pair = trainingService.calcContestScore(contest);
+//        Pair<double[], double[][]> pair = trainingService.calcTaamScore(contest);
 //        double[] left = pair.getLeft();
 //        System.out.println(Arrays.toString(left));
 //

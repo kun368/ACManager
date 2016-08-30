@@ -2,7 +2,6 @@ package com.zzkun.model;
 
 
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -33,13 +32,14 @@ public class Training implements Serializable {
 
     private Integer addUid;
 
-    private Double standard, expand; //数据标准化时的两个参数
+    private Double standard = 70.0;
+    private Double expand = 10.0; //数据标准化时的两个参数
 
-    private Integer waCapcity;  //题目错误处理
+    private Integer waCapcity = -99;  //题目错误处理
 
-    private Double mergeLimit; //Rank聚类时的合并阈值
+    private Double mergeLimit = 1.0099; //Rank聚类时的合并阈值
 
-    private Double ratingBase; //计算rating的基准值
+    private Double ratingBase; //计算rating的基准值g
     private Double ratingMultiple; //计算rating的倍数
 
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

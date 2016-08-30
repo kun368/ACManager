@@ -1,7 +1,6 @@
 package com.zzkun.dao;
 
 import com.zzkun.model.Contest;
-import com.zzkun.util.rank.VJRankParser;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,7 +60,7 @@ public class ContestRepoTest {
 //        List<String> list = FileUtils.readLines(new File("temp/rank"), "utf8");
 //        for(int i = 0; i < 1000; ++i) {
 //            Contest contest = vjRankParser.parseRank(list, new HashMap<>());
-//            double[] doubles = contest.calcContestScore(20, 100);
+//            double[] doubles = contest.calcTaamScore(20, 100);
 //            assertEquals(doubles.length, contest.getRanks().size());
 //        }
     }

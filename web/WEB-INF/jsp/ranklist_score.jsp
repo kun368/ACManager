@@ -113,50 +113,47 @@
 
                     <tbody>
                         <c:forEach items="${ranks}" var="team" varStatus="i">
-                            <tr>
-                                <td><center><strong>${myrank[i.index]}</strong></center></td>
-                                <td>${team.account}</td>
-                                <td>${team.memberToString()}</td>
-                                <td>
-                                    <strong>
-                                        <c:if test="${sum[i.index] != 0}">
-                                            <fmt:formatNumber type="number" value="${sum[i.index]}" maxFractionDigits="2" minFractionDigits="2"/>
-                                        </c:if>
-                                    </strong>
+                            <c:if test="${!contest.realContest or team.localTeam}">
+                                <tr>
+                                    <td><center><strong>${myrank[i.index]}</strong></center></td>
+                                    <td>${team.account}</td>
+                                    <td>${team.memberToString()}</td>
+                                    <td>
+                                        <strong>
+                                            <c:if test="${sum[i.index] != 0}">
+                                                <fmt:formatNumber type="number" value="${sum[i.index]}" maxFractionDigits="2" minFractionDigits="2"/>
+                                            </c:if>
+                                        </strong>
                                     </td>
-                                <td>
-                                       <center>
-                                        ${team.solvedCount}
-                                        </br>
-                                            <small>
-                                                ${team.calcSumPenaltyStr()}
-                                            </small>
-                                        </center>
-
-                                </td>
-
-                                <c:forEach begin="1" end="${contest.pbCnt}" var="j">
                                     <td>
                                         <center>
-                                            <%--没有wa太多扣除--%>
-                                            <c:if test="${!waClear[i.index][j-1]}">
-                                                <c:if test="${pre[j-1][i.index] != 0}">
-                                                    <fmt:formatNumber type="number" value="${pre[j-1][i.index]}" maxFractionDigits="2" minFractionDigits="2"/>
-                                                </c:if>
-                                            </c:if>
-                                            </br>
+                                                ${team.solvedCount}
+                                            <br/>
                                             <small>
-                                                    ${team.pbStatus.get(j-1).toHString()}
+                                                    ${team.calcSumPenaltyStr()}
                                             </small>
                                         </center>
+
                                     </td>
-                                </c:forEach>
-                                <%--<td>--%>
-                                    <%--<c:if test="${team.member.contains(user.realName)}">--%>
-                                        <%--<a href="<c:url value="/contest/contestDeleteTeam/${contest.id}/${i.index}"/> ">删除</a>--%>
-                                    <%--</c:if>--%>
-                                <%--</td>--%>
-                            </tr>
+
+                                    <c:forEach begin="1" end="${contest.pbCnt}" var="j">
+                                        <td>
+                                            <center>
+                                                    <%--没有wa太多扣除--%>
+                                                <c:if test="${!waClear[i.index][j-1]}">
+                                                    <c:if test="${pre[j-1][i.index] != 0}">
+                                                        <fmt:formatNumber type="number" value="${pre[j-1][i.index]}" maxFractionDigits="2" minFractionDigits="2"/>
+                                                    </c:if>
+                                                </c:if>
+                                                <br/>
+                                                <small>
+                                                        ${team.pbStatus.get(j-1).toHString()}
+                                                </small>
+                                            </center>
+                                        </td>
+                                    </c:forEach>
+                                </tr>
+                            </c:if>
                         </c:forEach>
                     </tbody>
                 </table>

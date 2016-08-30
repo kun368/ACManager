@@ -1,10 +1,9 @@
 package com.zzkun.controller;
 
 import com.zzkun.model.Contest;
-import com.zzkun.model.Training;
 import com.zzkun.model.User;
 import com.zzkun.service.TrainingService;
-import org.apache.commons.lang3.tuple.Pair;
+import com.zzkun.util.rank.RankCalculator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,15 +105,13 @@ public class ContestController {
     public String showScore(@PathVariable Integer id,
                             Model model) {
         Contest contest = trainingService.getContest(id);
-        Training training = trainingService.getTrainingByContestId(id);
-        boolean[][] waClear = new boolean[contest.getRanks().size()][];
-        Pair<double[], double[][]> pair = trainingService.calcContestScore(contest, waClear);
+        RankCalculator calculator = new RankCalculator(contest);
         model.addAttribute("contest", contest);
         model.addAttribute("ranks", contest.getRanks());
-        model.addAttribute("sum", pair.getLeft());
-        model.addAttribute("pre", pair.getRight());
-        model.addAttribute("waClear", waClear);
-        model.addAttribute("myrank", trainingService.calcRank(pair.getLeft(), training));
+        model.addAttribute("sum", calculator.getTeamScore());
+        model.addAttribute("pre", calculator.getPreTScore());
+        model.addAttribute("myrank", calculator.getTeamRank());
+//        logger.info("{}, {}, {}", calculator.getTeamScore(), calculator.getTeamRank());
         return "ranklist_score";
     }
 

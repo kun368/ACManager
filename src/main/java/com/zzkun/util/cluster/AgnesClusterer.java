@@ -21,7 +21,7 @@ public class AgnesClusterer {
      * 构造函数
      * @param val 需要进行聚类的数组元数据
      */
-    public AgnesClusterer(double[] val) {
+    public AgnesClusterer(final double[] val) {
         list = new ArrayList<>();
         dis = new ArrayList<>();
         double[] copyVal = Arrays.copyOf(val, val.length);

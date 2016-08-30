@@ -3,6 +3,7 @@ package com.zzkun.service;
 import com.zzkun.dao.RatingRecordRepo;
 import com.zzkun.model.*;
 import com.zzkun.util.elo.MyELO;
+import com.zzkun.util.rank.RankCalculator;
 import jskills.Rating;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.tuple.Pair;
@@ -15,9 +16,30 @@ import javax.persistence.criteria.Predicate;
 import java.time.LocalDateTime;
 import java.util.*;
 
+
 /**
- * Created by kun on 2016/8/13.
+ * 算分用到得Team
  */
+class Team implements Comparable<Team> {
+    TeamRanking ranking;
+    Integer rank;
+    Double score;
+
+    public Team(TeamRanking ranking, Integer rank, Double score) {
+        this.ranking = ranking;
+        this.rank = rank;
+        this.score = score;
+    }
+
+    @Override
+    public int compareTo(Team o) {
+        return new CompareToBuilder()
+                .append(rank, o.rank)
+                .append(score, o.score)
+                .toComparison();
+    }
+}
+
 @Service
 public class RatingService {
 
@@ -41,37 +63,22 @@ public class RatingService {
         logger.info("删除之前生成的数据：scope = [" + scope + "], scopeId = [" + scopeId + "], type = [" + type + "]");
     }
 
-    private class Team implements Comparable<Team> {
-        TeamRanking ranking;
-        Integer rank;
-        Double score;
 
-        public Team(TeamRanking ranking, Integer rank, Double score) {
-            this.ranking = ranking;
-            this.rank = rank;
-            this.score = score;
-        }
-
-        @Override
-        public int compareTo(Team o) {
-            return new CompareToBuilder()
-                    .append(rank, o.rank)
-                    .append(score, o.score)
-                    .toComparison();
-        }
-    }
 
     private List<Team> generateRanks(Contest contest) {
         ///计算分数和名次
-        boolean[][] waClear = new boolean[contest.getRanks().size()][];
-        double[] score = trainingService.calcContestScore(contest, waClear).getLeft();
-        int[] rank = trainingService.calcRank(score, contest.getStage().getTraining());
-        ///根据分数和Rank排序，解决TrueSkill同名次算分问题
+        RankCalculator calculator = new RankCalculator(contest);
+        double[] score = calculator.getTeamScore();
+        int[] rank = calculator.getTeamRank();
         List<Team> teamList = new ArrayList<>();
         for (int i = 0; i < contest.getRanks().size(); i++) {
             TeamRanking teamRanking = contest.getRanks().get(i);
+            ///去掉队员数量大于7的队伍，防止TrueSkill算出NaN
+            if(teamRanking.getMember().size() >= 7)
+                continue;
             teamList.add(new Team(teamRanking, rank[i], score[i]));
         }
+        ///根据分数和Rank排序，解决TrueSkill同名次算分问题
         Collections.sort(teamList);
         return teamList;
     }
@@ -121,11 +128,12 @@ public class RatingService {
                     duration.put(s, preDuration + contestLen);
                 }
             }
-//            logger.info("{}", pairList);
+
             if(RatingRecord.Type.Personal.equals(type))
                 result = myELO.calcPersonal(result, pairList, contest.getType());
             else if(RatingRecord.Type.Team.equals(type))
                 result = myELO.calcTeam(result, pairList);
+
             for (Map.Entry<String, Rating> entry : result.entrySet()) {
                 RatingRecord record = new RatingRecord();
                 record.setScope(scope);
@@ -162,6 +170,7 @@ public class RatingService {
         deleteRatingDate(RatingRecord.Scope.Training, training.getId(), RatingRecord.Type.Personal);
         List<RatingRecord> list =
                 generateRating(contests, RatingRecord.Scope.Training, training.getId(), RatingRecord.Type.Personal);
+//        logger.info("RatingRecordList:{}", list);
         ratingRecordRepo.save(list);
     }
 

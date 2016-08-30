@@ -68,6 +68,7 @@
                         <th>比赛名称</th>
                         <th>开始时间</th>
                         <th>结束时间</th>
+                        <th>时长</th>
                         <th>类型</th>
                         <th>来源</th>
                         <th>队伍</th>
@@ -89,6 +90,7 @@
                             <td><a href="${url_curcontestScore}">${contest.name}</a></td>
                             <td>${contest.startTimeStr}</td>
                             <td>${contest.endTimeStr}</td>
+                            <td>${contest.lengeh()}</td>
                             <c:set value="PERSONAL" var="Personal"/>
                             <c:set value="TEAM" var="Team"/>
                             <c:set value="MIX_TEAM" var="MixTeam"/>

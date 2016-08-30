@@ -20,5 +20,4 @@ public class OJContestController {
         model.addAttribute("list", ojContestService.getRecents());
         return "oj_recent_contest";
     }
-
 }

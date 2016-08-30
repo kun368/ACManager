@@ -63,6 +63,8 @@ public class MyELO {
 //        logger.info("teamList:{}", teamList);
 //        logger.info("ranks:{}", Arrays.toString(ranks));
         Map<IPlayer, Rating> newRatings = calculator.calculateNewRatings(gameInfo, teamList, ranks);
+//        logger.info("pre:{}", pre);
+//        logger.info("rating:{}", newRatings);
         Map<String, Rating> result = new HashMap<>();
         for (Map.Entry<String, Rating> entry : pre.entrySet()) {
             if(!entry.getKey().startsWith("#")) {

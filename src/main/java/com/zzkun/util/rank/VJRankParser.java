@@ -111,9 +111,6 @@ public class VJRankParser implements RankParser {
                 contest.setPbCnt(split.length - 4);
                 continue;
             }
-            if(contest.getRealContest() && i > 200) { //realContest取前200
-                break;
-            }
             TeamRanking team = new TeamRanking(); //当前队伍
             parseSetTeamName(split[1].trim(), team);
             team.setSolvedCount(parseInt(split[2].trim()));
@@ -157,6 +154,9 @@ public class VJRankParser implements RankParser {
                         team.setMember(new ArrayList<>(Collections.singletonList(team.getTeamName())));
                         team.setLocalTeam(true);
                     }
+                }
+                if(i > 200 && !team.getLocalTeam()) { //realContest取前200
+                    continue;
                 }
             }
 

@@ -2,11 +2,9 @@ package com.zzkun.service;
 
 import com.zzkun.dao.*;
 import com.zzkun.model.*;
-import com.zzkun.util.cluster.AgnesClusterer;
 import com.zzkun.util.date.MyDateFormater;
 import com.zzkun.util.rank.VJRankParser;
 import com.zzkun.util.stder.DataStder;
-import com.zzkun.util.stder.RawData;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.io.IOException;
+import java.text.Collator;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -80,7 +79,10 @@ public class TrainingService {
             if(x.getStatus().equals(UJoinT.Status.Success))
                 uids.add(x.getUser().getId());
         });
-        return userRepo.findAll(uids);
+        List<User> result = userRepo.findAll(uids);
+        Collator instance = Collator.getInstance(Locale.CHINA);
+        Collections.sort(result, (a, b) -> instance.compare(a.getRealName(), b.getRealName()));
+        return result;
     }
 
     public Map<User, String> getTrainingAllUser(Integer trainingId) {
@@ -216,82 +218,6 @@ public class TrainingService {
         contestRepo.delete(id);
     }
 
-    /**
-     * 计算此次竞赛各队标准分
-     * 时间复杂度：O(队伍数*题数)
-     * @param contest Contest实体类
-     * @return first各队标准分, second:各题每队得分
-     */
-    public Pair<double[], double[][]> calcContestScore(Contest contest, boolean[][] waClear) {
-        Training training = getTrainingByContestId(contest.getId());
-        ArrayList<TeamRanking> ranks = contest.getRanks();
-        Integer pbCnt = contest.getPbCnt();
-        double[] ans = new double[ranks.size()];
-        double[][] preT = new double[pbCnt][];
-
-        //超出wa限制判断
-        for(int i = 0; i < ranks.size(); ++i) {
-            waClear[i] = teatWaClear(ranks.get(i), -training.getWaCapcity());
-        }
-
-        for(int i = 0; i < pbCnt; ++i) {
-            List<RawData> list = new ArrayList<>();
-            for(int j = 0; j < ranks.size(); ++j) {
-                PbStatus pbStatus = ranks.get(j).getPbStatus().get(i);
-                list.add(new RawData((double) -pbStatus.calcPenalty(), pbStatus.isSolved() && !waClear[j][i]));
-            }
-            preT[i] = dataStder.std(list, training.getExpand(), training.getStandard());
-            for(int j = 0; j < ranks.size(); ++j)
-                ans[j] += (preT[i][j] <= 0) ? 0 : preT[i][j];
-        }
-        List<RawData> list = new ArrayList<>();
-        for (double an : ans)
-            list.add(new RawData(an, true));
-        ans = dataStder.std(list, training.getExpand(), training.getStandard());
-        return Pair.of(ans, preT);
-    }
-
-    //超出wa限制判断
-    private boolean[] teatWaClear(TeamRanking ranking, int capacity) {
-        List<PbStatus> list = ranking.getPbStatus();
-        boolean[] ans = new boolean[list.size()];
-        TreeMap<PbStatus, Integer> ac = new TreeMap<>();
-        int waCnt = 0;
-        for (int i = 0; i < list.size(); ++i) {
-            if(list.get(i).isSolved()) {
-                waCnt += list.get(i).getWaCount();
-                if(list.get(i).getWaCount() == 0) //1A奖励
-                    waCnt -= 1;
-                ac.put(list.get(i), i);
-            }
-        }
-        while(ac.size() >= 2 && waCnt > ac.size() * capacity) {
-            Map.Entry<PbStatus, Integer> entry = ac.lastEntry();
-            ans[entry.getValue()] = true;
-            waCnt -= entry.getKey().getWaCount();
-            ac.remove(entry.getKey());
-        }
-        return ans;
-    }
-
-    //计算得分数组聚类计算Rank
-    public int[] calcRank(double[] score, Training training) {
-        if(score == null) return null;
-        AgnesClusterer clusterer = new AgnesClusterer(score);
-        Map<Double, Integer> map = clusterer.clusterWithLimit(training.getMergeLimit(), true);
-        int[] ans = new int[score.length];
-        for(int i = 0; i < score.length; ++i) {
-            ans[i] = map.get(score[i]);
-        }
-        return ans;
-    }
-
-    //计算比赛最终Rank，是对 分数标准化+超出wa限制+聚类 的封装
-    public int[] calcRank(Contest contest) {
-        boolean[][] waClear = new boolean[contest.getRanks().size()][];
-        Pair<double[], double[][]> pair = calcContestScore(contest, waClear);
-        return calcRank(pair.getLeft(), contest.getStage().getTraining());
-    }
 
     /// Assign
 
@@ -317,9 +243,9 @@ public class TrainingService {
         contest.setName(contestName.trim());
         contest.setStartTime(MyDateFormater.toDT1(stTime));
         contest.setEndTime(MyDateFormater.toDT1(edTime));
-        contest.setSource(source);
-        contest.setSourceDetail(sourceDetail);
-        contest.setSourceUrl(sourceUrl);
+        contest.setSource(source.trim());
+        contest.setSourceDetail(sourceDetail.trim());
+        contest.setSourceUrl(sourceUrl.trim());
         contest.setRealContest(realContest);
         contest.setStage(getStageById(stageId));
         contest.setAddUid(addUser.getId());
