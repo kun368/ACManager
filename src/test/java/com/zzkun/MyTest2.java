@@ -11,6 +11,7 @@ import org.springframework.data.util.Pair;
 
 import java.math.BigInteger;
 import java.net.URI;
+import java.text.Collator;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -130,5 +131,26 @@ public class MyTest2 {
         System.out.println(between.toNanos());
 
         System.out.println(Duration.ofDays(365 * 77).toNanos());
+    }
+
+    @Test
+    public void test12() throws Exception {
+        Collator collator = Collator.getInstance(Locale.CHINA);
+        String[] arr = new String[] {"张三", "李四", "王五", "呵呵"};
+        Arrays.sort(arr, (a, b) -> collator.compare(a, b));
+    //    Arrays.sort(arr, new Comparator<String>() {
+    //        @Override
+    //        public int compare(String o1, String o2) {
+    //            return compare(o1, o2);
+    //        }
+    //    });
+        System.out.println(Arrays.toString(arr));
+    }
+
+    @Test
+    public void test13() throws Exception {
+        String[] arr = new String[] {"张三", "李四", "王五", "呵呵"};
+        Arrays.sort(arr);
+        System.out.println(Arrays.toString(arr));
     }
 }

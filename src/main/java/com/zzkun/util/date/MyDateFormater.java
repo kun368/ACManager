@@ -4,9 +4,7 @@ package com.zzkun.util.date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-/**
- * Created by kun on 2016/8/17.
- */
+
 public class MyDateFormater {
 
     private static final DateTimeFormatter f1 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");

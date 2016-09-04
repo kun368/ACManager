@@ -11,6 +11,7 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <kotlin.version>1.0.3</kotlin.version>
     </properties>
 
     <dependencies>
@@ -168,13 +169,21 @@
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
-                <version>1.0.3</version>
+                <version>${kotlin.version}</version>
                 <executions>
                     <execution>
                         <id>compile</id>
                         <phase>process-sources</phase>
                         <goals>
                             <goal>compile</goal>
+                            <goal>js</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <phase>process-test-sources</phase>
+                        <goals>
+                            <goal>test-js</goal>
                         </goals>
                     </execution>
                 </executions>
