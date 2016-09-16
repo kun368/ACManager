@@ -5,8 +5,8 @@
 ### 技术栈
 
 - 前台：JSP、JQuery、Bootstrap
-- 后台：Java8、Spring、SpringMVC
-- 数据库：MySql、C3P0、Hibernate、Spring Data JPA
+- 后台：Java8、Kotlin, Spring、SpringMVC
+- 数据库：MySql、Druid、Hibernate、Spring Data JPA
 - 服务器：Jetty、Tomcat
 - 开发工具：Maven、IntelliJ IDEA、JRebel
 - 算法：Agnes、TrueSkill
