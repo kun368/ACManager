@@ -72,6 +72,7 @@
             </div>
             <div>
                 <form class="form-horizontal" method="post" action="<c:url value="/contest/importContest"/> ">
+                    <input name="stageId" value="${stageId}" hidden>
                     <div class="col-lg-10">
                         <div class="row">
                             <div class="row">

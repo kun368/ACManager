@@ -39,6 +39,7 @@ public class ContestController {
             return "redirect:/training/stage/" + stageId;
         }
         model.addAttribute("contestId", -1);
+        model.addAttribute("stageId", stageId);
         return "importComp";
     }
 
@@ -55,6 +56,7 @@ public class ContestController {
         Contest contest = trainingService.getContest(contestId);
         model.addAttribute("contestId", contestId);
         model.addAttribute("preContest", contest);
+        model.addAttribute("stageId", stageId);
         return "importComp";
     }
 
@@ -70,8 +72,8 @@ public class ContestController {
                                 @RequestParam(required = false, defaultValue = "") String myConfig,
                                 @RequestParam String vjContest,
                                 @RequestParam(required = false, defaultValue = "false") Boolean realContest,
+                                @RequestParam Integer stageId,
                                 @SessionAttribute User user,
-                                @SessionAttribute Integer stageId,
                                 RedirectAttributes redirectAttributes) {
         logger.info("导入/修改比赛。。。");
         logger.info("contestId = [" + contestId + "], contestName = [" + contestName + "], contestType = [" + contestType + "], stTime = [" + stTime + "], edTime = [" + edTime + "], source = [" + source + "], sourceDetail = [" + sourceDetail + "], sourceUrl = [" + sourceUrl + "], myConfig = [" + myConfig + "], vjContest = [" + vjContest + "], user = [" + user + "], stageId = [" + stageId + "]");
