@@ -96,25 +96,11 @@ public class TrainingService {
         return map;
     }
 
-    public void modifyTraining(Integer id, String name,
-                               String beginTime, String endTime, String remark,
-                               Double standard, Double expand,
-                               Double mergeLimit, Integer waCapcity,
-                               Double ratingBase, Double ratingMultiple) {
-        Training training = getTrainingById(id);
-        if(StringUtils.hasText(name))
-            training.setName(name);
-        if(StringUtils.hasText(remark))
-            training.setRemark(remark);
-        training.setStartDate(LocalDate.parse(beginTime));
-        training.setEndDate(LocalDate.parse(endTime));
-        training.setStandard(standard);
-        training.setExpand(expand);
-        training.setMergeLimit(mergeLimit);
-        training.setWaCapcity(waCapcity);
-        training.setRatingBase(ratingBase);
-        training.setRatingMultiple(ratingMultiple);
-        logger.info("修改后的Training：{}", training);
+
+    public void modifyTraining(Training training) {
+        Training pre = getTrainingById(training.getId());
+        training.setAddTime(pre.getAddTime());
+        logger.info("{}", training);
         trainingRepo.save(training);
     }
 

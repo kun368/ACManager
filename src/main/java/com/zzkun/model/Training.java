@@ -42,6 +42,12 @@ public class Training implements Serializable {
     private Double ratingBase; //计算rating的基准值g
     private Double ratingMultiple; //计算rating的倍数
 
+    private Double tauMultiple = 1.0; //TrueSkill tau值扩大倍数
+
+    private Double teamScoreRate1 = 0.2; //评价队伍总分时每个人的加成
+    private Double teamScoreRate2 = 0.2;
+    private Double teamScoreRate3 = 0.2;
+
     @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Stage> stageList;
 

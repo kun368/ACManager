@@ -48,8 +48,8 @@
                 $.post("${url_modify}", {
                     id:$('#id2').val(),
                     name: $('#name2').val(),
-                    beginTime: $('#beginTime2').val(),
-                    endTime: $('#endTime2').val(),
+                    startDate: $('#beginTime2').val(),
+                    endDate: $('#endTime2').val(),
                     remark:$('#remark2').val(),
                     standard:$('#standard2').val(),
                     expand:$('#expand2').val(),

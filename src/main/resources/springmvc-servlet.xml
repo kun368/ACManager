@@ -31,14 +31,24 @@
     <context:component-scan base-package="com.zzkun.config"/>
     <context:component-scan base-package="com.zzkun.util"/>
 
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven conversion-service="conversionService"/>
     <!--<mvc:resources mapping="/assets/**" location="/assets/"/>-->
 
+
+    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <bean class="com.zzkun.util.date.LocalDateConverter"/>
+            </set>
+        </property>
+    </bean>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
+
+
 
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
           destroy-method="close">

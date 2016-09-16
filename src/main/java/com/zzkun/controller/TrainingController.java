@@ -30,7 +30,6 @@ public class TrainingController {
     @Autowired private UserService userService;
     @Autowired private RatingService ratingService;
 
-
     @RequestMapping("/list")
     public String mylist(Model model,
                          HttpSession session) {
@@ -208,26 +207,17 @@ public class TrainingController {
         return "操作成功！";
     }
 
+
     @RequestMapping(value = "/modifyTraining", produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String modifyTraining(@SessionAttribute(required = false) User user,
-                                 @RequestParam Integer id,
-                                 @RequestParam String name,
-                                 @RequestParam String beginTime,
-                                 @RequestParam String endTime,
-                                 @RequestParam String remark,
-                                 @RequestParam Double standard,
-                                 @RequestParam Double expand,
-                                 @RequestParam Double mergeLimit,
-                                 @RequestParam Integer waCapcity,
-                                 @RequestParam Double ratingBase,
-                                 @RequestParam Double ratingMultiple) {
-        logger.info("修改集训：user = [" + user + "], id = [" + id + "], name = [" + name + "], beginTime = [" + beginTime + "], endTime = [" + endTime + "], remark = [" + remark + "], standard = [" + standard + "], expand = [" + expand + "], mergeLimit = [" + mergeLimit + "], waCapcity = [" + waCapcity + "], ratingBase = [" + ratingBase + "], ratingMultiple = [" + ratingMultiple + "]");
-        if(user == null || !user.isAdmin()) {
+                                 Training training) {
+        logger.info("修改集训：{}", training);
+        if(user == null || !user.isAdmin())
             return "没有权限！";
-        }
         try {
-            trainingService.modifyTraining(id, name, beginTime, endTime, remark, standard, expand, mergeLimit, waCapcity, ratingBase, ratingMultiple);
+            training.setAddUid(user.getId());
+            trainingService.modifyTraining(training);
             return "修改成功";
         } catch (Exception e) {
             e.printStackTrace();
