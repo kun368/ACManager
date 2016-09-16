@@ -108,6 +108,12 @@ public class TrainingController {
         model.addAttribute("fixedList", teamList);
         model.addAttribute("userInfoMap", userService.getUserInfoByFixedTeamList(teamList));
         model.addAttribute("userList", trainingService.getTrainingAllOkUser(trainingId));
+        model.addAttribute("userPlayDuration",
+                ratingService.getPlayDuration(RatingRecord.Scope.Training, trainingId, RatingRecord.Type.Personal));
+        model.addAttribute("userRatingMap",
+                ratingService.getRatingMap(RatingRecord.Scope.Training, trainingId, RatingRecord.Type.Personal));
+        model.addAttribute("playcntMap",
+                ratingService.getPlayCnt(RatingRecord.Scope.Training, trainingId, RatingRecord.Type.Team));
         model.addAttribute("ratingMap",
                 ratingService.getRatingMap(RatingRecord.Scope.Training, trainingId, RatingRecord.Type.Team));
         return "fixed";

@@ -1,14 +1,14 @@
 package com.zzkun.model;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
-import java.util.TreeSet;
 
 /**
  * Created by Administrator on 2016/7/30.
@@ -25,6 +25,7 @@ public class FixedTeam implements Serializable {
 
     private String name2;
 
+    @Column(unique = true)
     private String vjname;
 
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -130,5 +131,29 @@ public class FixedTeam implements Serializable {
                 .append(lhs[1], rhs[1])
                 .append(lhs[2], rhs[2])
                 .isEquals();
+    }
+
+    public double calcTeamScoreStr(String team, String a, String b, String c) {
+        List<Double> list = new ArrayList<>();
+        if(!StringUtils.hasText(team))
+            team = "0";
+        if(StringUtils.hasText(a))
+            list.add(Double.parseDouble(a));
+        if(StringUtils.hasText(b))
+            list.add(Double.parseDouble(b));
+        if(StringUtils.hasText(c))
+            list.add(Double.parseDouble(c));
+        return calcTeamScore(Double.parseDouble(team), list);
+    }
+
+    public double calcTeamScore(double team, List<Double> val) {
+        Collections.sort(val, (a, b) -> b.compareTo(a));
+        double teamRate =
+                Math.max(0, training.getTeamScoreRate1() + training.getTeamScoreRate2() + training.getTeamScoreRate3());
+        double sum = teamRate * team;
+        if(val.size() >= 1) sum += training.getTeamScoreRate1() * val.get(0);
+        if(val.size() >= 2) sum += training.getTeamScoreRate2() * val.get(1);
+        if(val.size() >= 3) sum += training.getTeamScoreRate3() * val.get(2);
+        return sum;
     }
 }

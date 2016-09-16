@@ -153,6 +153,40 @@ public class Training implements Serializable {
         this.mergeLimit = mergeLimit;
     }
 
+    public Double getTauMultiple() {
+        return tauMultiple;
+    }
+
+    public void setTauMultiple(Double tauMultiple) {
+        this.tauMultiple = tauMultiple;
+    }
+
+    public Double getTeamScoreRate1() {
+        return teamScoreRate1;
+    }
+
+    public void setTeamScoreRate1(Double teamScoreRate1) {
+        this.teamScoreRate1 = teamScoreRate1;
+    }
+
+    public Double getTeamScoreRate2() {
+        return teamScoreRate2;
+    }
+
+    public void setTeamScoreRate2(Double teamScoreRate2) {
+        this.teamScoreRate2 = teamScoreRate2;
+    }
+
+    public Double getTeamScoreRate3() {
+        return teamScoreRate3;
+    }
+
+    public void setTeamScoreRate3(Double teamScoreRate3) {
+        this.teamScoreRate3 = teamScoreRate3;
+    }
+
+    //////---------
+
     public List<Stage> getStageList() {
         return stageList;
     }
@@ -217,6 +251,10 @@ public class Training implements Serializable {
                 ", mergeLimit=" + mergeLimit +
                 ", ratingBase=" + ratingBase +
                 ", ratingMultiple=" + ratingMultiple +
+                ", tauMultiple=" + tauMultiple +
+                ", teamScoreRate1=" + teamScoreRate1 +
+                ", teamScoreRate2=" + teamScoreRate2 +
+                ", teamScoreRate3=" + teamScoreRate3 +
                 '}';
     }
 

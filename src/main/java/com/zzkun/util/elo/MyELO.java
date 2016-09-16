@@ -23,14 +23,23 @@ public class MyELO {
     private static final GameInfo gameInfo = GameInfo.getDefaultGameInfo();
     private static final SkillCalculator calculator = new FactorGraphTrueSkillCalculator();
 
+    //获取自定义GameInfo
+    private GameInfo getMyGameInfo(Double tauMultiple) {
+        if(tauMultiple == null || tauMultiple <= 0.0)
+            tauMultiple = 1.0;
+        return GameInfo.getDefaultGameInfo().setTauMultipler(tauMultiple);
+    }
+
     /**
      * 更新一次个人赛后Rating
      * @param pre 原来的rating
      * @param rank 本次排名，从1开始，名次可重复
+     * @param tauMultiple
      */
     public Map<String, Rating> calcPersonal(Map<String, Rating> pre,
                                             List<Pair<List<String>, Integer>> rank,
-                                            String contestType) {
+                                            String contestType,
+                                            Double tauMultiple) {
         List<ITeam> teamList = new ArrayList<>(rank.size());
         int[] ranks = new int[rank.size()];
         for (int i = 0; i < rank.size(); i++) {
@@ -60,7 +69,8 @@ public class MyELO {
             }
             teamList.add(team);
         }
-        Map<IPlayer, Rating> newRatings = calculator.calculateNewRatings(gameInfo, teamList, ranks);
+        Map<IPlayer, Rating> newRatings =
+                calculator.calculateNewRatings(getMyGameInfo(tauMultiple), teamList, ranks);
         Map<String, Rating> result = new HashMap<>();
         for (Map.Entry<String, Rating> entry : pre.entrySet()) {
             if(!entry.getKey().startsWith("#")) {
@@ -78,7 +88,8 @@ public class MyELO {
 
 
     public Map<String, Rating> calcTeam(Map<String, Rating> pre,
-                                        List<Pair<List<String>, Integer>> rank) {
+                                        List<Pair<List<String>, Integer>> rank,
+                                        Double tauMultiple) {
         List<ITeam> teamList = new ArrayList<>(rank.size());
         int[] ranks = new int[rank.size()];
         for (int i = 0; i < rank.size(); i++) {
@@ -87,7 +98,8 @@ public class MyELO {
             String name = pair.getKey().get(0);
             teamList.add(new Team(new Player<>(name), pre.getOrDefault(name, gameInfo.getDefaultRating())));
         }
-        Map<IPlayer, Rating> newRatings = calculator.calculateNewRatings(gameInfo, teamList, ranks);
+        Map<IPlayer, Rating> newRatings =
+                calculator.calculateNewRatings(getMyGameInfo(tauMultiple), teamList, ranks);
         Map<String, Rating> result = new HashMap<>(pre);
         for (Map.Entry<IPlayer, Rating> entry : newRatings.entrySet()) {
             Player<String> player = (Player<String>) entry.getKey();

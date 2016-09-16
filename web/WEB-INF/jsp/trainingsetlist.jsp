@@ -56,7 +56,11 @@
                     mergeLimit:$('#mergeLimit2').val(),
                     waCapcity:$('#waCapcity2').val(),
                     ratingBase:$('#ratingBase2').val(),
-                    ratingMultiple:$('#ratingMultiple2').val()
+                    ratingMultiple:$('#ratingMultiple2').val(),
+                    tauMultiple:$('#tauMultiple2').val(),
+                    teamScoreRate1:$('#teamScoreRate1_2').val(),
+                    teamScoreRate2:$('#teamScoreRate2_2').val(),
+                    teamScoreRate3:$('#teamScoreRate3_2').val()
                 }, function (data) {
                     alert(data);
                     location.reload();
@@ -114,6 +118,10 @@
             $('#waCapcity2').val(tds.eq(8).text());
             $('#ratingBase2').val(tds.eq(9).text());
             $('#ratingMultiple2').val(tds.eq(10).text());
+            $('#tauMultiple2').val(tds.eq(11).text());
+            $('#teamScoreRate1_2').val(tds.eq(12).text());
+            $('#teamScoreRate2_2').val(tds.eq(13).text());
+            $('#teamScoreRate3_2').val(tds.eq(14).text());
             $('#id2').val(id);
         }
     </script>
@@ -160,6 +168,10 @@
                         <th hidden>waCapcity</th>
                         <td hidden>ratingBase</td>
                         <td hidden>ratingMultiple</td>
+                        <td hidden>tauMultiple</td>
+                        <td hidden>teamScoreRate1</td>
+                        <td hidden>teamScoreRate2</td>
+                        <td hidden>teamScoreRate3</td>
                         <th>阶段</th>
                         <th>比赛</th>
                         <th>创建者</th>
@@ -196,6 +208,10 @@
                             <td hidden>${training.waCapcity}</td>
                             <td hidden>${training.ratingBase}</td>
                             <td hidden>${training.ratingMultiple}</td>
+                            <td hidden>${training.tauMultiple}</td>
+                            <td hidden>${training.teamScoreRate1}</td>
+                            <td hidden>${training.teamScoreRate2}</td>
+                            <td hidden>${training.teamScoreRate3}</td>
                             <td>${training.stageList.size()}</td>
                             <td>${training.contestCount()}</td>
                             <td>${trainingAddUserList.get(training.addUid).username}</td>
@@ -310,11 +326,25 @@
                         WACapcity：<input type="text" class="form-control" id="waCapcity2" required>
                     </div>
                     <div class="row">
-                        <div class="form-group col-lg-6">
+                        <div class="form-group col-lg-4">
                             RatingBase：<input type="number" class="form-control" id="ratingBase2" required>
                         </div>
-                        <div class="form-group col-lg-6">
+                        <div class="form-group col-lg-4">
                             RatingMultiple：<input type="number" class="form-control" id="ratingMultiple2" required>
+                        </div>
+                        <div class="form-group col-lg-4">
+                            tauMultiple：<input type="number" class="form-control" id="tauMultiple2" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-lg-4">
+                            teamScoreRate1：<input type="number" class="form-control" id="teamScoreRate1_2" required>
+                        </div>
+                        <div class="form-group col-lg-4">
+                            teamScoreRate2：<input type="number" class="form-control" id="teamScoreRate2_2" required>
+                        </div>
+                        <div class="form-group col-lg-4">
+                            teamScoreRate3：<input type="number" class="form-control" id="teamScoreRate3_2" required>
                         </div>
                     </div>
                     <div class="form-group" hidden>

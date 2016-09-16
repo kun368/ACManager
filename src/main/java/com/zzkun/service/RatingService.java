@@ -4,6 +4,7 @@ import com.zzkun.dao.RatingRecordRepo;
 import com.zzkun.model.*;
 import com.zzkun.util.elo.MyELO;
 import com.zzkun.util.rank.RankCalculator;
+import jskills.GameInfo;
 import jskills.Rating;
 import org.apache.commons.lang3.builder.CompareToBuilder;
 import org.apache.commons.lang3.tuple.Pair;
@@ -83,11 +84,13 @@ public class RatingService {
         return teamList;
     }
 
+
     //生成Rating
     public List<RatingRecord> generateRating(List<Contest> contests,
-                                              RatingRecord.Scope scope,
-                                              Integer scopeId,
-                                              RatingRecord.Type type) {
+                                             RatingRecord.Scope scope,
+                                             Integer scopeId,
+                                             RatingRecord.Type type,
+                                             Double tauMultiple) {
         logger.info("开始计算新Rating：scope = [" + scope + "], scopeId = [" + scopeId + "], type = [" + type + "]");
         Collections.sort(contests);
         List<RatingRecord> willUpdateRecord = new ArrayList<>();
@@ -130,9 +133,9 @@ public class RatingService {
             }
 
             if(RatingRecord.Type.Personal.equals(type))
-                result = myELO.calcPersonal(result, pairList, contest.getType());
+                result = myELO.calcPersonal(result, pairList, contest.getType(), tauMultiple);
             else if(RatingRecord.Type.Team.equals(type))
-                result = myELO.calcTeam(result, pairList);
+                result = myELO.calcTeam(result, pairList, tauMultiple);
 
             for (Map.Entry<String, Rating> entry : result.entrySet()) {
                 RatingRecord record = new RatingRecord();
@@ -168,8 +171,9 @@ public class RatingService {
                 contests.add(contest);
         }
         deleteRatingDate(RatingRecord.Scope.Training, training.getId(), RatingRecord.Type.Personal);
+        GameInfo gameInfo = GameInfo.getDefaultGameInfo();
         List<RatingRecord> list =
-                generateRating(contests, RatingRecord.Scope.Training, training.getId(), RatingRecord.Type.Personal);
+                generateRating(contests, RatingRecord.Scope.Training, training.getId(), RatingRecord.Type.Personal, training.getTauMultiple());
 //        logger.info("RatingRecordList:{}", list);
         ratingRecordRepo.save(list);
     }
@@ -185,7 +189,7 @@ public class RatingService {
         }
         deleteRatingDate(RatingRecord.Scope.Training, training.getId(), RatingRecord.Type.Team);
         List<RatingRecord> list =
-                generateRating(contests, RatingRecord.Scope.Training, training.getId(), RatingRecord.Type.Team);
+                generateRating(contests, RatingRecord.Scope.Training, training.getId(), RatingRecord.Type.Team, training.getTauMultiple());
         ratingRecordRepo.save(list);
     }
 
@@ -200,7 +204,7 @@ public class RatingService {
         }
         deleteRatingDate(RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal);
         List<RatingRecord> list =
-                generateRating(contests, RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal);
+                generateRating(contests, RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal, 1.0);
         ratingRecordRepo.save(list);
     }
 

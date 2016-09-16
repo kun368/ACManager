@@ -44,7 +44,7 @@
                 orderClasses: false,<!--排序列不高亮显示-->
                 dom: '<"top"if>rt<"bottom"lp>',
 //                responsive: true,
-                order:[[7,'desc']],
+                order:[[10,'desc']],
                 columnDefs: [
                     { "type": "chinese-string", targets: 2},
                     {"orderable": false,targets:4},
@@ -99,13 +99,13 @@
             });
             $("#name2 option").each(function (i,item) {
                 var option_text=$(this).text();
-                if(option_text==ths.eq(5).text()){
+                if(option_text==ths.eq(6).text()){
                     $(this).prop("selected","selected")
                 }
             });
             $("#name3 option").each(function (i,item) {
                 var option_text=$(this).text();
-                if(option_text==ths.eq(6).text()){
+                if(option_text==ths.eq(8).text()){
                     $(this).prop("selected","selected")
                 }
             });
@@ -160,11 +160,14 @@
                         <th>中文队名</th>
                         <th>VJ账号</th>
                         <th>队员1</th>
+                        <th>Score1</th>
                         <th>队员2</th>
+                        <th>Score2</th>
                         <th>队员3</th>
-                        <th>Score</th>
-                        <th>Miu</th>
-                        <th>Sigma</th>
+                        <th>Score3</th>
+                        <th>Rating</th>
+                        <th>Param</th>
+                        <th>Match</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -175,21 +178,41 @@
                     <tbody>
                     <c:forEach items="${fixedList}" var="team">
                         <tr>
-                            <td style="display: none">${team.id}</td>
+                            <td hidden>${team.id}</td>
                             <td>${team.name1}</td>
                             <td>${team.name2}</td>
                             <td>${team.vjname}</td>
-                            <td>${userInfoMap.get(team.user1Id).realName}</td>
-                            <td>${userInfoMap.get(team.user2Id).realName}</td>
-                            <td>${userInfoMap.get(team.user3Id).realName}</td>
-                            <td>${ratingMap.get(team.vjname).myRating}</td>
+                            <c:set var="user1Name" value="${userInfoMap.get(team.user1Id).realName}"/>
+                            <c:set var="user2Name" value="${userInfoMap.get(team.user2Id).realName}"/>
+                            <c:set var="user3Name" value="${userInfoMap.get(team.user3Id).realName}"/>
+                            <c:set var="user1Rating" value="${userRatingMap.get(user1Name).calcRating(userPlayDuration.get(user1Name))}"/>
+                            <c:set var="user2Rating" value="${userRatingMap.get(user2Name).calcRating(userPlayDuration.get(user2Name))}"/>
+                            <c:set var="user3Rating" value="${userRatingMap.get(user3Name).calcRating(userPlayDuration.get(user3Name))}"/>
+                            <td>${user1Name}</td>
+                            <td>${user1Rating}</td>
+                            <td>${user2Name}</td>
+                            <td>${user2Rating}</td>
+                            <td>${user3Name}</td>
+                            <td>${user3Rating}</td>
                             <td>
-                                <fmt:formatNumber value="${ratingMap.get(team.vjname).mean}"
-                                    maxFractionDigits="2" minFractionDigits="2"/>
+                                <c:set var="preTeamScore" value="${ratingMap.get(team.vjname).myRating}"/>
+                                <fmt:formatNumber value="${team.calcTeamScoreStr(preTeamScore, user1Rating, user2Rating, user3Rating)}"
+                                                  maxFractionDigits="0"
+                                                  minFractionDigits="0"/>
                             </td>
                             <td>
-                                <fmt:formatNumber value="${ratingMap.get(team.vjname).standardDeviation}"
-                                                  maxFractionDigits="2" minFractionDigits="2"/>
+                                <fmt:formatNumber value="${ratingMap.get(team.vjname).mean}"
+                                                  maxFractionDigits="2"
+                                                  minFractionDigits="2"/>
+                                (<fmt:formatNumber value="${ratingMap.get(team.vjname).standardDeviation}"
+                                                   maxFractionDigits="2"
+                                                   minFractionDigits="2"/>)
+                            </td>
+                            <td>
+                                <fmt:formatNumber value="${playcntMap.get(team.vjname)}"
+                                                  maxFractionDigits="0"
+                                                  minFractionDigits="0"
+                                                  groupingUsed="false"/>
                             </td>
                             <td>
                                 <a data-toggle="modal" data-target="#modifyModel" onclick="updata(this)">编辑</a>
@@ -199,7 +222,6 @@
                     </c:forEach>
                     </tbody>
                 </table>
-
             </div>
         </div>
     </div>

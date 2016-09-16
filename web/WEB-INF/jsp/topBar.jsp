@@ -42,7 +42,7 @@
 <c:url value="/training/list" var="url_traininglist"/>
 <style>
     body {
-        font-family:"Microsoft Yahei",微软雅黑,Consolas,Arial,sans-serif;
+        font-family:"Microsoft Yahei",微软雅黑,Arial,Consolas,sans-serif;
     }
 </style>
 <div class="row">

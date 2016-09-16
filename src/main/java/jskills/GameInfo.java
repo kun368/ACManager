@@ -59,6 +59,13 @@ public class GameInfo {
         return drawProbability;
     }
 
+    //---------------
+
+    public GameInfo setTauMultipler(Double multipler) {
+        this.dynamicsFactor = defaultDynamicsFactor * multipler;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

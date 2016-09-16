@@ -29,7 +29,7 @@ public class RatingServiceTest {
         Contest contest = trainingService.getContest(135);
         List<Contest> contestList = new ArrayList<>();
         contestList.add(contest);
-        List<RatingRecord> list = ratingService.generateRating(contestList, RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal);
+        List<RatingRecord> list = ratingService.generateRating(contestList, RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal, 1.0);
         System.out.println(list);
         Collections.sort(list, (o1, o2) -> {
             Rating rating1 = new Rating(o1.getMean(), o1.getStandardDeviation());
