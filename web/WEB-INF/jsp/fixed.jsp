@@ -44,7 +44,7 @@
                 orderClasses: false,<!--排序列不高亮显示-->
                 dom: '<"top"if>rt<"bottom"lp>',
 //                responsive: true,
-                order:[[10,'desc']],
+                order:[[4,'desc']],
                 columnDefs: [
                     { "type": "chinese-string", targets: 2},
                     {"orderable": false,targets:4},
@@ -93,19 +93,19 @@
             $('#myModalLabel').text('修改队伍信息');
             $("#name1 option").each(function (i,item) {
                 var option_text=$(this).text();
-                if(option_text==ths.eq(4).text()){
+                if(option_text==ths.eq(5).text()){
                     $(this).prop("selected","selected")
                 }
             });
             $("#name2 option").each(function (i,item) {
                 var option_text=$(this).text();
-                if(option_text==ths.eq(6).text()){
+                if(option_text==ths.eq(7).text()){
                     $(this).prop("selected","selected")
                 }
             });
             $("#name3 option").each(function (i,item) {
                 var option_text=$(this).text();
-                if(option_text==ths.eq(8).text()){
+                if(option_text==ths.eq(9).text()){
                     $(this).prop("selected","selected")
                 }
             });
@@ -159,6 +159,7 @@
                         <th>英文队名</th>
                         <th>中文队名</th>
                         <th>VJ账号</th>
+                        <th>Score</th>
                         <th>队员1</th>
                         <th>Score1</th>
                         <th>队员2</th>
@@ -188,6 +189,12 @@
                             <c:set var="user1Rating" value="${userRatingMap.get(user1Name).calcRating(userPlayDuration.get(user1Name))}"/>
                             <c:set var="user2Rating" value="${userRatingMap.get(user2Name).calcRating(userPlayDuration.get(user2Name))}"/>
                             <c:set var="user3Rating" value="${userRatingMap.get(user3Name).calcRating(userPlayDuration.get(user3Name))}"/>
+                            <c:set var="preTeamScore" value="${ratingMap.get(team.vjname).myRating}"/>
+                            <td>
+                                <fmt:formatNumber value="${team.calcTeamScoreStr(preTeamScore, user1Rating, user2Rating, user3Rating)}"
+                                                  maxFractionDigits="0"
+                                                  minFractionDigits="0"/>
+                            </td>
                             <td>${user1Name}</td>
                             <td>${user1Rating}</td>
                             <td>${user2Name}</td>
@@ -195,10 +202,7 @@
                             <td>${user3Name}</td>
                             <td>${user3Rating}</td>
                             <td>
-                                <c:set var="preTeamScore" value="${ratingMap.get(team.vjname).myRating}"/>
-                                <fmt:formatNumber value="${team.calcTeamScoreStr(preTeamScore, user1Rating, user2Rating, user3Rating)}"
-                                                  maxFractionDigits="0"
-                                                  minFractionDigits="0"/>
+                                ${preTeamScore}
                             </td>
                             <td>
                                 <fmt:formatNumber value="${ratingMap.get(team.vjname).mean}"
