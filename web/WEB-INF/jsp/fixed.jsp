@@ -193,7 +193,8 @@
                             <td>
                                 <fmt:formatNumber value="${team.calcTeamScoreStr(preTeamScore, user1Rating, user2Rating, user3Rating)}"
                                                   maxFractionDigits="0"
-                                                  minFractionDigits="0"/>
+                                                  minFractionDigits="0"
+                                                  groupingUsed="false"/>
                             </td>
                             <td>${user1Name}</td>
                             <td>${user1Rating}</td>
@@ -207,10 +208,12 @@
                             <td>
                                 <fmt:formatNumber value="${ratingMap.get(team.vjname).mean}"
                                                   maxFractionDigits="2"
-                                                  minFractionDigits="2"/>
+                                                  minFractionDigits="2"
+                                                  groupingUsed="false"/>
                                 (<fmt:formatNumber value="${ratingMap.get(team.vjname).standardDeviation}"
                                                    maxFractionDigits="2"
-                                                   minFractionDigits="2"/>)
+                                                   minFractionDigits="2"
+                                                   groupingUsed="false"/>)
                             </td>
                             <td>
                                 <fmt:formatNumber value="${playcntMap.get(team.vjname)}"

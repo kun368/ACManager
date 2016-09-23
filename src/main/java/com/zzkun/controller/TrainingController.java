@@ -217,11 +217,17 @@ public class TrainingController {
     @RequestMapping(value = "/modifyTraining", produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String modifyTraining(@SessionAttribute(required = false) User user,
+                                 @RequestParam Double teamScoreRate0,
                                  Training training) {
         logger.info("修改集训：{}", training);
         if(user == null || !user.isAdmin())
             return "没有权限！";
+        double sum = teamScoreRate0 + training.getTeamScoreRate1() + training.getTeamScoreRate2() + training.getTeamScoreRate3();
+        logger.debug("teamScoreRate0:{}, sum:{}", teamScoreRate0, sum);
+        if(Math.abs(1.0 - sum) > 0.001)
+            return "Rate比例不正确！";
         try {
+
             training.setAddUid(user.getId());
             trainingService.modifyTraining(training);
             return "修改成功";

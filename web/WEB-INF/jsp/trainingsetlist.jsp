@@ -60,7 +60,8 @@
                     tauMultiple:$('#tauMultiple2').val(),
                     teamScoreRate1:$('#teamScoreRate1_2').val(),
                     teamScoreRate2:$('#teamScoreRate2_2').val(),
-                    teamScoreRate3:$('#teamScoreRate3_2').val()
+                    teamScoreRate3:$('#teamScoreRate3_2').val(),
+                    teamScoreRate0:$('#teamScoreRate0_2').val()
                 }, function (data) {
                     alert(data);
                     location.reload();
@@ -119,9 +120,13 @@
             $('#ratingBase2').val(tds.eq(9).text());
             $('#ratingMultiple2').val(tds.eq(10).text());
             $('#tauMultiple2').val(tds.eq(11).text());
-            $('#teamScoreRate1_2').val(tds.eq(12).text());
-            $('#teamScoreRate2_2').val(tds.eq(13).text());
-            $('#teamScoreRate3_2').val(tds.eq(14).text());
+            var num1 = parseFloat(tds.eq(12).text());
+            var num2 = parseFloat(tds.eq(13).text());
+            var num3 = parseFloat(tds.eq(14).text());
+            $('#teamScoreRate1_2').val(num1.toFixed(2));
+            $('#teamScoreRate2_2').val(num2.toFixed(2));
+            $('#teamScoreRate3_2').val(num3.toFixed(2));
+            $('#teamScoreRate0_2').val((1.0-num1-num2-num3).toFixed(2));
             $('#id2').val(id);
         }
     </script>
@@ -326,25 +331,28 @@
                         WACapcity：<input type="text" class="form-control" id="waCapcity2" required>
                     </div>
                     <div class="row">
-                        <div class="form-group col-lg-4">
-                            RatingBase：<input type="number" class="form-control" id="ratingBase2" required>
-                        </div>
-                        <div class="form-group col-lg-4">
-                            RatingMultiple：<input type="number" class="form-control" id="ratingMultiple2" required>
-                        </div>
-                        <div class="form-group col-lg-4">
-                            tauMultiple：<input type="number" class="form-control" id="tauMultiple2" required>
+                        <%--<div class="form-group col-lg-4">--%>
+                            <%--RatingBase：<input type="number" class="form-control" id="ratingBase2" required>--%>
+                        <%--</div>--%>
+                        <%--<div class="form-group col-lg-4">--%>
+                            <%--RatingMultiple：<input type="number" class="form-control" id="ratingMultiple2" required>--%>
+                        <%--</div>--%>
+                        <div class="form-group col-lg-12">
+                            TAUMultiple：<input type="number" class="form-control" id="tauMultiple2" required>
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-group col-lg-4">
-                            teamScoreRate1：<input type="number" class="form-control" id="teamScoreRate1_2" required>
+                        <div class="form-group col-lg-3">
+                            Team：<input type="number" class="form-control" id="teamScoreRate0_2" required>
                         </div>
-                        <div class="form-group col-lg-4">
-                            teamScoreRate2：<input type="number" class="form-control" id="teamScoreRate2_2" required>
+                        <div class="form-group col-lg-3">
+                            BestMember：<input type="number" class="form-control" id="teamScoreRate1_2" required>
                         </div>
-                        <div class="form-group col-lg-4">
-                            teamScoreRate3：<input type="number" class="form-control" id="teamScoreRate3_2" required>
+                        <div class="form-group col-lg-3">
+                            MiddleMember：<input type="number" class="form-control" id="teamScoreRate2_2" required>
+                        </div>
+                        <div class="form-group col-lg-3">
+                            LastMember：<input type="number" class="form-control" id="teamScoreRate3_2" required>
                         </div>
                     </div>
                     <div class="form-group" hidden>
