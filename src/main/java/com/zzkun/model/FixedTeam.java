@@ -25,7 +25,7 @@ public class FixedTeam implements Serializable {
 
     private String name2;
 
-    @Column(unique = true)
+//    @Column(unique = true)
     private String vjname;
 
     @ManyToOne(cascade = CascadeType.MERGE)
@@ -149,7 +149,7 @@ public class FixedTeam implements Serializable {
     public double calcTeamScore(double team, List<Double> val) {
         Collections.sort(val, (a, b) -> b.compareTo(a));
         double teamRate =
-                Math.max(0, training.getTeamScoreRate1() + training.getTeamScoreRate2() + training.getTeamScoreRate3());
+                Math.max(0, 1.0 - (training.getTeamScoreRate1() + training.getTeamScoreRate2() + training.getTeamScoreRate3()));
         double sum = teamRate * team;
         if(val.size() >= 1) sum += training.getTeamScoreRate1() * val.get(0);
         if(val.size() >= 2) sum += training.getTeamScoreRate2() * val.get(1);
