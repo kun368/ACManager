@@ -1,6 +1,7 @@
 package com.zzkun.util.cfapi;
 
 import com.zzkun.model.CFUserInfo;
+import com.zzkun.util.web.CFWebGetter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +10,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by Administrator on 2016/7/31.

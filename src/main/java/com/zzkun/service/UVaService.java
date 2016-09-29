@@ -6,16 +6,17 @@ import com.zzkun.dao.UserRepo;
 import com.zzkun.model.UVaPbInfo;
 import com.zzkun.model.UVaSubmit;
 import com.zzkun.model.User;
-import com.zzkun.util.uhunt.UhuntTreeManager;
 import com.zzkun.util.uhunt.UHuntAnalyser;
-import com.zzkun.util.uhunt.UHuntWebGetter;
+import com.zzkun.util.uhunt.UhuntTreeManager;
+import com.zzkun.util.web.UHuntWebGetter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 

@@ -2,7 +2,7 @@ package com.zzkun.uhunt;
 
 import com.zzkun.model.UVaPbInfo;
 import com.zzkun.model.UVaSubmit;
-import com.zzkun.util.uhunt.UHuntWebGetter;
+import com.zzkun.util.web.UHuntWebGetter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

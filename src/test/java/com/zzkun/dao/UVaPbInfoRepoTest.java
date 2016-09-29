@@ -1,7 +1,7 @@
 package com.zzkun.dao;
 
 import com.zzkun.model.UVaPbInfo;
-import com.zzkun.util.uhunt.UHuntWebGetter;
+import com.zzkun.util.web.UHuntWebGetter;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
