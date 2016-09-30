@@ -20,7 +20,7 @@ public class UHuntAnalyser {
 
     @Autowired private UVaPbInfoRepo uVaPbInfoRepo;
 
-    private final Map<Integer, Integer> pid2Num = new HashMap<>();
+    private static final Map<Integer, Integer> pid2Num = new HashMap<>(5120);
 
     /**
      * 分析用户各个节点做题数量
@@ -45,6 +45,13 @@ public class UHuntAnalyser {
         return result;
     }
 
+    // uvapid -> uva题号
+    public int pidToNum(int pid) {
+        if(!pid2Num.containsKey(pid))
+            pid2Num.put(pid, uVaPbInfoRepo.findOne(pid).getNum());
+        return pid2Num.get(pid);
+    }
+
     /**
      * 获取所有用户节点题数
      * @param users 用户uvaid列表
@@ -57,12 +64,8 @@ public class UHuntAnalyser {
         for (Integer user : users) {
             List<UVaSubmit> acPbs = uVaSubmitRepo.findByUvaId(user);
             acNums.clear();
-            for (UVaSubmit acPb : acPbs) {
-                int id = acPb.getPbId();
-                if(!pid2Num.containsKey(id))
-                    pid2Num.put(id, uVaPbInfoRepo.findOne(id).getNum());
-                acNums.add(pid2Num.get(id));
-            }
+            for (UVaSubmit acPb : acPbs)
+                acNums.add(pidToNum(acPb.getPbId()));
             List<Integer> statistic = userChapterStatistic(acNums, map);
             res.add(statistic);
         }

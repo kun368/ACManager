@@ -24,7 +24,9 @@ class UVaUserACTest {
     fun userACPbs() {
         val user = userRepo.findByUsername("kun368")
         val list = uVaUserAC.userACPbs(user)
-        println(list)
+        for(i in list) {
+            println("${i.ojName}__${i.ojPbId}")
+        }
         println(list.size)
     }
 }
