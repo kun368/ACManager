@@ -8,27 +8,30 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 
 /**
- * Created by kun on 2016/9/29.
+ * Created by kun on 2016/9/30.
  */
-
 @RunWith(SpringJUnit4ClassRunner::class)
 @ContextConfiguration(locations = arrayOf("classpath:springmvc-servlet.xml"))
-class VJudgeUserACTest {
+class UserACServiceTest {
 
     @Autowired
-    lateinit var vjudgeUserAC: VJudgeUserAC
+    lateinit var userACService: UserACService
 
     @Autowired
     lateinit var userRepo: UserRepo
 
     @Test
-    fun userACPbs() {
+    fun userAllAC() {
         val user = userRepo.findByUsername("kun368")
-        val list = vjudgeUserAC.userACPbs(user)
-        for (acPb in list) {
-            println(acPb)
+        val list = userACService.userAllAC(user)
+        for(i in list) {
+            println(i)
         }
         println(list.size)
     }
 
+    @Test
+    fun flushACDB() {
+        userACService.flushACDB()
+    }
 }

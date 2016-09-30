@@ -24,4 +24,7 @@ public interface UserACPbRepo extends JpaRepository<UserACPb, Long> {
 
     @Override
     long count();
+
+    @Override
+    void deleteAll();
 }

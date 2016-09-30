@@ -10,12 +10,13 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 /**
  * Created by kun on 2016/9/29.
  */
+
 @RunWith(SpringJUnit4ClassRunner::class)
 @ContextConfiguration(locations = arrayOf("classpath:springmvc-servlet.xml"))
-class UVaUserACTest {
+class VJudgeUserACServiceTest {
 
     @Autowired
-    lateinit var uVaUserAC: UVaUserAC
+    lateinit var vjudgeUserACService: VJudgeUserACService
 
     @Autowired
     lateinit var userRepo: UserRepo
@@ -23,10 +24,11 @@ class UVaUserACTest {
     @Test
     fun userACPbs() {
         val user = userRepo.findByUsername("kun368")
-        val list = uVaUserAC.userACPbs(user)
-        for(i in list) {
-            println("${i.ojName}__${i.ojPbId}")
+        val list = vjudgeUserACService.userACPbs(user)
+        for (acPb in list) {
+            println(acPb)
         }
         println(list.size)
     }
+
 }

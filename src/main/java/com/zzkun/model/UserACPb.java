@@ -1,5 +1,8 @@
 package com.zzkun.model;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.jetbrains.annotations.NotNull;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -8,7 +11,8 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "user_ac_pb")
-public class UserACPb implements Serializable {
+public class UserACPb implements Serializable, Comparable<UserACPb> {
+
 
     public enum OJType {
         POJ,
@@ -50,8 +54,6 @@ public class UserACPb implements Serializable {
 
     private String ojPbId;
 
-    private Boolean fromVJ;
-
     ///-------
 
     public Long getId() {
@@ -86,19 +88,10 @@ public class UserACPb implements Serializable {
         this.ojPbId = ojPbId;
     }
 
-    public Boolean getFromVJ() {
-        return fromVJ;
-    }
-
-    public void setFromVJ(Boolean fromVJ) {
-        this.fromVJ = fromVJ;
-    }
-
-    public UserACPb(User user, OJType ojName, String ojPbId, Boolean fromVJ) {
+    public UserACPb(User user, OJType ojName, String ojPbId) {
         this.user = user;
         this.ojName = ojName;
         this.ojPbId = ojPbId;
-        this.fromVJ = fromVJ;
     }
 
     @Override
@@ -108,7 +101,18 @@ public class UserACPb implements Serializable {
                 ", userId=" + user.getId() +
                 ", ojName=" + ojName +
                 ", ojPbId='" + ojPbId + '\'' +
-                ", fromVJ=" + fromVJ +
                 '}';
     }
+
+    //---------------
+
+    @Override
+    public int compareTo(@NotNull UserACPb o) {
+        return new CompareToBuilder()
+                .append(user, o.user)
+                .append(ojName, o.ojName)
+                .append(ojPbId, o.ojPbId)
+                .toComparison();
+    }
+
 }
