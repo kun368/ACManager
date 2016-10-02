@@ -29,9 +29,9 @@ public class ContestController {
 
     @Autowired private TrainingService trainingService;
 
-    @RequestMapping("/add1")
+    @RequestMapping("/add1/{stageId}")
     public String add1(Model model,
-                       @SessionAttribute Integer stageId,
+                       @PathVariable Integer stageId,
                        @SessionAttribute(required = false) User user,
                        RedirectAttributes redirectAttributes) {
         if(user == null || !user.isAdmin()) {

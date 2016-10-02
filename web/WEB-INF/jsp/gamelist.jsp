@@ -41,7 +41,7 @@
         <ol class="breadcrumb">
             <li>您所在的位置：</li>
             <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
-            <li><a href="<c:url value="/training/detail/${trainingId}"/>">阶段列表</a></li>
+            <li><a href="<c:url value="/training/detail/${info.training.id}"/>">阶段列表</a></li>
             <li class="active">${info.name}</li>
         </ol>
     </div>
@@ -137,7 +137,7 @@
 <script>
     $(document).ready(function () {
         $("#addbutton").click(function () {
-            location.href="<c:url value="/contest/add1"/>";
+            location.href="<c:url value="/contest/add1/${info.id}"/>";
         })
     })
 </script>

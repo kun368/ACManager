@@ -95,6 +95,7 @@ public class TrainingController {
         model.addAttribute("contestList", contestList);
         model.addAttribute("trainingId", trainingService.getStageById(id).getTraining().getId());
         model.addAttribute("contestAddUserList", userService.getUserInfoByCList(contestList));
+        model.addAttribute("stageId", id);
         session.setAttribute("stageId", id);
         return "gamelist";
     }
