@@ -259,19 +259,29 @@ public class TrainingController {
         return "修改失败！";
     }
 
-    @RequestMapping(value = "/{trainingId}/fixedTeam/add_modify", produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/{trainingId}/fixedTeam/add_modify",
+            produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String fixedTeamAddModify(@PathVariable Integer trainingId,
-                                     FixedTeam fixedTeam) {
+                                     FixedTeam fixedTeam,
+                                     @SessionAttribute User user) {
         logger.info("添加/修改集训固定队伍：{}, {}", trainingId, fixedTeam);
+        if(user == null || !user.isAdmin()) {
+            return "没有权限！";
+        }
         trainingService.addOrModifyFixedTeam(trainingId, fixedTeam);
         return "操作成功！";
     }
 
-    @RequestMapping(value = "/{trainingId}/fixedTeam/delete", produces = "text/html;charset=UTF-8")
+    @RequestMapping(value = "/{trainingId}/fixedTeam/delete",
+            produces = "text/html;charset=UTF-8")
     @ResponseBody
-    public String fixedTeamDelete(@RequestParam Integer fixedTeamId) {
+    public String fixedTeamDelete(@RequestParam Integer fixedTeamId,
+                                  @SessionAttribute User user) {
         logger.info("删除固定队伍:{}", fixedTeamId);
+        if(user == null || !user.isAdmin()) {
+            return "没有权限！";
+        }
         trainingService.deleteFixedTeam(fixedTeamId);
         return "操作成功！";
     }

@@ -169,7 +169,9 @@
                         <th>Rating</th>
                         <th>Param</th>
                         <th>Match</th>
-                        <th>操作</th>
+                        <c:if test="${user.isAdmin()}">
+                            <th>操作</th>
+                        </c:if>
                     </tr>
                     </thead>
                     <tfoot>
@@ -221,10 +223,12 @@
                                                   minFractionDigits="0"
                                                   groupingUsed="false"/>
                             </td>
-                            <td>
-                                <a data-toggle="modal" data-target="#modifyModel" onclick="updata(this)">编辑</a>
-                                <a id="delete" onclick="delate(this)">删除</a>
-                            </td>
+                            <c:if test="${user.isAdmin()}">
+                                <td>
+                                    <a data-toggle="modal" data-target="#modifyModel" onclick="updata(this)">编辑</a>
+                                    <a id="delete" onclick="delate(this)">删除</a>
+                                </td>
+                            </c:if>
                         </tr>
                     </c:forEach>
                     </tbody>
