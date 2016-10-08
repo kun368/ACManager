@@ -43,7 +43,6 @@
                 pageLength: 50,<!--初始化单页显示数-->
                 orderClasses: false,<!--排序列不高亮显示-->
                 dom: '<"top"if>rt<"bottom"lp>',
-//                responsive: true,
                 order:[[4,'desc']],
                 columnDefs: [
                     { "type": "chinese-string", targets: 2},
@@ -99,13 +98,13 @@
             });
             $("#name2 option").each(function (i,item) {
                 var option_text=$(this).text();
-                if(option_text==ths.eq(7).text()){
+                if(option_text==ths.eq(7).text()) {
                     $(this).prop("selected","selected")
                 }
             });
             $("#name3 option").each(function (i,item) {
                 var option_text=$(this).text();
-                if(option_text==ths.eq(9).text()){
+                if(option_text==ths.eq(9).text()) {
                     $(this).prop("selected","selected")
                 }
             });
@@ -178,7 +177,7 @@
 
                     </tfoot>
 
-                    <tbody>
+                    <tbody id="teamTable">
                     <c:forEach items="${fixedList}" var="team">
                         <tr>
                             <td hidden>${team.id}</td>

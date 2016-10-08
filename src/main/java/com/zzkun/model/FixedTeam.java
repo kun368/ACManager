@@ -1,7 +1,6 @@
 package com.zzkun.model;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -9,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+
+import static org.springframework.util.StringUtils.hasText;
 
 /**
  * Created by Administrator on 2016/7/30.
@@ -135,13 +136,13 @@ public class FixedTeam implements Serializable {
 
     public double calcTeamScoreStr(String team, String a, String b, String c) {
         List<Double> list = new ArrayList<>();
-        if(!StringUtils.hasText(team))
+        if(!hasText(team))
             team = "0";
-        if(StringUtils.hasText(a))
+        if(hasText(a))
             list.add(Double.parseDouble(a));
-        if(StringUtils.hasText(b))
+        if(hasText(b))
             list.add(Double.parseDouble(b));
-        if(StringUtils.hasText(c))
+        if(hasText(c))
             list.add(Double.parseDouble(c));
         return calcTeamScore(Double.parseDouble(team), list);
     }

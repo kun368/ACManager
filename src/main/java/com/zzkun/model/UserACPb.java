@@ -56,6 +56,10 @@ public class UserACPb implements Serializable, Comparable<UserACPb> {
 
     ///-------
 
+
+    public UserACPb() {
+    }
+
     public Long getId() {
         return id;
     }
