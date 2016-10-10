@@ -5,6 +5,7 @@ import com.zzkun.model.*;
 import com.zzkun.service.RatingService;
 import com.zzkun.service.TrainingService;
 import com.zzkun.service.UserService;
+import jskills.Rating;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2016/7/20.
@@ -105,14 +107,18 @@ public class TrainingController {
                             Model model) {
         Training training = trainingService.getTrainingById(trainingId);
         List<FixedTeam> teamList = training.getFixedTeamList();
+        Map<Integer, User> userInfoMap = userService.getUserInfoByFixedTeamList(teamList);
+        List<User> userList = trainingService.getTrainingAllOkUser(trainingId);
+        Map<String, Integer> userPlayDuration =
+                ratingService.getPlayDuration(RatingRecord.Scope.Training, trainingId, RatingRecord.Type.Personal);
+        Map<String, Rating> userRatingMap =
+                ratingService.getRatingMap(RatingRecord.Scope.Training, trainingId, RatingRecord.Type.Personal);
         model.addAttribute("info", trainingService.getTrainingById(trainingId));
         model.addAttribute("fixedList", teamList);
-        model.addAttribute("userInfoMap", userService.getUserInfoByFixedTeamList(teamList));
-        model.addAttribute("userList", trainingService.getTrainingAllOkUser(trainingId));
-        model.addAttribute("userPlayDuration",
-                ratingService.getPlayDuration(RatingRecord.Scope.Training, trainingId, RatingRecord.Type.Personal));
-        model.addAttribute("userRatingMap",
-                ratingService.getRatingMap(RatingRecord.Scope.Training, trainingId, RatingRecord.Type.Personal));
+        model.addAttribute("userInfoMap", userInfoMap);
+        model.addAttribute("userList", userList);
+        model.addAttribute("userPlayDuration", userPlayDuration);
+        model.addAttribute("userRatingMap", userRatingMap);
         model.addAttribute("playcntMap",
                 ratingService.getPlayCnt(RatingRecord.Scope.Training, trainingId, RatingRecord.Type.Team));
         model.addAttribute("ratingMap",

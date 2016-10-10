@@ -26,7 +26,6 @@ public class FixedTeam implements Serializable {
 
     private String name2;
 
-//    @Column(unique = true)
     private String vjname;
 
     @ManyToOne(cascade = CascadeType.MERGE)

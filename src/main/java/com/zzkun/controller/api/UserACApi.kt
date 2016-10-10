@@ -1,5 +1,6 @@
 package com.zzkun.controller.api
 
+import com.alibaba.fastjson.JSONArray
 import com.zzkun.service.UserService
 import com.zzkun.service.userac.UserACService
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,10 +24,16 @@ class UserACApi {
 
     @RequestMapping(value = "/{username}/list",
             method = arrayOf(RequestMethod.GET))
-//            produces = arrayOf("text/html;charset=UTF-8"))
     fun list(@PathVariable username: String): String {
         val user = userService.getUserByUsername(username)
-        val list = userACService.userAllAC(user)
-        return list.toString()
+        val list = userACService.getUserAC(user)
+        val json = JSONArray(list.size)
+        list.forEach {
+            val cur = JSONArray(2)
+            cur.add(it.ojName.toString())
+            cur.add(it.ojPbId)
+            json.add(cur)
+        }
+        return json.toString()
     }
 }

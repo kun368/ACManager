@@ -14,19 +14,19 @@ import org.springframework.stereotype.Service
 open class UserACService {
 
     @Autowired
-    lateinit var userService : UserService
+    lateinit private var userService : UserService
 
     @Autowired
-    lateinit var userACPbRepo : UserACPbRepo
+    lateinit private var userACPbRepo : UserACPbRepo
 
     @Autowired
-    lateinit var uvaUserACService: UVaUserACService
+    lateinit private var uvaUserACService: UVaUserACService
 
     @Autowired
-    lateinit var vjudgeUserACService: VJudgeUserACService
+    lateinit private var vjudgeUserACService: VJudgeUserACService
 
 
-    fun userAllAC(user: User): List<UserACPb> {
+    private fun userAllAC_OL(user: User): List<UserACPb> {
         val ojServices = listOf(
                 uvaUserACService,
                 vjudgeUserACService
@@ -41,8 +41,11 @@ open class UserACService {
         userACPbRepo.deleteAll()
         val date = arrayListOf<UserACPb>()
         for(user in userService.allUser())
-            date.addAll(userAllAC(user))
+            date.addAll(userAllAC_OL(user))
         userACPbRepo.save(date)
     }
 
+    fun getUserAC(user: User): List<UserACPb> {
+        return userACPbRepo.findByUser(user)
+    }
 }

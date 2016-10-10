@@ -22,16 +22,23 @@ class UserACServiceTest {
 
     @Test
     fun userAllAC() {
-        val user = userRepo.findByUsername("kun368")
-        val list = userACService.userAllAC(user)
-        for(i in list) {
-            println(i)
-        }
-        println(list.size)
+//        val user = userRepo.findByUsername("kun368")
+//        val list = userACService.userAllAC(user)
+//        for(i in list) {
+//            println(i)
+//        }
+//        println(list.size)
     }
 
     @Test
     fun flushACDB() {
         userACService.flushACDB()
+    }
+
+    @Test
+    fun getUserAC() {
+        val user = userRepo.findByUsername("kun368")
+        val list = userACService.getUserAC(user)
+        list.forEach { println(it) }
     }
 }
