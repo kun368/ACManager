@@ -25,7 +25,6 @@ public class OJContestService {
     private static final Logger logger = LoggerFactory.getLogger(OJContestService.class);
 
     @Autowired private HttpUtil httpUtil;
-
     @Autowired private OJContestRepo ojContestRepo;
 
     private List<OJContest> getWebDate() {

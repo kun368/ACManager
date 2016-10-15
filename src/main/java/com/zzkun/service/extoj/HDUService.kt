@@ -16,6 +16,7 @@ open class HDUService : IExtOJAdapter {
     @Autowired lateinit var hduWebGetter : HDUWebGetter
 
     override fun getUserACPbsOnline(user: User): List<UserACPb> {
+        // TODO:
         return emptyList()
     }
 

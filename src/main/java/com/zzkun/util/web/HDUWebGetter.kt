@@ -1,6 +1,7 @@
 package com.zzkun.util.web
 
 import com.zzkun.model.ExtOjPbInfo
+import com.zzkun.model.OJType
 import org.jsoup.Jsoup
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
@@ -37,7 +38,9 @@ open class HDUWebGetter {
             val table = body?.select("table[class=table_header]")?.get(0)
             val status = table?.child(0)?.children()!!
             val res = ExtOjPbInfo()
+            res.ojName = OJType.HDU
             res.pid = pbid
+            res.num = pbid
             for(i in status) {
                 val name = i.child(0).text()
                 val cnt = i.child(1).text().toInt()

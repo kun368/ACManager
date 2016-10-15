@@ -46,8 +46,8 @@ public class ExtOjPbInfo implements Serializable {
     private int totSubmit; //总提交
 
 
-    public int calcAllSubmitTimes() {
-        return ce + rf + re + ole + tle + mle + wa + pe + ac;
+    public int calcTotSubmits() {
+        return ce + rf + re + ole + tle + mle + wa + pe + ac + sube + inq;
     }
 
     //--------------------------

@@ -64,7 +64,7 @@ public class UHuntWebGetter {
                 info.setRtl(curPb.getInteger(19));
                 info.setStatus(curPb.getInteger(20));
                 info.setRej(curPb.getInteger(21));
-                info.setTotSubmit(info.calcAllSubmitTimes());
+                info.setTotSubmit(info.calcTotSubmits());
                 res.add(info);
             }
         } catch (IOException e) {
