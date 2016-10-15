@@ -1,7 +1,8 @@
 package com.zzkun.util.uhunt;
 
-import com.zzkun.dao.UVaPbInfoRepo;
+import com.zzkun.dao.ExtOjPbInfoRepo;
 import com.zzkun.dao.UVaSubmitRepo;
+import com.zzkun.model.OJType;
 import com.zzkun.model.UHuntTreeNode;
 import com.zzkun.model.UVaSubmit;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,7 @@ import java.util.*;
 public class UHuntAnalyser {
 
     @Autowired private UVaSubmitRepo uVaSubmitRepo;
-
-    @Autowired private UVaPbInfoRepo uVaPbInfoRepo;
+    @Autowired private ExtOjPbInfoRepo extOjPbInfoRepo;
 
     private static final Map<Integer, Integer> pid2Num = new HashMap<>(5120);
 
@@ -46,9 +46,9 @@ public class UHuntAnalyser {
     }
 
     // uvapid -> uva题号
-    public int pidToNum(int pid) {
+    public int pidToNum(Integer pid) {
         if(!pid2Num.containsKey(pid))
-            pid2Num.put(pid, uVaPbInfoRepo.findOne(pid).getNum());
+            pid2Num.put(pid, Integer.parseInt(extOjPbInfoRepo.findByOjNameAndPid(OJType.UVA, pid.toString()).getNum()));
         return pid2Num.get(pid);
     }
 

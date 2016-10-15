@@ -1,5 +1,6 @@
 package com.zzkun.service;
 
+import com.zzkun.service.extoj.UVaService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,8 +9,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by kun on 2016/7/14.
@@ -53,8 +52,4 @@ public class UVaServiceTest {
         uVaService.flushUVaSubmit();
     }
 
-    @Test
-    public void flushUVaPbInfo() throws Exception {
-        uVaService.flushUVaPbInfo();
-    }
 }

@@ -13,34 +13,6 @@ import java.io.Serializable;
 @Table(name = "user_ac_pb")
 public class UserACPb implements Serializable, Comparable<UserACPb> {
 
-
-    public enum OJType {
-        POJ,
-        ZOJ,
-        UVALive,
-        SGU,
-        URAL,
-        HUST,
-        SPOJ,
-        HDU,
-        HYSBZ,
-        UVA,
-        CodeForces,
-        Aizu,
-        LightOJ,
-        UESTC,
-        NBUT,
-        FZU,
-        CSU,
-        SCU,
-        ACdream,
-        CodeChef,
-        Gym,
-        OpenJudge,
-        Null
-    }
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -118,5 +90,4 @@ public class UserACPb implements Serializable, Comparable<UserACPb> {
                 .append(ojPbId, o.ojPbId)
                 .toComparison();
     }
-
 }

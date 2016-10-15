@@ -17,7 +17,7 @@ open class VJudgeWebGetter {
     }
 
     private fun getUserACJsonDate(vjname: String): String {
-        val html = Jsoup.connect("http://vjudge.net/user/${vjname}").timeout(7777).get().body()
+        val html = Jsoup.connect("http://vjudge.net/user/$vjname").timeout(7777).get().body()
         return html?.select("textarea[name=dataJson]")?.text() ?: ""
     }
 

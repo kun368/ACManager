@@ -1,8 +1,8 @@
 package com.zzkun.controller.api
 
-import com.alibaba.fastjson.JSONArray
+import com.alibaba.fastjson.JSONObject
+import com.zzkun.service.ExtOjService
 import com.zzkun.service.UserService
-import com.zzkun.service.userac.UserACService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.RestController
  * Created by kun on 2016/9/30.
  */
 @RestController
-@RequestMapping("/api/userac")
+@RequestMapping("/api/extoj")
 class UserACApi {
 
     @Autowired
-    lateinit var userACService : UserACService
+    lateinit var extOjService: ExtOjService
 
     @Autowired
     lateinit var userService: UserService
@@ -26,14 +26,15 @@ class UserACApi {
             method = arrayOf(RequestMethod.GET))
     fun list(@PathVariable username: String): String {
         val user = userService.getUserByUsername(username)
-        val list = userACService.getUserAC(user)
-        val json = JSONArray(list.size)
+        val list = extOjService.getUserAC(user)
+        val map = mutableMapOf<String, MutableList<String>>()
         list.forEach {
-            val cur = JSONArray(2)
-            cur.add(it.ojName.toString())
-            cur.add(it.ojPbId)
-            json.add(cur)
+            val oj = it.ojName.toString()
+            val id = it.ojPbId
+            if(!map.contains(oj))
+                map[oj] = mutableListOf<String>()
+            map[oj]?.add(id)
         }
-        return json.toString()
+        return JSONObject(map as Map<String, Any>?).toString()
     }
 }

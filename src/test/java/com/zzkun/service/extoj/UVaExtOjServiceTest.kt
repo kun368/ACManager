@@ -1,4 +1,4 @@
-package com.zzkun.service.userac
+package com.zzkun.service.extoj
 
 import com.zzkun.dao.UserRepo
 import org.junit.Test
@@ -12,10 +12,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
  */
 @RunWith(SpringJUnit4ClassRunner::class)
 @ContextConfiguration(locations = arrayOf("classpath:springmvc-servlet.xml"))
-class UVaUserACServiceTest {
+class UVaExtOjServiceTest {
 
     @Autowired
-    lateinit var uVaUserACService: UVaUserACService
+    lateinit var uVaUserACService: UVaService
 
     @Autowired
     lateinit var userRepo: UserRepo
@@ -23,7 +23,7 @@ class UVaUserACServiceTest {
     @Test
     fun userACPbs() {
         val user = userRepo.findByUsername("kun368")
-        val list = uVaUserACService.userACPbs(user)
+        val list = uVaUserACService.getUserACPbsOnline(user)
         for(i in list) {
             println("${i.ojName}__${i.ojPbId}")
         }

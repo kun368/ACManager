@@ -2,7 +2,8 @@ package com.zzkun.util.web;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
-import com.zzkun.model.UVaPbInfo;
+import com.zzkun.model.ExtOjPbInfo;
+import com.zzkun.model.OJType;
 import com.zzkun.model.UVaSubmit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,15 +32,40 @@ public class UHuntWebGetter {
      * 获取所有uva题目的信息
      * @return 题目信息List
      */
-    public List<UVaPbInfo> allPbInfo() {
-        List<UVaPbInfo> res = new ArrayList<>();
+    public List<ExtOjPbInfo> allPbInfo() {
+        List<ExtOjPbInfo> res = new ArrayList<>();
         String url = "http://uhunt.felix-halim.net/api/p";
         try {
             String web = httpUtil.readURL(url);
             JSONArray allPb = JSON.parseArray(web);
             for(int i = 0; i < allPb.size(); ++i) {
                 JSONArray curPb = allPb.getJSONArray(i);
-                res.add(UVaPbInfo.parseJSONArray(curPb));
+                ExtOjPbInfo info = new ExtOjPbInfo();
+                info.setOjName(OJType.UVA);
+                info.setPid(curPb.getInteger(0).toString());
+                info.setNum(curPb.getInteger(1).toString());
+                info.setTitle(curPb.getString(2));
+                info.setDacu(curPb.getInteger(3));
+                info.setMrun(curPb.getInteger(4));
+                info.setMmem(curPb.getInteger(5));
+                info.setNover(curPb.getInteger(6));
+                info.setSube(curPb.getInteger(7));
+                info.setNoj(curPb.getInteger(8));
+                info.setInq(curPb.getInteger(9));
+                info.setCe(curPb.getInteger(10));
+                info.setRf(curPb.getInteger(11));
+                info.setRe(curPb.getInteger(12));
+                info.setOle(curPb.getInteger(13));
+                info.setTle(curPb.getInteger(14));
+                info.setMle(curPb.getInteger(15));
+                info.setWa(curPb.getInteger(16));
+                info.setPe(curPb.getInteger(17));
+                info.setAc(curPb.getInteger(18));
+                info.setRtl(curPb.getInteger(19));
+                info.setStatus(curPb.getInteger(20));
+                info.setRej(curPb.getInteger(21));
+                info.setTotSubmit(info.calcAllSubmitTimes());
+                res.add(info);
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,6 +1,5 @@
 package com.zzkun.uhunt;
 
-import com.zzkun.model.UVaPbInfo;
 import com.zzkun.model.UVaSubmit;
 import com.zzkun.util.web.UHuntWebGetter;
 import org.junit.Test;
@@ -23,8 +22,8 @@ public class UHuntWebGetterTest {
 
     @Test
     public void allPbInfo() throws Exception {
-        List<UVaPbInfo> list = webGetter.allPbInfo();
-        System.out.println(list);
+//        List<UVaPbInfo> list = webGetter.allPbInfo();
+//        System.out.println(list);
     }
 
     @Test

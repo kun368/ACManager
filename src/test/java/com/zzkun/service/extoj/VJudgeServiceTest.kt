@@ -1,4 +1,4 @@
-package com.zzkun.service.userac
+package com.zzkun.service.extoj
 
 import com.zzkun.dao.UserRepo
 import org.junit.Test
@@ -13,10 +13,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
 
 @RunWith(SpringJUnit4ClassRunner::class)
 @ContextConfiguration(locations = arrayOf("classpath:springmvc-servlet.xml"))
-class VJudgeUserACServiceTest {
+class VJudgeServiceTest {
 
     @Autowired
-    lateinit var vjudgeUserACService: VJudgeUserACService
+    lateinit var vjudgeService: VJudgeService
 
     @Autowired
     lateinit var userRepo: UserRepo
@@ -24,7 +24,7 @@ class VJudgeUserACServiceTest {
     @Test
     fun userACPbs() {
         val user = userRepo.findByUsername("kun368")
-        val list = vjudgeUserACService.userACPbs(user)
+        val list = vjudgeService.getUserACPbsOnline(user)
         for (acPb in list) {
             println(acPb)
         }
