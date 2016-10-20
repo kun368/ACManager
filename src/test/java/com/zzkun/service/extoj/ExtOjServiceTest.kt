@@ -40,7 +40,7 @@ class ExtOjServiceTest {
     fun getUserAC() {
         val user = userRepo.findByUsername("kun368")
         val list = extOjService.getUserAC(user)
-        list.forEach { println(it) }
+        list.forEach(::println)
     }
 
     @Test

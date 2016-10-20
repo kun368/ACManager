@@ -1,6 +1,5 @@
 package com.zzkun.uhunt;
 
-import com.zzkun.model.UVaSubmit;
 import com.zzkun.util.web.UHuntWebGetter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +32,7 @@ public class UHuntWebGetterTest {
 
     @Test
     public void userACSubmits() throws Exception {
-        List<UVaSubmit> list = webGetter.userACSubmits(617781);
+        List<Integer> list = webGetter.userACSubmits(617781);
         System.out.println(list);
         System.out.println(list.size());
     }

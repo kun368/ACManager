@@ -1,10 +1,9 @@
 package com.zzkun.util.uhunt;
 
 import com.zzkun.dao.ExtOjPbInfoRepo;
-import com.zzkun.dao.UVaSubmitRepo;
+import com.zzkun.dao.UserACPbRepo;
 import com.zzkun.model.OJType;
 import com.zzkun.model.UHuntTreeNode;
-import com.zzkun.model.UVaSubmit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +16,7 @@ import java.util.*;
 @Component
 public class UHuntAnalyser {
 
-    @Autowired private UVaSubmitRepo uVaSubmitRepo;
+    @Autowired private UserACPbRepo userACPbRepo;
     @Autowired private ExtOjPbInfoRepo extOjPbInfoRepo;
 
     private static final Map<Integer, Integer> pid2Num = new HashMap<>(5120);
@@ -47,28 +46,9 @@ public class UHuntAnalyser {
 
     // uvapid -> uva题号
     public int pidToNum(Integer pid) {
-        if(!pid2Num.containsKey(pid))
+        if(!pid2Num.containsKey(pid)) {
             pid2Num.put(pid, Integer.parseInt(extOjPbInfoRepo.findByOjNameAndPid(OJType.UVA, pid.toString()).getNum()));
-        return pid2Num.get(pid);
-    }
-
-    /**
-     * 获取所有用户节点题数
-     * @param users 用户uvaid列表
-     * @param map 节点列表
-     * @return 每个用户，每节点的做题数量
-     */
-    public List<List<Integer>> getCnt(List<Integer> users, Map<UHuntTreeNode, List<Integer>> map) {
-        List<List<Integer>> res = new ArrayList<>();
-        Set<Integer> acNums = new HashSet<>();
-        for (Integer user : users) {
-            List<UVaSubmit> acPbs = uVaSubmitRepo.findByUvaId(user);
-            acNums.clear();
-            for (UVaSubmit acPb : acPbs)
-                acNums.add(pidToNum(acPb.getPbId()));
-            List<Integer> statistic = userChapterStatistic(acNums, map);
-            res.add(statistic);
         }
-        return res;
+        return pid2Num.get(pid);
     }
 }

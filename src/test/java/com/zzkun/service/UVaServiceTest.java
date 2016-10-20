@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,25 +30,6 @@ public class UVaServiceTest {
         System.out.println(chapterName);
     }
 
-    @Test(timeout = 10000)
-    public void getCptCnt() throws Exception {
-        List<Integer> users = new ArrayList<>();
-        users.add(617781);
-        List<List<Integer>> cptCnt = uVaService.getCptCnt(users);
-        System.out.println(cptCnt);
-    }
 
-    @Test
-    public void getBookCnt() throws Exception {
-        List<Integer> users = new ArrayList<>();
-        users.add(617781);
-        List<List<Integer>> cptCnt = uVaService.getBookCnt(users);
-        System.out.println(cptCnt);
-    }
-
-    @Test
-    public void flushUVaSubmit() throws Exception {
-        uVaService.flushUVaSubmit();
-    }
 
 }

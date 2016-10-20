@@ -1,7 +1,5 @@
 package com.zzkun.model;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -52,6 +50,12 @@ public class User implements Serializable, Comparable<User> {
 
     @Column(unique = true)
     private String bcname;
+
+    @Column(unique = true)
+    private String hduName;
+
+    @Column(unique = true)
+    private String pojName;
 
     private String major;
 
@@ -163,6 +167,22 @@ public class User implements Serializable, Comparable<User> {
 
     public void setBcname(String bcname) {
         this.bcname = bcname;
+    }
+
+    public String getHduName() {
+        return hduName;
+    }
+
+    public void setHduName(String hduName) {
+        this.hduName = hduName;
+    }
+
+    public String getPojName() {
+        return pojName;
+    }
+
+    public void setPojName(String pojName) {
+        this.pojName = pojName;
     }
 
     public List<UJoinT> getuJoinTList() {

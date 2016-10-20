@@ -1,5 +1,6 @@
 package com.zzkun.dao;
 
+import com.zzkun.model.OJType;
 import com.zzkun.model.User;
 import com.zzkun.model.UserACPb;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,6 +16,8 @@ public interface UserACPbRepo extends JpaRepository<UserACPb, Long> {
     List<UserACPb> findAll();
 
     List<UserACPb> findByUser(User user);
+
+    List<UserACPb> findByUserAndOjName(User user, OJType ojName);
 
     @Override
     <S extends UserACPb> List<S> save(Iterable<S> iterable);

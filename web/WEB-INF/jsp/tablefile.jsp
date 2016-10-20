@@ -70,7 +70,7 @@
             $('#bcname').val(tds.eq(5).text());
             $('#realname').val(tds.eq(6).text());
             $('#major').val(tds.eq(7).text());
-            var form_text = $.trim(tds.eq(18).text());
+            var form_text = $.trim(tds.eq(15).text());
             $("#status option").each(function (i, item) {
                 var option_text = $(this).text();
                 if (option_text == form_text) {
@@ -120,10 +120,6 @@
                         <th>Match</th>
                         <th>CF</th>
                         <th>BC</th>
-                        <th>合计</th>
-                        <c:forEach items="${booksName}" var="bookname">
-                            <th>${bookname}</th>
-                        </c:forEach>
                         <th>状态</th>
                         <c:if test="${(!empty user) and (user.isAdmin())}">
                             <th>操作</th>
@@ -152,7 +148,8 @@
                             <td hidden>${curUser.cfname}</td>
                             <td hidden>${curUser.vjname}</td>
                             <td hidden>${curUser.bcname}</td>
-                            <td>${curUser.realName}</td>
+                            <c:url value="/userac/${curUser.username}/list" var="useraclistLink"/>
+                            <td><a href="${useraclistLink}" target="_blank">${curUser.realName}</a></td>
                             <td>${curUser.major}</td>
                             <td>${ratingMap.get(curUser.realName).calcRating(playDuration.get(curUser.realName))}</td>
                             <td>
@@ -191,12 +188,6 @@
                             </td>
 
 
-                            <td>
-                                    ${bookCnt.get(i.index).get(0) + bookCnt.get(i.index).get(1)}
-                            </td>
-                            <c:forEach items="${bookCnt.get(i.index)}" var="j">
-                                <td>${j}</td>
-                            </c:forEach>
                             <c:set value="${curUser.type.name()}" var="curType"/>
                             <td>
                                 <c:choose>

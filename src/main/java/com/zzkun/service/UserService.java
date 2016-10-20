@@ -4,10 +4,11 @@ import com.zzkun.dao.UserRepo;
 import com.zzkun.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static org.springframework.util.StringUtils.hasText;
 
 /**
  * Created by kun on 2016/7/7.
@@ -65,14 +66,12 @@ public class UserService {
         User pre = getUserById(user.getId());
         user.setType(pre.getType());
         user.setPassword(pre.getPassword());
-        if(user.getRealName().trim().isEmpty())
-            user.setRealName(null);
-        if(user.getCfname().trim().isEmpty())
-            user.setCfname(null);
-        if(user.getVjname().trim().isEmpty())
-            user.setVjname(null);
-        if(!StringUtils.hasText(user.getBcname()))
-            user.setBcname(null);
+        if(!hasText(user.getRealName())) user.setRealName(null);
+        if(!hasText(user.getCfname())) user.setCfname(null);
+        if(!hasText(user.getVjname())) user.setVjname(null);
+        if(!hasText(user.getBcname())) user.setBcname(null);
+        if(!hasText(user.getHduName())) user.setHduName(null);
+        if(!hasText(user.getPojName())) user.setPojName(null);
         return userRepo.save(user);
     }
 
@@ -84,17 +83,17 @@ public class UserService {
 
     public void modifyUserByAdmin(User user) {
         User pre = getUserById(user.getId());
-        if(StringUtils.hasText(user.getRealName()))
+        if(hasText(user.getRealName()))
             pre.setRealName(user.getRealName());
         if(user.getUvaId() != null && user.getUvaId() > 0)
             pre.setUvaId(user.getUvaId());
-        if(StringUtils.hasText(user.getCfname()))
+        if(hasText(user.getCfname()))
             pre.setCfname(user.getCfname());
-        if(StringUtils.hasText(user.getVjname()))
+        if(hasText(user.getVjname()))
             pre.setVjname(user.getVjname());
-        if(StringUtils.hasText(user.getBcname()))
+        if(hasText(user.getBcname()))
             pre.setBcname(user.getBcname());
-        if(StringUtils.hasText(user.getMajor()))
+        if(hasText(user.getMajor()))
             pre.setMajor(user.getMajor());
         if(user.getType() != null)
             pre.setType(user.getType());

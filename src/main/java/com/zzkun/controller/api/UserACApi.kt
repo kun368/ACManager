@@ -13,28 +13,30 @@ import org.springframework.web.bind.annotation.RestController
  * Created by kun on 2016/9/30.
  */
 @RestController
-@RequestMapping("/api/extoj")
+@RequestMapping("/api/userac")
 class UserACApi {
 
-    @Autowired
-    lateinit var extOjService: ExtOjService
-
-    @Autowired
-    lateinit var userService: UserService
+    @Autowired lateinit var userService: UserService
+    @Autowired lateinit var extojService: ExtOjService
 
     @RequestMapping(value = "/{username}/list",
             method = arrayOf(RequestMethod.GET))
     fun list(@PathVariable username: String): String {
         val user = userService.getUserByUsername(username)
-        val list = extOjService.getUserAC(user)
+        val list = extojService.getUserAC(user)
         val map = mutableMapOf<String, MutableList<String>>()
+        val set = mutableSetOf<String>()
         list.forEach {
             val oj = it.ojName.toString()
             val id = it.ojPbId
+            set.add(oj)
             if(!map.contains(oj))
                 map[oj] = mutableListOf<String>()
             map[oj]?.add(id)
         }
-        return JSONObject(map as Map<String, Any>?).toString()
+        val json = JSONObject(true)
+        json["ojs"] = set.toList()
+        json["ac"] = map as Map<String, Any>?
+        return json.toString()
     }
 }

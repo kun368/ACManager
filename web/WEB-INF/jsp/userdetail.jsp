@@ -55,7 +55,6 @@
                 var ck = $('#accheck');
                 ck.html('');
             });
-
         });
     </script>
     <script>
@@ -137,6 +136,12 @@
                         </div>
                         <div class="form-group">
                             VJ用户名:<input type="text" name="vjname" id="inputVJ" class="form-control" value="${user.vjname}">
+                        </div>
+                        <div class="form-group">
+                            HDUOJ账号:<input type="text" name="hduName" id="inputHDU" class="form-control" value="${user.hduName}">
+                        </div>
+                        <div class="form-group">
+                            POJ账号:<input type="text" name="pojName" id="inputPOJ" class="form-control" value="${user.pojName}">
                         </div>
                         <div class="form-group">
                             真实姓名:<input type="text" name="realName" id="inputRealName" class="form-control"

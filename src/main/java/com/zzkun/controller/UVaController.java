@@ -41,8 +41,6 @@ public class UVaController {
         model.addAttribute("users", users);
         model.addAttribute("cfInfoMap", cfbcService.getCFUserInfoMap());
         model.addAttribute("bcInfoMap", cfbcService.getBCUserInfoMap());
-        model.addAttribute("bookCnt", uVaService.getBookCnt(uvaids));
-        model.addAttribute("cptCnt", uVaService.getCptCnt(uvaids));
         model.addAttribute("lastUpdate", uhuntUpdateStatus.getLastTime());
         model.addAttribute("ratingMap",
                 ratingService.getRatingMap(RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal));
@@ -62,7 +60,6 @@ public class UVaController {
             return "正在更新，或者刚刚更新完毕，请稍后再试...";
         uhuntUpdateStatus.preUpdate();
 
-        uVaService.flushUVaSubmit();
         cfbcService.flushCFUserInfo();
         cfbcService.flushBCUserInfo();
 
