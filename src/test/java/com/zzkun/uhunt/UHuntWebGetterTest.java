@@ -1,5 +1,6 @@
 package com.zzkun.uhunt;
 
+import com.zzkun.model.ExtOjPbInfo;
 import com.zzkun.util.web.UHuntWebGetter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +24,12 @@ public class UHuntWebGetterTest {
     public void allPbInfo() throws Exception {
 //        List<UVaPbInfo> list = webGetter.allPbInfo();
 //        System.out.println(list);
+    }
+
+    @Test
+    public void allPbInfo2() throws Exception {
+        List<ExtOjPbInfo> list = webGetter.allPbInfo2();
+        System.out.println(list);
     }
 
     @Test

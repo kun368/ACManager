@@ -39,7 +39,7 @@ open class UVaService : IExtOJAdapter {
     }
 
     override fun getAllPbInfoOnline(): List<ExtOjPbInfo> {
-        return uHuntWebGetter.allPbInfo()
+        return uHuntWebGetter.allPbInfo() ?: uHuntWebGetter.allPbInfo2()
     }
 
 

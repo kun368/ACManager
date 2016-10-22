@@ -2,6 +2,7 @@ package com.zzkun.util.web;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.TypeReference;
 import com.zzkun.model.ExtOjPbInfo;
 import com.zzkun.model.OJType;
 import org.slf4j.Logger;
@@ -10,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 从uhunt网站抓取数据，建议保存数据库后从数据库读
@@ -27,48 +25,83 @@ public class UHuntWebGetter {
 
     @Autowired private HttpUtil httpUtil;
 
+
+    private ExtOjPbInfo parseJsonArray(JSONArray cur) {
+        if(cur == null || cur.size() < 22)
+            return null;
+        ExtOjPbInfo info = new ExtOjPbInfo();
+        info.setOjName(OJType.UVA);
+        info.setPid(cur.getInteger(0).toString());
+        info.setNum(cur.getInteger(1).toString());
+        info.setTitle(cur.getString(2));
+        info.setDacu(cur.getInteger(3));
+        info.setMrun(cur.getInteger(4));
+        info.setMmem(cur.getInteger(5));
+        info.setNover(cur.getInteger(6));
+        info.setSube(cur.getInteger(7));
+        info.setNoj(cur.getInteger(8));
+        info.setInq(cur.getInteger(9));
+        info.setCe(cur.getInteger(10));
+        info.setRf(cur.getInteger(11));
+        info.setRe(cur.getInteger(12));
+        info.setOle(cur.getInteger(13));
+        info.setTle(cur.getInteger(14));
+        info.setMle(cur.getInteger(15));
+        info.setWa(cur.getInteger(16));
+        info.setPe(cur.getInteger(17));
+        info.setAc(cur.getInteger(18));
+        info.setRtl(cur.getInteger(19));
+        info.setStatus(cur.getInteger(20));
+        info.setRej(cur.getInteger(21));
+        info.setTotSubmit(info.calcTotSubmits());
+        return info;
+    }
+
+    private ExtOjPbInfo parseJsonMap(LinkedHashMap<String, Object> cur) {
+        JSONArray array = new JSONArray(new ArrayList<>(cur.values()));
+        return parseJsonArray(array);
+    }
+
     /**
      * 获取所有uva题目的信息
      * @return 题目信息List
      */
     public List<ExtOjPbInfo> allPbInfo() {
-        List<ExtOjPbInfo> res = new ArrayList<>();
-        String url = "http://uhunt.felix-halim.net/api/p";
         try {
+            List<ExtOjPbInfo> res = new ArrayList<>();
+            String url = "http://uhunt.felix-halim.net/api/p";
             String web = httpUtil.readURL(url);
             logger.info("原始json：{}", web);
             JSONArray allPb = JSON.parseArray(web);
             for(int i = 0; i < allPb.size(); ++i) {
                 JSONArray curPb = allPb.getJSONArray(i);
-                ExtOjPbInfo info = new ExtOjPbInfo();
-                info.setOjName(OJType.UVA);
-                info.setPid(curPb.getInteger(0).toString());
-                info.setNum(curPb.getInteger(1).toString());
-                info.setTitle(curPb.getString(2));
-                info.setDacu(curPb.getInteger(3));
-                info.setMrun(curPb.getInteger(4));
-                info.setMmem(curPb.getInteger(5));
-                info.setNover(curPb.getInteger(6));
-                info.setSube(curPb.getInteger(7));
-                info.setNoj(curPb.getInteger(8));
-                info.setInq(curPb.getInteger(9));
-                info.setCe(curPb.getInteger(10));
-                info.setRf(curPb.getInteger(11));
-                info.setRe(curPb.getInteger(12));
-                info.setOle(curPb.getInteger(13));
-                info.setTle(curPb.getInteger(14));
-                info.setMle(curPb.getInteger(15));
-                info.setWa(curPb.getInteger(16));
-                info.setPe(curPb.getInteger(17));
-                info.setAc(curPb.getInteger(18));
-                info.setRtl(curPb.getInteger(19));
-                info.setStatus(curPb.getInteger(20));
-                info.setRej(curPb.getInteger(21));
-                info.setTotSubmit(info.calcTotSubmits());
-                res.add(info);
+                res.add(parseJsonArray(curPb));
             }
-        } catch (IOException e) {
+            return res;
+        } catch (Exception e) {
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    public List<ExtOjPbInfo> allPbInfo2() {
+        List<ExtOjPbInfo> res = new ArrayList<>();
+        for(int i = 1; i < 99999; ++i) {
+            String url = "http://uhunt.felix-halim.net/api/p/id/" + i;
+            String web;
+            try {
+                web = httpUtil.readURL(url);
+            } catch (IOException e) {
+                e.printStackTrace();
+                continue;
+            }
+            LinkedHashMap<String, Object> map =
+                    JSON.parseObject(web, new TypeReference<LinkedHashMap<String, Object>>() {});
+            ExtOjPbInfo info = parseJsonMap(map);
+            if(info == null) break;
+            if(!"0".equals(info.getPid()))
+                res.add(info);
+            if(i % 100 == 0) logger.info("PID{}解析完毕...{}", i, info);
         }
         return res;
     }
@@ -98,7 +131,7 @@ public class UHuntWebGetter {
         List<Integer> res = new ArrayList<>();
         try {
             String json = httpUtil.readURL("http://uhunt.felix-halim.net/api/subs-user/" + uid);
-            logger.info("爬取完毕，开始分析...");
+            logger.debug("爬取完毕，开始分析...");
             JSONArray subsJson = JSON.parseObject(json).getJSONArray("subs");
             Set<Integer> pidSet = new HashSet<>(); //去除重复AC题目
             for(int i = 0; i < subsJson.size(); ++i) {
@@ -110,7 +143,7 @@ public class UHuntWebGetter {
                     pidSet.add(pbid);
                 }
             }
-            logger.info("分析uid用户{}所有AC题目成功，共AC题数{}", uid, res.size());
+            logger.debug("分析uid用户{}所有AC题目成功，共AC题数{}", uid, res.size());
             return res;
         } catch (IOException e) {
             e.printStackTrace();

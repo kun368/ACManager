@@ -6,6 +6,7 @@ import com.zzkun.model.ExtOjPbInfo
 import com.zzkun.model.User
 import com.zzkun.model.UserACPb
 import com.zzkun.service.extoj.*
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
@@ -14,6 +15,10 @@ import org.springframework.stereotype.Service
  */
 @Service
 open class ExtOjService {
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(ExtOjService::class.java)
+    }
 
     @Autowired lateinit private var userService: UserService
     @Autowired lateinit private var userACPbRepo: UserACPbRepo
@@ -31,9 +36,11 @@ open class ExtOjService {
     fun flushACDB() {
         val set = sortedSetOf<UserACPb>()
         val users = userService.allUser()
+        logger.info("所有用户数量：{}", users.size)
         for(oj in allExtOjServices())
             for(user in users)
                 set.addAll(oj.getUserACPbsOnline(user))
+        logger.info("所有人AC题目数：{}", set.size)
         userACPbRepo.deleteAll()
         userACPbRepo.save(set)
     }
@@ -42,6 +49,7 @@ open class ExtOjService {
         val list = arrayListOf<ExtOjPbInfo>()
         for(oj in allExtOjServices())
             list.addAll(oj.getAllPbInfoOnline())
+        logger.info("所有题目数量总计：{}", list.size)
         extOjPbInfoRepo.deleteAll()
         extOjPbInfoRepo.save(list)
     }

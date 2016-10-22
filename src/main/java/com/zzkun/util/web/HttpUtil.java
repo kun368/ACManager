@@ -1,6 +1,5 @@
 package com.zzkun.util.web;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Component;
 
@@ -13,8 +12,13 @@ import java.net.URL;
  */
 @Component
 public class HttpUtil {
+
     public String readURL(String url) throws IOException {
-        return IOUtils.toString(new URL(url), "utf8");
+        try {
+            return IOUtils.toString(new URL(url), "utf8");
+        } catch (IOException e) {
+            return IOUtils.toString(new URL(url), "utf8");
+        }
     }
 
     public static void main(String[] args) throws IOException {

@@ -17,7 +17,10 @@ open class POJWebGetter {
         val logger = LoggerFactory.getLogger(POJWebGetter::class.java)
     }
 
-    fun userACPbs(pojName: String): List<String> {
+    fun userACPbs(pojName: String?): List<String> {
+        if(pojName == null)
+            return emptyList()
+        logger.info("开始获取poj用户{}AC题目...", pojName)
         val url = "http://poj.org/userstatus?user_id=$pojName"
         val body = Jsoup.connect(url).timeout(7777).get().body().toString()
         val patten = Pattern.compile("""p\(([\d]+)\)""")
@@ -70,10 +73,14 @@ open class POJWebGetter {
         val res = arrayListOf<ExtOjPbInfo>()
         for(i in 1000..999999) {
             val info = pbInfomation(i.toString())
-            logger.info("已经获取到：$info")
             if(info != null) res.add(info)
             else break
+            if(i % 100 == 0) logger.info("已经获取PID$i：$info")
         }
         return res
     }
 }
+
+//fun main(args: Array<String>) {
+//    POJWebGetter().allPbInfo()
+//}

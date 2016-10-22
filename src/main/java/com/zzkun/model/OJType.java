@@ -26,5 +26,7 @@ public enum  OJType {
     CodeChef,
     Gym,
     OpenJudge,
+    HihoCoder,
+    UESTC_old,
     Null
 }
