@@ -9,6 +9,7 @@ import com.zzkun.service.extoj.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.util.*
 
 /**
  * Created by kun on 2016/9/30.
@@ -56,5 +57,20 @@ open class ExtOjService {
 
     fun getUserAC(user: User): List<UserACPb> {
         return userACPbRepo.findByUser(user)
+    }
+
+    fun getUserPerOjACMap(users: List<User>): Map<Int, Map<String, Int>> {
+        val res = HashMap<Int, Map<String, Int>>()
+        users.forEach {
+            val cur = HashMap<String, Int>()
+            it.acPbList.forEach {
+                val oj = it.ojName.toString()
+                if(cur.contains(oj)) cur[oj] = cur[oj]!! + 1
+                else cur[oj] = 1
+            }
+            cur["SUM"] = it.acPbList.size
+            res[it.id] = cur
+        }
+        return res
     }
 }

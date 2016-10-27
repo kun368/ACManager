@@ -36,7 +36,8 @@
     } );
 </script>
 <c:url value="/" var="url_index"/>
-<c:url value="/uva/showTable" var="url_uvaTable"/>
+<c:url value="/statistics/showTable" var="url_uvaTable"/>
+<c:url value="/userac/showTable" var="url_table_userac"/>
 <c:url value="/auth/login" var="url_login"/>
 <c:url value="/auth/rg" var="url_rg"/>
 <c:url value="/training/list" var="url_traininglist"/>
@@ -59,6 +60,7 @@
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav">
                     <li> <a href="${url_index}">首页</a> </li>
+                    <li> <a href="${url_table_userac}">做题统计</a> </li>
                     <li> <a href="${url_uvaTable}">队员统计</a> </li>
                     <li> <a href="${url_traininglist}">集训管理</a> </li>
                     <li> <a href="<c:url value="/oj/recentContest"/> ">近期比赛</a> </li>

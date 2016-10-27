@@ -34,6 +34,7 @@ public class User implements Serializable, Comparable<User> {
     @Column(unique = true, nullable = false)
     private String username;
 
+    @Column(nullable = false)
     private String password;
 
     @Column(unique = true)
@@ -64,6 +65,9 @@ public class User implements Serializable, Comparable<User> {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<UJoinT> uJoinTList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<UserACPb> acPbList;
 
     public User() {
     }
@@ -191,6 +195,14 @@ public class User implements Serializable, Comparable<User> {
 
     public void setuJoinTList(List<UJoinT> uJoinTList) {
         this.uJoinTList = uJoinTList;
+    }
+
+    public List<UserACPb> getAcPbList() {
+        return acPbList;
+    }
+
+    public void setAcPbList(List<UserACPb> acPbList) {
+        this.acPbList = acPbList;
     }
 
     @Override

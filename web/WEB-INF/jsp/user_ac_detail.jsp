@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%--
   Created by IntelliJ IDEA.
   User: Administrator
@@ -20,7 +21,7 @@
             text-align: center;
         }
     </style>
-    <title>${username} 做题统计 - ACManager</title>
+    <title>${curUser.realName} 做题统计 - ACManager</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,21 +33,25 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.dataTables.min.css">
     <script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
     <script src="//cdn.datatables.net/plug-ins/1.10.12/sorting/chinese-string.js"></script>
+    <c:url value="/api/userac/${username}/list" var="apiList"/>
     <script>
         $(function () {
             $.ajax({
-                url: "http://localhost:8080/ACManager/api/userac/${username}/list",
+                url: "${apiList}",
                 data: {},
                 dataType: "json",
                 type: "GET",
                 success: function (data) {
                     var ojs = data.ojs;
+                    var max_number=0;
                     $.each(data.ac, function (name, value) {
-                        var dataName = "<div  class='col-lg-3 oj'><div>" +
-                                name +
-                                "</div></div>";
-                        var dataForm = "<div  class='col-lg-9' id='" + name + "'>" + "<table class='table table-condensed display'>";
                         var t = value;
+                        var number=t.length;
+                        max_number+=number;
+                        var dataName = "<div  class='col-lg-3 oj'><div>" +
+                                name +"&nbsp;("+number+
+                                ")</div></div>";
+                        var dataForm = "<div  class='col-lg-9' id='" + name + "'>" + "<table class='table table-condensed display'>";
                         t = t.sort(function (a, b) {
                             return a - b;
                         });
@@ -70,6 +75,7 @@
                         $(this).children().eq(0).outerHeight(ht);
                         $(this).children().eq(0).children().css("line-height", ht + "px");
                     });
+                    $('#solve_number').html("("+max_number+")");
                 }
             });
         });
@@ -83,7 +89,7 @@
     <div class="row">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">队员做题统计</h3>
+                <h3 class="panel-title">${curUser.realName} 做题统计</h3>
             </div>
             <div class="panel-body">
                 <table class="table table-striped display"
@@ -92,7 +98,7 @@
                     <thead>
                     <tr role="row">
                         <div class="col-lg-3"><h4 class="th_title">OJ名称</h4></div>
-                        <div class="col-lg-9"><h4 class="th_title">解决题目</h4></div>
+                        <div class="col-lg-9"><h4 class="th_title">解决题目&nbsp;<span id="solve_number"></span></h4></div>
                     </tr>
                     </thead>
 

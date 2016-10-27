@@ -114,18 +114,10 @@
                     <p id="accheck"></p>
 
                     <div class="form-group">
-                        <input type="text" name="major" id="class" class="form-control" placeholder="班级">
-                    </div>
-
-                    <div class="form-group">
-                        <input type="text" name="uvaid" id="inpu" class="form-control" placeholder="UVAID">
-                    </div>
-                    <!--<p>UVA UserName:</p>-->
-                    <div class="form-group">
-                        <input type="text" name="cfname" id="input" class="form-control" placeholder="CF 用户名">
+                        <input type="text" name="major" id="class" class="form-control" placeholder="班级*" required>
                     </div>
                     <div class="form-group">
-                        <input type="text" name="realName" id="inputRealName" class="form-control" placeholder="真实姓名">
+                        <input type="text" name="realName" id="inputRealName" class="form-control" placeholder="真实姓名*" required>
                     </div>
 
                     <div class="form-group">

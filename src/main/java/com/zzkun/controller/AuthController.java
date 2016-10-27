@@ -19,6 +19,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
+import static org.apache.commons.lang3.StringUtils.trimToNull;
+
 
 /**
  * 登陆注册认证控制器
@@ -82,25 +84,24 @@ public class AuthController {
     @RequestMapping("/dorg")
     public String rg(@RequestParam String username,
                      @RequestParam String password,
-                     @RequestParam(required = false) String realName,
-                     @RequestParam(required = false) Integer uvaid,
-                     @RequestParam(required = false) String cfname,
-                     @RequestParam(required = false) String major,
+                     @RequestParam String realName,
+                     @RequestParam String major,
                      Model model,
                      HttpServletRequest request,
                      HttpServletResponse response) throws ServletException, IOException {
-        logger.info("收到注册请求：{},{},{},{},{},{}", username, password, realName, uvaid, cfname, major);
+        logger.info("收到注册请求：{},{},{},{},{},{}", username, password, realName, major);
         if(!verifyLoginServlet.doPost(request, response)) {
             model.addAttribute("tip", "验证码验证错误！");
             return "login";
         }
-        username = username.trim();
-        password = password.trim();
-        if(realName.trim().isEmpty()) realName = null;
-        if(cfname.trim().isEmpty()) cfname = null;
-        User user = new User(username, password, realName, uvaid, cfname, major, User.Type.New);
+        User user = new User();
+        user.setUsername(trimToNull(username));
+        user.setPassword(trimToNull(password));
+        user.setMajor(trimToNull(major));
+        user.setRealName(trimToNull(realName));
+        user.setType(User.Type.New);
         if(userService.registerUser(user)) {
-            model.addAttribute("tip", "注册成功！");
+            model.addAttribute("tip", "注册成功，请登录！");
             return "index";
         } else {
             model.addAttribute("tip", "注册失败！");
@@ -136,7 +137,7 @@ public class AuthController {
                            RedirectAttributes redirectAttributes) {
         logger.info("收到登出请求...");
         session.removeAttribute("user");
-        redirectAttributes.addFlashAttribute("tip", "您已经退出成功！");
+        redirectAttributes.addFlashAttribute("tip", "退出成功！");
         return "redirect:/";
     }
 
@@ -158,10 +159,10 @@ public class AuthController {
                                  RedirectAttributes redirectAttributes) {
         if(user == null || !user.isAdmin()) {
             redirectAttributes.addFlashAttribute("tip", "没有操作权限！");
-            return "redirect:/uva/showTable";
+            return "redirect:/statistics/showTable";
         }
         userService.dealApplyInACM(id, op);
-        return "redirect:/uva/showTable";
+        return "redirect:/statistics/showTable";
     }
 
     //ajax

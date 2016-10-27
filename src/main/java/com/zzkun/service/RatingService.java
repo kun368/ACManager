@@ -198,13 +198,12 @@ public class RatingService {
         List<Contest> contests = new ArrayList<>();
         for (Training i : trainingService.getAllTraining()) {
             for (Stage stage : i.getStageList()) {
-                for (Contest contest : stage.getContestList())
-                    contests.add(contest);
+                contests.addAll(stage.getContestList());
             }
         }
         deleteRatingDate(RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal);
         List<RatingRecord> list =
-                generateRating(contests, RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal, 3.0);
+                generateRating(contests, RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal, 6.0);
         ratingRecordRepo.save(list);
     }
 

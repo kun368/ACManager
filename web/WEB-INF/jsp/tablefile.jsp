@@ -99,7 +99,7 @@
     <div class="row">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">队内统计结果</h3>
+                <h3 class="panel-title">队员比赛统计结果</h3>
             </div>
             <div class="panel-body" id="table-div">
                 <table class="table table-condensed table-striped table-hover display" id="mytable">
@@ -241,7 +241,7 @@
     </div>
 </div>
 
-<c:url value="/uva/updatedb" var="url_updatedb"/>
+<c:url value="/statistics/updatedb" var="url_updatedb"/>
 <script>
     $(document).ready(function () {
         $('#addbutton').click(function () {
