@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject
 import org.jsoup.Jsoup
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
+import java.util.*
 
 /**
  * Created by kun on 2016/9/29.
@@ -23,7 +24,7 @@ open class VJudgeWebGetter {
 
     fun getUserACMap(vjname: String): Map<String, List<String>> {
         val acmap: JSONObject? = JSON.parseObject(getUserACJsonDate(vjname))?.getJSONObject("acRecords")
-        val res = mutableMapOf<String, List<String>>()
+        val res = HashMap<String, List<String>>()
         if(acmap != null) {
             for(key in acmap.keys) {
                 val pbList = arrayListOf<String>()

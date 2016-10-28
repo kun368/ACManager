@@ -34,7 +34,7 @@ public class CFBCService {
 
     @Autowired private UserRepo userRepo;
 
-    @Scheduled(cron="0 0 0/1 * * ?")
+    @Scheduled(cron="0 0 0/12 * * ?")
     public void flushCFUserInfo() {
         List<User> userList = userRepo.findAll();
         List<String> cfnameList = userList.stream()
@@ -53,7 +53,7 @@ public class CFBCService {
                 .collect(Collectors.toMap(CFUserInfo::getCfname, x -> x));
     }
 
-    @Scheduled(cron="0 0 0/1 * * ?")
+    @Scheduled(cron="0 0 0/12 * * ?")
     public void flushBCUserInfo() {
         List<User> userList = userRepo.findAll();
         List<String> bcnameList = userList.stream()

@@ -10,6 +10,10 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.util.*
+import java.util.concurrent.Callable
+import java.util.concurrent.Executors
+import java.util.concurrent.Future
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by kun on 2016/9/30.
@@ -38,12 +42,26 @@ open class ExtOjService {
         val set = sortedSetOf<UserACPb>()
         val users = userService.allUser()
         logger.info("所有用户数量：{}", users.size)
-        for(oj in allExtOjServices())
-            for(user in users)
-                set.addAll(oj.getUserACPbsOnline(user))
-        logger.info("所有人AC题目数：{}", set.size)
+        val futureList: Vector<Future<List<UserACPb>>> = Vector()
+        val service = Executors.newFixedThreadPool(7)
+        for(oj in allExtOjServices()) {
+            for(user in users) {
+                val cur = Callable { oj.getUserACPbsOnline(user) }
+                futureList.add(service.submit(cur))
+            }
+        }
+        service.shutdown()
+        futureList.forEach {
+            try {
+                set.addAll(it.get(17, TimeUnit.SECONDS))
+            } catch(e: Exception) {
+                e.printStackTrace()
+            }
+        }
+        logger.info("所有人AC题目数：${set.size}")
         userACPbRepo.deleteAll()
         userACPbRepo.save(set)
+        logger.info("更新完毕！")
     }
 
     fun flushPbInfoDB() {

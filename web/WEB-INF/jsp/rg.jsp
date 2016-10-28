@@ -122,8 +122,12 @@
 
                     <div class="form-group">
                         <div id="embed-captcha"></div>
-                        <p id="wait" class="show">正在加载验证码......</p>
-                        <p id="notice" class="hide">请先拖动验证码到相应位置</p>
+                        <p id="wait" class="show alert alert-info" role="alert">正在加载验证码......</p>
+                        <div style="padding-bottom: 15px"></div>
+                        <p id="notice" class="hide alert alert-danger" role="alert">请先拖动验证码到相应位置</p>
+
+                        <div style="padding-bottom: 20px">
+                        </div>
                     </div>
 
                     <div class="form-horizontal pull-right">

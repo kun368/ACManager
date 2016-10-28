@@ -23,7 +23,7 @@ public class MyTest {
 
     @Test
     public void test1() {
-//        Map<UHuntTreeNode, List<Integer>> bookMap = uhuntTreeManager.getBookMap();
+//        Map<UHuntTreeNode, List<Integer>> bookMap = uhuntTreeManager.getBookNodes();
 //
 //        try(PrintWriter writer = new PrintWriter("result1.csv")) {
 //            StringJoiner joiner1 = new StringJoiner(",");

@@ -1,7 +1,6 @@
 package com.zzkun.dao;
 
 import com.zzkun.model.User;
-import org.apache.commons.io.FileUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.io.File;
-import java.util.List;
 
 /**
  * Created by kun on 2016/7/7.
@@ -74,5 +70,13 @@ public class UserRepoTest {
     public void findByRealName() throws Exception {
         User user = userRepo.findByRealName("张正锟");
         System.out.println(user);
+    }
+
+    @Test
+    public void mytest() throws Exception {
+        User user = userRepo.findByUsername("kun368");
+        System.out.println(user);
+        System.out.println(user.getuJoinTList());
+        System.out.println(user.getAcPbList());
     }
 }

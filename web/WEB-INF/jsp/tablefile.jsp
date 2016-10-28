@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <title>队员统计 - ACManager</title>
+    <title>比赛统计 - ACManager</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
 
     <c:url value="/auth/modifyUserByAdmin" var="url_modify"/>
+    <c:url value="/statistics/updatedb" var="url_updatedb"/>
     <c:url value="/rating/updateGlobal" var="url_update_rating"/>
     <script>
         $(document).ready(function () {
@@ -51,6 +52,13 @@
                     alert(data);
                     location.reload();
                 })
+            });
+            $('#addbutton').click(function () {
+                $(this).attr("disabled", "disabled");
+                $.post("${url_updatedb}", {}, function (data) {
+                    alert(data);
+                    location.reload()
+                });
             });
             $('#update_Rating').click(function () {
                 $(this).attr("disabled", "disabled");
@@ -159,7 +167,7 @@
                                                   groupingUsed="false"/>
                             </td>
                             <td>
-                                ${ratingMap.get(curUser.realName).myRating}
+                                    ${ratingMap.get(curUser.realName).myRating}
                             </td>
                             <td>
                                 <fmt:formatNumber value="${ratingMap.get(curUser.realName).mean}"
@@ -241,18 +249,6 @@
     </div>
 </div>
 
-<c:url value="/statistics/updatedb" var="url_updatedb"/>
-<script>
-    $(document).ready(function () {
-        $('#addbutton').click(function () {
-            $.post("${url_updatedb}", {}, function (data) {
-                        alert(data);
-                        location.reload()
-                    }
-            );
-        })
-    });
-</script>
 
 <jsp:include page="footerInfo.jsp"/>
 <c:if test="${!empty tip}">

@@ -28,5 +28,7 @@ public enum  OJType {
     OpenJudge,
     HihoCoder,
     UESTC_old,
-    Null
+
+    Null,
+    SUM
 }

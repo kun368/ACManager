@@ -19,13 +19,11 @@ public class UhuntTreeManagerTest {
 
     @Test
     public void getChapterMap() throws Exception {
-        System.out.println(uhuntTreeManager.getChapterMap());
+        System.out.println(uhuntTreeManager.getCptNodes());
     }
 
     @Test
     public void getBookMap() throws Exception {
-        System.out.println(uhuntTreeManager.getBookMap());
-        System.out.println(uhuntTreeManager.getBookMap().size());
+        System.out.println(uhuntTreeManager.getBookNodes());
     }
-
 }

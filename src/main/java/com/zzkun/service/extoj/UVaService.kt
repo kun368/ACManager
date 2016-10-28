@@ -41,16 +41,4 @@ open class UVaService : IExtOJAdapter {
     override fun getAllPbInfoOnline(): List<ExtOjPbInfo> {
         return uHuntWebGetter.allPbInfo() ?: uHuntWebGetter.allPbInfo2()
     }
-
-
-
-    //-------------------------
-
-    fun getBookName(): List<String> {
-        return uhuntTreeManager.bookMap.keys.map({ it.name }).toList()
-    }
-
-    fun getChapterName(): List<String> {
-        return uhuntTreeManager.chapterMap.keys.map({ it.name }).toList()
-    }
 }

@@ -25,7 +25,7 @@
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
 
     <c:url value="/auth/modifyUserByAdmin" var="url_modify"/>
-    <c:url value="/rating/updateGlobal" var="url_update_rating"/>
+    <c:url value="/userac/updatedb" var="url_updatedb"/>
     <script>
         $(document).ready(function () {
             $("#id").hide();
@@ -52,13 +52,13 @@
                     location.reload();
                 })
             });
-            $('#update_Rating').click(function () {
+            $('#addbutton').click(function () {
                 $(this).attr("disabled", "disabled");
-                $.post("${url_update_rating}", {}, function (data) {
+                $.post("${url_updatedb}", {}, function (data) {
                     alert(data);
-                    location.reload();
+                    location.reload()
                 });
-            })
+            });
         });
         function updata(obj) {
             var tds = $(obj).parent().parent().find('td');
@@ -89,8 +89,7 @@
     <c:if test="${(!empty user) and (user.isAdmin())}">
         <div class="row">
             <div class="pull-right">
-                <%--<button class="btn btn-info" id="addbutton">更新数据</button>--%>
-                <%--<button class="btn btn-info" id="update_Rating">更新Rating</button>--%>
+                <button class="btn btn-info" id="addbutton">更新数据</button>
             </div>
         </div>
     </c:if>
@@ -115,6 +114,8 @@
                         <th>班级</th>
                         <th>总题数</th>
                         <th>UVa</th>
+                        <th>${bookNodes.get(0).name}</th>
+                        <th>${bookNodes.get(1).name}</th>
                         <th>HDU</th>
                         <th>POJ</th>
                         <th>状态</th>
@@ -151,6 +152,8 @@
 
                             <td>${userACMap.get(curUser.id).get("SUM")}</td>
                             <td>${userACMap.get(curUser.id).get("UVA")}</td>
+                            <td>${statistic.get(curUser.id).get(0)}</td>
+                            <td>${statistic.get(curUser.id).get(1)}</td>
                             <td>${userACMap.get(curUser.id).get("HDU")}</td>
                             <td>${userACMap.get(curUser.id).get("POJ")}</td>
 
@@ -208,18 +211,6 @@
     </div>
 </div>
 
-<c:url value="/statistics/updatedb" var="url_updatedb"/>
-<script>
-    $(document).ready(function () {
-        $('#addbutton').click(function () {
-            $.post("${url_updatedb}", {}, function (data) {
-                        alert(data);
-                        location.reload()
-                    }
-            );
-        })
-    });
-</script>
 
 <jsp:include page="footerInfo.jsp"/>
 <c:if test="${!empty tip}">

@@ -1,13 +1,10 @@
 package com.zzkun.service;
 
 import com.zzkun.service.extoj.UVaService;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.List;
 
 /**
  * Created by kun on 2016/7/14.
@@ -18,18 +15,18 @@ public class UVaServiceTest {
 
     @Autowired private UVaService uVaService;
 
-    @Test
-    public void getBookName() throws Exception {
-        List<String> bookName = uVaService.getBookName();
-        System.out.println(bookName);
-    }
-
-    @Test
-    public void getChapterName() throws Exception {
-        List<String> chapterName = uVaService.getChapterName();
-        System.out.println(chapterName);
-    }
-
+//    @Test
+//    public void getBookName() throws Exception {
+//        List<String> bookName = uVaService.getBookName();
+//        System.out.println(bookName);
+//    }
+//
+//    @Test
+//    public void getChapterName() throws Exception {
+//        List<String> chapterName = uVaService.getChapterName();
+//        System.out.println(chapterName);
+//    }
+//
 
 
 }

@@ -80,7 +80,7 @@ public class UserACPb implements Serializable, Comparable<UserACPb> {
                 '}';
     }
 
-    //---------------
+//---------------
 
     @Override
     public int compareTo(@NotNull UserACPb o) {
