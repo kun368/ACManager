@@ -126,7 +126,9 @@ public class UHuntWebGetter {
      * @param uid 用户id
      * @return 所有AC题目list
      */
-    public List<Integer> userACSubmits(int uid) {
+    public List<Integer> userACSubmits(Integer uid) {
+        if(uid == null)
+            return new ArrayList<>();
         logger.info("开始爬取uva用户{}提交纪录", uid);
         List<Integer> res = new ArrayList<>();
         try {
@@ -148,6 +150,6 @@ public class UHuntWebGetter {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return new ArrayList<>();
     }
 }

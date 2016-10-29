@@ -199,8 +199,9 @@ public class TrainingController {
                                       @RequestParam Integer trainingId) {
         logger.info("申请加入集训请求：userId = [" + userId + "], trainingId = [" + trainingId + "]");
         if(userId != null && trainingId != null) {
-            trainingService.applyJoinTraining(userId, trainingId);
-            return "已收到您的申请";
+            boolean ok = trainingService.applyJoinTraining(userId, trainingId);
+            if(ok) return "已收到您的申请";
+            else return "加入失败！只有ACM队员可加入！";
         } else {
             return "加入失败！是否登录？";
         }

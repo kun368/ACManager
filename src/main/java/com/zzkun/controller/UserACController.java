@@ -1,6 +1,7 @@
 package com.zzkun.controller;
 
 import com.zzkun.model.User;
+import com.zzkun.service.CFBCService;
 import com.zzkun.service.ExtOjService;
 import com.zzkun.service.UserService;
 import com.zzkun.util.uhunt.UHuntAnalyser;
@@ -26,6 +27,7 @@ public class UserACController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserACController.class);
 
+    @Autowired private CFBCService cfbcService;
     @Autowired private UserService userService;
     @Autowired private ExtOjService extOjService;
     @Autowired private UhuntTreeManager uhuntTreeManager;
@@ -41,6 +43,8 @@ public class UserACController {
         model.addAttribute("userACMap", extOjService.getUserPerOjACMap(users));
         model.addAttribute("bookNodes", bookNodes);
         model.addAttribute("statistic", statistic);
+        model.addAttribute("cfInfoMap", cfbcService.getCFUserInfoMap());
+        model.addAttribute("bcInfoMap", cfbcService.getBCUserInfoMap());
         return "tablefile_userac";
     }
 

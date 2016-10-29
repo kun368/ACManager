@@ -5,6 +5,7 @@ import com.zzkun.model.OJType
 import org.jsoup.Jsoup
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
+import java.util.*
 import java.util.regex.Pattern
 
 /**
@@ -17,7 +18,9 @@ open class POJWebGetter {
         val logger = LoggerFactory.getLogger(POJWebGetter::class.java)
     }
 
-    fun userACPbs(pojName: String): List<String> {
+    fun userACPbs(pojName: String?): List<String> {
+        if(pojName == null)
+            return ArrayList()
         logger.info("开始获取poj用户${pojName}AC题目")
         val url = "http://poj.org/userstatus?user_id=$pojName"
         val body = Jsoup.connect(url).timeout(7777).get().body().toString()

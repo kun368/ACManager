@@ -1,5 +1,7 @@
 package com.zzkun.model;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -233,6 +235,8 @@ public class User implements Serializable, Comparable<User> {
 
     @Override
     public int compareTo(User o) {
-        return Integer.compare(id, o.id);
+        return new CompareToBuilder()
+                .append(getId(), o.getId())
+                .toComparison();
     }
 }

@@ -152,22 +152,23 @@ public class AuthController {
         return "redirect:/auth/my";
     }
 
-    @RequestMapping("/dealApplyInACM/{id}/{op}")
-    public String dealApplyInACM(@PathVariable Integer id,
-                                 @PathVariable Integer op,
-                                 @SessionAttribute(required = false) User user,
-                                 RedirectAttributes redirectAttributes) {
-        if(user == null || !user.isAdmin()) {
-            redirectAttributes.addFlashAttribute("tip", "没有操作权限！");
-            return "redirect:/statistics/showTable";
-        }
-        userService.dealApplyInACM(id, op);
-        return "redirect:/statistics/showTable";
-    }
+
 
     //ajax
 
-    @RequestMapping("/validUsername")
+    @RequestMapping(value = "/dealApplyInACM/{id}/{op}", produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String dealApplyInACM(@PathVariable Integer id,
+                                 @PathVariable Integer op,
+                                 @SessionAttribute(required = false) User user) {
+        if(user == null || !user.isAdmin()) {
+            return "没有操作权限！";
+        }
+        userService.dealApplyInACM(id, op);
+        return "操作成功！";
+    }
+
+    @RequestMapping(value = "/validUsername")
     @ResponseBody
     public String validUsername(@RequestParam String name) {
         if(userService.hasUser(name)) return "false";

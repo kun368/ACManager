@@ -30,7 +30,7 @@
         $(document).ready(function () {
             $("#id").hide();
             var table = $('#mytable').DataTable({
-                "order": [[8, "desc"]],
+                "order": [[11, "desc"]],
                 "columnDefs": [
                     {"type": "chinese-string", targets: 1},
                     {"contentPadding": "", targets: 1}
@@ -70,7 +70,7 @@
             $('#bcname').val(tds.eq(5).text());
             $('#realname').val(tds.eq(6).text());
             $('#major').val(tds.eq(7).text());
-            var form_text = $.trim(tds.eq(15).text());
+            var form_text = $.trim(tds.eq(18).text());
             $("#status option").each(function (i, item) {
                 var option_text = $(this).text();
                 if (option_text == form_text) {
@@ -112,12 +112,18 @@
                         <th hidden>BCName</th>
                         <th>姓名</th>
                         <th>班级</th>
-                        <th>总题数</th>
-                        <th>UVa</th>
+
+                        <th>总计</th>
                         <th>${bookNodes.get(0).name}</th>
                         <th>${bookNodes.get(1).name}</th>
+                        <th>总题数</th>
+                        <th>UVA</th>
                         <th>HDU</th>
                         <th>POJ</th>
+
+                        <th>CF</th>
+                        <th>BC</th>
+
                         <th>状态</th>
                         <c:if test="${(!empty user) and (user.isAdmin())}">
                             <th>操作</th>
@@ -150,12 +156,24 @@
                             <td><a href="${useraclistLink}" target="_blank">${curUser.realName}</a></td>
                             <td>${curUser.major}</td>
 
-                            <td>${userACMap.get(curUser.id).get("SUM")}</td>
-                            <td>${userACMap.get(curUser.id).get("UVA")}</td>
+                            <td>${statistic.get(curUser.id).get(0)+statistic.get(curUser.id).get(1)}</td>
                             <td>${statistic.get(curUser.id).get(0)}</td>
                             <td>${statistic.get(curUser.id).get(1)}</td>
+                            <td>${userACMap.get(curUser.id).get("SUM")}</td>
+                            <td>${userACMap.get(curUser.id).get("UVA")}</td>
                             <td>${userACMap.get(curUser.id).get("HDU")}</td>
                             <td>${userACMap.get(curUser.id).get("POJ")}</td>
+
+                            <td>
+                                <a href="http://codeforces.com/profile/${curUser.cfname}" target="_blank">
+                                        ${cfInfoMap.get(curUser.cfname).rating}
+                                </a>
+                            </td>
+                            <td>
+                                <a href="http://bestcoder.hdu.edu.cn/rating.php?user=${curUser.bcname}" target="_blank">
+                                        ${bcInfoMap.get(curUser.bcname).rating}
+                                </a>
+                            </td>
 
 
                             <c:set value="${curUser.type.name()}" var="curType"/>
@@ -197,8 +215,8 @@
                                     <c:url value="/auth/dealApplyInACM/${curUser.id}/1" var="url_y"/>
                                     <c:url value="/auth/dealApplyInACM/${curUser.id}/0" var="url_n"/>
                                     <c:if test="${curType eq Verifying}">
-                                        <a href="${url_y}">Y</a>&nbsp;
-                                        <a href="${url_n}">N</a>
+                                        <a href="${url_y}" target="_blank">Y</a>&nbsp;
+                                        <a href="${url_n}" target="_blank">N</a>
                                     </c:if>
                                 </td>
                             </c:if>

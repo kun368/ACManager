@@ -52,7 +52,7 @@ open class ExtOjService {
         service.shutdown()
         futureList.forEach {
             try {
-                set.addAll(it.get(17, TimeUnit.SECONDS))
+                set.addAll(it.get(30, TimeUnit.SECONDS))
             } catch(e: Exception) {
                 e.printStackTrace()
             }
@@ -70,13 +70,17 @@ open class ExtOjService {
     }
 
     fun flushACDB() {
-        val set = TreeSet<UserACPb>()
-        val users = userService.allUser()
-        set.addAll(getUsersACPbsFromWeb(users))
-        set.addAll(userACPbRepo.findAll())
-        userACPbRepo.deleteAll()
-        userACPbRepo.save(set)
-        logger.info("更新完毕！, 现有纪录${set.size}条")
+        logger.info("开始更新...")
+        val preList = userACPbRepo.findAll()
+        val preSet = TreeSet<UserACPb>(preList)
+        val cur = getUsersACPbsFromWeb(userService.allUser())
+        val new = ArrayList<UserACPb>()
+        for (userACPb in cur)
+            if(!preSet.contains(userACPb))
+                new.add(userACPb)
+        logger.info("pre:${preSet.size}, cur:${cur.size}, new:${new.size}")
+        userACPbRepo.save(new)
+        logger.info("更新完毕！")
     }
 
     fun flushPbInfoDB() {

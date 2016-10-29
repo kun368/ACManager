@@ -22,7 +22,9 @@ open class VJudgeWebGetter {
         return html?.select("textarea[name=dataJson]")?.text() ?: ""
     }
 
-    fun getUserACMap(vjname: String): Map<String, List<String>> {
+    fun getUserACMap(vjname: String?): Map<String, List<String>> {
+        if(vjname == null)
+            return HashMap()
         logger.info("开始爬取vjudge用户${vjname}AC纪录")
         val acmap: JSONObject? = JSON.parseObject(getUserACJsonDate(vjname))?.getJSONObject("acRecords")
         val res = HashMap<String, List<String>>()

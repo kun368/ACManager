@@ -235,8 +235,8 @@
                                     <c:url value="/auth/dealApplyInACM/${curUser.id}/1" var="url_y"/>
                                     <c:url value="/auth/dealApplyInACM/${curUser.id}/0" var="url_n"/>
                                     <c:if test="${curType eq Verifying}">
-                                        <a href="${url_y}">Y</a>&nbsp;
-                                        <a href="${url_n}">N</a>
+                                        <a href="${url_y}" target="_blank">Y</a>&nbsp;
+                                        <a href="${url_n}" target="_blank">N</a>
                                     </c:if>
                                 </td>
                             </c:if>

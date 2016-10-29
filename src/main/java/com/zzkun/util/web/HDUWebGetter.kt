@@ -5,6 +5,7 @@ import com.zzkun.model.OJType
 import org.jsoup.Jsoup
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Component
+import java.util.*
 import java.util.regex.Pattern
 
 /**
@@ -17,7 +18,9 @@ open class HDUWebGetter {
         val logger = LoggerFactory.getLogger(HDUWebGetter::class.java)
     }
 
-    fun userACPbs(hduName: String): List<String> {
+    fun userACPbs(hduName: String?): List<String> {
+        if(hduName == null)
+            return ArrayList()
         logger.info("开始获取hdu用户${hduName}AC题目")
         val url = "http://acm.hdu.edu.cn/userstatus.php?user=$hduName"
         val body = Jsoup.connect(url).timeout(7777).get().body().toString()

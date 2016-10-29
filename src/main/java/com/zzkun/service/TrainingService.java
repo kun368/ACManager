@@ -105,11 +105,11 @@ public class TrainingService {
     }
 
     //用户申请参加集训
-    public void applyJoinTraining(Integer userId, Integer trainingId) {
+    public boolean applyJoinTraining(Integer userId, Integer trainingId) {
         User user = userRepo.findOne(userId);
         Training training = trainingRepo.findOne(trainingId);
         if(user == null || !user.isACMer()) //管理员不能加入集训
-            return;
+            return false;
         UJoinT uJoinT = uJoinTRepo.findByUserAndTraining(user, training);
         if(uJoinT != null) {
             uJoinT.setStatus(UJoinT.Status.Pending);
@@ -117,6 +117,7 @@ public class TrainingService {
             uJoinT = new UJoinT(user, training, UJoinT.Status.Pending);
         }
         uJoinTRepo.save(uJoinT);
+        return true;
     }
 
     public void verifyUserJoin(Integer userId, Integer trainingId, String op) {
