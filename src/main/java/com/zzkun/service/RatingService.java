@@ -203,7 +203,7 @@ public class RatingService {
         }
         deleteRatingDate(RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal);
         List<RatingRecord> list =
-                generateRating(contests, RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal, 6.0);
+                generateRating(contests, RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal, 5.5);
         ratingRecordRepo.save(list);
     }
 

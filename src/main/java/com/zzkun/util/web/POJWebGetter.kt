@@ -17,10 +17,8 @@ open class POJWebGetter {
         val logger = LoggerFactory.getLogger(POJWebGetter::class.java)
     }
 
-    fun userACPbs(pojName: String?): List<String> {
-        if(pojName == null)
-            return emptyList()
-        logger.info("开始获取poj用户{}AC题目...", pojName)
+    fun userACPbs(pojName: String): List<String> {
+        logger.info("开始获取poj用户${pojName}AC题目")
         val url = "http://poj.org/userstatus?user_id=$pojName"
         val body = Jsoup.connect(url).timeout(7777).get().body().toString()
         val patten = Pattern.compile("""p\(([\d]+)\)""")

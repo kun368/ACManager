@@ -34,13 +34,12 @@ open class ExtOjService {
     @Autowired lateinit private var hduService: HDUService
     @Autowired lateinit private var pojService: POJService
 
-    fun allExtOjServices(): List<IExtOJAdapter> {
+    private fun allExtOjServices(): List<IExtOJAdapter> {
         return listOf(vjudgeService, uvaService, hduService, pojService)
     }
 
-    fun flushACDB() {
-        val set = sortedSetOf<UserACPb>()
-        val users = userService.allUser()
+    private fun getUsersACPbsFromWeb(users: List<User>): Set<UserACPb> {
+        val set = TreeSet<UserACPb>()
         logger.info("所有用户数量：{}", users.size)
         val futureList: Vector<Future<List<UserACPb>>> = Vector()
         val service = Executors.newFixedThreadPool(7)
@@ -59,18 +58,34 @@ open class ExtOjService {
             }
         }
         logger.info("所有人AC题目数：${set.size}")
+        return set
+    }
+
+    private fun getPbInfosFromWeb(): Set<ExtOjPbInfo> {
+        val set = TreeSet<ExtOjPbInfo>()
+        for(oj in allExtOjServices())
+            set.addAll(oj.getAllPbInfoOnline())
+        logger.info("所有题目数量总计：${set.size}")
+        return set
+    }
+
+    fun flushACDB() {
+        val set = TreeSet<UserACPb>()
+        val users = userService.allUser()
+        set.addAll(getUsersACPbsFromWeb(users))
+        set.addAll(userACPbRepo.findAll())
         userACPbRepo.deleteAll()
         userACPbRepo.save(set)
-        logger.info("更新完毕！")
+        logger.info("更新完毕！, 现有纪录${set.size}条")
     }
 
     fun flushPbInfoDB() {
-        val list = arrayListOf<ExtOjPbInfo>()
-        for(oj in allExtOjServices())
-            list.addAll(oj.getAllPbInfoOnline())
-        logger.info("所有题目数量总计：{}", list.size)
+        val set = TreeSet<ExtOjPbInfo>()
+        set.addAll(getPbInfosFromWeb())
+        set.addAll(extOjPbInfoRepo.findAll())
         extOjPbInfoRepo.deleteAll()
-        extOjPbInfoRepo.save(list)
+        extOjPbInfoRepo.save(set)
+        logger.info("更新完毕！, 现有纪录${set.size}条")
     }
 
     fun getUserAC(user: User): List<UserACPb> {

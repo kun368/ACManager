@@ -143,7 +143,7 @@ public class UHuntWebGetter {
                     pidSet.add(pbid);
                 }
             }
-            logger.debug("分析uid用户{}所有AC题目成功，共AC题数{}", uid, res.size());
+            logger.info("分析uid用户{}所有AC题目成功，共AC题数{}", uid, res.size());
             return res;
         } catch (IOException e) {
             e.printStackTrace();

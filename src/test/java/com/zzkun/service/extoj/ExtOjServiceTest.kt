@@ -32,6 +32,13 @@ class ExtOjServiceTest {
     }
 
     @Test
+    fun getUsersACPbsFromWeb() {
+//        val all = userRepo.findAll()
+//        val set = extOjService.getUsersACPbsFromWeb(all)
+//        println(set.size)
+    }
+
+    @Test
     fun flushACDB() {
         extOjService.flushACDB()
     }

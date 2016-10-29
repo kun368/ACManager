@@ -17,10 +17,8 @@ open class HDUWebGetter {
         val logger = LoggerFactory.getLogger(HDUWebGetter::class.java)
     }
 
-    fun userACPbs(hduName: String?): List<String> {
-        if(hduName == null)
-            return emptyList()
-        logger.info("开始获取hdu用户{}AC题目...", hduName)
+    fun userACPbs(hduName: String): List<String> {
+        logger.info("开始获取hdu用户${hduName}AC题目")
         val url = "http://acm.hdu.edu.cn/userstatus.php?user=$hduName"
         val body = Jsoup.connect(url).timeout(7777).get().body().toString()
         val res = sortedSetOf<String>()

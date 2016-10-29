@@ -17,9 +17,12 @@ open class VJudgeService : IExtOJAdapter {
         try {
             val acMap = vjudgeWebGetter.getUserACMap(user.vjname)
             val res = arrayListOf<UserACPb>()
-            for((key, value) in acMap)
-                for(pbId in value)
-                    res.add(UserACPb(user, OJType.valueOf(key), pbId))
+            for((key, value) in acMap) {
+                for(pbId in value) {
+                    val cur = try { UserACPb(user, OJType.valueOf(key), pbId) } catch (e: Exception) { null }
+                    if(cur != null) res.add(cur)
+                }
+            }
             return res
         } catch(e: Exception) {
             e.printStackTrace()

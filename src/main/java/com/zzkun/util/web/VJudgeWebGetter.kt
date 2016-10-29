@@ -23,6 +23,7 @@ open class VJudgeWebGetter {
     }
 
     fun getUserACMap(vjname: String): Map<String, List<String>> {
+        logger.info("开始爬取vjudge用户${vjname}AC纪录")
         val acmap: JSONObject? = JSON.parseObject(getUserACJsonDate(vjname))?.getJSONObject("acRecords")
         val res = HashMap<String, List<String>>()
         if(acmap != null) {

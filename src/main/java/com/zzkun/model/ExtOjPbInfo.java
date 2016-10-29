@@ -1,5 +1,8 @@
 package com.zzkun.model;
 
+import org.apache.commons.lang3.builder.CompareToBuilder;
+import org.jetbrains.annotations.NotNull;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -8,7 +11,7 @@ import java.io.Serializable;
  */
 @Entity
 @Table(name = "extoj_pb_info")
-public class ExtOjPbInfo implements Serializable {
+public class ExtOjPbInfo implements Serializable, Comparable<ExtOjPbInfo> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -284,5 +287,13 @@ public class ExtOjPbInfo implements Serializable {
                 ", rej=" + rej +
                 ", totSubmit=" + totSubmit +
                 '}';
+    }
+
+    @Override
+    public int compareTo(@NotNull ExtOjPbInfo o) {
+        return new CompareToBuilder()
+                .append(ojName, o.ojName)
+                .append(pid, o.pid)
+                .toComparison();
     }
 }
