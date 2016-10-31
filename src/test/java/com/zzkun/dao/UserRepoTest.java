@@ -44,8 +44,8 @@ public class UserRepoTest {
 //            User user = new User(split[2], "123456", split[1], Integer.parseInt(split[0]), split[2], split[3], User.Type.New);
 //            userRepo.save(user);
 //        }
-        User user = new User("456", "456");
-        userRepo.save(user);
+//        User user = new User("456", "456");
+//        userRepo.save(user);
     }
 
     @Test

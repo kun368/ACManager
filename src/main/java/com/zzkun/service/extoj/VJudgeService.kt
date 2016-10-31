@@ -1,9 +1,7 @@
 package com.zzkun.service.extoj
 
-import com.zzkun.model.ExtOjPbInfo
-import com.zzkun.model.OJType
-import com.zzkun.model.User
-import com.zzkun.model.UserACPb
+import com.zzkun.dao.ExtOjLinkRepo
+import com.zzkun.model.*
 import com.zzkun.util.web.VJudgeWebGetter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -12,10 +10,19 @@ import org.springframework.stereotype.Service
 open class VJudgeService : IExtOJAdapter {
 
     @Autowired lateinit var vjudgeWebGetter : VJudgeWebGetter
+    @Autowired lateinit var extOjLinkRepo: ExtOjLinkRepo
 
-    override fun getUserACPbsOnline(user: User): List<UserACPb> {
+    override fun getOjType(): OJType {
+        return OJType.Vjudge
+    }
+
+    override fun getOjLink(): ExtOjLink {
+        return extOjLinkRepo.findOne(getOjType())
+    }
+
+    override fun getUserACPbsOnline(user: User, link: String): List<UserACPb> {
         try {
-            val acMap = vjudgeWebGetter.getUserACMap(user.vjname)
+            val acMap = vjudgeWebGetter.getUserACMap(user.vjname, link)
             val res = arrayListOf<UserACPb>()
             for((key, value) in acMap) {
                 for(pbId in value) {
@@ -30,7 +37,7 @@ open class VJudgeService : IExtOJAdapter {
         return emptyList()
     }
 
-    override fun getAllPbInfoOnline(): List<ExtOjPbInfo> {
+    override fun getAllPbInfoOnline(link: String): List<ExtOjPbInfo> {
         return emptyList()
     }
 }

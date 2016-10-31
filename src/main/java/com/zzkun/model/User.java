@@ -62,6 +62,9 @@ public class User implements Serializable, Comparable<User> {
 
     private String major;
 
+    @Column(length = 1024)
+    private String blogUrl;
+
     @Enumerated(value = EnumType.STRING)
     private Type type;
 
@@ -74,26 +77,6 @@ public class User implements Serializable, Comparable<User> {
     public User() {
     }
 
-    public User(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
-
-    public User(String username, String password, Type type) {
-        this.username = username;
-        this.password = password;
-        this.type = type;
-    }
-
-    public User(String username, String password, String realName, Integer uvaId, String cfname, String major, Type type) {
-        this.username = username;
-        this.password = password;
-        this.realName = realName;
-        this.uvaId = uvaId;
-        this.cfname = cfname;
-        this.major = major;
-        this.type = type;
-    }
 
     public Integer getId() {
         return id;
@@ -191,6 +174,14 @@ public class User implements Serializable, Comparable<User> {
         this.pojName = pojName;
     }
 
+    public String getBlogUrl() {
+        return blogUrl;
+    }
+
+    public void setBlogUrl(String blogUrl) {
+        this.blogUrl = blogUrl;
+    }
+
     public List<UJoinT> getuJoinTList() {
         return uJoinTList;
     }
@@ -218,7 +209,10 @@ public class User implements Serializable, Comparable<User> {
                 ", cfname='" + cfname + '\'' +
                 ", vjname='" + vjname + '\'' +
                 ", bcname='" + bcname + '\'' +
+                ", hduName='" + hduName + '\'' +
+                ", pojName='" + pojName + '\'' +
                 ", major='" + major + '\'' +
+                ", blogUrl='" + blogUrl + '\'' +
                 ", type=" + type +
                 '}';
     }

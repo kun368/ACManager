@@ -18,11 +18,11 @@ open class POJWebGetter {
         val logger = LoggerFactory.getLogger(POJWebGetter::class.java)
     }
 
-    fun userACPbs(pojName: String?): List<String> {
+    fun userACPbs(pojName: String?, link: String): List<String> {
         if(pojName == null)
             return ArrayList()
         logger.info("开始获取poj用户${pojName}AC题目")
-        val url = "http://poj.org/userstatus?user_id=$pojName"
+        val url = String.format(link, pojName)
         val body = Jsoup.connect(url).timeout(7777).get().body().toString()
         val patten = Pattern.compile("""p\(([\d]+)\)""")
         val matcher = patten.matcher(body)
@@ -32,9 +32,9 @@ open class POJWebGetter {
         return res.toList()
     }
 
-    fun pbInfomation(pbId: String): ExtOjPbInfo? {
+    fun pbInfomation(pbId: String, link: String): ExtOjPbInfo? {
         try {
-            val url = "http://poj.org/problemstatus?problem_id=$pbId"
+            val url = String.format(link, pbId)
             val body = Jsoup.connect(url).timeout(7777).get().body().toString()
             val res = ExtOjPbInfo()
             res.pid = pbId
@@ -69,11 +69,11 @@ open class POJWebGetter {
         }
     }
 
-    fun allPbInfo(): List<ExtOjPbInfo> {
+    fun allPbInfo(link: String): List<ExtOjPbInfo> {
         logger.info("开始获取POJ所有题目数据...")
         val res = arrayListOf<ExtOjPbInfo>()
         for(i in 1000..999999) {
-            val info = pbInfomation(i.toString())
+            val info = pbInfomation(i.toString(), link)
             if(info != null) res.add(info)
             else break
             if(i % 100 == 0) logger.info("已经获取PID$i：$info")
@@ -81,7 +81,3 @@ open class POJWebGetter {
         return res
     }
 }
-
-//fun main(args: Array<String>) {
-//    POJWebGetter().allPbInfo()
-//}

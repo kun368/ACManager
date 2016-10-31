@@ -1,5 +1,6 @@
 package com.zzkun.util.uhunt
 
+import com.google.common.collect.HashBiMap
 import com.zzkun.dao.ExtOjPbInfoRepo
 import com.zzkun.model.OJType
 import com.zzkun.model.User
@@ -15,7 +16,7 @@ import java.util.*
 open class UHuntAnalyser {
 
     companion object {
-        private val pid2Num = HashMap<Int, Int>(5120)
+        private val pid2Num = HashBiMap.create<String, String>(5120)
     }
 
     @Autowired lateinit var extOjPbInfoRepo: ExtOjPbInfoRepo
@@ -54,10 +55,17 @@ open class UHuntAnalyser {
     }
 
     // uvapid -> uva题号
-    fun pidToNum(pid: Int): Int? {
-        if (!pid2Num.contains(pid)) {
-            pid2Num.put(pid, Integer.parseInt(extOjPbInfoRepo.findByOjNameAndPid(OJType.UVA, pid.toString()).num))
+    fun pidToNum(pid: String): String? {
+        if (!pid2Num.containsKey(pid)) {
+            pid2Num.put(pid, extOjPbInfoRepo.findByOjNameAndPid(OJType.UVA, pid).num)
         }
         return pid2Num[pid]
+    }
+
+    fun numToPid(num: String): String? {
+        if(!pid2Num.containsValue(num)) {
+            pid2Num.put(extOjPbInfoRepo.findByOjNameAndNum(OJType.UVA, num).pid, num)
+        }
+        return pid2Num.inverse()[num]
     }
 }

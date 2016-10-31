@@ -65,6 +65,7 @@ public class UHuntWebGetter {
     /**
      * 获取所有uva题目的信息
      * @return 题目信息List
+     * @param link
      */
     public List<ExtOjPbInfo> allPbInfo() {
         try {
@@ -84,10 +85,10 @@ public class UHuntWebGetter {
         return null;
     }
 
-    public List<ExtOjPbInfo> allPbInfo2() {
+    public List<ExtOjPbInfo> allPbInfo2(String link) {
         List<ExtOjPbInfo> res = new ArrayList<>();
         for(int i = 1; i < 99999; ++i) {
-            String url = "http://uhunt.felix-halim.net/api/p/id/" + i;
+            String url = String.format(link, Integer.toString(i));
             String web;
             try {
                 web = httpUtil.readURL(url);
@@ -106,33 +107,35 @@ public class UHuntWebGetter {
         return res;
     }
 
-    /**
-     * 用户名--->uid转换
-     * @param uname 用户名
-     * @return uid
-     */
-    public int uname2uid(String uname) {
-        String url = "http://uhunt.felix-halim.net/api/uname2uid/" + uname;
-        try {
-            return Integer.parseInt(httpUtil.readURL(url));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
+//    /**
+//     * 用户名--->uid转换
+//     * @param uname 用户名
+//     * @return uid
+//     */
+//    public int uname2uid(String uname) {
+//        String url = "http://uhunt.felix-halim.net/api/uname2uid/" + uname;
+//        try {
+//            return Integer.parseInt(httpUtil.readURL(url));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        return 0;
+//    }
 
     /**
      * 用户所有AC题目
      * @param uid 用户id
+     * @param link
      * @return 所有AC题目list
      */
-    public List<Integer> userACSubmits(Integer uid) {
+    public List<Integer> userACSubmits(Integer uid, String link) {
         if(uid == null)
             return new ArrayList<>();
         logger.info("开始爬取uva用户{}提交纪录", uid);
         List<Integer> res = new ArrayList<>();
         try {
-            String json = httpUtil.readURL("http://uhunt.felix-halim.net/api/subs-user/" + uid);
+            String url = String.format(link, uid);
+            String json = httpUtil.readURL(url);
             logger.debug("爬取完毕，开始分析...");
             JSONArray subsJson = JSON.parseObject(json).getJSONArray("subs");
             Set<Integer> pidSet = new HashSet<>(); //去除重复AC题目

@@ -152,14 +152,22 @@
                             <td hidden>${curUser.cfname}</td>
                             <td hidden>${curUser.vjname}</td>
                             <td hidden>${curUser.bcname}</td>
-                            <c:url value="/userac/${curUser.username}/list" var="useraclistLink"/>
-                            <td><a href="${useraclistLink}" target="_blank">${curUser.realName}</a></td>
+
+                            <c:choose>
+                                <c:when test="${!empty curUser.blogUrl}">
+                                    <td><a href="${curUser.blogUrl}" target="_blank">${curUser.realName}</a></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td>${curUser.realName}</td>
+                                </c:otherwise>
+                            </c:choose>
                             <td>${curUser.major}</td>
 
                             <td>${statistic.get(curUser.id).get(0)+statistic.get(curUser.id).get(1)}</td>
                             <td>${statistic.get(curUser.id).get(0)}</td>
                             <td>${statistic.get(curUser.id).get(1)}</td>
-                            <td>${userACMap.get(curUser.id).get("SUM")}</td>
+                            <c:url value="/userac/${curUser.username}/list" var="useraclistLink"/>
+                            <td><a href="${useraclistLink}" target="_blank">${userACMap.get(curUser.id).get("SUM")}</a></td>
                             <td>${userACMap.get(curUser.id).get("UVA")}</td>
                             <td>${userACMap.get(curUser.id).get("HDU")}</td>
                             <td>${userACMap.get(curUser.id).get("POJ")}</td>

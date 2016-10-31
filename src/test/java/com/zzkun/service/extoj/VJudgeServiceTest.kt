@@ -23,12 +23,12 @@ class VJudgeServiceTest {
 
     @Test
     fun userACPbs() {
-        val user = userRepo.findByUsername("kun368")
-        val list = vjudgeService.getUserACPbsOnline(user)
-        for (acPb in list) {
-            println(acPb)
-        }
-        println(list.size)
+//        val user = userRepo.findByUsername("kun368")
+//        val list = vjudgeService.getUserACPbsOnline(user)
+//        for (acPb in list) {
+//            println(acPb)
+//        }
+//        println(list.size)
     }
 
 }

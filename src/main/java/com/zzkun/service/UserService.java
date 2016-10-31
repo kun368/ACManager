@@ -72,6 +72,7 @@ public class UserService {
         if(!hasText(user.getBcname())) user.setBcname(null);
         if(!hasText(user.getHduName())) user.setHduName(null);
         if(!hasText(user.getPojName())) user.setPojName(null);
+        if(!hasText(user.getBlogUrl())) user.setBlogUrl(null);
         return userRepo.save(user);
     }
 

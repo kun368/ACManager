@@ -46,9 +46,6 @@
                 order:[[4,'desc']],
                 columnDefs: [
                     { "type": "chinese-string", targets: 2},
-                    {"orderable": false,targets:4},
-                    {"orderable": false,targets:5},
-                    {"orderable": false,targets:6},
                 ]
             });
             $('#trueModel').click(function () {

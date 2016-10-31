@@ -24,6 +24,8 @@ public interface ExtOjPbInfoRepo extends JpaRepository<ExtOjPbInfo, Long> {
 
     ExtOjPbInfo findByOjNameAndPid(OJType ojName, String pid);
 
+    ExtOjPbInfo findByOjNameAndNum(OJType ojName, String num);
+
     List<ExtOjPbInfo> findByOjName(OJType ojName);
 
     @Override

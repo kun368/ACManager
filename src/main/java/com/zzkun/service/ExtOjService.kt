@@ -8,6 +8,7 @@ import com.zzkun.model.UserACPb
 import com.zzkun.service.extoj.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.util.*
 import java.util.concurrent.Callable
@@ -44,8 +45,9 @@ open class ExtOjService {
         val futureList: Vector<Future<List<UserACPb>>> = Vector()
         val service = Executors.newFixedThreadPool(7)
         for(oj in allExtOjServices()) {
+            val link = oj.getOjLink().userInfoLink
             for(user in users) {
-                val cur = Callable { oj.getUserACPbsOnline(user) }
+                val cur = Callable { oj.getUserACPbsOnline(user, link) }
                 futureList.add(service.submit(cur))
             }
         }
@@ -63,14 +65,17 @@ open class ExtOjService {
 
     private fun getPbInfosFromWeb(): Set<ExtOjPbInfo> {
         val set = TreeSet<ExtOjPbInfo>()
-        for(oj in allExtOjServices())
-            set.addAll(oj.getAllPbInfoOnline())
+        for(oj in allExtOjServices()) {
+            val link = oj.getOjLink().pbStatusLink
+            set.addAll(oj.getAllPbInfoOnline(link))
+        }
         logger.info("所有题目数量总计：${set.size}")
         return set
     }
 
+    @Scheduled(cron = "0 0 0/6 * * ?")
     fun flushACDB() {
-        logger.info("开始更新...")
+        logger.info("开始更新用户AC题目纪录...")
         val preList = userACPbRepo.findAll()
         val preSet = TreeSet<UserACPb>(preList)
         val cur = getUsersACPbsFromWeb(userService.allUser())

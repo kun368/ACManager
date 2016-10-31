@@ -18,11 +18,11 @@ open class HDUWebGetter {
         val logger = LoggerFactory.getLogger(HDUWebGetter::class.java)
     }
 
-    fun userACPbs(hduName: String?): List<String> {
+    fun userACPbs(hduName: String?, link: String): List<String> {
         if(hduName == null)
             return ArrayList()
         logger.info("开始获取hdu用户${hduName}AC题目")
-        val url = "http://acm.hdu.edu.cn/userstatus.php?user=$hduName"
+        val url = String.format(link, hduName)
         val body = Jsoup.connect(url).timeout(7777).get().body().toString()
         val res = sortedSetOf<String>()
         val patten = Pattern.compile("""p\(([\d]*),([\d]*),([\d]*)\);""")
@@ -35,9 +35,9 @@ open class HDUWebGetter {
         return res.toList()
     }
 
-    private fun pbInfomation(pbid: String): ExtOjPbInfo? {
+    private fun pbInfomation(pbid: String, link: String): ExtOjPbInfo? {
         try {
-            val url: String = "http://acm.hdu.edu.cn/statistic.php?pid=$pbid"
+            val url = String.format(link, pbid)
             val body = Jsoup.connect(url).timeout(7777).get().body()
             val table = body?.select("table[class=table_header]")?.get(0)
             val status = table?.child(0)?.children()!!
@@ -68,11 +68,11 @@ open class HDUWebGetter {
         }
     }
 
-    fun allPbInfo(): List<ExtOjPbInfo> {
+    fun allPbInfo(link: String): List<ExtOjPbInfo> {
         logger.info("开始获取HDU所有题目数据...")
         val res = arrayListOf<ExtOjPbInfo>()
         for(i in 1000..999999) {
-            val info = pbInfomation(i.toString())
+            val info = pbInfomation(i.toString(), link)
             if(info != null) res.add(info)
             else break
             if(i % 100 == 0) logger.info("已经获取到：$i")
@@ -80,7 +80,3 @@ open class HDUWebGetter {
         return res
     }
 }
-//
-//fun main(args: Array<String>) {
-//    HDUWebGetter().allPbInfo()
-//}

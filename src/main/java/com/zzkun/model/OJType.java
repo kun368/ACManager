@@ -3,7 +3,7 @@ package com.zzkun.model;
 /**
  * Created by kun on 2016/10/15.
  */
-public enum  OJType {
+public enum OJType {
     POJ,
     ZOJ,
     UVALive,
@@ -30,5 +30,6 @@ public enum  OJType {
     UESTC_old,
 
     Null,
-    SUM
+    SUM,
+    Vjudge
 }

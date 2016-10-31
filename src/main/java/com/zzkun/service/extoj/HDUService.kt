@@ -1,9 +1,7 @@
 package com.zzkun.service.extoj
 
-import com.zzkun.model.ExtOjPbInfo
-import com.zzkun.model.OJType
-import com.zzkun.model.User
-import com.zzkun.model.UserACPb
+import com.zzkun.dao.ExtOjLinkRepo
+import com.zzkun.model.*
 import com.zzkun.util.web.HDUWebGetter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -15,13 +13,22 @@ import org.springframework.stereotype.Service
 open class HDUService : IExtOJAdapter {
 
     @Autowired lateinit var hduWebGetter : HDUWebGetter
+    @Autowired lateinit var extOjLinkRepo: ExtOjLinkRepo
 
-    override fun getUserACPbsOnline(user: User): List<UserACPb> {
-        val acPbs = hduWebGetter.userACPbs(user.hduName)
+    override fun getOjType(): OJType {
+        return OJType.HDU
+    }
+
+    override fun getOjLink(): ExtOjLink {
+        return extOjLinkRepo.findOne(getOjType())
+    }
+
+    override fun getUserACPbsOnline(user: User, link: String): List<UserACPb> {
+        val acPbs = hduWebGetter.userACPbs(user.hduName, link)
         return acPbs.map { UserACPb(user, OJType.HDU, it) } .toList()
     }
 
-    override fun getAllPbInfoOnline(): List<ExtOjPbInfo> {
-        return hduWebGetter.allPbInfo()
+    override fun getAllPbInfoOnline(link: String): List<ExtOjPbInfo> {
+        return hduWebGetter.allPbInfo(link)
     }
 }

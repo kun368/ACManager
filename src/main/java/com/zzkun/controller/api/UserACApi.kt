@@ -1,8 +1,11 @@
 package com.zzkun.controller.api
 
 import com.alibaba.fastjson.JSONObject
+import com.zzkun.dao.ExtOjLinkRepo
+import com.zzkun.model.OJType
 import com.zzkun.service.ExtOjService
 import com.zzkun.service.UserService
+import com.zzkun.util.uhunt.UHuntAnalyser
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -18,6 +21,8 @@ class UserACApi {
 
     @Autowired lateinit var userService: UserService
     @Autowired lateinit var extojService: ExtOjService
+    @Autowired lateinit var extojLinkRepo: ExtOjLinkRepo
+    @Autowired lateinit var uhuntAnalyser: UHuntAnalyser
 
     @RequestMapping(value = "/{username}/list",
             method = arrayOf(RequestMethod.GET))
@@ -38,5 +43,14 @@ class UserACApi {
         json["ojs"] = set.toList()
         json["ac"] = map as Map<String, Any>?
         return json.toString()
+    }
+
+    @RequestMapping(value = "/url/{oj}/{pid}", method = arrayOf(RequestMethod.GET))
+    fun url(@PathVariable oj: String, @PathVariable pid: String): String {
+        val type = OJType.valueOf(oj)
+        val link = extojLinkRepo.findOne(type).problemLink
+        if(type == OJType.UVA)
+            return String.format(link, uhuntAnalyser.numToPid(pid))
+        return String.format(link, pid)
     }
 }

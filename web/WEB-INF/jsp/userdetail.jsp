@@ -138,7 +138,7 @@
                             VJ用户名:<input type="text" name="vjname" id="inputVJ" class="form-control" value="${user.vjname}">
                         </div>
                         <div class="form-group">
-                            HDUOJ账号:<input type="text" name="hduName" id="inputHDU" class="form-control" value="${user.hduName}">
+                            HDOJ账号:<input type="text" name="hduName" id="inputHDU" class="form-control" value="${user.hduName}">
                         </div>
                         <div class="form-group">
                             POJ账号:<input type="text" name="pojName" id="inputPOJ" class="form-control" value="${user.pojName}">
@@ -149,7 +149,11 @@
                         </div>
                         <div class="form-group">
                             班级:<input type="text" name="major" id="inputMajor" class="form-control disabled"
-                                      value="${user.major}">
+                                      value="${user.major}" placeholder="格式示例：软件工程14-3">
+                        </div>
+                        <div class="form-group">
+                            博客地址:<input type="text" name="blogUrl" class="form-control disabled"
+                                      value="${user.blogUrl}" placeholder="格式示例：http://blog.csdn.net/kun768">
                         </div>
                         <div class="form-horizontal pull-right form-group">
                             <button class="btn btn-primary " type="submit">修 改</button>

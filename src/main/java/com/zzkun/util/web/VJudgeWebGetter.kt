@@ -17,16 +17,17 @@ open class VJudgeWebGetter {
         val logger = LoggerFactory.getLogger(VJudgeWebGetter::class.java)
     }
 
-    private fun getUserACJsonDate(vjname: String): String {
-        val html = Jsoup.connect("http://vjudge.net/user/$vjname").timeout(7777).get().body()
+    private fun getUserACJsonDate(vjname: String, link: String): String {
+        val url = String.format(link, vjname)
+        val html = Jsoup.connect(url).timeout(7777).get().body()
         return html?.select("textarea[name=dataJson]")?.text() ?: ""
     }
 
-    fun getUserACMap(vjname: String?): Map<String, List<String>> {
+    fun getUserACMap(vjname: String?, link: String): Map<String, List<String>> {
         if(vjname == null)
             return HashMap()
         logger.info("开始爬取vjudge用户${vjname}AC纪录")
-        val acmap: JSONObject? = JSON.parseObject(getUserACJsonDate(vjname))?.getJSONObject("acRecords")
+        val acmap: JSONObject? = JSON.parseObject(getUserACJsonDate(vjname, link))?.getJSONObject("acRecords")
         val res = HashMap<String, List<String>>()
         if(acmap != null) {
             for(key in acmap.keys) {

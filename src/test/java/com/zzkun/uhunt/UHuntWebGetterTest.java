@@ -1,14 +1,11 @@
 package com.zzkun.uhunt;
 
-import com.zzkun.model.ExtOjPbInfo;
 import com.zzkun.util.web.UHuntWebGetter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
-import java.util.List;
 
 /**
  * Created by kun on 2016/7/7.
@@ -28,8 +25,8 @@ public class UHuntWebGetterTest {
 
     @Test
     public void allPbInfo2() throws Exception {
-        List<ExtOjPbInfo> list = webGetter.allPbInfo2();
-        System.out.println(list);
+//        List<ExtOjPbInfo> list = webGetter.allPbInfo2(link);
+//        System.out.println(list);
     }
 
     @Test
@@ -39,9 +36,9 @@ public class UHuntWebGetterTest {
 
     @Test
     public void userACSubmits() throws Exception {
-        List<Integer> list = webGetter.userACSubmits(617781);
-        System.out.println(list);
-        System.out.println(list.size());
+//        List<Integer> list = webGetter.userACSubmits(617781, link);
+//        System.out.println(list);
+//        System.out.println(list.size());
     }
 
 }

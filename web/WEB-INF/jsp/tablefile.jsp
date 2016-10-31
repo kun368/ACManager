@@ -78,7 +78,7 @@
             $('#bcname').val(tds.eq(5).text());
             $('#realname').val(tds.eq(6).text());
             $('#major').val(tds.eq(7).text());
-            var form_text = $.trim(tds.eq(15).text());
+            var form_text = $.trim(tds.eq(13).text());
             $("#status option").each(function (i, item) {
                 var option_text = $(this).text();
                 if (option_text == form_text) {
@@ -126,8 +126,6 @@
                         <th>Rating</th>
                         <th>Param</th>
                         <th>Match</th>
-                        <th>CF</th>
-                        <th>BC</th>
                         <th>状态</th>
                         <c:if test="${(!empty user) and (user.isAdmin())}">
                             <th>操作</th>
@@ -156,8 +154,14 @@
                             <td hidden>${curUser.cfname}</td>
                             <td hidden>${curUser.vjname}</td>
                             <td hidden>${curUser.bcname}</td>
-                            <c:url value="/userac/${curUser.username}/list" var="useraclistLink"/>
-                            <td><a href="${useraclistLink}" target="_blank">${curUser.realName}</a></td>
+                            <c:choose>
+                                <c:when test="${!empty curUser.blogUrl}">
+                                    <td><a href="${curUser.blogUrl}" target="_blank">${curUser.realName}</a></td>
+                                </c:when>
+                                <c:otherwise>
+                                    <td>${curUser.realName}</td>
+                                </c:otherwise>
+                            </c:choose>
                             <td>${curUser.major}</td>
                             <td>${ratingMap.get(curUser.realName).calcRating(playDuration.get(curUser.realName))}</td>
                             <td>
@@ -183,18 +187,6 @@
                                                   minFractionDigits="0"
                                                   groupingUsed="false"/>
                             </td>
-
-                            <td>
-                                <a href="http://codeforces.com/profile/${curUser.cfname}" target="_blank">
-                                        ${cfInfoMap.get(curUser.cfname).rating}
-                                </a>
-                            </td>
-                            <td>
-                                <a href="http://bestcoder.hdu.edu.cn/rating.php?user=${curUser.bcname}" target="_blank">
-                                        ${bcInfoMap.get(curUser.bcname).rating}
-                                </a>
-                            </td>
-
 
                             <c:set value="${curUser.type.name()}" var="curType"/>
                             <td>

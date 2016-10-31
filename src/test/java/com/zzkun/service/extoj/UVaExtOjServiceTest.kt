@@ -22,11 +22,11 @@ class UVaExtOjServiceTest {
 
     @Test
     fun userACPbs() {
-        val user = userRepo.findByUsername("kun368")
-        val list = uVaUserACService.getUserACPbsOnline(user)
-        for(i in list) {
-            println("${i.ojName}__${i.ojPbId}")
-        }
-        println(list.size)
+//        val user = userRepo.findByUsername("kun368")
+//        val list = uVaUserACService.getUserACPbsOnline(user)
+//        for(i in list) {
+//            println("${i.ojName}__${i.ojPbId}")
+//        }
+//        println(list.size)
     }
 }
