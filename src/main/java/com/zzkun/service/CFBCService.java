@@ -43,6 +43,8 @@ public class CFBCService {
                 .collect(Collectors.toList());
         logger.info("数据库所有CF用户：{}", cfnameList);
         List<CFUserInfo> infoList = cfWebGetter.getUserInfos(cfnameList);
+        if(infoList == null)
+            infoList = cfWebGetter.getUserInfos2(cfnameList);
         cfUserInfoRepo.save(infoList);
         logger.info("CF数据更新完毕！");
     }

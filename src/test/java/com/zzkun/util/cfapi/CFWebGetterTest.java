@@ -22,8 +22,13 @@ public class CFWebGetterTest {
 
     @Test
     public void getUserInfos() throws Exception {
-        List<CFUserInfo> list = cfWebGetter.getUserInfos(Arrays.asList("kun368", "tourist"));
+        List<CFUserInfo> list = cfWebGetter.getUserInfos(Arrays.asList("kun368", "tourist", "12313456465431321"));
         System.out.println(list);
     }
 
+    @Test
+    public void getUserInfos2() throws Exception {
+        List<CFUserInfo> list = cfWebGetter.getUserInfos2(Arrays.asList("kun368", "tourist", "12313456465431321"));
+        System.out.println(list);
+    }
 }

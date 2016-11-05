@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public class BCWebGetter {
             JSONObject object = array.getJSONObject(array.size() - 1);
             logger.info("获取的最后一次比赛信息：{}", object);
             return new BCUserInfo(bcname, object.getInteger("rating"));
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
@@ -41,8 +40,7 @@ public class BCWebGetter {
         List<BCUserInfo> list = new ArrayList<>(nameList.size());
         for (String s : nameList) {
             BCUserInfo info = getBCUserInfo(s);
-            if(info != null)
-                list.add(info);
+            if(info != null) list.add(info);
         }
         return list;
     }
