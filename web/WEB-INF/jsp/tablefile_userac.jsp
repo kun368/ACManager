@@ -25,6 +25,7 @@
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
 
     <c:url value="/auth/modifyUserByAdmin" var="url_modify"/>
+    <c:url value="/statistics/updateCFBC" var="url_updateCFBC"/>
     <c:url value="/userac/updatedb" var="url_updatedb"/>
     <script>
         $(document).ready(function () {
@@ -51,6 +52,13 @@
                     alert(data);
                     location.reload();
                 })
+            });
+            $('#btn_updatecfbc').click(function () {
+                $(this).attr("disabled", "disabled");
+                $.post("${url_updateCFBC}", {}, function (data) {
+                    alert(data);
+                    location.reload()
+                });
             });
             $('#addbutton').click(function () {
                 $(this).attr("disabled", "disabled");
@@ -90,6 +98,7 @@
         <div class="row">
             <div class="pull-right">
                 <button class="btn btn-info" id="addbutton">更新数据</button>
+                <button class="btn btn-info" id="btn_updatecfbc">更新CF/BC</button>
             </div>
         </div>
     </c:if>

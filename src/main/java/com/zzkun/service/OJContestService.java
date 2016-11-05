@@ -52,7 +52,7 @@ public class OJContestService {
     }
 
     @Scheduled(cron="0 0 0/1 * * ?")
-    public void flushOJContests() {
+    public synchronized void flushOJContests() {
         logger.info("定时更新近期比赛开始...");
         List<OJContest> webDate = getWebDate();
         if(webDate == null || webDate.isEmpty())

@@ -31,5 +31,6 @@ public enum OJType {
 
     Null,
     SUM,
-    Vjudge
+    Vjudge,
+    OpenJ_Bailian
 }

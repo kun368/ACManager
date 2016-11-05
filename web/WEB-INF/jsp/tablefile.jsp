@@ -25,7 +25,6 @@
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
 
     <c:url value="/auth/modifyUserByAdmin" var="url_modify"/>
-    <c:url value="/statistics/updatedb" var="url_updatedb"/>
     <c:url value="/rating/updateGlobal" var="url_update_rating"/>
     <script>
         $(document).ready(function () {
@@ -52,13 +51,6 @@
                     alert(data);
                     location.reload();
                 })
-            });
-            $('#addbutton').click(function () {
-                $(this).attr("disabled", "disabled");
-                $.post("${url_updatedb}", {}, function (data) {
-                    alert(data);
-                    location.reload()
-                });
             });
             $('#update_Rating').click(function () {
                 $(this).attr("disabled", "disabled");
@@ -97,7 +89,6 @@
     <c:if test="${(!empty user) and (user.isAdmin())}">
         <div class="row">
             <div class="pull-right">
-                <button class="btn btn-info" id="addbutton">更新数据</button>
                 <button class="btn btn-info" id="update_Rating">更新Rating</button>
             </div>
         </div>

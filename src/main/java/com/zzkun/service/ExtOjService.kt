@@ -75,26 +75,30 @@ open class ExtOjService {
 
     @Scheduled(cron = "0 0 0/6 * * ?")
     fun flushACDB() {
-        logger.info("开始更新用户AC题目纪录...")
-        val preList = userACPbRepo.findAll()
-        val preSet = TreeSet<UserACPb>(preList)
-        val cur = getUsersACPbsFromWeb(userService.allUser())
-        val new = ArrayList<UserACPb>()
-        for (userACPb in cur)
-            if(!preSet.contains(userACPb))
-                new.add(userACPb)
-        logger.info("pre:${preSet.size}, cur:${cur.size}, new:${new.size}")
-        userACPbRepo.save(new)
-        logger.info("更新完毕！")
+        synchronized(this) {
+            logger.info("开始更新用户AC题目纪录...")
+            val cur = getUsersACPbsFromWeb(userService.allUser())
+            val preList = userACPbRepo.findAll()
+            val preSet = TreeSet<UserACPb>(preList)
+            val new = ArrayList<UserACPb>()
+            for (userACPb in cur)
+                if(!preSet.contains(userACPb))
+                    new.add(userACPb)
+            logger.info("pre:${preSet.size}, cur:${cur.size}, new:${new.size}")
+            userACPbRepo.save(new)
+            logger.info("更新完毕！")
+        }
     }
 
     fun flushPbInfoDB() {
-        val set = TreeSet<ExtOjPbInfo>()
-        set.addAll(getPbInfosFromWeb())
-        set.addAll(extOjPbInfoRepo.findAll())
-        extOjPbInfoRepo.deleteAll()
-        extOjPbInfoRepo.save(set)
-        logger.info("更新完毕！, 现有纪录${set.size}条")
+        synchronized(this) {
+            val set = TreeSet<ExtOjPbInfo>()
+            set.addAll(getPbInfosFromWeb())
+            set.addAll(extOjPbInfoRepo.findAll())
+            extOjPbInfoRepo.deleteAll()
+            extOjPbInfoRepo.save(set)
+            logger.info("更新完毕！, 现有纪录${set.size}条")
+        }
     }
 
     fun getUserAC(user: User): List<UserACPb> {

@@ -97,7 +97,7 @@
                 <c:set value="Acmer" var="Acmer"/>
                 <div style="padding-bottom: 10px">
                     您的当前状态：${curStatus} <br/>
-                    申请入队需保证信息按照格式填写正确无误，班级样例：软件14-3<br/>
+                    申请入队需满足集训队入队条件，并保证信息按照格式填写正确无误，申请后联系管理员进行审核。<br/>
                     入队后不能修改个人信息
                 </div>
                 <c:url value="/auth/applyInACM/${user.id}" var="url_applyin"/>
@@ -118,30 +118,31 @@
             <div class="panel-body">
                 <form class="form-horizontal" id="myform" method="post" action="<c:url value="/auth/doModify"/> "
                       onsubmit="return mysubmit(true)">
-                    <div class="col-lg-6">
+                    <div class="col-lg-7">
                         <input value="${user.id}" name="id" hidden>
                         <div class="form-group">
                             用户名：<input type="text" name="username" id="inputUserName" class="form-control" value="${user.username}" readonly>
                         </div>
 
                         <div class="form-group">
-                            UVA ID:<input type="text" name="uvaId" id="inputUVA" class="form-control" value="${user.uvaId}">
+                            UVAID:<input type="text" name="uvaId" id="inputUVA" class="form-control" value="${user.uvaId}"
+                                placeholder="6位数 (登陆UVaOJ -> My Accounts -> Online Judge ID)">
                         </div>
                         <!--<p>UVA UserName:</p>-->
                         <div class="form-group">
-                            CF用户名:<input type="text" name="cfname" id="inputCF" class="form-control" value="${user.cfname}">
+                            Codeforces用户名:<input type="text" name="cfname" id="inputCF" class="form-control" value="${user.cfname}">
                         </div>
                         <div class="form-group">
-                            BC用户名:<input type="text" name="bcname" id="inputBC" class="form-control" value="${user.bcname}">
+                            BestCoder用户名:<input type="text" name="bcname" id="inputBC" class="form-control" value="${user.bcname}">
                         </div>
                         <div class="form-group">
-                            VJ用户名:<input type="text" name="vjname" id="inputVJ" class="form-control" value="${user.vjname}">
+                            VJudge用户名:<input type="text" name="vjname" id="inputVJ" class="form-control" value="${user.vjname}">
                         </div>
                         <div class="form-group">
-                            HDOJ账号:<input type="text" name="hduName" id="inputHDU" class="form-control" value="${user.hduName}">
+                            HDOJ用户名:<input type="text" name="hduName" id="inputHDU" class="form-control" value="${user.hduName}">
                         </div>
                         <div class="form-group">
-                            POJ账号:<input type="text" name="pojName" id="inputPOJ" class="form-control" value="${user.pojName}">
+                            POJ用户名:<input type="text" name="pojName" id="inputPOJ" class="form-control" value="${user.pojName}">
                         </div>
                         <div class="form-group">
                             真实姓名:<input type="text" name="realName" id="inputRealName" class="form-control"
@@ -153,7 +154,7 @@
                         </div>
                         <div class="form-group">
                             博客地址:<input type="text" name="blogUrl" class="form-control disabled"
-                                      value="${user.blogUrl}" placeholder="格式示例：http://blog.csdn.net/kun768">
+                                      value="${user.blogUrl}" placeholder="格式示例：http://blog.csdn.net/hahaha">
                         </div>
                         <div class="form-horizontal pull-right form-group">
                             <button class="btn btn-primary " type="submit">修 改</button>
@@ -172,7 +173,7 @@
             <div class="panel-body">
                 <form class="form-horizontal" id="myform1" method="post" action="<c:url value="/auth/doModifyUserPW"/> "
                       onsubmit="return mysubmit(true)">
-                    <div class="col-lg-6">
+                    <div class="col-lg-7">
                         <input value="${user.id}" name="id" hidden>
                         <div class="form-group">
                             旧密码:<input type="password" name="oldpassword" id="OldPassword" class="form-control"

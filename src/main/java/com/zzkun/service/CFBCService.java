@@ -35,7 +35,7 @@ public class CFBCService {
     @Autowired private UserRepo userRepo;
 
     @Scheduled(cron="0 0 0/12 * * ?")
-    public void flushCFUserInfo() {
+    public synchronized void flushCFUserInfo() {
         List<User> userList = userRepo.findAll();
         List<String> cfnameList = userList.stream()
                 .filter(x -> (!x.isAdmin() && StringUtils.hasText(x.getCfname())))
@@ -54,7 +54,7 @@ public class CFBCService {
     }
 
     @Scheduled(cron="0 0 0/12 * * ?")
-    public void flushBCUserInfo() {
+    public synchronized void flushBCUserInfo() {
         List<User> userList = userRepo.findAll();
         List<String> bcnameList = userList.stream()
                 .filter(x -> (!x.isAdmin() && StringUtils.hasText(x.getBcname())))

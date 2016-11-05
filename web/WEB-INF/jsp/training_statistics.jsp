@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <title>集训统计 - ACManager</title>
+    <title>集训队员统计 - ACManager</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -159,7 +159,7 @@
         <ol class="breadcrumb">
             <li>您所在的位置：</li>
             <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
-            <li class="active">集训详情</li>
+            <li class="active">${info.name}</li>
         </ol>
     </div>
 

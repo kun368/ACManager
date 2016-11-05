@@ -292,8 +292,8 @@ public class ExtOjPbInfo implements Serializable, Comparable<ExtOjPbInfo> {
     @Override
     public int compareTo(@NotNull ExtOjPbInfo o) {
         return new CompareToBuilder()
-                .append(ojName, o.ojName)
-                .append(pid, o.pid)
+                .append(getOjName(), o.getOjName())
+                .append(getPid(), o.getPid())
                 .toComparison();
     }
 }

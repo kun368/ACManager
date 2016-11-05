@@ -34,6 +34,7 @@
     <script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
     <script src="//cdn.datatables.net/plug-ins/1.10.12/sorting/chinese-string.js"></script>
     <c:url value="/api/userac/${username}/list" var="apiList"/>
+    <c:url value="/api/userac/url/" var="urlapi"/>
     <script>
         $(function () {
             $.ajax({
@@ -43,13 +44,13 @@
                 type: "GET",
                 success: function (data) {
                     var ojs = data.ojs;
-                    var max_number=0;
+                    var max_number = 0;
                     $.each(data.ac, function (name, value) {
                         var t = value;
-                        var number=t.length;
-                        max_number+=number;
+                        var number = t.length;
+                        max_number += number;
                         var dataName = "<div  class='col-lg-3 oj'><div>" +
-                                name +"&nbsp;("+number+
+                                name + "&nbsp;(" + number +
                                 ")</div></div>";
                         var dataForm = "<div  class='col-lg-9' id='" + name + "'>" + "<table class='table table-condensed display'>";
                         t = t.sort(function (a, b) {
@@ -59,7 +60,8 @@
                         for (var j = 0; j < t.length; j++) {
                             var modv = j % td_numb;
                             if (modv == 0) dataForm += "<tr>";
-                            dataForm += "<td style='width:75px'>" + t[j] + "</td>";
+                            dataForm += "<td style='width:75px'><a class='click_url' href='javascript:;'" +
+                                    "onmouseover='onmouseover_url(this)' >" + t[j] + "</a></td>";
                             if (j == t.length - 1 && modv != td_numb - 1) {
                                 for (var x = modv; x < td_numb; x++)
                                     dataForm += "<td>&nbsp;</td>";
@@ -75,10 +77,33 @@
                         $(this).children().eq(0).outerHeight(ht);
                         $(this).children().eq(0).children().css("line-height", ht + "px");
                     });
-                    $('#solve_number').html("("+max_number+")");
+                    $('#solve_number').html("(" + max_number + ")");
+
+
                 }
             });
         });
+        function onmouseover_url(obj) {
+            var this_obj = $(obj);
+            var name = this_obj.parent().parent().parent().parent().parent().eq(0).attr("id");
+            var numb = this_obj.text();
+            var url = this_obj.attr("href");
+            if (url == "javascript:;")
+                $.ajax({
+                    url: "${urlapi}" + name + "/" + numb,
+                    data: {},
+                    dataType: "text",
+                    type: "GET",
+                    success: function (data) {
+                        this_obj.attr("target", "_blank");
+                        this_obj.attr("href", data);
+                    },
+                    error: function (data) {
+                        this_obj.attr("href", "#");
+                    }
+                });
+        }
+
     </script>
 </head>
 <body>

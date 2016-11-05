@@ -49,8 +49,11 @@ class UserACApi {
     fun url(@PathVariable oj: String, @PathVariable pid: String): String {
         val type = OJType.valueOf(oj)
         val link = extojLinkRepo.findOne(type).problemLink
-        if(type == OJType.UVA)
+        if(type == OJType.UVA) {
             return String.format(link, uhuntAnalyser.numToPid(pid))
+        } else if(type == OJType.CodeForces || type == OJType.Gym) {
+            return String.format(link, pid.substring(0, pid.length-1), pid.substring(pid.length-1))
+        }
         return String.format(link, pid)
     }
 }

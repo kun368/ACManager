@@ -101,7 +101,7 @@
                             </div>
                         </c:when>
                         <c:otherwise>
-                            <h3>暂时没有随机分队数据O(∩_∩)O~</h3>
+                            <h3>暂时没有随机分队数据...</h3>
                         </c:otherwise>
                     </c:choose>
                 </div>
