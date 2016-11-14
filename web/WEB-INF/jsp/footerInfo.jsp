@@ -8,16 +8,16 @@
         <hr/>
         <div class="text-muted">
             <p class="text-center text-muted">
-                由
+                Developer:
                 <a href="http://www.zzkun.com/" target="_blank" class="">Geekun</a> |
                 <a href="http://user.qzone.qq.com/985691039" target="_blank" class="">Kela</a> |
                 <a href="http://user.qzone.qq.com/1240288959" target="_blank" class="">Yang</a>
-                提供技术支持&nbsp;&nbsp;
+                &nbsp;
                 GitHub：<iframe src="https://ghbtns.com/github-btn.html?user=kun368&repo=ACManager&type=star&count=true" frameborder="0" scrolling="0" width="77px" height="17px"></iframe>
             </p>
             <p class="text-center text-muted">
             </p>
-            <p class="text-center text-muted">All Copyright Reserved ©2016 <a href="http://www.sdust.edu.cn/" target="_blank">SDUST</a> ACM 集训队.</p>
+            <p class="text-center text-muted">All Copyright Reserved ©2016 <a href="http://www.sdust.edu.cn/" target="_blank">SDUST</a> ACM Team.</p>
         </div>
     </div>
 </footer>

@@ -25,46 +25,67 @@
 </head>
 <body>
 
-    <div class="container-fluid"  style="margin-right: 0.7%;margin-left: 0.7%">
-        <jsp:include page="topBar.jsp"/>
-        <div class="row">
-            <div class="col-lg-1">
-            </div>
-            <div class="col-lg-10">
-                <div class="page-header">
-                    <h1>欢迎访问山东科技大学ACM集训队管理系统</h1>
-                </div>
-            </div>
-            <div class="col-lg-1">
-            </div>
+<div class="container-fluid"  style="margin-right: 0.7%;margin-left: 0.7%">
+    <jsp:include page="topBar.jsp"/>
+
+    <div style="padding-top: 26px"></div>
+
+    <div class="row">
+        <div class="col-lg-1">
         </div>
+        <div class="col-lg-10">
+            <div class="jumbotron">
+                <h2><strong>欢迎访问 SDUST ACM 集训队管理系统！</strong></h2>
+                <p></p>
+                <h5>系统更新频率：</strong>
+                    近期比赛:1小时 &nbsp;
+                    AC题目:6小时 &nbsp;
+                    CF/BC Rating:12小时 &nbsp;
+                    全局比赛Rating:1天
+                </h5>
+                <h5>请使用 Chrome, Firefox, IE (>=IE9) 或其他浏览器访问本站</h5>
+                <h5>存在任何问题，请在下面留言或<a href="mailto:kun368@126.com">联系管理员</A></h5>
+                <%--<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>--%>
+            </div>
+            <%--<div class="page-header">--%>
+                <%--<h1>欢迎访问山东科技大学ACM集训队管理系统</h1>--%>
+                <%--<p>系统当前更新频率：</p>--%>
+                <%--<p>近期各大OJ比赛信息：1小时 &nbsp;--%>
+                    <%--用户各大OJ提交纪录：6小时 &nbsp;--%>
+                    <%--CF/BC Rating信息：12小时 &nbsp;--%>
+                    <%--全局比赛Rating统计：1天</p>--%>
+            <%--</div>--%>
+        </div>
+        <div class="col-lg-1">
+        </div>
+    </div>
 
 
-        <div class="row">
-            <div class="col-lg-1">
-            </div>
-            <div class="col-lg-10">
-                <!-- 多说评论框 start -->
-                <div class="ds-thread" data-thread-key="1" data-title="Index" data-url="<%=request.getRequestURL()%>"></div>
-                <!-- 多说评论框 end -->
-                <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-                <script type="text/javascript">
-                    var duoshuoQuery = {short_name:"acmanager"};
-                    (function() {
-                        var ds = document.createElement('script');
-                        ds.type = 'text/javascript';ds.async = true;
-                        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-                        ds.charset = 'UTF-8';
-                        (document.getElementsByTagName('head')[0]
-                        || document.getElementsByTagName('body')[0]).appendChild(ds);
-                    })();
-                </script>
-                <!-- 多说公共JS代码 end -->
-            </div>
-            <div class="col-lg-1">
-            </div>
+    <div class="row">
+        <div class="col-lg-1">
         </div>
-    </div> <!-- /container -->
+        <div class="col-lg-10">
+            <!-- 多说评论框 start -->
+            <div class="ds-thread" data-thread-key="1" data-title="Index" data-url="<%=request.getRequestURL()%>"></div>
+            <!-- 多说评论框 end -->
+            <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+            <script type="text/javascript">
+                var duoshuoQuery = {short_name:"acmanager"};
+                (function() {
+                    var ds = document.createElement('script');
+                    ds.type = 'text/javascript';ds.async = true;
+                    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+                    ds.charset = 'UTF-8';
+                    (document.getElementsByTagName('head')[0]
+                    || document.getElementsByTagName('body')[0]).appendChild(ds);
+                })();
+            </script>
+            <!-- 多说公共JS代码 end -->
+        </div>
+        <div class="col-lg-1">
+        </div>
+    </div>
+</div> <!-- /container -->
 <jsp:include page="footerInfo.jsp"/>
 <c:if test="${!empty tip}">
     <script>

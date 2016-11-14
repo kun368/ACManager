@@ -66,4 +66,14 @@ open class CFWebGetter {
         }
         return res
     }
+
+//    fun userACPbs(cfName: String?, link: String): List<String> {
+//        if(cfName == null)
+//            return ArrayList()
+//        logger.info("开始获取coderforces用户${cfName}AC题目")
+//        val url = String.format(link, cfName)
+//        val body = Jsoup.connect(url).timeout(7777).get().body().toString()
+//        val res = sortedSetOf<String>()
+//
+//    }
 }
