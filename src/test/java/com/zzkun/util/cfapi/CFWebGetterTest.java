@@ -31,4 +31,11 @@ public class CFWebGetterTest {
         List<CFUserInfo> list = cfWebGetter.getUserInfos2(Arrays.asList("kun368", "tourist", "12313456465431321"));
         System.out.println(list);
     }
+
+    @Test
+    public void userACPbs() throws Exception {
+        List<String> userACPbs = cfWebGetter.userACPbs("kun368", "http://codeforces.com/api/user.status?handle=%s");
+        System.out.println(userACPbs);
+
+    }
 }

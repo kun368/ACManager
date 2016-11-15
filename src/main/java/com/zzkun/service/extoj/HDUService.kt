@@ -6,9 +6,7 @@ import com.zzkun.util.web.HDUWebGetter
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
-/**
- * Created by kun on 2016/10/15.
- */
+
 @Service
 open class HDUService : IExtOJAdapter {
 

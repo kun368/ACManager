@@ -28,7 +28,6 @@
     <context:component-scan base-package="com.zzkun.controller"/>
     <context:component-scan base-package="com.zzkun.service"/>
     <context:component-scan base-package="com.zzkun.dao"/>
-    <context:component-scan base-package="com.zzkun.config"/>
     <context:component-scan base-package="com.zzkun.util"/>
 
     <mvc:annotation-driven conversion-service="conversionService"/>

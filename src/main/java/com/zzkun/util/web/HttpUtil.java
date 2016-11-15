@@ -13,15 +13,24 @@ import java.net.URL;
 @Component
 public class HttpUtil {
 
+    /**
+     * 重试机制强力读取Web内容
+     */
     public String readURL(String url) throws IOException {
-        try {
-            return IOUtils.toString(new URL(url), "utf8");
-        } catch (IOException e) {
-            return IOUtils.toString(new URL(url), "utf8");
+        String result = null;
+        IOException exception = null;
+        for(int i = 0; i < 4; ++i) {
+            try {
+                result = IOUtils.toString(new URL(url), "utf8");
+                if(result != null)
+                    break;
+            } catch (IOException e) {
+                exception = e;
+            }
         }
+        if(result == null)
+            throw exception;
+        return result;
     }
 
-    public static void main(String[] args) throws IOException {
-        System.out.println(new HttpUtil().readURL("http://uhunt.felix-halim.net/api/subs-user/628124"));
-    }
 }

@@ -34,9 +34,10 @@ open class ExtOjService {
     @Autowired lateinit private var vjudgeService: VJudgeService
     @Autowired lateinit private var hduService: HDUService
     @Autowired lateinit private var pojService: POJService
+    @Autowired lateinit private var cfService: CFService
 
     private fun allExtOjServices(): List<IExtOJAdapter> {
-        return listOf(vjudgeService, uvaService, hduService, pojService)
+        return listOf(vjudgeService, uvaService, hduService, pojService, cfService)
     }
 
     private fun getUsersACPbsFromWeb(users: List<User>): Set<UserACPb> {

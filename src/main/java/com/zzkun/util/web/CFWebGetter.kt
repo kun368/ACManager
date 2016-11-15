@@ -67,13 +67,28 @@ open class CFWebGetter {
         return res
     }
 
-//    fun userACPbs(cfName: String?, link: String): List<String> {
-//        if(cfName == null)
-//            return ArrayList()
-//        logger.info("开始获取coderforces用户${cfName}AC题目")
-//        val url = String.format(link, cfName)
-//        val body = Jsoup.connect(url).timeout(7777).get().body().toString()
-//        val res = sortedSetOf<String>()
-//
-//    }
+    fun userACPbs(cfName: String?, link: String): List<String> {
+        if(cfName == null)
+            return ArrayList()
+        logger.info("开始获取coderforces用户${cfName}AC题目")
+        val url = String.format(link, cfName)
+        val body = httpUtil.readURL(url)
+        val json = JSON.parseObject(body)
+        if(json == null || json.getString("status") != "OK")
+            return ArrayList()
+        val arr = json.getJSONArray("result")
+        val res = TreeSet<String>()
+        if(arr != null) {
+            for(i in arr.indices) {
+                val cur = arr.getJSONObject(i)
+                if(cur.getString("verdict") != "OK")
+                    continue
+                val problem = cur.getJSONObject("problem")
+                val pid = problem.getString("contestId") + problem.getString("index")
+                res.add(pid)
+            }
+        }
+        logger.info("")
+        return res.toList()
+    }
 }

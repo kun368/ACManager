@@ -21,22 +21,6 @@ class ExtOjServiceTest {
     @Autowired
     lateinit var userRepo: UserRepo
 
-    @Test
-    fun userAllAC() {
-//        val user = userRepo.findByUsername("kun368")
-//        val list = extOjService.userAllAC_OL(user)
-//        for(i in list) {
-//            println(i)
-//        }
-//        println(list.size)
-    }
-
-    @Test
-    fun getUsersACPbsFromWeb() {
-//        val all = userRepo.findAll()
-//        val set = extOjService.getUsersACPbsFromWeb(all)
-//        println(set.size)
-    }
 
     @Test
     fun flushACDB() {
