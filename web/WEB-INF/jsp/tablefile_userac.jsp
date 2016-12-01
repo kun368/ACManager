@@ -27,6 +27,7 @@
     <c:url value="/auth/modifyUserByAdmin" var="url_modify"/>
     <c:url value="/statistics/updateCFBC" var="url_updateCFBC"/>
     <c:url value="/userac/updatedb" var="url_updatedb"/>
+    <c:url value="/api/user/" var="url_userdetail"/>
     <script>
         $(document).ready(function () {
             $("#id").hide();
@@ -47,6 +48,7 @@
                     vjname: $('#vjname').val(),
                     bcname: $('#bcname').val(),
                     uvaId: $('#uvaId').val(),
+                    blogUrl: $('#blogUrl').val(),
                     type: $('#status option:selected').val()
                 }, function (data) {
                     alert(data);
@@ -70,21 +72,27 @@
         });
         function updata(obj) {
             var tds = $(obj).parent().parent().find('td');
-            $('#id').val(tds.eq(0).text());
-            $('#username').val(tds.eq(1).text());
-            $('#uvaId').val(tds.eq(2).text());
-            $('#cfname').val(tds.eq(3).text());
-            $('#vjname').val(tds.eq(4).text());
-            $('#bcname').val(tds.eq(5).text());
-            $('#realname').val(tds.eq(6).text());
-            $('#major').val(tds.eq(7).text());
-            var form_text = $.trim(tds.eq(18).text());
-            $("#status option").each(function (i, item) {
-                var option_text = $(this).text();
-                if (option_text == form_text) {
-                    $(this).prop("selected", "selected")
-                }
-            })
+            var username = tds.eq(1).text();
+            var url = "${url_userdetail}" + username + "/detail";
+            $.get(url, {}, function (data) {
+                var json = JSON.parse(data);
+                $('#id').val(json.id);
+                $('#username').val(json.username);
+                $('#uvaId').val(json.uvaId);
+                $('#vjname').val(json.vjname);
+                $('#cfname').val(json.cfname);
+                $('#bcname').val(json.bcname);
+                $('#realname').val(json.realName);
+                $('#major').val(json.major);
+                $('#blogUrl').val(json.blogUrl);
+                var form_text = $.trim(json.type);
+                $("#status option").each(function (i, item) {
+                    var option_text = $(this).attr("value");
+                    if (option_text == form_text) {
+                        $(this).prop("selected", "selected")
+                    }
+                });
+            });
         }
     </script>
 </head>
@@ -115,10 +123,6 @@
                     <tr>
                         <th hidden>ID</th>
                         <th hidden>用户名</th>
-                        <th hidden>UVaId</th>
-                        <th hidden>CfName</th>
-                        <th hidden>VJName</th>
-                        <th hidden>BCName</th>
                         <th>姓名</th>
                         <th>班级</th>
 
@@ -157,10 +161,6 @@
                         <tr>
                             <td hidden>${curUser.id}</td>
                             <td hidden>${curUser.username}</td>
-                            <td hidden>${curUser.uvaId}</td>
-                            <td hidden>${curUser.cfname}</td>
-                            <td hidden>${curUser.vjname}</td>
-                            <td hidden>${curUser.bcname}</td>
 
                             <c:choose>
                                 <c:when test="${!empty curUser.blogUrl}">
@@ -278,10 +278,10 @@
                         专业:<input type="text" class="form-control" id="major" required>
                     </div>
                     <div class="form-group">
-                        Codeforces 用户名:<input type="text" class="form-control" id="cfname">
+                        Virtual Judge 用户名:<input type="text" class="form-control" id="vjname">
                     </div>
                     <div class="form-group">
-                        Virtual Judge 用户名:<input type="text" class="form-control" id="vjname">
+                        Codeforces 用户名:<input type="text" class="form-control" id="cfname">
                     </div>
                     <div class="form-group">
                         BestCoder 用户名:<input type="text" class="form-control" id="bcname">
@@ -289,6 +289,10 @@
                     <div class="form-group">
                         UVaId:<input class="form-control" id="uvaId" required>
                     </div>
+                    <div class="form-group">
+                        博客链接:<input type="url" class="form-control" id="blogUrl">
+                    </div>
+
                     <div class="form-group">
                         状态:<select class="form-control" id="status" required>
                         <option value="Retired">退役</option>

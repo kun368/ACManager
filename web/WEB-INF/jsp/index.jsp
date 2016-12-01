@@ -37,24 +37,16 @@
             <div class="jumbotron">
                 <h2><strong>欢迎访问 SDUST ACM 集训队管理系统！</strong></h2>
                 <p></p>
-                <h5>系统更新频率：</strong>
+                <h5>1) 系统更新频率：</strong>
                     近期比赛:1小时 &nbsp;
-                    AC题目:6小时 &nbsp;
+                    做题统计:6小时 &nbsp;
                     CF/BC Rating:12小时 &nbsp;
                     全局比赛Rating:1天
                 </h5>
-                <h5>请使用 Chrome, Firefox, IE (>=IE9) 或其他浏览器访问本站</h5>
-                <h5>存在任何问题，请在下面留言或<a href="mailto:kun368@126.com">联系管理员</A></h5>
-                <%--<p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>--%>
+                <h5>2) 做题统计数据现支持：Vjudge、UVa、HDU、POJ和Codeforces，填写账号后即可统计</h5>
+                <h5>3) 请使用 Chrome, Firefox, IE (>=IE9) 或其他浏览器访问本站</h5>
+                <h5>4) 存在任何问题，请在下面留言或<a href="mailto:kun368@126.com">联系管理员</A></h5>
             </div>
-            <%--<div class="page-header">--%>
-                <%--<h1>欢迎访问山东科技大学ACM集训队管理系统</h1>--%>
-                <%--<p>系统当前更新频率：</p>--%>
-                <%--<p>近期各大OJ比赛信息：1小时 &nbsp;--%>
-                    <%--用户各大OJ提交纪录：6小时 &nbsp;--%>
-                    <%--CF/BC Rating信息：12小时 &nbsp;--%>
-                    <%--全局比赛Rating统计：1天</p>--%>
-            <%--</div>--%>
         </div>
         <div class="col-lg-1">
         </div>

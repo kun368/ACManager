@@ -21,8 +21,8 @@ open class POJWebGetter {
     fun userACPbs(pojName: String?, link: String): List<String> {
         if(pojName == null)
             return ArrayList()
-        logger.info("开始获取poj用户${pojName}AC题目")
         val url = String.format(link, pojName)
+        logger.info("开始获取poj用户${pojName}AC题目:$url")
         val body = Jsoup.connect(url).timeout(7777).get().body().toString()
         val patten = Pattern.compile("""p\(([\d]+)\)""")
         val matcher = patten.matcher(body)

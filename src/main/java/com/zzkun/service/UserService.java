@@ -96,6 +96,8 @@ public class UserService {
             pre.setBcname(user.getBcname());
         if(hasText(user.getMajor()))
             pre.setMajor(user.getMajor());
+        if(hasText(user.getBlogUrl()))
+            pre.setBlogUrl(user.getBlogUrl());
         if(user.getType() != null)
             pre.setType(user.getType());
         userRepo.save(pre);

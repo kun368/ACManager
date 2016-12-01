@@ -55,7 +55,7 @@ open class ExtOjService {
         service.shutdown()
         futureList.forEach {
             try {
-                set.addAll(it.get(30, TimeUnit.SECONDS))
+                set.addAll(it.get(20, TimeUnit.SECONDS))
             } catch(e: Exception) {
                 e.printStackTrace()
             }

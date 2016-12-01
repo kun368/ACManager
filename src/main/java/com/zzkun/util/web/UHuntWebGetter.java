@@ -131,10 +131,10 @@ public class UHuntWebGetter {
     public List<Integer> userACSubmits(Integer uid, String link) {
         if(uid == null)
             return new ArrayList<>();
-        logger.info("开始爬取uva用户{}提交纪录", uid);
         List<Integer> res = new ArrayList<>();
         try {
             String url = String.format(link, uid);
+            logger.info("开始爬取uva用户{}提交纪录:{}", uid, url);
             String json = httpUtil.readURL(url);
             logger.debug("爬取完毕，开始分析...");
             JSONArray subsJson = JSON.parseObject(json).getJSONArray("subs");

@@ -70,8 +70,8 @@ open class CFWebGetter {
     fun userACPbs(cfName: String?, link: String): List<String> {
         if(cfName == null)
             return ArrayList()
-        logger.info("开始获取coderforces用户${cfName}AC题目")
         val url = String.format(link, cfName)
+        logger.info("开始获取coderforces用户${cfName}AC题目：$url")
         val body = httpUtil.readURL(url)
         val json = JSON.parseObject(body)
         if(json == null || json.getString("status") != "OK")
@@ -88,7 +88,6 @@ open class CFWebGetter {
                 res.add(pid)
             }
         }
-        logger.info("")
         return res.toList()
     }
 }
