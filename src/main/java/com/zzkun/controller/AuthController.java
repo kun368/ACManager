@@ -181,9 +181,8 @@ public class AuthController {
                                     HttpSession session) {
         logger.info("收到管理员修改用户请求：{}", user);
         User admin = (User) session.getAttribute("user");
-        if(admin == null || !admin.isAdmin()) {
+        if(admin == null || !admin.isAdmin())
             return "没有权限！";
-        }
         userService.modifyUserByAdmin(user);
         return "修改成功！";
     }

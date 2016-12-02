@@ -47,6 +47,8 @@
                     cfname: $('#cfname').val(),
                     vjname: $('#vjname').val(),
                     bcname: $('#bcname').val(),
+                    hduName: $('#hduName').val(),
+                    pojName: $('#pojName').val(),
                     uvaId: $('#uvaId').val(),
                     blogUrl: $('#blogUrl').val(),
                     type: $('#status option:selected').val()
@@ -84,6 +86,8 @@
                 $('#bcname').val(json.bcname);
                 $('#realname').val(json.realName);
                 $('#major').val(json.major);
+                $('#hduName').val(json.hduName);
+                $('#pojName').val(json.pojName);
                 $('#blogUrl').val(json.blogUrl);
                 var form_text = $.trim(json.type);
                 $("#status option").each(function (i, item) {
@@ -285,6 +289,12 @@
                     </div>
                     <div class="form-group">
                         BestCoder 用户名:<input type="text" class="form-control" id="bcname">
+                    </div>
+                    <div class="form-group">
+                        HDU 用户名:<input type="text" class="form-control" id="hduName">
+                    </div>
+                    <div class="form-group">
+                        POJ 用户名:<input type="text" class="form-control" id="pojName">
                     </div>
                     <div class="form-group">
                         UVaId:<input class="form-control" id="uvaId" required>

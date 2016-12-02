@@ -94,6 +94,10 @@ public class UserService {
             pre.setVjname(user.getVjname());
         if(hasText(user.getBcname()))
             pre.setBcname(user.getBcname());
+        if(hasText(user.getHduName()))
+            pre.setHduName(user.getHduName());
+        if(hasText(user.getPojName()))
+            pre.setPojName(user.getPojName());
         if(hasText(user.getMajor()))
             pre.setMajor(user.getMajor());
         if(hasText(user.getBlogUrl()))
