@@ -4,13 +4,17 @@ package com.zzkun;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.hash.Hashing;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.math3.ml.clustering.*;
+import org.apache.commons.math3.ml.clustering.Cluster;
+import org.apache.commons.math3.ml.clustering.Clusterer;
+import org.apache.commons.math3.ml.clustering.DoublePoint;
+import org.apache.commons.math3.ml.clustering.KMeansPlusPlusClusterer;
 import org.junit.Test;
 import org.springframework.data.util.Pair;
 
-import java.math.BigInteger;
 import java.net.URI;
+import java.nio.charset.Charset;
 import java.text.Collator;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -152,5 +156,10 @@ public class MyTest2 {
         String[] arr = new String[] {"张三", "李四", "王五", "呵呵"};
         Arrays.sort(arr);
         System.out.println(Arrays.toString(arr));
+    }
+
+    @Test
+    public void test14() throws Exception {
+        System.out.println(Hashing.sha1().hashString("123", Charset.forName("utf8")));
     }
 }

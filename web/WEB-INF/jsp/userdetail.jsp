@@ -18,8 +18,10 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="//cdn.bootcss.com/js-sha1/0.3.0/sha1.min.js"></script>
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
     <c:url value="/" var="url_index"/>
     <c:url value="/auth/validUsername" var="url_valid"/>
     <script type="text/javascript">
@@ -27,47 +29,20 @@
         function Goto() {
             self.location = '${url_index}';
         }
-        $(function () {
-            $('#OldPassword').blur(function () {
-                var oldpassword = $(this).val();
-                if ( oldpassword != ${user.password})
-                    $('#checkOldPassword').html("旧密码错误");
-            });
-            $('#inputRepass').blur(function () {
-                var pa = $('#inputPassword').val();
-                var ck = $('#accheck');
-                var rep = $('#inputRepass').val();
-                if (rep != '' || pa != '')
-                    if (rep === pa) {
-                    }
-                    else {
-                        ck.html('两次密码输不入一致');
-                    }
-            });
-            $('#OldPassword').click(function () {
-                var ck = $('#checkOldPassword');
-                ck.html('');
-            });
-            $('#inputRepass,#inputPassword').click(function () {
-                var ck = $('#accheck');
-                ck.html('');
-            });
-        });
-    </script>
-    <script>
-        function mySubmit(flag) {
-            return flag;
-        }
-        $("#myform1").submit(function () {
+        function check() {
+            var pre = $('#OldPassword').val();
             var pa = $('#inputPassword').val();
             var rep = $('#inputRepass').val();
-            if (OldPassword != ${user.password} || rep != pa) {
-                alert("表单填写错误");
-                return mySubmit(false);
-            } else {
-                return mySubmit(true);
+            if(sha1(pre) != "${user.password}") {
+                alert("原密码错误！");
+                return false;
             }
-        });
+            if(rep != pa) {
+                alert("表单填写错误");
+                return false;
+            }
+            return true;
+        }
     </script>
 </head>
 
@@ -167,15 +142,15 @@
                 <h3 class="panel-title"> 密码修改</h3>
             </div>
             <div class="panel-body">
-                <form class="form-horizontal" id="myform1" method="post" action="<c:url value="/auth/doModifyUserPW"/> "
-                      onsubmit="return mysubmit(true)">
+                <form class="form-horizontal" method="post"
+                      action="<c:url value="/auth/doModifyUserPW"/> "
+                      onsubmit="return check();">
                     <div class="col-lg-7">
                         <input value="${user.id}" name="id" hidden>
                         <div class="form-group">
                             旧密码:<input type="password" name="oldpassword" id="OldPassword" class="form-control"
                                        placeholder="Oldpassword*" required>
                         </div>
-                        <p id="checkOldPassword"></p>
                         <div class="form-group">
                             新密码:<input type="password" name="password" id="inputPassword" class="form-control"
                                        placeholder="Newpassword*" required>

@@ -77,7 +77,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.alibaba:jconsole:1.8.0">
         <CLASSES>
-          <root url="jar://C:/Program Files/Java/jdk1.8.0_102/jre/../lib/jconsole.jar!/" />
+          <root url="jar://C:/Program Files/Java/jdk1.8.0_102/lib/jconsole.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -86,7 +86,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.alibaba:tools:1.8.0">
         <CLASSES>
-          <root url="jar://C:/Program Files/Java/jdk1.8.0_102/jre/../lib/tools.jar!/" />
+          <root url="jar://C:/Program Files/Java/jdk1.8.0_102/lib/tools.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -112,5 +112,7 @@
     <orderEntry type="library" name="Maven: javax.annotation:jsr250-api:1.0" level="project" />
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-entitymanager:5.2.2.Final" level="project" />
+    <orderEntry type="library" name="sha1" level="application" />
+    <orderEntry type="library" name="jquery" level="application" />
   </component>
 </module>

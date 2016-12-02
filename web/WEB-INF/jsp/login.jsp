@@ -20,13 +20,12 @@
     <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
     <script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
     <script src="http://static.geetest.com/static/tools/gt.js"></script>
+    <script src="//cdn.bootcss.com/js-sha1/0.3.0/sha1.min.js"></script>
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
 </head>
 
 <body>
-
-
 
 <div class="container-fluid"  style="margin-right: 0.7%;margin-left: 0.7%">
     <jsp:include page="topBar.jsp"/>
@@ -40,16 +39,18 @@
                 </h1>
             </div>
 
-            <form class="form-horizontal" method="post" action="<c:url value="/auth/dologin"/> ">
+            <form class="form-horizontal"
+                  method="post"
+                  action="<c:url value="/auth/dologin"/> "
+                  onsubmit="return encrypt();">
                 <div class="col-lg-6">
                     <div class="form-group">
-                        <input type="text" name="username" id="inputUsername" class="form-control" placeholder="UserName"
+                        <input type="text" name="username" id="username" class="form-control" placeholder="UserName"
                                required autofocus>
                     </div>
                     <div class="form-group">
-                        <input type="password" name="password" id="inputPassword" class="form-control"
-                               placeholder="Password"
-                               required>
+                        <input type="password" name="password" id="password" class="form-control"
+                               placeholder="PassWord" required>
                     </div>
                     <c:if test="${!empty tip}">
                         <span id="msg">${tip}</span>
@@ -120,6 +121,14 @@
         }
     });
 
+</script>
+<script>
+    function encrypt() {
+        var pre = $("#password").val();
+        $("#password").val(sha1(pre));
+//        console.log($("#password").val());
+        return true;
+    }
 </script>
 
 </body>

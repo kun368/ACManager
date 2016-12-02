@@ -1,6 +1,7 @@
 package com.zzkun.controller;
 
 
+import com.google.common.hash.Hashing;
 import com.zzkun.model.User;
 import com.zzkun.service.UserService;
 import com.zzkun.util.geetest.StartCaptchaServlet;
@@ -18,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.nio.charset.Charset;
 
 import static org.apache.commons.lang3.StringUtils.trimToNull;
 
@@ -95,8 +97,11 @@ public class AuthController {
             return "login";
         }
         User user = new User();
+        // SHA1加密密码
+        password = Hashing.sha1().hashString(password, Charset.forName("utf8")).toString();
+        user.setPassword(password);
+
         user.setUsername(trimToNull(username));
-        user.setPassword(trimToNull(password));
         user.setMajor(trimToNull(major));
         user.setRealName(trimToNull(realName));
         user.setType(User.Type.New);

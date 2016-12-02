@@ -1,5 +1,8 @@
 package com.zzkun;
 
+import com.google.common.hash.Hashing;
+import com.zzkun.dao.UserRepo;
+import com.zzkun.model.User;
 import com.zzkun.service.TrainingService;
 import com.zzkun.util.uhunt.UhuntTreeManager;
 import org.junit.Test;
@@ -7,6 +10,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.nio.charset.Charset;
+import java.util.List;
 
 /**
  * Created by kun on 2016/7/5.
@@ -17,8 +23,9 @@ public class MyTest {
 
     @Autowired private UhuntTreeManager uhuntTreeManager;
 
-
     @Autowired private TrainingService trainingService;
+
+    @Autowired private UserRepo userRepo;
 
 
     @Test
@@ -75,5 +82,19 @@ public class MyTest {
 //        for (Cluster<DoublePoint> re : res) {
 //            System.out.println(re.getPoints());
 //        }
+    }
+
+    /**
+     * 修改所有数据库用户密码，sha1加密
+     */
+    @Test
+    public void test3() throws Exception {
+        List<User> all = userRepo.findAll();
+        for (User user : all) {
+            String ps = user.getPassword();
+            ps = Hashing.sha1().hashString(ps, Charset.forName("utf8")).toString();
+            user.setPassword(ps);
+            userRepo.save(user);
+        }
     }
 }

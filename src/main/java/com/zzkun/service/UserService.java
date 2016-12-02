@@ -1,10 +1,12 @@
 package com.zzkun.service;
 
+import com.google.common.hash.Hashing;
 import com.zzkun.dao.UserRepo;
 import com.zzkun.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.Charset;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -78,6 +80,7 @@ public class UserService {
 
     public User modifyUserPassword(Integer id, String password) {
         User pre = getUserById(id);
+        password = Hashing.sha1().hashString(password, Charset.forName("utf8")).toString();
         pre.setPassword(password);
         return userRepo.save(pre);
     }
