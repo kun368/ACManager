@@ -32,7 +32,7 @@
         $(document).ready(function () {
             $("#id").hide();
             var table = $('#mytable').DataTable({
-                "order": [[11, "desc"]],
+                "order": [[7, "desc"]],
                 "columnDefs": [
                     {"type": "chinese-string", targets: 1},
                     {"contentPadding": "", targets: 1}

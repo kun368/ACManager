@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.Objects;
 
 import static org.apache.commons.lang3.StringUtils.trimToNull;
 
@@ -129,8 +130,13 @@ public class AuthController {
     public String doModifyUserPW(@RequestParam Integer id,
                                  @RequestParam String password,
                                  HttpSession session,
-                                 RedirectAttributes redirectAttributes) {
+                                 RedirectAttributes redirectAttributes,
+                                 @SessionAttribute(required = false) User user) {
         logger.info("收到修改密码请求：{},{}", id, password);
+        if(user == null || !Objects.equals(user.getId(), id)) {
+            redirectAttributes.addFlashAttribute("tip", "密码修改失败！");
+            return "redirect:/";
+        }
         User newUser = userService.modifyUserPassword(id, password);
         session.setAttribute("user", newUser);
         redirectAttributes.addFlashAttribute("tip", "密码修改成功！");
