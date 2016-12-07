@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -124,6 +125,15 @@ public class TrainingController {
         model.addAttribute("ratingMap",
                 ratingService.getRatingMap(RatingRecord.Scope.Training, trainingId, RatingRecord.Type.Team));
         return "fixed";
+    }
+
+    @RequestMapping("/searchContest/{queryStr}")
+    public String searchContest(@PathVariable String queryStr,
+                                Model model) {
+        if(!StringUtils.hasText(queryStr) || queryStr.equals("NULL"))
+            queryStr = "";
+        model.addAttribute("queryStr", queryStr);
+        return "search_contest";
     }
 
     ///////// ajax

@@ -16,7 +16,7 @@
         <hibernate.version>5.2.2.Final</hibernate.version>
         <aspectjrt.version>1.8.9</aspectjrt.version>
         <fastjson.version>1.2.17</fastjson.version>
-        <lucene.version>4.10.4</lucene.version>
+        <lucene.version>6.3.0</lucene.version>
     </properties>
 
     <dependencies>
@@ -28,8 +28,14 @@
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-runtime</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-test-junit</artifactId>
             <version>${kotlin.version}</version>
+            <scope>test</scope>
         </dependency>
 
         <!--工具类-->
@@ -176,6 +182,23 @@
             <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
+
+        <!--lucene-->
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-analyzers-common</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-queryparser</artifactId>
+            <version>${lucene.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -190,14 +213,6 @@
                         <phase>process-sources</phase>
                         <goals>
                             <goal>compile</goal>
-                            <goal>js</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>test-compile</id>
-                        <phase>process-test-sources</phase>
-                        <goals>
-                            <goal>test-js</goal>
                         </goals>
                     </execution>
                 </executions>

@@ -150,15 +150,18 @@
                 <h3 class="panel-title">所有集训</h3>
             </div>
             <div class="panel-body">
-                <c:if test="${user.isAdmin()}">
                     <div class="row" style="padding-left: 20px">
                         <div class="pull-left">
-                            <button class="btn btn-info btn-sm" id="addbutton" data-toggle="modal"
-                                    data-target="#myModal">添加集训</button>
+                            <c:url value="/training/searchContest/NULL" var="url_search"/>
+                            <a class="btn btn-info btn-sm" href="${url_search}">搜索比赛</a>
+                            <c:if test="${user.isAdmin()}">
+                                <button class="btn btn-info btn-sm" id="addbutton" data-toggle="modal"
+                                        data-target="#myModal">添加集训</button>
+                            </c:if>
                         </div>
                     </div>
                     <hr style="margin:10px "/>
-                </c:if>
+
                 <table class="table table-condensed table-striped table-hover display" id="mytable">
                     <thead class="tab-header-area">
                     <tr>
