@@ -26,4 +26,4 @@
 
 ### 网站
 
-[山东科技大学内网ACManager](http://120.27.4.153/ACManager)
+[山东科技大学内网ACManager](http://192.168.119.213:8080/ACManager/)
