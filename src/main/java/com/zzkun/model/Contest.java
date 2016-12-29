@@ -94,6 +94,19 @@ public class Contest implements Serializable, Comparable<Contest> {
         return type;
     }
 
+    public String typeChs() {
+        switch (type) {
+            case TYPE_PERSONAL:
+                return "个人";
+            case TYPE_TEAM:
+                return "组队";
+            case TYPE_MIX_TEAM:
+                return "混合";
+            default:
+                return "";
+        }
+    }
+
     public void setType(String type) {
         this.type = type;
     }

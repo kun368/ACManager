@@ -2,6 +2,7 @@ package com.zzkun.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.zzkun.model.*;
+import com.zzkun.service.ContestSearchService;
 import com.zzkun.service.RatingService;
 import com.zzkun.service.TrainingService;
 import com.zzkun.service.UserService;
@@ -32,6 +33,7 @@ public class TrainingController {
     @Autowired private TrainingService trainingService;
     @Autowired private UserService userService;
     @Autowired private RatingService ratingService;
+    @Autowired private ContestSearchService contestSearchService;
 
     @RequestMapping("/list")
     public String mylist(Model model,
@@ -127,11 +129,13 @@ public class TrainingController {
         return "fixed";
     }
 
-    @RequestMapping("/searchContest/{queryStr}")
-    public String searchContest(@PathVariable String queryStr,
+    @RequestMapping("/searchContest")
+    public String searchContest(@RequestParam(required = false) String queryStr,
                                 Model model) {
-        if(!StringUtils.hasText(queryStr) || queryStr.equals("NULL"))
+        if(!StringUtils.hasText(queryStr))
             queryStr = "";
+        List<Contest> result = contestSearchService.find(queryStr);
+        model.addAttribute("result", result);
         model.addAttribute("queryStr", queryStr);
         return "search_contest";
     }

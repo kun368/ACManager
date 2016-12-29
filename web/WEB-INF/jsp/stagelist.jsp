@@ -157,9 +157,6 @@
         </ol>
     </div>
 
-
-
-
     <div class="row">
         <%--<p style="text-align: center; font-weight: bold">${info.name}</p>--%>
         <div class="panel panel-info">

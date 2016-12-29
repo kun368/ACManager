@@ -11,8 +11,10 @@ object KMPCalc {
     private var pat = ""
 
     fun init(p: String) {
-        if(p.isEmpty())
+        if(p.isEmpty()) {
+            len = 0
             return
+        }
         len = p.length
         pat = p.toLowerCase() + (0).toChar()
 

@@ -49,8 +49,8 @@
         <ol class="breadcrumb">
             <li>您所在的位置：</li>
             <li><a href="<c:url value="/training/list"/> ">集训列表</a></li>
-            <li><a href="<c:url value="/training/detail/${trainingId}"/> ">阶段列表</a></li>
-            <li><a href="<c:url value="/training/stage/${stageId}"/> ">比赛列表</a></li>
+            <li><a href="<c:url value="/training/detail/${contest.stage.training.id}"/> ">阶段列表</a></li>
+            <li><a href="<c:url value="/training/stage/${contest.stage.id}"/> ">比赛列表</a></li>
             <li class="active">${contest.name}</li>
         </ol>
     </div>
@@ -64,31 +64,17 @@
             </div>
             <div class="panel-body">
                 <p>比赛时间：${contest.startTimeStr} —— ${contest.endTimeStr}</p>
-                <p>
-                    <c:set value="PERSONAL" var="Personal"/>
-                    <c:set value="TEAM" var="Team"/>
-                    <c:set value="MIX_TEAM" var="MixTeam"/>
-                    比赛类型：
-                    <c:choose>
-                        <c:when test="${contest.type eq Personal}">
-                            个人
-                        </c:when>
-                        <c:when test="${contest.type eq Team}">
-                            组队
-                        </c:when>
-                        <c:when test="${contest.type eq MixTeam}">
-                            混合
-                        </c:when>
-                    </c:choose>
-                </p>
+                <p>比赛类型：${contest.typeChs()}</p>
                 <p>
                     比赛来源：
                     <c:choose>
                         <c:when test="${empty contest.sourceUrl}">
-                            ${contest.sourceDetail}
+                                ${contest.sourceDetail}
                         </c:when>
                         <c:otherwise>
-                            <a href="${contest.sourceUrl}" target="_blank">${contest.sourceDetail}</a>
+                            <a href="${contest.sourceUrl}" target="_blank">
+                                ${contest.sourceDetail}
+                            </a>
                         </c:otherwise>
                     </c:choose>
                 </p>

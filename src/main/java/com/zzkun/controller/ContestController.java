@@ -113,11 +113,8 @@ public class ContestController {
         model.addAttribute("sum", calculator.getTeamScore());
         model.addAttribute("pre", calculator.getPreTScore());
         model.addAttribute("myrank", calculator.getTeamRank());
-//        logger.info("{}, {}, {}", calculator.getTeamScore(), calculator.getTeamRank());
         return "ranklist_score";
     }
-
-
 
     @RequestMapping("/contestDeleteTeam/{id}/{pos}")
     public String contestDeleteTeam(@PathVariable Integer id,

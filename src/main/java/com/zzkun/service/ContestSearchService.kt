@@ -33,12 +33,10 @@ open class ContestSearchService {
 
     fun find(qu: String): List<Contest> {
         val parms = splitParms(qu)
-        println(parms)
         val keys = HashMap<Int, String>()
         contestRepo.findAll().forEach {
             keys[it.id] = "${it.name}|${it.source}|${it.sourceDetail}|${it.sourceUrl}"
         }
-        println(keys)
         val weights = HashMap<Int, Int>()
         for (parm in parms) {
             KMPCalc.init(parm)
@@ -48,7 +46,6 @@ open class ContestSearchService {
                     weights[key.key] = weights[key.key]?:0 + plus
             }
         }
-        println(weights)
         return weights
                 .map { it.key }
                 .sortedByDescending { weights[it] }

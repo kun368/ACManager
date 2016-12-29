@@ -152,7 +152,7 @@
             <div class="panel-body">
                     <div class="row" style="padding-left: 20px">
                         <div class="pull-left">
-                            <c:url value="/training/searchContest/NULL" var="url_search"/>
+                            <c:url value="/training/searchContest" var="url_search"/>
                             <a class="btn btn-info btn-sm" href="${url_search}">搜索比赛</a>
                             <c:if test="${user.isAdmin()}">
                                 <button class="btn btn-info btn-sm" id="addbutton" data-toggle="modal"
