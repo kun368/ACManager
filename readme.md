@@ -10,7 +10,7 @@
 - 其他：Lucene
 - 服务器：Jetty、Tomcat
 - 开发工具：Maven、IntelliJ IDEA、JRebel
-- 算法：Agnes、TrueSkill
+- 算法：Agnes、TrueSkill、KMP
 
 ### 功能
 

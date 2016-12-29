@@ -44,7 +44,7 @@
             </div>
             <div class="panel-body">
                 ${queryStr}
-                搜搜。。。
+                现在还不能搜索哦~
             </div>
         </div>
     </div>
