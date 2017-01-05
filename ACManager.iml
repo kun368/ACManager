@@ -77,8 +77,12 @@
                 <option name="extraHelp" value="false" />
                 <option name="noInline" value="false" />
                 <option name="repeat" />
-                <option name="pluginClasspaths" />
-                <option name="pluginOptions" />
+                <option name="pluginClasspaths">
+                  <array />
+                </option>
+                <option name="pluginOptions">
+                  <array />
+                </option>
                 <option name="freeArgs">
                   <list />
                 </option>
@@ -115,10 +119,10 @@
     <orderEntry type="library" name="bootstrap" level="application" />
     <orderEntry type="library" name="sha1" level="application" />
     <orderEntry type="library" name="jquery" level="application" />
-    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib:1.0.5" level="project" />
-    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-runtime:1.0.5" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jetbrains.kotlin:kotlin-test-junit:1.0.5" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jetbrains.kotlin:kotlin-test:1.0.5" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib:1.0.6" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-runtime:1.0.6" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jetbrains.kotlin:kotlin-test-junit:1.0.6" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.jetbrains.kotlin:kotlin-test:1.0.6" level="project" />
     <orderEntry type="library" name="Maven: junit:junit:4.12" level="project" />
     <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-core:1.3" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.17" level="project" />
@@ -192,10 +196,5 @@
     <orderEntry type="library" name="Maven: javax.annotation:jsr250-api:1.0" level="project" />
     <orderEntry type="library" name="Maven: javax.inject:javax.inject:1" level="project" />
     <orderEntry type="library" name="Maven: org.hibernate:hibernate-entitymanager:5.2.2.Final" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-core:6.3.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-analyzers-common:6.3.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-queryparser:6.3.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-queries:6.3.0" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.lucene:lucene-sandbox:6.3.0" level="project" />
   </component>
 </module>

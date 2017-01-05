@@ -55,6 +55,8 @@ open class CFWebGetter {
                 if ("OK" != jsonObject.getString("status"))
                     continue
                 val result = jsonObject.getJSONArray("result")
+                if(result.isEmpty())
+                    continue
                 val last = result.getJSONObject(result.size - 1)
                 if(last != null) {
                     val info = CFUserInfo(last.getString("handle"), last.getInteger("newRating"), null, last.getString("rank"), null)
@@ -88,6 +90,7 @@ open class CFWebGetter {
                 res.add(pid)
             }
         }
+        logger.info("获取到codeforces用户${cfName}的${res.size}条纪录")
         return res.toList()
     }
 }

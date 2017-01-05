@@ -28,13 +28,11 @@ public class CFBCService {
 
     @Autowired private CFWebGetter cfWebGetter;
     @Autowired private CFUserInfoRepo cfUserInfoRepo;
-
     @Autowired private BCWebGetter bcWebGetter;
     @Autowired private BCUserInfoRepo bcUserInfoRepo;
-
     @Autowired private UserRepo userRepo;
 
-    @Scheduled(cron="0 0 0/12 * * ?")
+    @Scheduled(fixedDelay = 12 * 3600 * 1000L)
     public synchronized void flushCFUserInfo() {
         List<User> userList = userRepo.findAll();
         List<String> cfnameList = userList.stream()
@@ -55,7 +53,7 @@ public class CFBCService {
                 .collect(Collectors.toMap(CFUserInfo::getCfname, x -> x));
     }
 
-    @Scheduled(cron="0 0 0/12 * * ?")
+    @Scheduled(fixedDelay = 12 * 3600 * 1000L)
     public synchronized void flushBCUserInfo() {
         List<User> userList = userRepo.findAll();
         List<String> bcnameList = userList.stream()

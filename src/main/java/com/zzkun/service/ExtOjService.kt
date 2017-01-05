@@ -29,7 +29,6 @@ open class ExtOjService {
     @Autowired lateinit private var userService: UserService
     @Autowired lateinit private var userACPbRepo: UserACPbRepo
     @Autowired lateinit private var extOjPbInfoRepo: ExtOjPbInfoRepo
-
     @Autowired lateinit private var uvaService: UVaService
     @Autowired lateinit private var vjudgeService: VJudgeService
     @Autowired lateinit private var hduService: HDUService
@@ -74,7 +73,7 @@ open class ExtOjService {
         return set
     }
 
-    @Scheduled(cron = "0 0 0/6 * * ?")
+    @Scheduled(fixedDelay = 6 * 3600 * 1000L)
     fun flushACDB() {
         synchronized(this) {
             logger.info("开始更新用户AC题目纪录...")

@@ -29,6 +29,7 @@ open class POJWebGetter {
         val res = sortedSetOf<String>()
         while(matcher.find())
             res.add(matcher.group(1))
+        logger.info("获取到poj用户${pojName}的${res.size}条纪录")
         return res.toList()
     }
 

@@ -51,7 +51,7 @@ public class OJContestService {
         return list;
     }
 
-    @Scheduled(cron="0 0 0/1 * * ?")
+    @Scheduled(fixedDelay = 1 * 3600 * 1000L)
     public synchronized void flushOJContests() {
         logger.info("定时更新近期比赛开始...");
         List<OJContest> webDate = getWebDate();

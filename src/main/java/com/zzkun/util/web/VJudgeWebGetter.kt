@@ -2,7 +2,6 @@ package com.zzkun.util.web
 
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.JSONObject
-import org.jsoup.Jsoup
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
@@ -21,18 +20,13 @@ open class VJudgeWebGetter {
 
     @Autowired private lateinit var httpUtil: HttpUtil
 
-
-    private fun getUserACJsonDate(vjname: String, link: String): String {
-        val url = String.format(link, vjname)
-        val html = httpUtil.readHttpsURL(url)
-        return Jsoup.parse(html).select("textarea[name=dataJson]")?.text() ?: ""
-    }
-
     fun getUserACMap(vjname: String?, link: String): Map<String, List<String>> {
         if(vjname == null)
             return HashMap()
-        logger.info("开始爬取vjudge用户${vjname}AC纪录")
-        val acmap: JSONObject? = JSON.parseObject(getUserACJsonDate(vjname, link))?.getJSONObject("acRecords")
+        val url = String.format(link, vjname)
+        logger.info("开始爬取vjudge用户${vjname}AC纪录${url}")
+        val jsonStr = httpUtil.readURL(url)
+        val acmap: JSONObject? = JSON.parseObject(jsonStr)?.getJSONObject("acRecords")
         val res = HashMap<String, List<String>>()
         if(acmap != null) {
             for(key in acmap.keys) {
@@ -43,6 +37,7 @@ open class VJudgeWebGetter {
                 res[key] = pbList
             }
         }
+        logger.info("获取vjudge用户${vjname}共${res.size}个oj的纪录")
         return res
     }
 }

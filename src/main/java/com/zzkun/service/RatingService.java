@@ -195,7 +195,7 @@ public class RatingService {
     }
 
     //刷新全局个人Rating
-    @Scheduled(cron = "0 0 0 1/1 * ?")
+    @Scheduled(fixedDelay = 1 * 3600 * 1000L)
     public void flushGlobalUserRating() {
         List<Contest> contests = new ArrayList<>();
         for (Training i : trainingService.getAllTraining()) {

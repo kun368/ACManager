@@ -64,7 +64,6 @@ open class HttpUtil {
         val httpget = HttpGet(url)
         val params = httpclient.getParams()
         httpget.setParams(params)
-        System.out.println("REQUEST:" + httpget.getURI())
         val responseHandler = BasicResponseHandler()
         val responseBody: String
         responseBody = httpclient.execute(httpget, responseHandler)

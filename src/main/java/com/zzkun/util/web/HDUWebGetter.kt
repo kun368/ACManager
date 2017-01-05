@@ -21,8 +21,8 @@ open class HDUWebGetter {
     fun userACPbs(hduName: String?, link: String): List<String> {
         if(hduName == null)
             return ArrayList()
-        logger.info("开始获取hdu用户${hduName}AC题目")
         val url = String.format(link, hduName)
+        logger.info("开始获取hdu用户${hduName}AC题目: ${url}")
         val body = Jsoup.connect(url).timeout(7777).get().body().toString()
         val res = sortedSetOf<String>()
         val patten = Pattern.compile("""p\(([\d]*),([\d]*),([\d]*)\);""")
@@ -32,6 +32,7 @@ open class HDUWebGetter {
             val ac = matcher.group(2).toInt()
             if(ac > 0) res.add(id)
         }
+        logger.info("获取到hdu用户${hduName}的${res.size}条纪录")
         return res.toList()
     }
 
