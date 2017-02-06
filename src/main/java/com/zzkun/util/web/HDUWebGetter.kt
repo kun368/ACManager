@@ -2,8 +2,9 @@ package com.zzkun.util.web
 
 import com.zzkun.model.ExtOjPbInfo
 import com.zzkun.model.OJType
-import org.jsoup.Jsoup
+import org.jsoup.nodes.Element
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.util.*
 import java.util.regex.Pattern
@@ -18,12 +19,16 @@ open class HDUWebGetter {
         val logger = LoggerFactory.getLogger(HDUWebGetter::class.java)
     }
 
+    @Autowired lateinit var httpUtil: HttpUtil
+
+
     fun userACPbs(hduName: String?, link: String): List<String> {
         if(hduName == null)
             return ArrayList()
         val url = String.format(link, hduName)
-        logger.info("开始获取hdu用户${hduName}AC题目: ${url}")
-        val body = Jsoup.connect(url).timeout(7777).get().body().toString()
+//        logger.info("开始获取hdu用户${hduName}AC题目: ${url}")
+
+        val body = httpUtil.readJsoupURL(url).body().toString()
         val res = sortedSetOf<String>()
         val patten = Pattern.compile("""p\(([\d]*),([\d]*),([\d]*)\);""")
         val matcher = patten.matcher(body)
@@ -39,7 +44,7 @@ open class HDUWebGetter {
     private fun pbInfomation(pbid: String, link: String): ExtOjPbInfo? {
         try {
             val url = String.format(link, pbid)
-            val body = Jsoup.connect(url).timeout(7777).get().body()
+            val body: Element? = httpUtil.readJsoupURL(url).body()
             val table = body?.select("table[class=table_header]")?.get(0)
             val status = table?.child(0)?.children()!!
             val res = ExtOjPbInfo()
@@ -65,6 +70,7 @@ open class HDUWebGetter {
             }
             return res
         } catch(e: Exception) {
+            e.printStackTrace()
             return null
         }
     }
@@ -74,9 +80,9 @@ open class HDUWebGetter {
         val res = arrayListOf<ExtOjPbInfo>()
         for(i in 1000..999999) {
             val info = pbInfomation(i.toString(), link)
-            if(info != null) res.add(info)
+            if(info != null)
+                res.add(info)
             else break
-            if(i % 100 == 0) logger.info("已经获取到：$i")
         }
         return res
     }

@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +44,7 @@ public class OJContestService {
                 list.add(contest);
             }
             return list;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return list;

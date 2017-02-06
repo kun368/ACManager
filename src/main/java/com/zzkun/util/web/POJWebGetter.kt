@@ -2,8 +2,8 @@ package com.zzkun.util.web
 
 import com.zzkun.model.ExtOjPbInfo
 import com.zzkun.model.OJType
-import org.jsoup.Jsoup
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.util.*
 import java.util.regex.Pattern
@@ -18,12 +18,14 @@ open class POJWebGetter {
         val logger = LoggerFactory.getLogger(POJWebGetter::class.java)
     }
 
+    @Autowired lateinit var httpUtil: HttpUtil
+
     fun userACPbs(pojName: String?, link: String): List<String> {
         if(pojName == null)
             return ArrayList()
         val url = String.format(link, pojName)
-        logger.info("开始获取poj用户${pojName}AC题目:$url")
-        val body = Jsoup.connect(url).timeout(7777).get().body().toString()
+//        logger.info("开始获取poj用户${pojName}AC题目:$url")
+        val body = httpUtil.readJsoupURL(url).body().toString()
         val patten = Pattern.compile("""p\(([\d]+)\)""")
         val matcher = patten.matcher(body)
         val res = sortedSetOf<String>()
@@ -36,7 +38,7 @@ open class POJWebGetter {
     fun pbInfomation(pbId: String, link: String): ExtOjPbInfo? {
         try {
             val url = String.format(link, pbId)
-            val body = Jsoup.connect(url).timeout(7777).get().body().toString()
+            val body = httpUtil.readJsoupURL(url).body().toString()
             val res = ExtOjPbInfo()
             res.pid = pbId
             res.num = pbId
@@ -66,6 +68,7 @@ open class POJWebGetter {
             res.totSubmit = res.calcTotSubmits()
             return if(res.totSubmit != 0) res else null
         } catch(e: Exception) {
+            e.printStackTrace()
             return null
         }
     }
@@ -75,9 +78,9 @@ open class POJWebGetter {
         val res = arrayListOf<ExtOjPbInfo>()
         for(i in 1000..999999) {
             val info = pbInfomation(i.toString(), link)
-            if(info != null) res.add(info)
+            if(info != null)
+                res.add(info)
             else break
-            if(i % 100 == 0) logger.info("已经获取PID$i：$info")
         }
         return res
     }

@@ -24,8 +24,9 @@ open class VJudgeWebGetter {
         if(vjname == null)
             return HashMap()
         val url = String.format(link, vjname)
-        logger.info("开始爬取vjudge用户${vjname}AC纪录${url}")
-        val jsonStr = httpUtil.readURL(url)
+//        logger.info("开始爬取vjudge用户${vjname}AC纪录${url}")
+//        val jsonStr = httpUtil.readURL(url)
+        val jsonStr = httpUtil.readHttpsURL(url)
         val acmap: JSONObject? = JSON.parseObject(jsonStr)?.getJSONObject("acRecords")
         val res = HashMap<String, List<String>>()
         if(acmap != null) {

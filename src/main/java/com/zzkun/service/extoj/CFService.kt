@@ -32,6 +32,6 @@ class CFService : IExtOJAdapter {
     }
 
     override fun getAllPbInfoOnline(link: String): List<ExtOjPbInfo> {
-        throw UnsupportedOperationException("not implemented")
+        return emptyList()
     }
 }

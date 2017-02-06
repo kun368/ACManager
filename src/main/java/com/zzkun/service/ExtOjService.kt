@@ -39,7 +39,7 @@ open class ExtOjService {
         return listOf(vjudgeService, uvaService, hduService, pojService, cfService)
     }
 
-    private fun getUsersACPbsFromWeb(users: List<User>): Set<UserACPb> {
+    private fun getUsersACPbsFromWeb(users: List<User>): TreeSet<UserACPb> {
         val set = TreeSet<UserACPb>()
         logger.info("所有用户数量：{}", users.size)
         val futureList: Vector<Future<List<UserACPb>>> = Vector()
@@ -63,11 +63,12 @@ open class ExtOjService {
         return set
     }
 
-    private fun getPbInfosFromWeb(): Set<ExtOjPbInfo> {
+    private fun getPbInfosFromWeb(): TreeSet<ExtOjPbInfo> {
         val set = TreeSet<ExtOjPbInfo>()
         for(oj in allExtOjServices()) {
             val link = oj.getOjLink().pbStatusLink
-            set.addAll(oj.getAllPbInfoOnline(link))
+            if(link != null)
+                set.addAll(oj.getAllPbInfoOnline(link))
         }
         logger.info("所有题目数量总计：${set.size}")
         return set
@@ -79,13 +80,9 @@ open class ExtOjService {
             synchronized(this) {
                 logger.info("开始更新用户AC题目纪录...")
                 val cur = getUsersACPbsFromWeb(userService.allUser())
-                val preList = userACPbRepo.findAll()
-                val preSet = TreeSet<UserACPb>(preList)
-                val new = ArrayList<UserACPb>()
-                for (userACPb in cur)
-                    if(!preSet.contains(userACPb))
-                        new.add(userACPb)
-                logger.info("pre:${preSet.size}, cur:${cur.size}, new:${new.size}")
+                val pre = TreeSet<UserACPb>(userACPbRepo.findAll())
+                val new = cur - pre
+                logger.info("pre:${pre.size}, cur:${cur.size}, new:${new.size}")
                 userACPbRepo.save(new)
                 logger.info("更新完毕！")
             }
@@ -95,13 +92,19 @@ open class ExtOjService {
     }
 
     fun flushPbInfoDB() {
-        synchronized(this) {
-            val set = TreeSet<ExtOjPbInfo>()
-            set.addAll(getPbInfosFromWeb())
-            set.addAll(extOjPbInfoRepo.findAll())
-            extOjPbInfoRepo.deleteAll()
-            extOjPbInfoRepo.save(set)
-            logger.info("更新完毕！, 现有纪录${set.size}条")
+        try {
+            synchronized(this) {
+                val cur = getPbInfosFromWeb()
+                val pre = extOjPbInfoRepo.findAll()
+                val sum = ArrayList<ExtOjPbInfo>(cur)
+                pre.filterNotTo(sum) { cur.contains(it) }
+                logger.info("pre:${pre.size}, cur:${cur.size}, sum:${sum.size}")
+                extOjPbInfoRepo.deleteAll()
+                extOjPbInfoRepo.save(sum)
+                logger.info("更新完毕！")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -65,7 +64,6 @@ public class UHuntWebGetter {
     /**
      * 获取所有uva题目的信息
      * @return 题目信息List
-     * @param link
      */
     public List<ExtOjPbInfo> allPbInfo() {
         try {
@@ -92,7 +90,7 @@ public class UHuntWebGetter {
             String web;
             try {
                 web = httpUtil.readURL(url);
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 continue;
             }
@@ -134,7 +132,7 @@ public class UHuntWebGetter {
         List<Integer> res = new ArrayList<>();
         try {
             String url = String.format(link, uid);
-            logger.info("开始爬取uva用户{}提交纪录:{}", uid, url);
+//            logger.info("开始爬取uva用户{}提交纪录:{}", uid, url);
             String json = httpUtil.readURL(url);
             logger.debug("爬取完毕，开始分析...");
             JSONArray subsJson = JSON.parseObject(json).getJSONArray("subs");
@@ -150,7 +148,7 @@ public class UHuntWebGetter {
             }
             logger.info("分析uid用户{}所有AC题目成功，共AC题数{}", uid, res.size());
             return res;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return new ArrayList<>();

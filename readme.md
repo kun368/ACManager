@@ -30,5 +30,5 @@
 
 ### 网站
 
-[http://192.168.119.213:8080/ACManager/](http://192.168.119.213:8080/ACManager/)
-[http://cise.sdust.edu.cn/acmanager/](http://cise.sdust.edu.cn/acmanager/)
+- [http://192.168.119.213:8080/ACManager/](http://192.168.119.213:8080/ACManager/)
+- [http://cise.sdust.edu.cn/acmanager/](http://cise.sdust.edu.cn/acmanager/)
