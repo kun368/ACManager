@@ -197,16 +197,20 @@ public class RatingService {
     //刷新全局个人Rating
     @Scheduled(fixedDelay = 1 * 3600 * 1000L)
     public void flushGlobalUserRating() {
-        List<Contest> contests = new ArrayList<>();
-        for (Training i : trainingService.getAllTraining()) {
-            for (Stage stage : i.getStageList()) {
-                contests.addAll(stage.getContestList());
+        try {
+            List<Contest> contests = new ArrayList<>();
+            for (Training i : trainingService.getAllTraining()) {
+                for (Stage stage : i.getStageList()) {
+                    contests.addAll(stage.getContestList());
+                }
             }
+            deleteRatingDate(RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal);
+            List<RatingRecord> list =
+                    generateRating(contests, RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal, 5.5);
+            ratingRecordRepo.save(list);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        deleteRatingDate(RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal);
-        List<RatingRecord> list =
-                generateRating(contests, RatingRecord.Scope.Global, 1, RatingRecord.Type.Personal, 5.5);
-        ratingRecordRepo.save(list);
     }
 
 

@@ -75,18 +75,22 @@ open class ExtOjService {
 
     @Scheduled(fixedDelay = 6 * 3600 * 1000L)
     fun flushACDB() {
-        synchronized(this) {
-            logger.info("开始更新用户AC题目纪录...")
-            val cur = getUsersACPbsFromWeb(userService.allUser())
-            val preList = userACPbRepo.findAll()
-            val preSet = TreeSet<UserACPb>(preList)
-            val new = ArrayList<UserACPb>()
-            for (userACPb in cur)
-                if(!preSet.contains(userACPb))
-                    new.add(userACPb)
-            logger.info("pre:${preSet.size}, cur:${cur.size}, new:${new.size}")
-            userACPbRepo.save(new)
-            logger.info("更新完毕！")
+        try {
+            synchronized(this) {
+                logger.info("开始更新用户AC题目纪录...")
+                val cur = getUsersACPbsFromWeb(userService.allUser())
+                val preList = userACPbRepo.findAll()
+                val preSet = TreeSet<UserACPb>(preList)
+                val new = ArrayList<UserACPb>()
+                for (userACPb in cur)
+                    if(!preSet.contains(userACPb))
+                        new.add(userACPb)
+                logger.info("pre:${preSet.size}, cur:${cur.size}, new:${new.size}")
+                userACPbRepo.save(new)
+                logger.info("更新完毕！")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 

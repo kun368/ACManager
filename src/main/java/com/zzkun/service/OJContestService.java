@@ -53,12 +53,16 @@ public class OJContestService {
 
     @Scheduled(fixedDelay = 1 * 3600 * 1000L)
     public synchronized void flushOJContests() {
-        logger.info("定时更新近期比赛开始...");
-        List<OJContest> webDate = getWebDate();
-        if(webDate == null || webDate.isEmpty())
-            return;
-        ojContestRepo.deleteAllInBatch();
-        ojContestRepo.save(webDate);
+        try {
+            logger.info("定时更新近期比赛开始...");
+            List<OJContest> webDate = getWebDate();
+            if(webDate == null || webDate.isEmpty())
+                return;
+            ojContestRepo.deleteAllInBatch();
+            ojContestRepo.save(webDate);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public List<OJContest> getRecents() {

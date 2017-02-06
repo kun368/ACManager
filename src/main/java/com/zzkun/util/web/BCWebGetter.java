@@ -28,7 +28,7 @@ public class BCWebGetter {
             String str = httpUtil.readURL("http://bestcoder.hdu.edu.cn/api/api.php?type=user-rating&user=" + bcname);
             JSONArray array = JSON.parseArray(str);
             JSONObject object = array.getJSONObject(array.size() - 1);
-            logger.info("获取的最后一次比赛信息：{}", object);
+            logger.info("获取{}的最后一次比赛信息：{}", bcname, object);
             return new BCUserInfo(bcname, object.getInteger("rating"));
         } catch (Exception e) {
             e.printStackTrace();

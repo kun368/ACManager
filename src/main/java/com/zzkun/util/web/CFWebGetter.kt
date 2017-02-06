@@ -51,6 +51,7 @@ open class CFWebGetter {
             Thread.sleep(300)
             try {
                 val str = httpUtil.readURL(url + it)
+                logger.info("开始获取CF用户${it}信息，url：${url + it}")
                 val jsonObject = JSON.parseObject(str)
                 if ("OK" != jsonObject.getString("status"))
                     continue
