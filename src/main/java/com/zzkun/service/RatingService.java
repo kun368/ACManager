@@ -195,7 +195,7 @@ public class RatingService {
     }
 
     //刷新全局个人Rating
-    @Scheduled(fixedDelay = 1 * 3600 * 1000L)
+    @Scheduled(fixedDelay = 1 * 3600 * 1000L, initialDelay = 3600 * 1000L)
     public void flushGlobalUserRating() {
         try {
             List<Contest> contests = new ArrayList<>();

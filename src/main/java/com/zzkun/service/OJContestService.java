@@ -51,7 +51,7 @@ public class OJContestService {
         return list;
     }
 
-    @Scheduled(fixedDelay = 1 * 3600 * 1000L)
+    @Scheduled(fixedDelay = 1 * 3600 * 1000L, initialDelay = 3600 * 1000L)
     public synchronized void flushOJContests() {
         try {
             logger.info("定时更新近期比赛开始...");

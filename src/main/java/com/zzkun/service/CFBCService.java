@@ -32,7 +32,7 @@ public class CFBCService {
     @Autowired private BCUserInfoRepo bcUserInfoRepo;
     @Autowired private UserRepo userRepo;
 
-    @Scheduled(fixedDelay = 12 * 3600 * 1000L)
+    @Scheduled(fixedDelay = 12 * 3600 * 1000L, initialDelay = 3600 * 1000L)
     public synchronized void flushCFUserInfo() {
         try {
             List<User> userList = userRepo.findAll();
@@ -57,7 +57,7 @@ public class CFBCService {
                 .collect(Collectors.toMap(CFUserInfo::getCfname, x -> x));
     }
 
-    @Scheduled(fixedDelay = 12 * 3600 * 1000L)
+    @Scheduled(fixedDelay = 12 * 3600 * 1000L, initialDelay = 3600 * 1000L)
     public synchronized void flushBCUserInfo() {
         try {
             List<User> userList = userRepo.findAll();

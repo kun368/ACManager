@@ -24,6 +24,11 @@
 - 各大 OnlineJudge 近期比赛汇总
 - 提供 RESTful API
 
+### 开源协议
+
+[GPLv3](http://www.gnu.org/licenses/gpl.html)
+
 ### 网站
 
-[山东科技大学内网ACManager](http://192.168.119.213:8080/ACManager/)
+[http://192.168.119.213:8080/ACManager/](http://192.168.119.213:8080/ACManager/)
+[http://cise.sdust.edu.cn/acmanager/](http://cise.sdust.edu.cn/acmanager/)

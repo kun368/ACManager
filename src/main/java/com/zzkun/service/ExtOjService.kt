@@ -73,7 +73,7 @@ open class ExtOjService {
         return set
     }
 
-    @Scheduled(fixedDelay = 6 * 3600 * 1000L)
+    @Scheduled(fixedDelay = 6 * 3600 * 1000L, initialDelay = 3600 * 1000L)
     fun flushACDB() {
         try {
             synchronized(this) {

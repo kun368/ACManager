@@ -20,7 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.Comparator;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static org.apache.commons.lang3.StringUtils.trimToNull;
 
@@ -163,9 +166,18 @@ public class AuthController {
         return "redirect:/auth/my";
     }
 
+    @RequestMapping("/lost")
+    public String lost(Model model) {
+        List<User> list = userService.allUser().stream()
+                .filter(x -> !x.isAdmin())
+                .sorted(Comparator.comparing(User::getUsername))
+                .collect(Collectors.toList());
+        model.addAttribute("userList", list);
+        return "lost";
+    }
 
 
-    //ajax
+    /// ajax------------------------------------------------------------------------
 
     @RequestMapping(value = "/dealApplyInACM/{id}/{op}", produces = "text/html;charset=UTF-8")
     @ResponseBody

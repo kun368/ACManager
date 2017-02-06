@@ -43,9 +43,11 @@
                     CF/BC Rating:12小时 &nbsp;
                     全局比赛Rating:1天
                 </h5>
-                <h5>2) 做题统计数据现支持：Vjudge、UVa、HDU、POJ和Codeforces，填写账号后即可统计</h5>
-                <h5>3) 请使用 Chrome, Firefox, IE (>=IE9) 或其他浏览器访问本站</h5>
-                <h5>4) 存在任何问题，请在下面留言或<a href="mailto:kun368@126.com">联系管理员</A></h5>
+                <h5>2) 做题统计数据现支持：VJudge、UVa、HDU、POJ、Codeforces，填写账号后即可统计</h5>
+                <h5>3) 零题数账号不会出现在做题统计和比赛统计中</h5>
+                <h5>4) 请尽量使用 Firefox、Chrome、Edge 浏览器访问本站</h5>
+                <h5>5) 系统外网地址为：http://cise.sdust.edu.cn/acmanager，欢迎有志青年提交 pull request 参与开发</h5>
+                <h5>6) 由于各大OJ升级网站，导致本站爬虫失效，或者存在其他任何问题建议，请在及时下面留言或联系管理员（QQ 1004788567）</h5>
             </div>
         </div>
         <div class="col-lg-1">

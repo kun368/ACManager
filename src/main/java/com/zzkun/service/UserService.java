@@ -46,14 +46,10 @@ public class UserService {
     }
 
     public List<User> allNormalNotNullUsers() {
-        List<User> all = userRepo.findAll();
-        List<User> list = new ArrayList<>();
-        all.forEach(x -> {
-            if(!x.isAdmin() && x.getUvaId() != null
-                    && x.getUvaId().toString().length() >= 6)
-                list.add(x);
-        });
-        return list;
+        return userRepo.findAll().stream()
+                .filter(x -> !x.isAdmin())
+                .filter(x -> !x.getAcPbList().isEmpty())
+                .collect(Collectors.toList());
     }
 
     public User getUserById(Integer id) {

@@ -67,6 +67,8 @@
                     <div class="form-horizontal pull-right">
                         <button class="btn btn-primary" id="embed-submit" type="submit">登陆</button>
                         <button class="btn btn-primary" id="reset" type="reset">重置</button>
+                        <c:url value="/auth/lost" var="url_lost"/>
+                        <a class="btn btn-primary" href="${url_lost}">忘记账号密码</a>
                     </div>
                 </div>
             </form>
