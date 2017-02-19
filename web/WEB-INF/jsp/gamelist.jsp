@@ -32,6 +32,15 @@
         });
     </script>
 
+    <script>
+        function exportTable() {
+            $("#mytable").table2excel({
+                name: "doc1",
+                filename: "比赛列表"
+            });
+        }
+    </script>
+
 </head>
 <body>
 
@@ -54,14 +63,16 @@
                 <h3 class="panel-title">比赛列表</h3>
             </div>
             <div class="panel-body">
-                <c:if test="${user.isAdmin()}">
-                    <div class="row" style="padding-left: 20px">
-                        <div class="pull-left">
+                <div class="row" style="padding-left: 20px">
+                    <div class="pull-left">
+                        <c:if test="${user.isAdmin()}">
                             <button class="btn btn-info btn-sm" id="addbutton">添加比赛</button>
-                        </div>
+                        </c:if>
+                        <button class="btn btn-info btn-sm" onclick="exportTable()">导出表格</button>
                     </div>
-                    <hr style="margin:10px "/>
-                </c:if>
+                </div>
+                <hr style="margin:10px "/>
+
                 <table class="table table-condensed table-striped table-hover display" id="mytable">
                     <thead class="tab-header-area">
                     <tr>

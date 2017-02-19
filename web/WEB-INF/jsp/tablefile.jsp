@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <link rel="stylesheet" href="//cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
 
+
     <c:url value="/auth/modifyUserByAdmin" var="url_modify"/>
     <c:url value="/rating/updateGlobal" var="url_update_rating"/>
     <c:url value="/api/user/" var="url_userdetail"/>
@@ -62,7 +63,7 @@
                     alert(data);
                     location.reload();
                 });
-            })
+            });
         });
         function updata(obj) {
             var tds = $(obj).parent().parent().find('td');
@@ -91,28 +92,39 @@
             });
         }
     </script>
+    <script>
+        function exportTable() {
+            $("#mytable").table2excel({
+                name: "doc1",
+                filename: "队员比赛统计结果"
+            });
+        }
+    </script>
+
 </head>
 <body>
 
 <div class="container-fluid" style="margin-right: 0.5%;margin-left: 0.5%">
     <jsp:include page="topBar.jsp"/>
-    <div class="row" style="padding-bottom: 10px">
+    <div class="row" style="padding-bottom: 20px">
     </div>
-    <c:if test="${(!empty user) and (user.isAdmin())}">
-        <div class="row">
-            <div class="pull-right">
-                <button class="btn btn-info" id="update_Rating">更新Rating</button>
-            </div>
-        </div>
-    </c:if>
-    <div class="row" style="padding-bottom: 10px">
-    </div>
+
     <div class="row">
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h3 class="panel-title">队员比赛统计结果</h3>
             </div>
             <div class="panel-body" id="table-div">
+                <div class="row" style="padding-left: 20px">
+                    <div class="pull-left">
+                        <c:if test="${(!empty user) and (user.isAdmin())}">
+                            <button class="btn btn-info btn-sm" id="update_Rating">更新Rating</button>
+                        </c:if>
+                        <button class="btn btn-info btn-sm" onclick="exportTable()">导出表格</button>
+                    </div>
+                </div>
+                <hr style="margin:10px "/>
+
                 <table class="table table-condensed table-striped table-hover display" id="mytable">
                     <thead class="tab-header-area">
                     <tr>

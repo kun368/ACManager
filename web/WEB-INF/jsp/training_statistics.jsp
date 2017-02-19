@@ -149,7 +149,14 @@
                         .attr("cy", function(d) { return scale_y2(d)})
             })
         }
-
+    </script>
+    <script>
+        function exportTable() {
+            $("#mytable1").table2excel({
+                name: "doc1",
+                filename: "队员统计"
+            });
+        }
     </script>
 </head>
 <body>
@@ -170,14 +177,16 @@
                 <%@include file="training_topbar.jsp"%>
             </div>
             <div class="panel-body">
-                <c:if test="${(!empty user) && (user.isAdmin())}">
-                    <div class="row" style="padding-left: 20px">
-                        <div class="pull-left">
+                <div class="row" style="padding-left: 20px">
+                    <div class="pull-left">
+                        <c:if test="${(!empty user) && (user.isAdmin())}">
                             <button class="btn btn-info btn-sm" id="update_Rating">更新积分</button>
-                        </div>
+                        </c:if>
+                        <button class="btn btn-info btn-sm" onclick="exportTable()">导出表格</button>
                     </div>
-                    <hr style="margin:10px "/>
-                </c:if>
+                </div>
+                <hr style="margin:10px "/>
+
                 <table class="table table-condensed table-striped table-hover display" id="mytable1">
                     <thead class="tab-header-area">
                     <tr>

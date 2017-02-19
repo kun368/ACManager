@@ -129,6 +129,13 @@
             $('#teamScoreRate0_2').val((1.0-num1-num2-num3).toFixed(2));
             $('#id2').val(id);
         }
+
+        function exportTable() {
+            $("#mytable").table2excel({
+                name: "doc1",
+                filename: "所有集训"
+            });
+        }
     </script>
 </head>
 <body>
@@ -158,6 +165,7 @@
                                 <button class="btn btn-info btn-sm" id="addbutton" data-toggle="modal"
                                         data-target="#myModal">添加集训</button>
                             </c:if>
+                            <button class="btn btn-info btn-sm" onclick="exportTable()">导出表格</button>
                         </div>
                     </div>
                     <hr style="margin:10px "/>

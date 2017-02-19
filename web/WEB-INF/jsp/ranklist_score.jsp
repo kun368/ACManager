@@ -40,6 +40,15 @@
         });
     </script>
 
+    <script>
+        function exportTable() {
+            $("#mytable").table2excel({
+                name: "doc1",
+                filename: "比赛统计"
+            });
+        }
+    </script>
+
 </head>
 <body>
 
@@ -63,6 +72,13 @@
                 <h3 class="panel-title">比赛统计</h3>
             </div>
             <div class="panel-body">
+                <div class="row" style="padding-left: 20px">
+                    <div class="pull-left">
+                        <button class="btn btn-info btn-sm" onclick="exportTable()">导出表格</button>
+                    </div>
+                </div>
+                <hr style="margin:10px "/>
+
                 <p>比赛时间：${contest.startTimeStr} —— ${contest.endTimeStr}</p>
                 <p>比赛类型：${contest.typeChs()}</p>
                 <p>

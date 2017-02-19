@@ -35,7 +35,12 @@
         });
     </script>
     <script>
-
+        function exportTable() {
+            $("#mytable").table2excel({
+                name: "doc1",
+                filename: "各大OJ近期比赛汇总"
+            });
+        }
     </script>
 
 </head>
@@ -53,8 +58,9 @@
                 <h1>各大OJ近期比赛汇总
                 </h1>
                 <p>数据来源：<a href="http://contests.acmicpc.info/contests.json" target="_blank">http://contests.acmicpc.info/contests.json</a></p>
+                <button class="btn btn-default" onclick="exportTable()">导出表格</button>
                 <c:if test="${user.isAdmin()}">
-                    <button class="btn btn-info" id="update_button">更新</button>
+                    <button class="btn btn-default" id="update_button">更新</button>
                 </c:if>
             </div>
             <table class="table table-condensed table-striped table-hover display" id="mytable">

@@ -143,6 +143,14 @@
                 $('#true_false2').prop("checked",false).change();
         }
     </script>
+    <script>
+        function exportTable() {
+            $("#mytable").table2excel({
+                name: "doc1",
+                filename: "阶段列表"
+            });
+        }
+    </script>
 
 </head>
 <body>
@@ -165,14 +173,16 @@
             </div>
 
             <div class="panel-body">
-                <c:if test="${(!empty user) && (user.isAdmin())}">
-                    <div class="row" style="padding-left: 20px">
-                        <div class="pull-left">
+
+                <div class="row" style="padding-left: 20px">
+                    <div class="pull-left">
+                        <c:if test="${(!empty user) && (user.isAdmin())}">
                             <button class="btn btn-info btn-sm" id="addbutton" data-toggle="modal" data-target="#myModal" style="">添加阶段</button>
-                        </div>
+                        </c:if>
+                        <button class="btn btn-info btn-sm" onclick="exportTable()">导出表格</button>
                     </div>
-                    <hr style="margin:10px "/>
-                </c:if>
+                </div>
+                <hr style="margin:10px "/>
 
                 <table class="table table-condensed table-striped table-hover display" id="mytable">
                     <thead class="tab-header-area">
