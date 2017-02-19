@@ -4,6 +4,7 @@ import org.apache.commons.lang3.builder.CompareToBuilder;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -67,6 +68,8 @@ public class User implements Serializable, Comparable<User> {
 
     @Enumerated(value = EnumType.STRING)
     private Type type;
+
+    private LocalDate lastACDate = LocalDate.of(2017, 2, 19);
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<UJoinT> uJoinTList;
@@ -196,6 +199,14 @@ public class User implements Serializable, Comparable<User> {
 
     public void setAcPbList(List<UserACPb> acPbList) {
         this.acPbList = acPbList;
+    }
+
+    public LocalDate getLastACDate() {
+        return lastACDate;
+    }
+
+    public void setLastACDate(LocalDate lastACDate) {
+        this.lastACDate = lastACDate;
     }
 
     @Override

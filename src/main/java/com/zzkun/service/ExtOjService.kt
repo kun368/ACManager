@@ -2,6 +2,7 @@ package com.zzkun.service
 
 import com.zzkun.dao.ExtOjPbInfoRepo
 import com.zzkun.dao.UserACPbRepo
+import com.zzkun.dao.UserRepo
 import com.zzkun.model.ExtOjPbInfo
 import com.zzkun.model.User
 import com.zzkun.model.UserACPb
@@ -9,6 +10,7 @@ import com.zzkun.service.extoj.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import java.time.LocalDate
 import java.util.*
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
@@ -19,25 +21,26 @@ import java.util.concurrent.TimeUnit
  * Created by kun on 2016/9/30.
  */
 @Service
-open class ExtOjService {
+open class ExtOjService(
+        @Autowired val userService: UserService,
+        @Autowired val userRepo: UserRepo,
+        @Autowired val userACPbRepo: UserACPbRepo,
+        @Autowired val extOjPbInfoRepo: ExtOjPbInfoRepo,
+        @Autowired val uvaService: UVaService,
+        @Autowired val vjudgeService: VJudgeService,
+        @Autowired val hduService: HDUService,
+        @Autowired val pojService: POJService,
+        @Autowired val cfService: CFService) {
 
     companion object {
         private val logger = LoggerFactory.getLogger(ExtOjService::class.java)
     }
 
-    @Autowired lateinit private var userService: UserService
-    @Autowired lateinit private var userACPbRepo: UserACPbRepo
-    @Autowired lateinit private var extOjPbInfoRepo: ExtOjPbInfoRepo
-    @Autowired lateinit private var uvaService: UVaService
-    @Autowired lateinit private var vjudgeService: VJudgeService
-    @Autowired lateinit private var hduService: HDUService
-    @Autowired lateinit private var pojService: POJService
-    @Autowired lateinit private var cfService: CFService
-
     private fun allExtOjServices(): List<IExtOJAdapter> {
         return listOf(vjudgeService, uvaService, hduService, pojService, cfService)
     }
 
+    // 从WEB获取用户AC题目
     private fun getUsersACPbsFromWeb(users: List<User>): TreeSet<UserACPb> {
         val set = TreeSet<UserACPb>()
         logger.info("所有用户数量：{}", users.size)
@@ -62,6 +65,7 @@ open class ExtOjService {
         return set
     }
 
+    // 从WEB获取所有题目信息
     private fun getPbInfosFromWeb(): TreeSet<ExtOjPbInfo> {
         val set = TreeSet<ExtOjPbInfo>()
         for(oj in allExtOjServices()) {
@@ -73,16 +77,28 @@ open class ExtOjService {
         return set
     }
 
+    //更新用户最后一次AC时间
+    fun flushUserACDate(set: Set<UserACPb>) {
+        val userSet = set.map { it.user }.toSortedSet()
+        val curDate = LocalDate.now()
+        userSet.forEach {
+            it.lastACDate = curDate
+        }
+        userRepo.save(userSet)
+    }
+
     fun flushACDB() {
         try {
             synchronized(this) {
                 logger.info("开始更新用户AC题目纪录...")
                 val cur = getUsersACPbsFromWeb(userService.allUser())
                 val pre = TreeSet<UserACPb>(userACPbRepo.findAll())
-                val new = cur - pre
+                val new: Set<UserACPb> = cur - pre
                 logger.info("pre:${pre.size}, cur:${cur.size}, new:${new.size}")
                 userACPbRepo.save(new)
-                logger.info("更新完毕！")
+                logger.info("更新用户AC题目数据完毕！")
+                flushUserACDate(new)
+                logger.info("更新用户最后一次AC时间完毕！")
             }
         } catch (e: Exception) {
             e.printStackTrace()

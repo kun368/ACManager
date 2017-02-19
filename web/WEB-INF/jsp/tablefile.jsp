@@ -96,7 +96,7 @@
         function exportTable() {
             $("#mytable").table2excel({
                 name: "doc1",
-                filename: "队员比赛统计结果"
+                filename: "队员比赛统计结果",
             });
         }
     </script>

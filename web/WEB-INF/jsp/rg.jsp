@@ -114,7 +114,7 @@
                     <p id="accheck"></p>
 
                     <div class="form-group">
-                        <input type="text" name="major" id="class" class="form-control" placeholder="班级*" required>
+                        <input type="text" name="major" id="class" class="form-control" placeholder="班级*(格式示例：软件工程14-3)" required>
                     </div>
                     <div class="form-group">
                         <input type="text" name="realName" id="inputRealName" class="form-control" placeholder="真实姓名*" required>

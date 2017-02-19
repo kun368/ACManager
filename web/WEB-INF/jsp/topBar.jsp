@@ -40,6 +40,7 @@
         searching:true,
         stateSave: true,<!--状态保存-->
         stateDuration:-1,
+        lengthMenu: [[10, 20, 50, 100, -1], [10, 20, 50, 100, "全部"]],
         pageLength: 50,<!--初始化单页显示数-->
         orderClasses: false,<!--排序列不高亮显示-->
         order:[],
@@ -86,7 +87,18 @@
                 </c:if>
                 <c:if test="${!empty user}">
                     <div class="navbar-form navbar-right">
-                        <a class="navbar-link" href="<c:url value="/auth/my"/> ">${user.username}</a>
+                        <c:choose>
+                            <c:when test="${user.isAdmin()}">
+                                <%--管理员至尊红名显示--%>
+                                <a class="navbar-link" href="<c:url value="/auth/my"/> "
+                                   style="color: red; font-weight: bold">
+                                    ${user.username}
+                                </a>
+                            </c:when>
+                            <c:otherwise>
+                                <a class="navbar-link" href="<c:url value="/auth/my"/> ">${user.username}</a>
+                            </c:otherwise>
+                        </c:choose>
                         <a class="navbar-link" href="<c:url value="/auth/dologout"/> ">退出</a>
                     </div>
                 </c:if>

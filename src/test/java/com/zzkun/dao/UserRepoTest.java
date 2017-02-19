@@ -48,10 +48,10 @@ public class UserRepoTest {
 //        userRepo.save(user);
     }
 
-    @Test
-    public void deleteAllInBatch() throws Exception {
-        userRepo.deleteAllInBatch();
-    }
+//    @Test
+//    public void deleteAllInBatch() throws Exception {
+//        userRepo.deleteAllInBatch();
+//    }
 
     @Test
     public void findByUvaId() throws Exception {

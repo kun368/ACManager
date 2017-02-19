@@ -25,10 +25,6 @@
     <c:url value="/" var="url_index"/>
     <c:url value="/auth/validUsername" var="url_valid"/>
     <script type="text/javascript">
-        //传数据库
-        function Goto() {
-            self.location = '${url_index}';
-        }
         function check() {
             var pre = $('#OldPassword').val();
             var pa = $('#inputPassword').val();
@@ -51,10 +47,10 @@
 
 <div class="container-fluid"  style="margin-right: 0.7%;margin-left: 0.7%">
     <jsp:include page="topBar.jsp"/>
-    <div class="row" style="padding-top: 15px; padding-bottom: 15px">
-    </div>
 
-    <div class="row">
+    <div style="padding-top: 20px"></div>
+
+    <div class="row" style="margin-right: 12%;margin-left: 12%">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">进队审核状态</h3>
@@ -80,8 +76,9 @@
                 </c:if>
             </div>
         </div>
-    </div>
-    <div class="row">
+
+        <div style="padding-top: 10px"></div>
+
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h3 class="panel-title">信息修改</h3>
@@ -89,7 +86,7 @@
             <div class="panel-body">
                 <form class="form-horizontal" id="myform" method="post" action="<c:url value="/auth/doModify"/> "
                       onsubmit="return mysubmit(true)">
-                    <div class="col-lg-7">
+                    <div class="col-lg-12">
                         <input value="${user.id}" name="id" hidden>
                         <div class="form-group">
                             用户名：<input type="text" name="username" id="inputUserName" class="form-control" value="${user.username}" readonly>
@@ -128,15 +125,15 @@
                                         value="${user.blogUrl}" placeholder="格式示例：http://blog.csdn.net/hahaha">
                         </div>
                         <div class="form-horizontal pull-right form-group">
-                            <button class="btn btn-primary " type="submit">修 改</button>
-                            <button class="btn btn-primary" type="button" onclick="Goto()">取 消</button>
+                            <button class="btn btn-primary" type="submit">修 改</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-        <br/>
-        <br/>
+
+        <div style="padding-top: 10px"></div>
+
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h3 class="panel-title"> 密码修改</h3>
@@ -145,7 +142,7 @@
                 <form class="form-horizontal" method="post"
                       action="<c:url value="/auth/doModifyUserPW"/> "
                       onsubmit="return check();">
-                    <div class="col-lg-7">
+                    <div class="col-lg-12">
                         <input value="${user.id}" name="id" hidden>
                         <div class="form-group">
                             旧密码:<input type="password" name="oldpassword" id="OldPassword" class="form-control"
@@ -160,8 +157,7 @@
                         </div>
                         <p id="accheck"></p>
                         <div class="form-horizontal pull-right form-group">
-                            <button class="btn btn-primary " type="submit">修 改</button>
-                            <button class="btn btn-primary" type="button" onclick="Goto()">取 消</button>
+                            <button class="btn btn-primary" type="submit">修 改</button>
                         </div>
                     </div>
                 </form>
