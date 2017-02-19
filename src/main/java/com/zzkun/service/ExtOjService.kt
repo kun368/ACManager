@@ -8,7 +8,6 @@ import com.zzkun.model.UserACPb
 import com.zzkun.service.extoj.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
 import java.util.*
 import java.util.concurrent.Callable
@@ -74,7 +73,6 @@ open class ExtOjService {
         return set
     }
 
-    @Scheduled(fixedDelay = 6 * 3600 * 1000L, initialDelay = 3600 * 1000L)
     fun flushACDB() {
         try {
             synchronized(this) {

@@ -11,7 +11,6 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
@@ -195,7 +194,6 @@ public class RatingService {
     }
 
     //刷新全局个人Rating
-    @Scheduled(fixedDelay = 1 * 3600 * 1000L, initialDelay = 3600 * 1000L)
     public void flushGlobalUserRating() {
         try {
             List<Contest> contests = new ArrayList<>();

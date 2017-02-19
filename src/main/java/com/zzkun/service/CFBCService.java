@@ -11,7 +11,6 @@ import com.zzkun.util.web.CFWebGetter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -32,7 +31,6 @@ public class CFBCService {
     @Autowired private BCUserInfoRepo bcUserInfoRepo;
     @Autowired private UserRepo userRepo;
 
-    @Scheduled(fixedDelay = 12 * 3600 * 1000L, initialDelay = 3600 * 1000L)
     public synchronized void flushCFUserInfo() {
         try {
             List<User> userList = userRepo.findAll();
@@ -57,7 +55,6 @@ public class CFBCService {
                 .collect(Collectors.toMap(CFUserInfo::getCfname, x -> x));
     }
 
-    @Scheduled(fixedDelay = 12 * 3600 * 1000L, initialDelay = 3600 * 1000L)
     public synchronized void flushBCUserInfo() {
         try {
             List<User> userList = userRepo.findAll();
