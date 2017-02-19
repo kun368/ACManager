@@ -13,6 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -57,7 +58,7 @@ public class OJContestService {
             List<OJContest> webDate = getWebDate();
             if(webDate == null || webDate.isEmpty())
                 return;
-            ojContestRepo.deleteAllInBatch();
+            ojContestRepo.deleteAll();
             ojContestRepo.save(webDate);
         } catch (Exception e) {
             e.printStackTrace();
@@ -66,7 +67,7 @@ public class OJContestService {
 
     public List<OJContest> getRecents() {
         List<OJContest> all = ojContestRepo.findAll();
-        all.sort((x, y) -> x.getStart_time().compareTo(y.getStart_time()));
+        all.sort(Comparator.comparing(OJContest::getStart_time));
         return all;
     }
 }

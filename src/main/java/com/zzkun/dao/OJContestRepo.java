@@ -17,5 +17,5 @@ public interface OJContestRepo extends JpaRepository<OJContest, Integer> {
     <S extends OJContest> List<S> save(Iterable<S> iterable);
 
     @Override
-    void deleteAllInBatch();
+    void deleteAll();
 }

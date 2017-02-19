@@ -22,12 +22,20 @@
     <script src="http://static.geetest.com/static/tools/gt.js"></script>
     <link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
+    <c:url value="/oj/update" var="url_update"/>
     <script>
         $(document).ready(function () {
-            $('#mytable').DataTable({
-                "order": [[2, "asc"]]
-            });
+            $('#update_button').click(function () {
+                $(this).attr("disabled", "disabled");
+                $.post("${url_update}", {}, function (data) {
+                    alert(data);
+                    location.reload();
+                });
+            })
         });
+    </script>
+    <script>
+
     </script>
 
 </head>
@@ -45,6 +53,9 @@
                 <h1>各大OJ近期比赛汇总
                 </h1>
                 <p>数据来源：<a href="http://contests.acmicpc.info/contests.json" target="_blank">http://contests.acmicpc.info/contests.json</a></p>
+                <c:if test="${user.isAdmin()}">
+                    <button class="btn btn-info" id="update_button">更新</button>
+                </c:if>
             </div>
             <table class="table table-condensed table-striped table-hover display" id="mytable">
                 <thead class="tab-header-area">
