@@ -120,11 +120,10 @@
 
             <div class="panel-body">
 
-                <div style="margin-left: 20%; margin-top: 20px">
-                    <div id="main" style="width: 600px;height:400px;">
-                    </div>
+                <div id="main" style="width: 600px;height:400px; margin: 0 auto;">
                 </div>
                 <hr/>
+
                 <table class="table table-striped display"
                        id="mytable" role="grid"
                        style="table-layout:fixed;">
@@ -180,7 +179,7 @@
                 },
                 series: [
                     {
-                        name:'访问来源',
+                        name:'AC来源',
                         type:'pie',
                         radius: ['50%', '70%'],
                         avoidLabelOverlap: false,

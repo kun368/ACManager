@@ -52,7 +52,7 @@ public class OJContestService {
 
     public synchronized void flushOJContests() {
         try {
-            logger.info("定时更新近期比赛开始...");
+            logger.info("开始更新近期比赛...");
             List<OJContest> webDate = getWebDate();
             if(webDate == null || webDate.isEmpty())
                 return;

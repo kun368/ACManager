@@ -17,18 +17,17 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 @RequestMapping("/api/rating")
-open class RatingApi {
-    
-    @Autowired private val ratingService: RatingService? = null
-    @Autowired private val userService: UserService? = null
+open class RatingApi(
+        @Autowired private val ratingService: RatingService,
+        @Autowired private val userService: UserService) {
 
     @RequestMapping(value = "/training/{trainingId}/username/{name}", 
             method = arrayOf(RequestMethod.GET), 
             produces = arrayOf("text/html;charset=UTF-8"))
     fun trainingUser(@PathVariable trainingId: Int?,
                      @PathVariable name: String): String {
-        val user = userService?.getUserByUsername(name)
-        val list = ratingService?.getPersonalRatingHistory(RatingRecord.Scope.Training, trainingId, user?.realName)
+        val user = userService.getUserByUsername(name)
+        val list = ratingService.getPersonalRatingHistory(RatingRecord.Scope.Training, trainingId, user?.realName)
         val result = JSONObject()
         val array = JSONArray()
         result["result"] = array
