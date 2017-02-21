@@ -21,6 +21,7 @@
             text-align: center;
         }
     </style>
+
     <title>${curUser.realName} 做题统计 - ACManager</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -33,8 +34,10 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.dataTables.min.css">
     <script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js"></script>
     <script src="//cdn.datatables.net/plug-ins/1.10.12/sorting/chinese-string.js"></script>
+    <script src="//cdn.bootcss.com/echarts/3.4.0/echarts.js"></script>
     <c:url value="/api/userac/${username}/list" var="apiList"/>
     <c:url value="/api/userac/url/" var="urlapi"/>
+
     <script>
         $(function () {
             $.ajax({
@@ -78,8 +81,6 @@
                         $(this).children().eq(0).children().css("line-height", ht + "px");
                     });
                     $('#solve_number').html("(" + max_number + ")");
-
-
                 }
             });
         });
@@ -103,7 +104,6 @@
                     }
                 });
         }
-
     </script>
 </head>
 <body>
@@ -113,10 +113,18 @@
     <div style="padding-top: 20px"></div>
     <div class="row">
         <div class="panel panel-info">
+
             <div class="panel-heading">
                 <h3 class="panel-title">${curUser.realName} 做题统计</h3>
             </div>
+
             <div class="panel-body">
+
+                <div style="margin-left: 20%; margin-top: 20px">
+                    <div id="main" style="width: 600px;height:400px;">
+                    </div>
+                </div>
+                <hr/>
                 <table class="table table-striped display"
                        id="mytable" role="grid"
                        style="table-layout:fixed;">
@@ -136,5 +144,76 @@
 
     </div>
 </div>
+
+<script type="text/javascript">
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('main'));
+
+    var nameArr = [];
+    var dataArr = [];
+
+    $.ajax({
+        url: "${apiList}",
+        data: {},
+        dataType: "json",
+        type: "GET",
+        success: function (data) {
+            nameArr = [];
+            dataArr = [];
+            var ojs = data.ojs;
+            $.each(data.ac, function (name, value) {
+                var number = value.length;
+                nameArr.push(name);
+                dataArr.push({value:number, name:name});
+            });
+            console.log(nameArr);
+            console.log(dataArr);
+            option = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b}: {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    x: 'left',
+                    data:nameArr
+                },
+                series: [
+                    {
+                        name:'访问来源',
+                        type:'pie',
+                        radius: ['50%', '70%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                            normal: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                show: true,
+                                textStyle: {
+                                    fontSize: '30',
+                                    fontWeight: 'bold'
+                                }
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                show: false
+                            }
+                        },
+                        data:dataArr
+                    }
+                ]
+            };
+
+            // 使用刚指定的配置项和数据显示图表。
+            myChart.setOption(option);
+        }
+    });
+
+
+</script>
+
 </body>
 </html>

@@ -51,6 +51,8 @@
     <div style="padding-top: 20px"></div>
 
     <div class="row" style="margin-right: 12%;margin-left: 12%">
+        <h2>${user.username} 的个人中心</h2>
+        <hr/>
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">进队审核状态</h3>
@@ -79,9 +81,27 @@
 
         <div style="padding-top: 10px"></div>
 
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">个人导航</h3>
+            </div>
+            <div class="panel-body">
+                <c:url value="/userac/${user.username}/list" var="aclist_url"/>
+                <a href="${aclist_url}" target="_blank" class="btn btn-default btn-sm">AC汇总</a>
+                <a href="${user.blogUrl}" target="_blank" class="btn btn-default btn-sm">博客</a>
+                <a href="http://codeforces.com/profile/${user.cfname}" target="_blank" class="btn btn-default btn-sm">Codeforces</a>
+                <a href="http://bestcoder.hdu.edu.cn/rating.php?user=${user.bcname}" target="_blank" class="btn btn-default btn-sm">BestCoder</a>
+                <a href="http://acm.hdu.edu.cn/userstatus.php?user=${user.hduName}" target="_blank" class="btn btn-default btn-sm">HDU</a>
+                <a href="http://poj.org/userstatus?user_id=${user.pojName}" target="_blank" class="btn btn-default btn-sm">POJ</a>
+                <a href="https://vjudge.net/user/${user.vjname}" target="_blank" class="btn btn-default btn-sm">VJudge</a>
+            </div>
+        </div>
+
+        <div style="padding-top: 10px"></div>
+
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title">信息修改</h3>
+                <h3 class="panel-title">修改信息</h3>
             </div>
             <div class="panel-body">
                 <form class="form-horizontal" id="myform" method="post" action="<c:url value="/auth/doModify"/> "
@@ -134,9 +154,9 @@
 
         <div style="padding-top: 10px"></div>
 
-        <div class="panel panel-info">
+        <div class="panel panel-danger">
             <div class="panel-heading">
-                <h3 class="panel-title"> 密码修改</h3>
+                <h3 class="panel-title">修改密码</h3>
             </div>
             <div class="panel-body">
                 <form class="form-horizontal" method="post"
@@ -153,11 +173,11 @@
                                        placeholder="Newpassword*" required>
                         </div>
                         <div class="form-group">
-                            重复密码:<input type="password" id="inputRepass" class="form-control" placeholder="Repeat*" required>
+                            重复新密码:<input type="password" id="inputRepass" class="form-control" placeholder="Repeat*" required>
                         </div>
                         <p id="accheck"></p>
                         <div class="form-horizontal pull-right form-group">
-                            <button class="btn btn-primary" type="submit">修 改</button>
+                            <button class="btn btn-danger" type="submit">修 改</button>
                         </div>
                     </div>
                 </form>

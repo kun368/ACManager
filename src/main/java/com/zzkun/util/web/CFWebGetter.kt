@@ -74,7 +74,6 @@ open class CFWebGetter {
         if(cfName == null)
             return ArrayList()
         val url = String.format(link, cfName)
-//        logger.info("开始获取coderforces用户${cfName}AC题目：$url")
         val body = httpUtil.readURL(url)
         val json = JSON.parseObject(body)
         if(json == null || json.getString("status") != "OK")
