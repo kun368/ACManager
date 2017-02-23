@@ -82,11 +82,11 @@ open class HttpUtil {
             ctx.init(null, arrayOf<TrustManager>(tm), null)
             val ssf = org.apache.http.conn.ssl.SSLSocketFactory(ctx)
             val ccm = httpclient.getConnectionManager()
-            val sr = ccm.getSchemeRegistry()
+            val sr = ccm.schemeRegistry
             sr.register(Scheme("https", 443, ssf))
             val httpget = HttpGet(url)
             val params = httpclient.getParams()
-            httpget.setParams(params)
+            httpget.params = params
             val responseHandler = BasicResponseHandler()
             httpclient.execute(httpget, responseHandler)
         }, 5)

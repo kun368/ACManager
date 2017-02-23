@@ -12,8 +12,8 @@ class UHuntTreeNode : Comparable<UHuntTreeNode>, Serializable {
     var id: Int = 0
     var name: String = ""
     var type: String = ""
-    var son: List<UHuntTreeNode> = ArrayList()
-    var pids: List<Int> = ArrayList()
+    var son: ArrayList<UHuntTreeNode> = ArrayList()
+    var pids: ArrayList<Int> = ArrayList()
 
     constructor() {
     }
@@ -25,8 +25,6 @@ class UHuntTreeNode : Comparable<UHuntTreeNode>, Serializable {
         this.type = type
     }
 
-
-
     override fun compareTo(other: UHuntTreeNode): Int {
         return Integer.compare(id, other.id)
     }
@@ -34,5 +32,4 @@ class UHuntTreeNode : Comparable<UHuntTreeNode>, Serializable {
     override fun toString(): String {
         return "UHuntTreeNode(deep=$deep, id=$id, name='$name', type='$type', son=${son.size}, pids=${pids.size})"
     }
-
 }

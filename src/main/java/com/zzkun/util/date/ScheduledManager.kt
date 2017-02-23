@@ -13,11 +13,11 @@ import javax.annotation.PostConstruct
  */
 @Component
 open class ScheduledManager(
-        @Autowired val ojContestService: OJContestService,
-        @Autowired val extOjService: ExtOjService,
-        @Autowired val ratingService: RatingService,
-        @Autowired val cfbcService: CFBCService,
-        @Autowired val systemService: SystemService) {
+        @Autowired private val ojContestService: OJContestService,
+        @Autowired private val extOjService: ExtOjService,
+        @Autowired private val ratingService: RatingService,
+        @Autowired private val cfbcService: CFBCService,
+        @Autowired private val systemService: SystemService) {
 
     companion object {
         private val logger: Logger = LoggerFactory.getLogger(ScheduledManager::class.java)
@@ -29,38 +29,38 @@ open class ScheduledManager(
     @PostConstruct
     fun run() {
 
-        // 做题统计:6小时
         timer.schedule(object : TimerTask() {
             override fun run() {
+                logger.info("做题统计:6小时")
                 extOjService.flushACDB()
             }
         }, 3600 * 1000L, 6 * 3600 * 1000L)
 
-        // 近期比赛:1小时
         timer.schedule(object : TimerTask() {
             override fun run() {
+                logger.info("近期比赛:1小时")
                 ojContestService.flushOJContests()
             }
         }, 3600 * 1000L, 1 * 3600 * 1000L)
 
-        // 全局比赛Rating:1天
         timer.schedule(object : TimerTask() {
             override fun run() {
+                logger.info("全局比赛Rating:1天")
                 ratingService.flushGlobalUserRating()
             }
         }, 3600 * 1000L, 24 * 3600 * 1000L)
 
-        // CF/BC Rating:12小时
         timer.schedule(object : TimerTask() {
             override fun run() {
+                logger.info("CF/BC Rating:12小时")
                 cfbcService.flushBCUserInfo()
                 cfbcService.flushCFUserInfo()
             }
         }, 3600 * 1000L, 12 * 3600 * 1000L)
 
-        // 更新系统状态:1天
         timer.schedule(object : TimerTask() {
             override fun run() {
+                logger.info("更新系统状态:1天")
                 systemService.saveCurState()
             }
         }, 60 * 1000L, 24 * 3600 * 1000L)

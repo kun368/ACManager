@@ -3,6 +3,7 @@ package com.zzkun.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
@@ -10,7 +11,7 @@ import java.time.LocalDate;
  */
 @Entity
 @Table(name = "system_state")
-public class SystemState {
+public class SystemState implements Serializable {
 
     @Id
     private LocalDate date;
