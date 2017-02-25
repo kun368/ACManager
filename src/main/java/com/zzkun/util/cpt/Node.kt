@@ -9,7 +9,7 @@ enum class NodeType {
 class Node(
         val deep: Int,
         val id: Int,
-        val name: String,
+        var name: String,
         val type: NodeType) : Comparable<Node> {
 
     var son: ArrayList<Node> = ArrayList()
@@ -22,14 +22,14 @@ class Node(
         return "Node(deep=$deep, id=$id, name='$name', type=$type, son=$son)"
     }
 
-    fun allPids(): Set<Int> {
-        val res = HashSet<Int>()
+    fun allPids(): Set<String> {
+        val res = HashSet<String>()
         val qu = ArrayDeque<Node>()
         qu.addLast(this)
         while (qu.isNotEmpty()) {
             val cur = qu.pollFirst()!!
             if (cur.type == NodeType.LEAF) {
-                res.add(cur.name.toInt())
+                res.add(cur.name)
                 continue
             }
             for (son in cur.son)
@@ -52,5 +52,35 @@ class Node(
                 qu.addLast(son)
         }
         return res
+    }
+
+    fun findSon(id: Int): Node? {
+        val qu = ArrayDeque<Node>()
+        qu.addLast(this)
+        while (qu.isNotEmpty()) {
+            val cur = qu.pollFirst()!!
+            if (cur.id == id)
+                return cur
+            for (son in cur.son)
+                qu.addLast(son)
+        }
+        return null
+    }
+
+    fun deleteSon(id: Int): Node {
+        val qu = ArrayDeque<Node>()
+        qu.addLast(this)
+        val deleted = false
+        while (!deleted && qu.isNotEmpty()) {
+            val cur = qu.pollFirst()!!
+            for (son in cur.son) {
+                if (son.id == id) {
+                    cur.son.remove(son)
+                    break
+                }
+                qu.addLast(son)
+            }
+        }
+        return this
     }
 }

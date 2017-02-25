@@ -228,8 +228,8 @@ public class TrainingService {
         contest.setType(contestType);
         contest.setAddTime(LocalDateTime.now());
         contest.setName(contestName.trim());
-        contest.setStartTime(MyDateFormater.toDT1(stTime));
-        contest.setEndTime(MyDateFormater.toDT1(edTime));
+        contest.setStartTime(MyDateFormater.INSTANCE.toDT1(stTime));
+        contest.setEndTime(MyDateFormater.INSTANCE.toDT1(edTime));
         contest.setSource(source.trim());
         contest.setSourceDetail(sourceDetail.trim());
         contest.setSourceUrl(sourceUrl.trim());

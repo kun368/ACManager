@@ -10,6 +10,6 @@ import java.time.LocalDateTime;
 public class LocalDateTimeConverter implements Converter<String, LocalDateTime> {
     @Override
     public LocalDateTime convert(String s) {
-        return MyDateFormater.toDT1(s);
+        return MyDateFormater.INSTANCE.toDT1(s);
     }
 }

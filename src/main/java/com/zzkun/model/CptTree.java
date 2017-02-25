@@ -1,5 +1,7 @@
 package com.zzkun.model;
 
+import com.zzkun.util.cpt.Node;
+import com.zzkun.util.cpt.NodeBuilderKt;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
@@ -17,19 +19,32 @@ public class CptTree implements Serializable, Comparable<CptTree> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String name;
+
     @Lob
     private String rootNode;
 
     @Column(length = 10240)
     private String remark;
 
-    private Integer addUid;
+
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    @JoinColumn(name = "addUid")
+    private User addUser;
+
 
     private LocalDateTime addTime;
 
 
-
     public CptTree() {
+    }
+
+    public CptTree(String name, String rootNode, String remark, User addUser, LocalDateTime addTime) {
+        this.name = name;
+        this.rootNode = rootNode;
+        this.remark = remark;
+        this.addUser = addUser;
+        this.addTime = addTime;
     }
 
     public Integer getId() {
@@ -38,6 +53,14 @@ public class CptTree implements Serializable, Comparable<CptTree> {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getRootNode() {
@@ -56,12 +79,12 @@ public class CptTree implements Serializable, Comparable<CptTree> {
         this.remark = remark;
     }
 
-    public Integer getAddUid() {
-        return addUid;
+    public User getAddUser() {
+        return addUser;
     }
 
-    public void setAddUid(Integer addUid) {
-        this.addUid = addUid;
+    public void setAddUser(User addUser) {
+        this.addUser = addUser;
     }
 
     public LocalDateTime getAddTime() {
@@ -90,5 +113,11 @@ public class CptTree implements Serializable, Comparable<CptTree> {
     @Override
     public int compareTo(@NotNull CptTree o) {
         return Integer.compare(id, o.id);
+    }
+
+    ///////
+
+    public Node getNode() {
+        return NodeBuilderKt.parseJson(rootNode);
     }
 }

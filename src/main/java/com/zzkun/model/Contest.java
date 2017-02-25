@@ -239,11 +239,11 @@ public class Contest implements Serializable, Comparable<Contest> {
     }
 
     public String getEndTimeStr() {
-        return MyDateFormater.toStr1(getEndTime());
+        return MyDateFormater.INSTANCE.toStr1(getEndTime());
     }
 
     public String getStartTimeStr() {
-        return MyDateFormater.toStr1(getStartTime());
+        return MyDateFormater.INSTANCE.toStr1(getStartTime());
     }
 
     //竞赛时长

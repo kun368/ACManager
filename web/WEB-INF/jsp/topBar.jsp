@@ -54,6 +54,7 @@
 <c:url value="/auth/login" var="url_login"/>
 <c:url value="/auth/rg" var="url_rg"/>
 <c:url value="/training/list" var="url_traininglist"/>
+<c:url value="/cpt/list" var="url_cpt_list"/>
 <style>
     body {
         font-family:"Microsoft Yahei",微软雅黑,Arial,Consolas,sans-serif;
@@ -75,6 +76,7 @@
                     <li> <a href="${url_index}">首页</a> </li>
                     <li> <a href="${url_table_userac}">做题统计</a> </li>
                     <li> <a href="${url_uvaTable}">比赛统计</a> </li>
+                    <li> <a href="${url_cpt_list}">专题训练</a></li>
                     <li> <a href="${url_traininglist}">集训管理</a> </li>
                     <li> <a href="<c:url value="/oj/recentContest"/> ">近期比赛</a> </li>
                     <li> <a href="https://www.eoapi.cn/#/share/login?shareCode=ZE1ddL" target="_blank">API</a></li>

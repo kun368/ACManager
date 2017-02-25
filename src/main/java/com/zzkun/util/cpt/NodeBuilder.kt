@@ -1,13 +1,8 @@
 package com.zzkun.util.cpt
 
+import com.alibaba.fastjson.JSON
+import com.alibaba.fastjson.JSONObject
 import java.util.*
-
-/**
- * Created by Administrator on 2017/2/23 0023.
- */
-interface NodeBuilder {
-    fun parse(txt: List<String>): Node?
-}
 
 /**
  * 规则：
@@ -17,50 +12,53 @@ interface NodeBuilder {
  * name：当前节点名字，如章节名；若为叶节点（题目）则为题目编号（int）
  * type：类型；大写；叶节点（题目）为LEAF，其余为LIST
  */
-class CSVNodeBuilder : NodeBuilder {
+fun parseCSV(txt: List<String>): Node? {
+    var root: Node? = null
+    val id2Node = HashMap<Int, Node>()
+    for (s in txt) {
+        if(s.isBlank())
+            continue
 
-    private var root: Node? = null
+        val split = s.split(",")
+        val id = split[0].trim().toInt()
+        val pid = split[1].trim().toInt()
+        val name = split[2].trim()
+        val type = NodeType.valueOf(split[3].trim())
 
-    override fun parse(txt: List<String>): Node? {
-        var root: Node? = null
-        val id2Node = HashMap<Int, Node>()
-        for (s in txt) {
-            if(s.isBlank())
-                continue
+        val pdeep = id2Node[pid]?.deep ?:-1
+        val cur = Node(pdeep + 1, id, name, type)
 
-            val split = s.split(",")
-            val id = split[0].toInt()
-            val pid = split[1].toInt()
-            val name = split[2].trim()
-            val type = NodeType.valueOf(split[3])
+        id2Node[pid]?.son?.add(cur)
+        id2Node[id] = cur
+        if(id == 0)
+            root = cur
+    }
+    return root
+}
 
-            val pdeep = id2Node[pid]?.deep ?:-1
-            val cur = Node(pdeep + 1, id, name, type)
-
-            id2Node[pid]?.son?.add(cur)
-            id2Node[id] = cur
-            if(id == 0)
-                root = cur
-        }
-        return root
+fun parseJson(str: String?): Node? {
+    try {
+        return jsonDFS(JSON.parseObject(str))
+    }
+    catch (e: Exception) {
+        e.printStackTrace()
+        return null
     }
 }
 
-//fun main(args: Array<String>) {
-//    val txt = """0,0,UVA,LIST
-//1,0,入门经典,LIST
-//2,1,第一章,LIST
-//3,2,10086,LEAF
-//4,2,10010,LEAF
-//5,1,第二章,LIST
-//6,5,10000,LEAF
-//7,0,训练指南,LIST"""
-//
-//    val hehe = txt.split("\n").toList();
-//    println(hehe)
-//    val rootNode: List<Node> = CSVNodeBuilder().parse(hehe)?.deepKSons(0)!!
-//    for (node in rootNode) {
-//        println(node.name + " " + node.allPids())
-//        println(node.toJsonStr())
-//    }
-//}
+private fun jsonDFS(json: JSONObject): Node? {
+    val deep = json.getInteger("deep")
+    val id = json.getInteger("id")
+    val name = json.getString("name")
+    val type = NodeType.valueOf(json.getString("type"))
+
+    val res = Node(deep, id, name, type)
+    if(type == NodeType.LEAF)
+        return res
+    val son = json.getJSONArray("son")
+    if(son != null) {
+        for (i in son.indices)
+            res.son.add(jsonDFS(son.getJSONObject(i))!!)
+    }
+    return res
+}

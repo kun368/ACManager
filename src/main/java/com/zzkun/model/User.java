@@ -77,6 +77,10 @@ public class User implements Serializable, Comparable<User> {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<UserACPb> acPbList;
 
+
+    @OneToMany(mappedBy = "addUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<CptTree> addCptTreeList;
+
     public User() {
     }
 
@@ -207,6 +211,14 @@ public class User implements Serializable, Comparable<User> {
 
     public void setLastACDate(LocalDate lastACDate) {
         this.lastACDate = lastACDate;
+    }
+
+    public List<CptTree> getAddCptTreeList() {
+        return addCptTreeList;
+    }
+
+    public void setAddCptTreeList(List<CptTree> addCptTreeList) {
+        this.addCptTreeList = addCptTreeList;
     }
 
     @Override
