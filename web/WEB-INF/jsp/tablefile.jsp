@@ -148,15 +148,6 @@
                     </tfoot>
 
                     <tbody>
-                    <c:set value="New" var="New"/>
-                    <c:set value="Admin" var="Admin"/>
-                    <c:set value="Verifying" var="Verifying"/>
-                    <c:set value="Reject" var="Reject"/>
-                    <c:set value="Acmer" var="Acmer"/>
-                    <c:set value="Expeled" var="Expeled"/>
-                    <c:set value="Retired" var="Retired"/>
-                    <c:set value="Quit" var="Quit"/>
-                    <c:set value="Coach" var="Coach"/>
                     <c:forEach items="${users}" var="curUser" varStatus="i">
                         <tr>
                             <td hidden>${curUser.id}</td>
@@ -172,61 +163,19 @@
                             <td>${curUser.major}</td>
                             <td>${ratingMap.get(curUser.realName).calcRating(playDuration.get(curUser.realName))}</td>
                             <td>
-                                <fmt:formatNumber value="${playDuration.get(curUser.realName)/60}"
-                                                  maxFractionDigits="0"
-                                                  minFractionDigits="0"
-                                                  groupingUsed="false"/>
+                                <fmt:formatNumber value="${playDuration.get(curUser.realName)/60}" maxFractionDigits="0" minFractionDigits="0" groupingUsed="false"/>
                             </td>
                             <td>
                                     ${ratingMap.get(curUser.realName).myRating}
                             </td>
                             <td>
-                                <fmt:formatNumber value="${ratingMap.get(curUser.realName).mean}"
-                                                  maxFractionDigits="2"
-                                                  minFractionDigits="2"/>
-                                (<fmt:formatNumber value="${ratingMap.get(curUser.realName).standardDeviation}"
-                                                   maxFractionDigits="2"
-                                                   minFractionDigits="2"/>)
+                                <fmt:formatNumber value="${ratingMap.get(curUser.realName).mean}" maxFractionDigits="2" minFractionDigits="2"/>
+                                (<fmt:formatNumber value="${ratingMap.get(curUser.realName).standardDeviation}" maxFractionDigits="2" minFractionDigits="2"/>)
                             </td>
                             <td>
-                                <fmt:formatNumber value="${playcntMap.get(curUser.realName)}"
-                                                  maxFractionDigits="0"
-                                                  minFractionDigits="0"
-                                                  groupingUsed="false"/>
+                                <fmt:formatNumber value="${playcntMap.get(curUser.realName)}" maxFractionDigits="0" minFractionDigits="0" groupingUsed="false"/>
                             </td>
-
-                            <c:set value="${curUser.type.name()}" var="curType"/>
-                            <td>
-                                <c:choose>
-                                    <c:when test="${curType eq New}">
-                                        用户
-                                    </c:when>
-                                    <c:when test="${curType eq Verifying}">
-                                        申请
-                                    </c:when>
-                                    <c:when test="${curType eq Reject}">
-                                        拒绝
-                                    </c:when>
-                                    <c:when test="${curType eq Acmer}">
-                                        队员
-                                    </c:when>
-                                    <c:when test="${curType eq Expeled}">
-                                        除名
-                                    </c:when>
-                                    <c:when test="${curType eq Retired}">
-                                        退役
-                                    </c:when>
-                                    <c:when test="${curType eq Quit}">
-                                        退出
-                                    </c:when>
-                                    <c:when test="${curType eq Coach}">
-                                        教练
-                                    </c:when>
-                                    <c:otherwise>
-                                        未知
-                                    </c:otherwise>
-                                </c:choose>
-                            </td>
+                            <td>${curUser.type.toShortStr()}</td>
 
                             <c:if test="${(!empty user) and (user.isAdmin())}">
                                 <td>

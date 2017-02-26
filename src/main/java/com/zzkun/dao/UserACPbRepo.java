@@ -1,5 +1,6 @@
 package com.zzkun.dao;
 
+import com.zzkun.model.OJType;
 import com.zzkun.model.User;
 import com.zzkun.model.UserACPb;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +15,6 @@ public interface UserACPbRepo extends JpaRepository<UserACPb, Long> {
     @Override
     List<UserACPb> findAll();
 
-    List<UserACPb> findByUser(User user);
 
 //    List<UserACPb> findByUserAndOjName(User user, OJType ojName);
 
@@ -32,4 +32,8 @@ public interface UserACPbRepo extends JpaRepository<UserACPb, Long> {
 
     @Override
     void deleteAll();
+
+    List<UserACPb> findByUser(User user);
+
+    long countByOjNameAndOjPbId(OJType ojName, String ojPbId);
 }

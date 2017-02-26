@@ -2,7 +2,6 @@ package com.zzkun.service
 
 import com.zzkun.dao.ContestRepo
 import com.zzkun.model.Contest
-import com.zzkun.util.algorithm.KMPCalc
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -23,12 +22,9 @@ open class ContestSearchService {
     @Autowired lateinit private var contestRepo : ContestRepo
 
     fun splitParms(str: String): List<String> {
-        val res = ArrayList<String>()
-        for (s in str.split(splitPattern)) {
-            if(s.isNotBlank())
-                res.add(s.trim())
-        }
-        return res
+        return str.split(splitPattern)
+                .filter(String::isNotBlank)
+                .map(String::trim)
     }
 
     fun find(qu: String): List<Contest> {
@@ -36,19 +32,16 @@ open class ContestSearchService {
         val keys = HashMap<Int, String>()
         contestRepo.findAll().forEach {
             keys[it.id] = "${it.name}|${it.source}|${it.sourceDetail}|${it.sourceUrl}"
+            if(it.id == 142)
+                println(keys[it.id])
         }
-        val weights = HashMap<Int, Int>()
-        for (parm in parms) {
-            KMPCalc.init(parm)
-            for (key in keys) {
-                val plus = KMPCalc.count(key.value)
-                if(plus != 0)
-                    weights[key.key] = weights[key.key]?:0 + plus
-            }
+        val ok = ArrayList<Int>()
+        for ((key, value) in keys) {
+            val flag = parms.all { value.contains(it, true) }
+            if(flag)
+                ok.add(key)
         }
-        return weights
-                .map { it.key }
-                .sortedByDescending { weights[it] }
+        return ok.reversed()
                 .map { contestRepo.findOne(it) }
     }
 }

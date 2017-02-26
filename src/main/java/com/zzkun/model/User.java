@@ -27,7 +27,32 @@ public class User implements Serializable, Comparable<User> {
         Verifying,      //已申请进队，待进队
         New,            //新人
         Coach,          //教练
-        Admin           //管理员
+        Admin;           //管理员
+
+        public String toShortStr() {
+            switch (this) {
+                case New:
+                    return "用户";
+                case Verifying:
+                    return "申请";
+                case Reject:
+                    return "拒绝";
+                case Acmer:
+                    return "队员";
+                case Expeled:
+                    return "除名";
+                case Retired:
+                    return "退役";
+                case Quit:
+                    return "退出";
+                case Coach:
+                    return "教练";
+                case Admin:
+                    return "管理员";
+                default:
+                    return "未知";
+            }
+        }
     }
 
     @Id
