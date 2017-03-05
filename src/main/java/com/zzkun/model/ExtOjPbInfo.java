@@ -20,9 +20,9 @@ public class ExtOjPbInfo implements Serializable, Comparable<ExtOjPbInfo> {
     @Enumerated(EnumType.STRING)
     private OJType ojName;
 
-    private String pid;
+    private String pid;   //oj题目ID
 
-    private String num;
+    private String num;   //oj题目题号
 
     @Column(length = 10240)
     private String title;

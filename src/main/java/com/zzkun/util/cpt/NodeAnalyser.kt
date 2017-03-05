@@ -13,6 +13,17 @@ import java.util.*
 /**
  * Created by Administrator on 2017/2/23 0023.
  */
+
+/**
+ * 某一用户在某节点下的统计信息
+ */
+data class UserNodeStat(
+    val nodeId: Int,
+    val acCount: Int,
+    val sumScore: Double
+)
+
+
 @Component
 open class NodeAnalyser(
         @Autowired private val userService: UserService,
@@ -22,21 +33,28 @@ open class NodeAnalyser(
         private val logger = LoggerFactory.getLogger(NodeAnalyser::class.java)
     }
 
-    // 单用户在某个节点上AC的题目
-    fun userNodeStatistic(user: User, node: Node): Set<String> {
-        val ac = user.acPbList
-                .map { "${it.ojPbId}@${it.ojName}" }
-                .toHashSet()
-        return node.allPids().intersect(ac)
-    }
+//    // 某一节点所有用户AC统计
+//    fun nodeStatistic(node: Node): TreeMap<User, Int> {
+//        val res = TreeMap<User, Int>()
+//        val pids = node.allPids()
+//        userService.allNormalNotNullUsers().forEach {
+//            val sz = it.acPbList
+//                    .map { "${it.ojPbId}@${it.ojName}" }
+//                    .toHashSet()
+//                    .intersect(pids)
+//                    .size
+//            res[it] = sz
+//        }
+//        return res
+//    }
 
-    // 某一节点所有用户ac统计
-    fun nodeStatistic(node: Node): TreeMap<User, Int> {
-        val res = TreeMap<User, Int>()
-        userService.allNormalNotNullUsers().forEach {
-            val ok = userNodeStatistic(it, node)
-            if (ok.isNotEmpty())
-                res[it] = ok.size
+    fun userNodeStatistic(user: User, node: Node): List<UserNodeStat> {
+        val acSet = user.acPbList.map { "${it.ojPbId}@${it.ojName}" } .toHashSet()
+        val sonNodes = node.deepKSons(1)
+        val res = ArrayList<UserNodeStat>()
+        res.add(UserNodeStat(node.id, acSet.intersect(node.allPids()).size, 0.0))
+        sonNodes.forEach {
+            res.add(UserNodeStat(it.id, acSet.intersect(it.allPids()).size, 0.0))
         }
         return res
     }

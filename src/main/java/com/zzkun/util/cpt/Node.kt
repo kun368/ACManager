@@ -1,5 +1,6 @@
 package com.zzkun.util.cpt
 
+import com.alibaba.fastjson.JSON
 import java.util.*
 
 enum class NodeType {
@@ -22,20 +23,29 @@ class Node(
         return "Node(deep=$deep, id=$id, name='$name', type=$type, son=$son)"
     }
 
+    fun toJsonString(): String {
+        return JSON.toJSONString(this)
+    }
+
+    private var pids: Set<String>? = null
+
     fun allPids(): Set<String> {
-        val res = HashSet<String>()
+        if(pids != null)
+            return pids!!
+        val pids = HashSet<String>()
         val qu = ArrayDeque<Node>()
         qu.addLast(this)
         while (qu.isNotEmpty()) {
             val cur = qu.pollFirst()!!
             if (cur.type == NodeType.LEAF) {
-                res.add(cur.name)
+                pids.add(cur.name)
                 continue
             }
             for (son in cur.son)
                 qu.addLast(son)
         }
-        return res
+        this.pids = pids
+        return pids
     }
 
     fun deepKSons(k: Int): List<Node> {

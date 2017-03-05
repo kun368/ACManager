@@ -23,9 +23,6 @@ class PbDiffCalcerTest() {
     @Test
     fun allPbDiff() {
         val diff = pbDiffCalcer.allPbDiff()
-        diff.forEach {
-            print(it)
-        }
     }
 
 }

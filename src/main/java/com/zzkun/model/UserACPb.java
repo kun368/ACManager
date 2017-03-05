@@ -24,7 +24,7 @@ public class UserACPb implements Serializable, Comparable<UserACPb> {
     @Enumerated(EnumType.STRING)
     private OJType ojName;
 
-    private String ojPbId;
+    private String ojPbId;   //存的是ExtOjPbInfo的num
 
     ///-------
 
