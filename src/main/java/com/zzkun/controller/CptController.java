@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.zzkun.dao.CptTreeRepo;
 import com.zzkun.model.CptTree;
 import com.zzkun.model.User;
+import com.zzkun.service.ExtOjService;
 import com.zzkun.util.cpt.Node;
+import com.zzkun.util.cpt.NodeAnalyser;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,8 @@ import static com.zzkun.util.cpt.NodeBuilderKt.parseCSV;
 public class CptController {
 
     @Autowired private CptTreeRepo cptTreeRepo;
+    @Autowired private NodeAnalyser nodeAnalyser;
+    @Autowired private ExtOjService extOjService;
 
 
     @RequestMapping("/list")
@@ -43,6 +47,24 @@ public class CptController {
     @RequestMapping("/rule")
     public String rule() {
         return "special_training_rule";
+    }
+
+    @RequestMapping("/statistic/{treeId}/{nodeId}")
+    public String statistic(@PathVariable Integer treeId,
+                            @PathVariable Integer nodeId,
+                            Model model) {
+        model.addAttribute("treeId", treeId);
+        model.addAttribute("nodeId", nodeId);
+        return "cpt_detail";
+    }
+
+    @RequestMapping("/pidsInfo/{treeId}/{nodeId}")
+    public String pidsInfo(@PathVariable Integer treeId,
+                           @PathVariable Integer nodeId,
+                           Model model) {
+        model.addAttribute("node", nodeAnalyser.getNode(treeId, nodeId));
+        model.addAttribute("infoList", nodeAnalyser.getNodePbInfos(treeId, nodeId));
+        return "cpt_pidsinfo";
     }
 
     ///// ajax
@@ -66,4 +88,19 @@ public class CptController {
         cptTreeRepo.save(tree);
         return "添加成功！";
     }
+
+    @RequestMapping(value = "/updatepbinfo", produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String updatepbinfo() {
+        extOjService.flushPbInfoDB();
+        return "更新完毕！";
+    }
+
+    @RequestMapping(value = "/updatepbcpt", produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String updatepbcpt() {
+        extOjService.flushPbInfoOfCpt();
+        return "更新完毕！";
+    }
+
 }

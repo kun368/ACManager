@@ -1,8 +1,10 @@
 package com.zzkun.service
 
+import com.zzkun.dao.CptTreeRepo
 import com.zzkun.dao.ExtOjPbInfoRepo
 import com.zzkun.dao.UserACPbRepo
 import com.zzkun.dao.UserRepo
+import com.zzkun.model.CptTree
 import com.zzkun.model.ExtOjPbInfo
 import com.zzkun.model.User
 import com.zzkun.model.UserACPb
@@ -11,6 +13,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.util.*
 import java.util.concurrent.Callable
 import java.util.concurrent.Executors
@@ -30,7 +33,8 @@ open class ExtOjService(
         @Autowired val vjudgeService: VJudgeService,
         @Autowired val hduService: HDUService,
         @Autowired val pojService: POJService,
-        @Autowired val cfService: CFService) {
+        @Autowired val cfService: CFService,
+        @Autowired val cptTreeRepo: CptTreeRepo) {
 
     companion object {
         private val logger = LoggerFactory.getLogger(ExtOjService::class.java)
@@ -99,6 +103,33 @@ open class ExtOjService(
                 logger.info("更新用户AC题目数据完毕！")
                 flushUserACDate(new)
                 logger.info("更新用户最后一次AC时间完毕！")
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    fun flushPbInfoOfCpt() {
+        try {
+            synchronized(this) {
+                for (ojService in allExtOjServices()) {
+                    val type = ojService.getOjType()
+                    val list = extOjPbInfoRepo
+                            .findByOjName(type)
+                            .map { "${it.num}@${it.ojName}" }
+                    if (list.isEmpty())
+                        continue
+                    val node = com.zzkun.util.cpt.parsePids(type, list)
+                    val curTree = CptTree(type.toString(),
+                            node.toJsonString(),
+                            "ACManager系统自动生成 ${LocalDateTime.now()}",
+                            userService.getUserById(1),
+                            LocalDateTime.of(2017, 3, 7, 0, 0, 0))
+                    val preTree = cptTreeRepo.findByName(type.toString())
+                    if (preTree != null)
+                        cptTreeRepo.delete(preTree)
+                    cptTreeRepo.save(curTree)
+                }
             }
         } catch (e: Exception) {
             e.printStackTrace()

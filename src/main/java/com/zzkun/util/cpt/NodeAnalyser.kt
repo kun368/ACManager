@@ -2,8 +2,9 @@ package com.zzkun.util.cpt
 
 import com.alibaba.fastjson.JSON
 import com.zzkun.dao.CptTreeRepo
+import com.zzkun.dao.ExtOjPbInfoRepo
+import com.zzkun.model.ExtOjPbInfo
 import com.zzkun.model.OJType
-import com.zzkun.model.User
 import com.zzkun.service.UserService
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -27,41 +28,20 @@ data class UserNodeStat(
 @Component
 open class NodeAnalyser(
         @Autowired private val userService: UserService,
-        @Autowired private val cptTreeRepo: CptTreeRepo) {
+        @Autowired private val cptTreeRepo: CptTreeRepo,
+        @Autowired private val extOjPbInfoRepo: ExtOjPbInfoRepo) {
 
     companion object {
         private val logger = LoggerFactory.getLogger(NodeAnalyser::class.java)
     }
 
-//    // 某一节点所有用户AC统计
-//    fun nodeStatistic(node: Node): TreeMap<User, Int> {
-//        val res = TreeMap<User, Int>()
-//        val pids = node.allPids()
-//        userService.allNormalNotNullUsers().forEach {
-//            val sz = it.acPbList
-//                    .map { "${it.ojPbId}@${it.ojName}" }
-//                    .toHashSet()
-//                    .intersect(pids)
-//                    .size
-//            res[it] = sz
-//        }
-//        return res
-//    }
-
-    fun userNodeStatistic(user: User, node: Node): List<UserNodeStat> {
-        val acSet = user.acPbList.map { "${it.ojPbId}@${it.ojName}" } .toHashSet()
-        val sonNodes = node.deepKSons(1)
-        val res = ArrayList<UserNodeStat>()
-        res.add(UserNodeStat(node.id, acSet.intersect(node.allPids()).size, 0.0))
-        sonNodes.forEach {
-            res.add(UserNodeStat(it.id, acSet.intersect(it.allPids()).size, 0.0))
-        }
-        return res
-    }
-
-    fun getRootNode(treeId: Int): Node? {
+    fun getNode(treeId: Int): Node? {
         val date = cptTreeRepo.findOne(treeId)
         return parseJson(date?.rootNode)
+    }
+
+    fun getNode(treeId: Int, nodeId: Int): Node? {
+        return getNode(treeId)?.findSon(nodeId)
     }
 
     fun saveRootNode(treeId: Int, node: Node?) {
@@ -72,10 +52,30 @@ open class NodeAnalyser(
         cptTreeRepo.save(date)
     }
 
+    // 获取一个节点下的所有题目具体信息
+    fun getNodePbInfos(treeId: Int, nodeId: Int): List<ExtOjPbInfo>? {
+        val pids = getNode(treeId, nodeId)?.allPids() ?: return emptyList()
+        // 按数据量采取不同数据库查询方式
+        if (pids.size < 66) {
+            return pids.map {
+                val split = it.split("@")
+                extOjPbInfoRepo.findByOjNameAndNum(OJType.valueOf(split[1]), split[0])
+            }
+        }
+        else {
+            val all = extOjPbInfoRepo.findAll()
+            val map = HashMap<String, ExtOjPbInfo>(all.size)
+            for (it in all) {
+                map["${it.num}@${it.ojName}"] = it
+            }
+            return pids.mapNotNull { map[it] }
+        }
+    }
+
     // 删除某tree下的node
     fun deleteSon(treeId: Int, nodeId: Int): Boolean {
         try {
-            val newNode = getRootNode(treeId)?.deleteSon(nodeId)
+            val newNode = getNode(treeId)?.deleteSon(nodeId)
             saveRootNode(treeId, newNode)
             return true
         } catch (e: Exception) {
@@ -105,7 +105,7 @@ open class NodeAnalyser(
     // 重命名某tree下的node
     fun renameSon(treeId: Int, nodeId: Int, newName: String): Boolean {
         try {
-            val rootNode = getRootNode(treeId)
+            val rootNode = getNode(treeId)
             val sonNode = rootNode?.findSon(nodeId)
             if (!valideNodeName(sonNode!!.type, newName))
                 return false
@@ -121,7 +121,7 @@ open class NodeAnalyser(
     // 在某tree下添加node
     fun addSon(treeId: Int, nodeId: Int, newId: Int, isParent: Boolean, name: String): Boolean {
         try {
-            val rootNode = getRootNode(treeId)
+            val rootNode = getNode(treeId)
             val sonNode =  rootNode?.findSon(nodeId)!!
             val newNode = Node(sonNode.deep + 1, newId, name,
                     if (isParent) NodeType.LIST else NodeType.LEAF)

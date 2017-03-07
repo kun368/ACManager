@@ -24,4 +24,6 @@ public interface CptTreeRepo extends JpaRepository<CptTree, Integer> {
 
     @Override
     void deleteAll();
+
+    CptTree findByName(String name);
 }

@@ -2,6 +2,7 @@ package com.zzkun.util.cpt
 
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.JSONObject
+import com.zzkun.model.OJType
 import java.util.*
 
 /**
@@ -61,4 +62,28 @@ private fun jsonDFS(json: JSONObject): Node? {
             res.son.add(jsonDFS(son.getJSONObject(i))!!)
     }
     return res
+}
+
+fun parsePids(ojType: OJType, list: List<String>): Node {
+    val root = Node(0, 0, ojType.toString(), NodeType.LIST)
+    val map = TreeMap<Int, ArrayList<String>>()
+    for (s in list) {
+        val sb = StringBuilder()
+        for (c in s) {
+            if (c.isDigit()) sb.append(c)
+            else break
+        }
+        val num = sb.toString().toInt()
+        if (!map.contains(num / 100))
+            map[num / 100] = ArrayList()
+        map[num / 100]?.add(sb.toString())
+    }
+    var count = 0
+    for ((k, v) in map) {
+        val vol = Node(1, ++count, "Volume #$k", NodeType.LIST)
+        v.map { Node(2, ++count, "$it@$ojType", NodeType.LEAF) }
+                .forEach { vol.son.add(it) }
+        root.son.add(vol)
+    }
+    return root
 }

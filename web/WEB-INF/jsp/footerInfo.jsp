@@ -17,7 +17,7 @@
             </p>
             <p class="text-center text-muted">
             </p>
-            <p class="text-center text-muted">All Copyright Reserved ©2016 <a href="http://www.sdust.edu.cn/" target="_blank">SDUST</a> ACM Team.</p>
+            <p class="text-center text-muted">All Copyright Reserved ©2016-2017 <a href="http://www.sdust.edu.cn/" target="_blank">SDUST</a> ACM Team.</p>
         </div>
     </div>
 </footer>

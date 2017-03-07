@@ -52,7 +52,7 @@
                 添加时间：${res.addTime}
                 <br/><br/>
                 <a class="btn btn-default btn-sm" href="<c:url value="/cpt/rule"/> "
-                   target="_blank">添加规则</a>
+                   target="_blank">查看规则</a>
                 <button class="btn btn-default btn-sm" id="add_dir">添加目录</button>
                 <button class="btn btn-default btn-sm" id="add_problem">添加题目</button>
                 <br/>
@@ -67,6 +67,9 @@
 <c:url value="/api/cpt/${res.id}/delete/" var="url_delete"/>
 <c:url value="/api/cpt/${res.id}/rename/" var="url_rename"/>
 <c:url value="/api/cpt/${res.id}/addNode" var="url_addson"/>
+
+<c:url value="/cpt/statistic/${res.id}/" var="url_statistic"/>
+<c:url value="/cpt/pidsInfo/${res.id}/" var="url_pidsinfo"/>
 
 <script>
     var zTreeObj;
@@ -164,6 +167,10 @@
                 onRemove: zTreeOnRemove,
                 beforeRename: zTreeBeforeRename,
                 onRename: zTreeOnRename
+            },
+            view: {
+                addHoverDom: addHoverDom,
+                removeHoverDom: removeHoverDom,
             }
         };
         $.ajax({
@@ -176,6 +183,45 @@
                 zTreeObj.expandAll(true);
             }
         });
+
+        function addHoverDom(treeId, treeNode) {
+            var aObj = $("#" + treeNode.tId + "_a");
+            // 做题统计
+            if ($("#diyBtn_"+treeNode.id).length>0)
+                return;
+            var editStr = "<span id='diyBtn_space_" +treeNode.id+ "' ></span>"
+                + "<button type='button' class='diyBtn1' id='diyBtn_" + treeNode.id
+                + "' title='" + treeNode.name + "' onfocus='this.blur();'>做题统计</button>";
+            aObj.append(editStr);
+            var btn = $("#diyBtn_"+treeNode.id);
+            if (btn)
+                btn.bind("click", function() {
+                    var url = "${url_statistic}" + treeNode.id;
+                    window.open(url);
+                });
+
+            // 题目信息
+            if ($("#diyBtn2_"+treeNode.id).length>0)
+                return;
+            editStr = "<span id='diyBtn2_space_" +treeNode.id+ "' ></span>"
+                + "<button type='button' class='diyBtn2' id='diyBtn2_" + treeNode.id
+                + "' title='" + treeNode.name + "' onfocus='this.blur();'>题目信息</button>";
+            aObj.append(editStr);
+            btn = $("#diyBtn2_"+treeNode.id);
+            if (btn)
+                btn.bind("click", function() {
+                    var url = "${url_pidsinfo}" + treeNode.id;
+                    window.open(url);
+                });
+        };
+
+        function removeHoverDom(treeId, treeNode) {
+            $("#diyBtn_"+treeNode.id).unbind().remove();
+            $("#diyBtn_space_" +treeNode.id).unbind().remove();
+
+            $("#diyBtn2_"+treeNode.id).unbind().remove();
+            $("#diyBtn2_space_" +treeNode.id).unbind().remove();
+        };
 
         function addSon(isParent) {
             var node = zTreeObj.getSelectedNodes();

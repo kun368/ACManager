@@ -129,6 +129,10 @@
                             <button class="btn btn-info btn-sm" id="btn_updatecfbc">更新CF/BC</button>
                         </c:if>
                         <button class="btn btn-info btn-sm" onclick="exportTable()">导出表格</button>
+                        <c:url value="/cpt/statistic/5/1" var="url_1"/>
+                        <c:url value="/cpt/statistic/5/1000" var="url_2"/>
+                        <a class="btn btn-info btn-sm" href="${url_1}" target="_blank">入门经典</a>
+                        <a class="btn btn-info btn-sm" href="${url_2}" target="_blank">训练指南</a>
                     </div>
                 </div>
                 <hr style="margin:10px "/>

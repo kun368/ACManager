@@ -10,7 +10,7 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <title>专题训练规则 - ACManager</title>
+    <title>专题训练添加规则 - ACManager</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,7 +34,7 @@
         <ol class="breadcrumb">
             <li>您所在的位置：</li>
             <li><a href="<c:url value="/cpt/list"/> ">专题训练列表</a></li>
-            <li class="active">规则</li>
+            <li class="active">查看规则</li>
         </ol>
     </div>
 

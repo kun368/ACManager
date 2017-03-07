@@ -15,9 +15,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import java.util.*
-import kotlin.collections.forEach
-import kotlin.collections.isNotEmpty
-import kotlin.collections.mapOf
 import kotlin.collections.set
 
 /**
@@ -41,7 +38,7 @@ open class CptApi(
                     produces = arrayOf("text/html;charset=UTF-8"))
     fun seeNode(@PathVariable cptId: Int,
                 @PathVariable nodeId: Int): String {
-        val rootNode = nodeAnalyser.getRootNode(cptId)!!
+        val rootNode = nodeAnalyser.getNode(cptId)!!
         val curNode = rootNode.findSon(nodeId)!!
         val sons = JSONArray()
         curNode.son.forEach {
@@ -54,7 +51,7 @@ open class CptApi(
                     method = arrayOf(RequestMethod.GET),
                     produces = arrayOf("text/html;charset=UTF-8"))
     fun zTreeStr(@PathVariable cptId: Int):String {
-        val rootNode = nodeAnalyser.getRootNode(cptId)
+        val rootNode = nodeAnalyser.getNode(cptId)
         val res = JSONArray()
         if (rootNode != null) {
             val qu = ArrayDeque<Pair<Node, Int>>()
@@ -138,16 +135,32 @@ open class CptApi(
 
     //////// 统计数据
 
-    @RequestMapping(value = "/{userId}/{cptId}/{nodeId}/statistic",
+    @RequestMapping(value = "/statistic/{cptId}/{nodeId}",
             method = arrayOf(RequestMethod.GET),
             produces = arrayOf("text/html;charset=UTF-8"))
     fun statistic(@PathVariable cptId: Int,
-                  @PathVariable nodeId: Int,
-                  @PathVariable userId: Int): String {
-        val rootNode = nodeAnalyser.getRootNode(cptId)!!
-        val sonNode = rootNode.findSon(nodeId)!!
-        val user = userService.getUserById(userId)
-        val res = nodeAnalyser.userNodeStatistic(user, sonNode)
-        return JSONArray(res).toJSONString()
+                  @PathVariable nodeId: Int): String {
+        val rootNode = nodeAnalyser.getNode(cptId)!!
+        val curNode = rootNode.findSon(nodeId)!!
+        val list = ArrayList<Node>()
+        list.add(curNode)
+        list.addAll(curNode.son)
+
+        val users = userService.allNormalNotNullUsers()
+
+        val res = ArrayList<HashMap<String, Any>>()
+        for (user in users) {
+            val map = HashMap<String, Any>()
+            map["userId"] = user.id
+            map["userName"] = user.username
+            map["userReal"] = user.realName
+            map["userMajor"] = user.major
+            val ac = user.acPbList.map { "${it.ojPbId}@${it.ojName}" }.toHashSet()
+            for (node in list) {
+                map["acCount${node.id}"] = node.allPids().intersect(ac).size
+            }
+            res.add(map)
+        }
+        return JSON.toJSONString(mapOf("data" to res))
     }
 }

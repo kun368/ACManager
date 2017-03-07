@@ -50,6 +50,29 @@
             });
         }
     </script>
+    <c:url value="/cpt/updatepbinfo" var="url_updatepbinfo"/>
+    <c:url value="/cpt/updatepbcpt" var="url_updatepbcpt"/>
+    <script>
+        $(document).ready(function () {
+            $('#update_button1').click(function () {
+                $(this).attr("disabled", "disabled");
+                alert("耗时较长，请耐心等待（约30分钟）");
+                $.post("${url_updatepbinfo}", {}, function (data) {
+                    alert(data);
+                    location.reload();
+                });
+            });
+            $('#update_button2').click(function () {
+                $(this).attr("disabled", "disabled");
+                $.post("${url_updatepbcpt}", {}, function (data) {
+                    alert(data);
+                    location.reload()
+                });
+            });
+        })
+    </script>
+
+
 </head>
 <body>
 
@@ -71,10 +94,14 @@
             <div class="panel-body">
                     <div class="row" style="padding-left: 20px">
                         <div class="pull-left">
+                            <c:if test="${(!empty user) and (user.isAdmin())}">
+                                <button class="btn btn-info btn-sm" id="update_button1">更新题目信息</button>
+                                <button class="btn btn-info btn-sm" id="update_button2">更新目录树</button>
+                            </c:if>
                             <button class="btn btn-info btn-sm" id="addbutton" data-toggle="modal"
                                     data-target="#myModal">添加专题</button>
                             <a class="btn btn-info btn-sm" href="<c:url value="/cpt/rule"/> "
-                               target="_blank">添加规则</a>
+                               target="_blank">查看规则</a>
                             <button class="btn btn-info btn-sm" onclick="exportTable()">导出表格</button>
                         </div>
                     </div>
@@ -85,6 +112,7 @@
                     <tr>
                         <th hidden>ID</th>
                         <th>名称</th>
+                        <th>操作</th>
                         <th>添加时间</th>
                         <th>题目数</th>
                         <th>创建者</th>
@@ -99,8 +127,16 @@
                     <c:forEach items="${cptList}" var="i">
                         <tr>
                             <td hidden>${i.id}</td>
+
                             <c:url value="/cpt/detail/${i.id}" var="url_cur_detail"/>
-                            <td><a href="${url_cur_detail}">${i.name}</a></td>
+                            <c:url value="/cpt/statistic/${i.id}/0" var="url_statistic"/>
+                            <c:url value="/cpt/pidsInfo/${i.id}/0" var="url_pidsinfo"/>
+
+                            <td><a href="${url_cur_detail}" target="_blank">${i.name}</a></td>
+                            <td>
+                                <a href="${url_statistic}" target="_blank">做题统计</a>
+                                <a href="${url_pidsinfo}" target="_blank">题目信息</a>
+                            </td>
                             <td>${i.addTime}</td>
                             <td>${i.node.allPids().size()}</td>
                             <td>${i.addUser.username}</td>

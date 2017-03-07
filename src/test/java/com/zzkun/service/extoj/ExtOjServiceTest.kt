@@ -38,4 +38,9 @@ class ExtOjServiceTest {
     fun flushPbInfoDB() {
         extOjService.flushPbInfoDB()
     }
+
+    @Test
+    fun test1() {
+        extOjService.flushPbInfoOfCpt()
+    }
 }

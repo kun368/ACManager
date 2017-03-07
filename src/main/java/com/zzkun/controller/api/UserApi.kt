@@ -1,6 +1,5 @@
 package com.zzkun.controller.api
 
-import com.alibaba.fastjson.JSONArray
 import com.alibaba.fastjson.JSONObject
 import com.zzkun.model.User
 import com.zzkun.service.UserService
@@ -48,16 +47,5 @@ class UserApi(
             produces = arrayOf("text/html;charset=UTF-8"))
     fun detailById(@PathVariable userId: Int): String {
         return userService.getUserById(userId).toJson().toString()
-    }
-
-    @RequestMapping(value = "/normalUsers",
-            method = arrayOf(RequestMethod.GET),
-            produces = arrayOf("text/html;charset=UTF-8"))
-    fun normalUsers(): String {
-        val res = JSONArray()
-        userService.allNormalNotNullUsers().forEach {
-            res.add(it.toJson())
-        }
-        return res.toString()
     }
 }

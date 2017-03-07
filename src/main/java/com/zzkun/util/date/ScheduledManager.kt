@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 import java.util.*
-import javax.annotation.PostConstruct
 
 /**
  * Created by Administrator on 2017/2/19 0019.
@@ -26,7 +25,7 @@ open class ScheduledManager(
     val timer = Timer()
 
     // 注册计划任务
-    @PostConstruct
+//    @PostConstruct
     fun run() {
 
         timer.schedule(object : TimerTask() {
