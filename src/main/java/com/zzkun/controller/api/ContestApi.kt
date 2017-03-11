@@ -33,7 +33,7 @@ open class ContestApi {
         val contest = trainingService?.getContest(contestId) ?:
                 return "contestId is InValid"
         val training = contest.stage.training
-        val calculator = RankCalculator(contest)
+        val calculator = RankCalculator(contest, 0)
         val score = calculator.teamScore
         val rank = calculator.teamRank
 

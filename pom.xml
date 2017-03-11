@@ -11,7 +11,7 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <kotlin.version>1.0.6</kotlin.version>
+        <kotlin.version>1.1.0</kotlin.version>
         <springframe.version>4.3.3.RELEASE</springframe.version>
         <hibernate.version>5.2.2.Final</hibernate.version>
         <aspectjrt.version>1.8.9</aspectjrt.version>

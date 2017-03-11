@@ -51,16 +51,12 @@ public class OJContestService {
     }
 
     public synchronized void flushOJContests() {
-        try {
-            logger.info("开始更新近期比赛...");
-            List<OJContest> webDate = getWebDate();
-            if(webDate == null || webDate.isEmpty())
-                return;
-            ojContestRepo.deleteAll();
-            ojContestRepo.save(webDate);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        logger.info("开始更新近期比赛...");
+        List<OJContest> webDate = getWebDate();
+        if(webDate == null || webDate.isEmpty())
+            return;
+        ojContestRepo.deleteAll();
+        ojContestRepo.save(webDate);
     }
 
     public List<OJContest> getRecents() {

@@ -68,7 +68,7 @@ public class RatingService {
 
     private List<Team> generateRanks(Contest contest) {
         ///计算分数和名次
-        RankCalculator calculator = new RankCalculator(contest);
+        RankCalculator calculator = new RankCalculator(contest, 0);
         double[] score = calculator.getTeamScore();
         int[] rank = calculator.getTeamRank();
         List<Team> teamList = new ArrayList<>();

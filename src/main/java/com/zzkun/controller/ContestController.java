@@ -105,9 +105,10 @@ public class ContestController {
 
     @RequestMapping("/showScore/{id}")
     public String showScore(@PathVariable Integer id,
+                            @RequestParam(required = false, defaultValue = "0") Integer calcType,
                             Model model) {
         Contest contest = trainingService.getContest(id);
-        RankCalculator calculator = new RankCalculator(contest);
+        RankCalculator calculator = new RankCalculator(contest, calcType);
         model.addAttribute("contest", contest);
         model.addAttribute("ranks", contest.getRanks());
         model.addAttribute("sum", calculator.getTeamScore());

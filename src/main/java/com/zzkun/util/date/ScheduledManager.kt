@@ -30,37 +30,57 @@ open class ScheduledManager(
 
         timer.schedule(object : TimerTask() {
             override fun run() {
-                logger.info("做题统计:6小时")
-                extOjService.flushACDB()
+                try {
+                    logger.info("做题统计:6小时")
+                    extOjService.flushACDB()
+                } catch(e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }, 3600 * 1000L, 6 * 3600 * 1000L)
 
         timer.schedule(object : TimerTask() {
             override fun run() {
-                logger.info("近期比赛:1小时")
-                ojContestService.flushOJContests()
+                try {
+                    logger.info("近期比赛:1小时")
+                    ojContestService.flushOJContests()
+                } catch(e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }, 3600 * 1000L, 1 * 3600 * 1000L)
 
         timer.schedule(object : TimerTask() {
             override fun run() {
-                logger.info("全局比赛Rating:1天")
-                ratingService.flushGlobalUserRating()
+                try {
+                    logger.info("全局比赛Rating:1天")
+                    ratingService.flushGlobalUserRating()
+                } catch(e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }, 3600 * 1000L, 24 * 3600 * 1000L)
 
         timer.schedule(object : TimerTask() {
             override fun run() {
-                logger.info("CF/BC Rating:12小时")
-                cfbcService.flushBCUserInfo()
-                cfbcService.flushCFUserInfo()
+                try {
+                    logger.info("CF/BC Rating:12小时")
+                    cfbcService.flushBCUserInfo()
+                    cfbcService.flushCFUserInfo()
+                } catch(e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }, 3600 * 1000L, 12 * 3600 * 1000L)
 
         timer.schedule(object : TimerTask() {
             override fun run() {
-                logger.info("更新系统状态:1天")
-                systemService.saveCurState()
+                try {
+                    logger.info("更新系统状态:1天")
+                    systemService.saveCurState()
+                } catch(e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }, 60 * 1000L, 24 * 3600 * 1000L)
 

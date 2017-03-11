@@ -4,7 +4,6 @@ import com.zzkun.dao.*;
 import com.zzkun.model.*;
 import com.zzkun.util.date.MyDateFormater;
 import com.zzkun.util.rank.VJRankParser;
-import com.zzkun.util.stder.DataStder;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,22 +26,13 @@ public class TrainingService {
     private static final Logger logger = LoggerFactory.getLogger(TrainingService.class);
 
     @Autowired private ContestRepo contestRepo;
-
     @Autowired private StageRepo stageRepo;
-
     @Autowired private TrainingRepo trainingRepo;
-
     @Autowired private UJoinTRepo uJoinTRepo;
-
     @Autowired private UserRepo userRepo;
-
     @Autowired private AssignResultRepo assignResultRepo;
-
     @Autowired private FixedTeamRepo fixedTeamRepo;
-
     @Autowired private VJRankParser vjRankParser;
-
-    @Autowired private DataStder dataStder;
 
 
     //// Training

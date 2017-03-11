@@ -5,8 +5,9 @@ import com.zzkun.model.PbStatus;
 import com.zzkun.model.TeamRanking;
 import com.zzkun.model.Training;
 import com.zzkun.util.cluster.AgnesClusterer;
-import com.zzkun.util.stder.DataStder;
-import com.zzkun.util.stder.RawData;
+import com.zzkun.util.dataproc.DataLinerStderKt;
+import com.zzkun.util.dataproc.DataStder;
+import com.zzkun.util.dataproc.RawData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,26 +20,25 @@ import java.util.TreeMap;
 public class RankCalculator {
 
     private Contest contest;
+    private Integer calcType;       // 0:DataStder, 1:DataLinerStder
     private ArrayList<TeamRanking> ranks;
     private int pbCnt;
     private Training training;
-    private DataStder dataStder;
 
-    private boolean[][] waClear;
     private double[][] preTScore;
     private double[] teamScore;
     private int[] teamRank;
 
-    public RankCalculator(Contest contest) {
+    public RankCalculator(Contest contest, Integer calcType) {
         this.contest = contest;
         this.training = contest.getStage().getTraining();
         this.ranks = contest.getRanks();
         this.pbCnt = contest.getPbCnt();
-        this.dataStder = new DataStder();
+        this.calcType = calcType;
         calcAll();
     }
 
-    public void calcAll() {
+    private void calcAll() {
         ///计算分数和名次
         calcPerTScore();
         calcTeamScore();
@@ -71,7 +71,11 @@ public class RankCalculator {
                 PbStatus pbStatus = ranks.get(j).getPbStatus().get(i);
                 list.add(new RawData((double) -pbStatus.calcPenalty(), pbStatus.isSolved() && !waClear[j][i]));
             }
-            preTScore[i] = dataStder.std(list, training.getExpand(), training.getStandard());
+            if (calcType.equals(1)) {
+                preTScore[i] = DataLinerStderKt.std(list, contest.lengeh() * 60);
+            } else {
+                preTScore[i] = DataStder.std(list, training.getExpand(), training.getStandard());
+            }
         }
     }
 
@@ -90,7 +94,7 @@ public class RankCalculator {
                 list.add(new RawData(teamScore[i], true));
             }
         }
-        teamScore = dataStder.std(list, training.getExpand(), training.getStandard());
+        teamScore = DataStder.std(list, training.getExpand(), training.getStandard());
     }
 
     //超出wa限制判断

@@ -150,7 +150,7 @@ open class CptApi(
 
         val res = ArrayList<HashMap<String, Any>>()
         for (user in users) {
-            val map = HashMap<String, Any>()
+            val map = LinkedHashMap<String, Any>()
             map["userId"] = user.id
             map["userName"] = user.username
             map["userReal"] = user.realName
@@ -158,6 +158,7 @@ open class CptApi(
             val ac = user.acPbList.map { "${it.ojPbId}@${it.ojName}" }.toHashSet()
             for (node in list) {
                 map["acCount${node.id}"] = node.allPids().intersect(ac).size
+                map["sumProb${node.id}"] = node.allPids().size
             }
             res.add(map)
         }
