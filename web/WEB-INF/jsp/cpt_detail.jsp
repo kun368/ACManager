@@ -105,7 +105,23 @@
                 }
                 var table = $('#mytable').DataTable({
                     ajax: "${url_statistic}",
-                    columns: hehe()
+                    columns: hehe(),
+                    "columnDefs": [{
+                        "targets": "_all",
+                        "render": function (data, type, full, meta) {
+                            var col = meta.col;
+                            if (col < 2)
+                                return data;
+                            var curId = headid[col - 2];
+                            var acCount = full["acCount" + curId];
+                            var sumProb = full["sumProb" + curId];
+                            if (acCount * 2 >= sumProb) {
+                                return "<strong>" + data + "</strong>"
+                            } else {
+                                return "<p>" + data + "</p>";
+                            }
+                        }
+                    }]
                 });
             }
         });
@@ -121,6 +137,9 @@
             res.push({data: name});
         }
         return res;
+    }
+    function getHtml(row, col) {
+
     }
 </script>
 </body>
