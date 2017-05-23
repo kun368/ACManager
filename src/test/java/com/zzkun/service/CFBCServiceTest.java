@@ -20,7 +20,7 @@ public class CFBCServiceTest {
 
     @Test
     public void flushCFUserInfo() throws Exception {
-        CFBCService.flushCFUserInfo();
+        CFBCService.flushCFUserInfos();
     }
 
     @Test

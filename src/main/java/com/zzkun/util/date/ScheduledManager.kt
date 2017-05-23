@@ -66,8 +66,8 @@ open class ScheduledManager(
             override fun run() {
                 try {
                     logger.info("CF/BC Rating:12小时")
-                    cfbcService.flushBCUserInfo()
-                    cfbcService.flushCFUserInfo()
+                    cfbcService.flushBCUserInfos()
+                    cfbcService.flushCFUserInfos()
                 } catch(e: Exception) {
                     e.printStackTrace()
                 }

@@ -22,7 +22,7 @@
        http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
        http://www.springframework.org/schema/task
        http://www.springframework.org/schema/task/spring-task.xsd">
-
+    <mvc:resources mapping="/css/**" location="WEB-INF/jsp/"></mvc:resources>
     <context:property-placeholder location="classpath:jdbc.properties"/>
     <context:annotation-config/>
     <context:component-scan base-package="com.zzkun.controller"/>
@@ -32,8 +32,6 @@
 
     <mvc:annotation-driven conversion-service="conversionService"/>
     <!--<mvc:resources mapping="/assets/**" location="/assets/"/>-->
-
-
     <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
         <property name="converters">
             <set>
@@ -51,7 +49,7 @@
         <property name="url" value="${jdbc.url}" />
         <property name="username" value="${jdbc.username}" />
         <property name="password" value="${jdbc.password}" />
-        <property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 
         <property name="filters" value="stat" />
 
