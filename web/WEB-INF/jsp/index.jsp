@@ -67,28 +67,6 @@
             <link rel="stylesheet" href="css/default.css">
             <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
             <script>
-                const myTheme = {
-                    render(state, instance) {
-                        const container = document.createElement('div')
-                        container.lang = "en-US"
-                        container.className = 'gitment-container gitment-root-container'
-
-                        // your custom component
-                        container.appendChild(instance.renderSomething(state, instance))
-
-                        container.appendChild(instance.renderHeader(state, instance))
-                        container.appendChild(instance.renderEditor(state, instance))
-                        container.appendChild(instance.renderComments(state, instance))
-                        container.appendChild(instance.renderFooter(state, instance))
-                        return container
-                    },
-                    renderEditor(state, instance) {
-
-                        renderEditor(state, instance)
-                        return container
-                    },
-
-                }
                 var gitment = new Gitment({
                     owner: 'wzhxyz',
                     repo: 'ACManager',
@@ -96,7 +74,6 @@
                         client_id: 'e0909750f96f4d66bc57',
                         client_secret: '851b698765405f541f0472a89034588ba30432b1',
                     },
-                    theme: myTheme,
                 })
                 gitment.render('container')
             </script>

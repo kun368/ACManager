@@ -98,7 +98,9 @@ open class ExtOjService(
     fun flushACDByUser(user: User){
         synchronized(this) {
             logger.info("开始更新{}用户AC题目纪录...", user)
-            val new = getUsersACPbsFromWeb(Arrays.asList(user))
+            val cur = getUsersACPbsFromWeb(Arrays.asList(user))
+            val pre = TreeSet<UserACPb>(userACPbRepo.findByUser(user))
+            val new: Set<UserACPb> = cur - pre
             userACPbRepo.save(new)
             logger.info("更新用户{}AC题目数据完毕！", user)
             flushUserACDate(new)
