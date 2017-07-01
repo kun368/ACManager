@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
  * Created by Administrator on 2017/2/26 0026.
  */
 @RunWith(SpringJUnit4ClassRunner::class)
-@ContextConfiguration(locations = arrayOf("classpath:springmvc-servlet.xml"))
+@ContextConfiguration(locations = arrayOf("classpath*:springmvc-servlet.xml"))
 class PbDiffCalcerTest() {
 
     @Autowired private lateinit var pbDiffCalcer: PbDiffCalcer

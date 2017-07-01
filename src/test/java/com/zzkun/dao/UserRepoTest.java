@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * Created by kun on 2016/7/7.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:springmvc-servlet.xml")
+@ContextConfiguration(locations = "classpath*:springmvc-servlet.xml")
 public class UserRepoTest {
 
     @Autowired

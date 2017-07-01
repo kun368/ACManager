@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
  * Created by Administrator on 2016/8/3.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:springmvc-servlet.xml")
+@ContextConfiguration(locations = "classpath*:springmvc-servlet.xml")
 public class OJContestServiceTest {
 
     @Autowired private OJContestService ojContestService;

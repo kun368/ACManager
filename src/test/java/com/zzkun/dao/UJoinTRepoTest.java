@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
  * Created by Administrator on 2016/7/21.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:springmvc-servlet.xml")
+@ContextConfiguration(locations = "classpath*:springmvc-servlet.xml")
 public class UJoinTRepoTest {
 
     @Autowired private UJoinTRepo uJoinTRepo;

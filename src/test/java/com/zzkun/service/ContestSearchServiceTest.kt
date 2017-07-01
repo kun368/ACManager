@@ -10,7 +10,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
  * Created by kun36 on 2016/12/29.
  */
 @RunWith(SpringJUnit4ClassRunner::class)
-@ContextConfiguration(locations = arrayOf("classpath:springmvc-servlet.xml"))
+@ContextConfiguration(locations = arrayOf("classpath*:springmvc-servlet.xml"))
 class ContestSearchServiceTest {
 
     @Autowired lateinit var serv : ContestSearchService
