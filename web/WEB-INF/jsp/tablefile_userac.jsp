@@ -8,6 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page trimDirectiveWhitespaces="true" %>
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -124,8 +125,8 @@
 
                 <div class="row" style="padding-left: 20px">
                     <div class="pull-left">
-                        <c:if test="${(!empty user) and (user.isAdmin())}">
-                            <button class="btn btn-info btn-sm" id="addbutton">更新数据</button>
+                        <button class="btn btn-info btn-sm" id="addbutton">更新数据</button>
+                        <c:if test="${(!empty user) and user.isAdmin() }">
                             <button class="btn btn-info btn-sm" id="btn_updatecfbc">更新CF/BC</button>
                         </c:if>
                         <button class="btn btn-info btn-sm" onclick="exportTable()">导出表格</button>

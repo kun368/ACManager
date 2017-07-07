@@ -14,7 +14,7 @@ import java.util.List;
  * Created by kun on 2016/10/31.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:springmvc-servlet.xml")
+@ContextConfiguration(locations = "classpath*:springmvc-servlet.xml")
 public class ExtOjLinkRepoTest {
 
     @Autowired private ExtOjLinkRepo repo;

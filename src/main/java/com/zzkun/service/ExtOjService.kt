@@ -12,6 +12,8 @@ import com.zzkun.service.extoj.*
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.SessionAttribute
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
@@ -45,6 +47,8 @@ open class ExtOjService(
     }
 
     // 从WEB获取用户AC题目
+    //private fun getUsersAcPbsFromWeb(user: User)
+
     private fun getUsersACPbsFromWeb(users: List<User>): TreeSet<UserACPb> {
         val set = TreeSet<UserACPb>()
         logger.info("所有用户数量：{}", users.size)
@@ -89,6 +93,19 @@ open class ExtOjService(
             it.lastACDate = curDate
         }
         userRepo.save(userSet)
+    }
+
+    fun flushACDByUser(user: User){
+        synchronized(this) {
+            logger.info("开始更新{}用户AC题目纪录...", user)
+            val cur = getUsersACPbsFromWeb(Arrays.asList(user))
+            val pre = TreeSet<UserACPb>(userACPbRepo.findByUser(user))
+            val new: Set<UserACPb> = cur - pre
+            userACPbRepo.save(new)
+            logger.info("更新用户{}AC题目数据完毕！", user)
+            flushUserACDate(new)
+            logger.info("更新用户{}最后一次AC时间完毕！", user)
+        }
     }
 
     fun flushACDB() {

@@ -155,6 +155,7 @@ open class CptApi(
             map["userName"] = user.username
             map["userReal"] = user.realName
             map["userMajor"] = user.major
+            map["userType"] = user.type.toShortStr()
             val ac = user.acPbList.map { "${it.ojPbId}@${it.ojName}" }.toHashSet()
             for (node in list) {
                 map["acCount${node.id}"] = node.allPids().intersect(ac).size

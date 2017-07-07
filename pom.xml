@@ -249,6 +249,21 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <webappDirectory>
+                        target/${artifactId}-${version}/
+                    </webappDirectory>
+                    <warSourceDirectory>
+                        ${basedir}/web/WEB-INF/
+                    </warSourceDirectory>
+                    <webXml>
+                        ${basedir}/web/WEB-INF/web.xml
+                    </webXml>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

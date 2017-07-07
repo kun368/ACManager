@@ -11,7 +11,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner
  */
 
 @RunWith(SpringJUnit4ClassRunner::class)
-@ContextConfiguration(locations = arrayOf("classpath:springmvc-servlet.xml"))
+@ContextConfiguration(locations = arrayOf("classpath*:springmvc-servlet.xml"))
 class VJudgeWebGetterTest {
 
     @Autowired lateinit var getter: VJudgeWebGetter

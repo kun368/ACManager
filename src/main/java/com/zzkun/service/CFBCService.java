@@ -31,7 +31,13 @@ public class CFBCService {
     @Autowired private BCUserInfoRepo bcUserInfoRepo;
     @Autowired private UserRepo userRepo;
 
-    public synchronized void flushCFUserInfo() {
+
+    //  添加个人手动更新题数功能
+    public synchronized void flushCFUserInfoByName(String cfname) {
+        //
+    }
+
+    public synchronized void flushCFUserInfos() {
         List<User> userList = userRepo.findAll();
         List<String> cfnameList = userList.stream()
                 .filter(x -> (!x.isAdmin() && StringUtils.hasText(x.getCfname())))
@@ -49,7 +55,17 @@ public class CFBCService {
                 .collect(Collectors.toMap(CFUserInfo::getCfname, x -> x));
     }
 
-    public synchronized void flushBCUserInfo() {
+//  添加个人手动更新题数功能
+
+    public synchronized void flushBCUserInfoByName(String bcname) {
+        logger.info("数据库BC用户：{}", bcname);
+        BCUserInfo info = bcWebGetter.getBCUserInfo(bcname);
+        bcUserInfoRepo.save(info);
+        logger.info("{} 用户的BC数据更新完毕！", bcname);
+    }
+
+
+    public synchronized void flushBCUserInfos() {
         List<User> userList = userRepo.findAll();
         List<String> bcnameList = userList.stream()
                 .filter(x -> (!x.isAdmin() && StringUtils.hasText(x.getBcname())))

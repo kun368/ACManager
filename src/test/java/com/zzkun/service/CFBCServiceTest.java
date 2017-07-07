@@ -13,14 +13,14 @@ import java.util.Map;
  * Created by Administrator on 2016/8/5.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:springmvc-servlet.xml")
+@ContextConfiguration(locations = "classpath*:springmvc-servlet.xml")
 public class CFBCServiceTest {
 
     @Autowired private CFBCService CFBCService;
 
     @Test
     public void flushCFUserInfo() throws Exception {
-        CFBCService.flushCFUserInfo();
+        CFBCService.flushCFUserInfos();
     }
 
     @Test
