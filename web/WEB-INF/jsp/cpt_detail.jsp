@@ -62,6 +62,7 @@
                     <tr id="table_head">
                         <th>姓名</th>
                         <th>班级</th>
+                        <th>状态</th>
                         <th>总计</th>
                     </tr>
                     </thead>
@@ -130,7 +131,8 @@
     function hehe() {
         var res = [
             {data: "userReal"},
-            {data: "userMajor"}
+            {data: "userMajor"},
+            {data: "userType"}
         ];
         for (var i = 0; i < headid.length; i++) {
             var name = "acCount" + headid[i];

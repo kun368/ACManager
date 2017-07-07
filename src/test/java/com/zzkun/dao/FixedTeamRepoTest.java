@@ -18,7 +18,7 @@ import static org.junit.Assert.*;
  * Created by kun on 2016/8/19.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:springmvc-servlet.xml")
+@ContextConfiguration(locations = "classpath*:springmvc-servlet.xml")
 public class FixedTeamRepoTest {
 
     @Autowired private FixedTeamRepo fixedTeamRepo;

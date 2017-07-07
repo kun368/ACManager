@@ -1,1 +1,6 @@
 src/main/resources/jdbc.properties
+.idea/
+target/
+out/
+classes/
+lib/

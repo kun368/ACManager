@@ -60,9 +60,15 @@ public class UserACController {
     @RequestMapping(value = "/updatedb", produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String updatedb(@SessionAttribute(required = false) User user) {
-        if(user == null || !user.isAdmin())
-            return "没有权限操作！";
-        extOjService.flushACDB();
+        if(user == null){
+            return "您没有登录";
+        }
+        if(user.isAdmin()){
+            extOjService.flushACDB();
+        }
+        else{
+            extOjService.flushACDByUser(user);
+        }
         return "更新完毕，久等了......";
     }
 }

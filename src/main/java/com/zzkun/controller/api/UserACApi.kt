@@ -31,13 +31,17 @@ class UserACApi {
         val list = extojService.getUserAC(user)
         val map = mutableMapOf<String, MutableList<String>>()
         val set = mutableSetOf<String>()
+        val visited = mutableSetOf<String>()
         list.forEach {
             val oj = it.ojName.toString()
             val id = it.ojPbId
-            set.add(oj)
-            if(!map.contains(oj))
-                map[oj] = mutableListOf<String>()
-            map[oj]?.add(id)
+            if(!visited.contains(oj+id)){
+                visited.add(oj + id)
+                set.add(oj)
+                if(!map.contains(oj))
+                    map[oj] = mutableListOf<String>()
+                map[oj]?.add(id)
+            }
         }
         val json = JSONObject(true)
         json["ojs"] = set.toList()

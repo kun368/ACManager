@@ -45,11 +45,27 @@ public class StatisticController {
     @RequestMapping(value = "/updateCFBC", produces = "text/html;charset=UTF-8")
     @ResponseBody
     public String updateCFBC(@SessionAttribute(required = false) User user) {
-        if(user == null || !user.isAdmin())
-            return "没有权限操作！";
+        System.out.println(user.getBcname());
+        if(user == null)
+            return "您没有登录！";
+        if(user.isACMer()){
+
+        }
+        else{
+            if(user.getBcname()!=null){
+                synchronized (this) {
+                    cfbcService.flushBCUserInfoByName(user.getBcname());
+                }
+            }
+            if(user.getCfname()!=null){
+                synchronized (this) {
+                    //cfbcService.flushCFUserInfoByName(user.getCfname());
+                }
+            }
+        }
         synchronized (this) {
-            cfbcService.flushCFUserInfo();
-            cfbcService.flushBCUserInfo();
+            cfbcService.flushCFUserInfos();
+            cfbcService.flushBCUserInfos();
         }
         return "恭喜，更新完毕！";
     }

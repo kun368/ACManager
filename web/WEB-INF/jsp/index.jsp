@@ -47,7 +47,8 @@
                 <h5>3) 零题数账号不会出现在做题统计和比赛统计中</h5>
                 <h5>4) 请尽量使用 Firefox、Chrome、Edge 浏览器访问本站</h5>
                 <h5>5) 系统外网地址为：http://cise.sdust.edu.cn/acmanager，欢迎有志青年提交 pull request 参与开发</h5>
-                <h5>6) 由于各大OJ升级网站，导致本站爬虫失效，或者存在其他任何问题建议，请在及时下面留言或联系管理员（QQ 1004788567）</h5>
+                <h5>6) 由于各大OJ升级网站，导致本站爬虫失效，或者存在其他任何问题建议，请在及时下面留言或联系管理员（QQ 1064406280（现任），1004788567）</h5>
+                <h5>7) 由于多说评论即将停止服务, 评论服务更换为基于github issues 的gitment, 原有数据将被清空</h5>
             </div>
         </div>
         <div class="col-lg-1">
@@ -59,22 +60,24 @@
         <div class="col-lg-1">
         </div>
         <div class="col-lg-10">
-            <!-- 多说评论框 start -->
-            <div class="ds-thread" data-thread-key="1" data-title="Index" data-url="<%=request.getRequestURL()%>"></div>
-            <!-- 多说评论框 end -->
-            <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-            <script type="text/javascript">
-                var duoshuoQuery = {short_name:"acmanager"};
-                (function() {
-                    var ds = document.createElement('script');
-                    ds.type = 'text/javascript';ds.async = true;
-                    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-                    ds.charset = 'UTF-8';
-                    (document.getElementsByTagName('head')[0]
-                    || document.getElementsByTagName('body')[0]).appendChild(ds);
-                })();
+            <!--
+            评论区代码
+            -->
+            <div id="container"></div>
+            <link rel="stylesheet" href="css/default.css">
+            <script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+            <script>
+                var gitment = new Gitment({
+                    owner: 'wzhxyz',
+                    repo: 'ACManager',
+                    oauth: {
+                        client_id: 'e0909750f96f4d66bc57',
+                        client_secret: '851b698765405f541f0472a89034588ba30432b1',
+                    },
+                })
+                gitment.render('container')
             </script>
-            <!-- 多说公共JS代码 end -->
+
         </div>
         <div class="col-lg-1">
         </div>

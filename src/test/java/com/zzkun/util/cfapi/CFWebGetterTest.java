@@ -15,7 +15,7 @@ import java.util.List;
  * Created by Administrator on 2016/7/31.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:springmvc-servlet.xml")
+@ContextConfiguration(locations = "classpath*:springmvc-servlet.xml")
 public class CFWebGetterTest {
 
     @Autowired private CFWebGetter cfWebGetter;
