@@ -22,8 +22,9 @@
        http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
        http://www.springframework.org/schema/task
        http://www.springframework.org/schema/task/spring-task.xsd">
-    <mvc:resources mapping="/css/**" location="WEB-INF/jsp/"></mvc:resources>
-    <mvc:resources mapping="/cache/**" location="WEB-INF/cache"></mvc:resources>
+
+    <mvc:resources mapping="/css/**" location="WEB-INF/jsp/"/>
+    <mvc:resources mapping="/cache/**" location="WEB-INF/cache"/>
     <context:property-placeholder location="classpath*:jdbc.properties"/>
     <context:annotation-config/>
     <context:component-scan base-package="com.zzkun.controller"/>
@@ -51,25 +52,19 @@
         <property name="username" value="${jdbc.username}" />
         <property name="password" value="${jdbc.password}" />
         <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
-
         <property name="filters" value="stat" />
-
         <property name="maxActive" value="20" />
         <property name="initialSize" value="1" />
         <property name="maxWait" value="120000" />
         <property name="minIdle" value="1" />
-
         <property name="timeBetweenEvictionRunsMillis" value="60000" />
         <property name="minEvictableIdleTimeMillis" value="300000" />
-
         <property name="testWhileIdle" value="true" />
         <property name="testOnBorrow" value="false" />
         <property name="testOnReturn" value="false" />
-
         <property name="poolPreparedStatements" value="false" />
         <property name="maxOpenPreparedStatements" value="20" />
     </bean>
-
 
     <jpa:repositories base-package="com.zzkun.dao"
                       transaction-manager-ref="transactionManager"
@@ -102,15 +97,10 @@
         </property>
     </bean>
 
-
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
-
     <aop:aspectj-autoproxy/>
-
     <task:annotation-driven/>
-
-
 </beans>

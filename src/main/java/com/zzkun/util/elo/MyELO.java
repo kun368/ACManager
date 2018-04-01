@@ -36,6 +36,7 @@ public class MyELO {
      * @param rank 本次排名，从1开始，名次可重复
      * @param tauMultiple
      */
+    @SuppressWarnings("unchecked")
     public Map<String, Rating> calcPersonal(Map<String, Rating> pre,
                                             List<Pair<List<String>, Integer>> rank,
                                             String contestType,
@@ -87,6 +88,7 @@ public class MyELO {
     }
 
 
+    @SuppressWarnings("unchecked")
     public Map<String, Rating> calcTeam(Map<String, Rating> pre,
                                         List<Pair<List<String>, Integer>> rank,
                                         Double tauMultiple) {

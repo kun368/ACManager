@@ -77,7 +77,6 @@
                 })
                 gitment.render('container')
             </script>
-
         </div>
         <div class="col-lg-1">
         </div>

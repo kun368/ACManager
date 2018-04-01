@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.zzkun.util.web
 
 import org.apache.commons.io.IOUtils
