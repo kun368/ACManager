@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="ACManager:war exploded">
-    <output-path>$PROJECT_DIR$/target/ACManager-ACManager</output-path>
+    <output-path>$PROJECT_DIR$/target/ACManager</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -72,7 +72,7 @@
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/ACManager-ACManager/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/ACManager/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="ACManager/web/Web" />
     </root>
