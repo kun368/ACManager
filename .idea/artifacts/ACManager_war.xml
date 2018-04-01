@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="ACManager:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="ACManager-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="ACManager:war exploded" />
+    </root>
+  </artifact>
+</component>
