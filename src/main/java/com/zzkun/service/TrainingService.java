@@ -1,0 +1,237 @@
+package com.zzkun.service;
+
+import com.zzkun.dao.*;
+import com.zzkun.model.*;
+import com.zzkun.util.date.MyDateFormater;
+import com.zzkun.util.rank.VJRankParser;
+import org.apache.commons.lang3.tuple.Pair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
+import java.io.IOException;
+import java.text.Collator;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
+
+/**
+ * Created by Administrator on 2016/7/20.
+ */
+@Service
+public class TrainingService {
+
+    private static final Logger logger = LoggerFactory.getLogger(TrainingService.class);
+
+    @Autowired private ContestRepo contestRepo;
+    @Autowired private StageRepo stageRepo;
+    @Autowired private TrainingRepo trainingRepo;
+    @Autowired private UJoinTRepo uJoinTRepo;
+    @Autowired private UserRepo userRepo;
+    @Autowired private AssignResultRepo assignResultRepo;
+    @Autowired private FixedTeamRepo fixedTeamRepo;
+    @Autowired private VJRankParser vjRankParser;
+
+
+    //// Training
+
+    public List<Training> getAllTraining() {
+        return trainingRepo.findAll();
+    }
+
+    public Training getTrainingById(Integer id) {
+        return trainingRepo.getOne(id);
+    }
+
+    public Training getTrainingByContestId(Integer contestId) {
+        return getContest(contestId).getStage().getTraining();
+    }
+
+    public Map<Integer, UJoinT> getUserRelativeTraining(User user) {
+        Map<Integer, UJoinT> result = new HashMap<>();
+        if(user == null)
+            return result;
+        List<UJoinT> list = user.getuJoinTList();
+        list.forEach(x -> result.put(x.getTraining().getId(), x));
+        return result;
+    }
+
+    public void addTraining(Training training) {
+        trainingRepo.save(training);
+    }
+
+    public List<User> getTrainingAllOkUser(Integer trainingId) {
+        List<UJoinT> all = getTrainingById(trainingId).getuJoinTList();
+        List<Integer> uids = new ArrayList<>();
+        all.forEach(x -> {
+            if(x.getStatus().equals(UJoinT.Status.Success))
+                uids.add(x.getUser().getId());
+        });
+        List<User> result = userRepo.findAllById(uids);
+        Collator instance = Collator.getInstance(Locale.CHINA);
+        Collections.sort(result, (a, b) -> instance.compare(a.getRealName(), b.getRealName()));
+        return result;
+    }
+
+    public Map<User, String> getTrainingAllUser(Integer trainingId) {
+        List<UJoinT> all = trainingRepo.getOne(trainingId).getuJoinTList();
+        List<User> userList = userRepo.findAll();
+        Map<Integer, User> userMap = new HashMap<>();
+        userList.forEach(x -> userMap.put(x.getId(), x));
+        Map<User, String> map = new LinkedHashMap<>();
+        all.forEach(x -> map.put(userMap.get(x.getUser().getId()), x.getStatus().name()));
+        logger.info("查询集训所有用户情况：size{}", map.size());
+        return map;
+    }
+
+
+    public void modifyTraining(Training training) {
+        Training pre = getTrainingById(training.getId());
+        training.setAddTime(pre.getAddTime());
+        logger.info("{}", training);
+        trainingRepo.save(training);
+    }
+
+    //用户申请参加集训
+    public boolean applyJoinTraining(Integer userId, Integer trainingId) {
+        User user = userRepo.getOne(userId);
+        Training training = trainingRepo.getOne(trainingId);
+        if(user == null || !user.isACMer()) //管理员不能加入集训
+            return false;
+        UJoinT uJoinT = uJoinTRepo.findByUserAndTraining(user, training);
+        if(uJoinT != null) {
+            uJoinT.setStatus(UJoinT.Status.Pending);
+        } else {
+            uJoinT = new UJoinT(user, training, UJoinT.Status.Pending);
+        }
+        uJoinTRepo.save(uJoinT);
+        return true;
+    }
+
+    public void verifyUserJoin(Integer userId, Integer trainingId, String op) {
+        User user = userRepo.getOne(userId);
+        Training training = trainingRepo.getOne(trainingId);
+        UJoinT uJoinT = uJoinTRepo.findByUserAndTraining(user, training);
+        if("true".equals(op)) {
+            uJoinT.setStatus(UJoinT.Status.Success);
+        } else if("false".equals(op)) {
+            uJoinT.setStatus(UJoinT.Status.Reject);
+        }
+        uJoinTRepo.save(uJoinT);
+    }
+
+    //// Stage
+
+    public Stage getStageById(Integer id) {
+        return stageRepo.getOne(id);
+    }
+
+    public void addStage(Stage stage) {
+        stageRepo.save(stage);
+    }
+
+    public void modifyStage(Integer id, String name, String beginTime, String endTime, String remark, Boolean countToRating) {
+        Stage stage = getStageById(id);
+        if(StringUtils.hasText(name))
+            stage.setName(name);
+        if(StringUtils.hasText(remark))
+            stage.setRemark(remark);
+        stage.setStartDate(LocalDate.parse(beginTime));
+        stage.setEndDate(LocalDate.parse(endTime));
+        stage.setCountToRating(countToRating);
+        stageRepo.save(stage);
+    }
+
+    public Map<Integer, Integer> getstageSizeMap(List<Stage> stageList) {
+        Map<Integer, Integer> map = new HashMap<>(stageList.size());
+        for (Stage stage : stageList) {
+            map.put(stage.getId(), stage.getContestList().size());
+        }
+        return map;
+    }
+
+    //// fixed Team
+
+    public void addOrModifyFixedTeam(Integer trainingId, FixedTeam fixedTeam) {
+        Training training = getTrainingById(trainingId);
+        if(fixedTeam.getId() == -1) {
+            fixedTeam.setId(null);
+        }
+        fixedTeam.setTraining(training);
+        fixedTeamRepo.save(fixedTeam);
+    }
+
+    public void deleteFixedTeam(Integer fixedTeamId) {
+        fixedTeamRepo.deleteById(fixedTeamId);
+    }
+
+    //// Contest
+
+    public Contest saveContest(Contest contest) {
+        return contestRepo.save(contest);
+    }
+
+    public Contest getContest(Integer id) {
+        return contestRepo.getOne(id);
+    }
+
+    public List<Contest> getContestByStageId(Integer id) {
+        return stageRepo.getOne(id).getContestList();
+    }
+
+    public void deleteContestTeam(Integer contestId, Integer pos) {
+        Contest one = contestRepo.getOne(contestId);
+        logger.info("删除比赛{}的队伍{}", contestId, pos);
+        if(pos < one.getRanks().size()) {
+            one.getRanks().remove(pos.intValue());
+        }
+        contestRepo.save(one);
+    }
+
+
+    public void deleteContest(Integer id) {
+        contestRepo.deleteById(id);
+    }
+
+
+    /// Assign
+
+    public void saveAssign(AssignResult assign) {
+        assignResultRepo.save(assign);
+    }
+
+    ////// rank
+
+    public Contest parseVj(String contestName,
+                           String contestType,
+                           String stTime, String edTime,
+                           String source, String sourceDetail, String sourceUrl,
+                           String myConfig, String vjContest,
+                           Boolean realContest,
+                           User addUser,
+                           Integer stageId) throws IOException {
+        Pair<String, String> rawDate = Pair.of(vjContest, myConfig);
+        Contest contest = new Contest();
+        contest.setRawData(rawDate);
+        contest.setType(contestType);
+        contest.setAddTime(LocalDateTime.now());
+        contest.setName(contestName.trim());
+        contest.setStartTime(MyDateFormater.INSTANCE.toDT1(stTime));
+        contest.setEndTime(MyDateFormater.INSTANCE.toDT1(edTime));
+        contest.setSource(source.trim());
+        contest.setSourceDetail(sourceDetail.trim());
+        contest.setSourceUrl(sourceUrl.trim());
+        contest.setRealContest(realContest);
+        contest.setStage(getStageById(stageId));
+        contest.setAddUid(addUser.getId());
+
+        logger.info("导入比赛原始信息加载完毕：{}", contest);
+
+        vjRankParser.parseRank(contest);
+
+        logger.info("解析完毕：{}", contest);
+        return contest;
+    }
+}
