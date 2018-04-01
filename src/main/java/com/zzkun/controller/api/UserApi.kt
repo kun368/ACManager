@@ -35,16 +35,16 @@ fun User.toJson(): JSONObject {
 class UserApi(
         @Autowired val userService: UserService) {
 
-    @RequestMapping(value = "/{username}/detail",
-            method = arrayOf(RequestMethod.GET),
-            produces = arrayOf("text/html;charset=UTF-8"))
+    @RequestMapping(value = ["/{username}/detail"],
+            method = [(RequestMethod.GET)],
+            produces = ["text/html;charset=UTF-8"])
     fun detail(@PathVariable username: String): String {
         return userService.getUserByUsername(username).toJson().toString()
     }
 
-    @RequestMapping(value = "/{userId}/detailById",
-            method = arrayOf(RequestMethod.GET),
-            produces = arrayOf("text/html;charset=UTF-8"))
+    @RequestMapping(value = ["/{userId}/detailById"],
+            method = [(RequestMethod.GET)],
+            produces = ["text/html;charset=UTF-8"])
     fun detailById(@PathVariable userId: Int): String {
         return userService.getUserById(userId).toJson().toString()
     }

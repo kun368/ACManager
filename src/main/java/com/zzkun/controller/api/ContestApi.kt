@@ -24,9 +24,9 @@ open class ContestApi {
 
     @Autowired val trainingService: TrainingService? = null
 
-    @RequestMapping(value = "/{contestId}/statistic",
-            method = arrayOf(RequestMethod.GET),
-            produces = arrayOf("text/html;charset=UTF-8"))
+    @RequestMapping(value = ["/{contestId}/statistic"],
+            method = [(RequestMethod.GET)],
+            produces = ["text/html;charset=UTF-8"])
     fun statistic(@PathVariable contestId: Int?): String {
         logger.info("调用比赛详情API：{}", contestId)
 

@@ -87,6 +87,7 @@ public class MyTest {
     /**
      * 修改所有数据库用户密码，sha1加密
      */
+    @SuppressWarnings("deprecation")
     @Test
     public void test3() throws Exception {
         List<User> all = userRepo.findAll();

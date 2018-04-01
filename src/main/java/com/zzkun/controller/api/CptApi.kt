@@ -33,9 +33,9 @@ open class CptApi(
 
     ///////////   章节树增删改差
 
-    @RequestMapping(value = "/seeNode/{cptId}/{nodeId}",
-                    method = arrayOf(RequestMethod.GET),
-                    produces = arrayOf("text/html;charset=UTF-8"))
+    @RequestMapping(value = ["/seeNode/{cptId}/{nodeId}"],
+                    method = [(RequestMethod.GET)],
+                    produces = ["text/html;charset=UTF-8"])
     fun seeNode(@PathVariable cptId: Int,
                 @PathVariable nodeId: Int): String {
         val rootNode = nodeAnalyser.getNode(cptId)!!
@@ -47,9 +47,9 @@ open class CptApi(
         return JSONObject(mapOf("id" to curNode.id, "name" to curNode.name, "sons" to sons)).toJSONString()
     }
 
-    @RequestMapping(value = "/{cptId}/ztreestr",
-                    method = arrayOf(RequestMethod.GET),
-                    produces = arrayOf("text/html;charset=UTF-8"))
+    @RequestMapping(value = ["/{cptId}/ztreestr"],
+                    method = [(RequestMethod.GET)],
+                    produces = ["text/html;charset=UTF-8"])
     fun zTreeStr(@PathVariable cptId: Int):String {
         val rootNode = nodeAnalyser.getNode(cptId)
         val res = JSONArray()
@@ -71,9 +71,9 @@ open class CptApi(
         return res.toJSONString()
     }
 
-    @RequestMapping(value = "/{treeID}/delete/{nodeID}",
-            method = arrayOf(RequestMethod.POST),
-            produces = arrayOf("text/html;charset=UTF-8"))
+    @RequestMapping(value = ["/{treeID}/delete/{nodeID}"],
+            method = [(RequestMethod.POST)],
+            produces = ["text/html;charset=UTF-8"])
     fun deleteSon(@PathVariable treeID: Int,
                   @PathVariable nodeID: Int,
                   @SessionAttribute(required = false) user: User?): String {
@@ -90,9 +90,9 @@ open class CptApi(
         }
     }
 
-    @RequestMapping(value = "/{treeID}/rename/{nodeID}/{newName}",
-            method = arrayOf(RequestMethod.POST),
-            produces = arrayOf("text/html;charset=UTF-8"))
+    @RequestMapping(value = ["/{treeID}/rename/{nodeID}/{newName}"],
+            method = [(RequestMethod.POST)],
+            produces = ["text/html;charset=UTF-8"])
     fun renameNode(@PathVariable treeID: Int,
                    @PathVariable nodeID: Int,
                    @PathVariable newName: String,
@@ -111,16 +111,16 @@ open class CptApi(
     }
 
 
-    @RequestMapping(value = "/{treeID}/addNode",
-            method = arrayOf(RequestMethod.POST),
-            produces = arrayOf("text/html;charset=UTF-8"))
+    @RequestMapping(value = ["/{treeID}/addNode"],
+            method = [(RequestMethod.POST)],
+            produces = ["text/html;charset=UTF-8"])
     fun addNode(@PathVariable treeID: Int,
                 @RequestParam id: Int,
                 @RequestParam pId: Int,
                 @RequestParam isParent: Boolean,
                 @RequestParam name: String,
                 @SessionAttribute(required = false) user: User?): String {
-        logger.info("添加节点：treeID = [${treeID}], id = [${id}], pId = [${pId}], isParent = [${isParent}], name = [${name}], user = [${user?.username}]")
+        logger.info("添加节点：treeID = [$treeID], id = [$id], pId = [$pId], isParent = [$isParent], name = [$name], user = [${user?.username}]")
         if (user == null || !user.isAdmin) {
             return jsonObject(
                     "ok" to "false",
@@ -135,9 +135,9 @@ open class CptApi(
 
     //////// 统计数据
 
-    @RequestMapping(value = "/statistic/{cptId}/{nodeId}",
-            method = arrayOf(RequestMethod.GET),
-            produces = arrayOf("text/html;charset=UTF-8"))
+    @RequestMapping(value = ["/statistic/{cptId}/{nodeId}"],
+            method = [(RequestMethod.GET)],
+            produces = ["text/html;charset=UTF-8"])
     fun statistic(@PathVariable cptId: Int,
                   @PathVariable nodeId: Int): String {
         val rootNode = nodeAnalyser.getNode(cptId)!!

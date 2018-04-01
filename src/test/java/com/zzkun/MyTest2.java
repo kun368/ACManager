@@ -158,6 +158,7 @@ public class MyTest2 {
         System.out.println(Arrays.toString(arr));
     }
 
+    @SuppressWarnings("deprecation")
     @Test
     public void test14() throws Exception {
         System.out.println(Hashing.sha1().hashString("123", Charset.forName("utf8")));

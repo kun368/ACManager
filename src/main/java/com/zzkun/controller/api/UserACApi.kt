@@ -24,8 +24,8 @@ class UserACApi {
     @Autowired lateinit var extojLinkRepo: ExtOjLinkRepo
     @Autowired lateinit var uhuntAnalyser: UHuntAnalyser
 
-    @RequestMapping(value = "/{username}/list",
-            method = arrayOf(RequestMethod.GET))
+    @RequestMapping(value = ["/{username}/list"],
+            method = [(RequestMethod.GET)])
     fun list(@PathVariable username: String): String {
         val user = userService.getUserByUsername(username)
         val list = extojService.getUserAC(user)
@@ -49,7 +49,7 @@ class UserACApi {
         return json.toString()
     }
 
-    @RequestMapping(value = "/url/{oj}/{pid}", method = arrayOf(RequestMethod.GET))
+    @RequestMapping(value = ["/url/{oj}/{pid}"], method = [(RequestMethod.GET)])
     fun url(@PathVariable oj: String, @PathVariable pid: String): String {
         val type = OJType.valueOf(oj)
         val link = extojLinkRepo.findOne(type).problemLink

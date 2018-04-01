@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController
 open class SystemApi(
         @Autowired private val systemService: SystemService) {
 
-    @RequestMapping(value = "/stateHistory",
-            method = arrayOf(RequestMethod.GET),
-            produces = arrayOf("text/html;charset=UTF-8"))
+    @RequestMapping(value = ["/stateHistory"],
+            method = [(RequestMethod.GET)],
+            produces = ["text/html;charset=UTF-8"])
     fun stateHistory(): String {
         return JSONArray(systemService.stateHistory()).toJSONString()
     }
