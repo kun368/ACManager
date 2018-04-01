@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+
+  server:
+    image: kun368/acmanager
+    ports:
+      - 8080:8080
+    depends_on:
+      - db
+    links:
+      - db
