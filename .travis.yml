@@ -10,6 +10,7 @@ install:
 script:
   - mvn clean package -Dmaven.test.skip=true
 
-deploy:
+after_success:
+  - docker build -t kun368/acmanager:$TRAVIS_BRANCH .
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push kun368/acmanager:$TRAVIS_BRANCH
