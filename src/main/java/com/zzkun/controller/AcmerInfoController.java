@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/acmer")
 public class AcmerInfoController {
+
     @RequestMapping("/infos")
-    public String AcmerInfo(Model model){
+    public String AcmerInfo(Model model) {
         //model.addAttribute("list", ojContestService.getRecents());
         return "directionOfAcmer";
     }
