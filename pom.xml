@@ -260,7 +260,7 @@
                 <version>3.2.0</version>
                 <configuration>
                     <webXml>${basedir}/web/WEB-INF/web.xml</webXml>
-                    <warSourceDirectory>${basedir}/web/WEB-INF/</warSourceDirectory>
+                    <warSourceDirectory>${basedir}/web/</warSourceDirectory>
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
