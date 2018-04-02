@@ -10,7 +10,7 @@ services:
       - ./db:/docker-entrypoint-initdb.d
 
   server:
-    image: kun368/acmanager
+    image: kun368/acmanager:optimize
     ports:
       - 8080:8080
     depends_on:

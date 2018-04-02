@@ -25,7 +25,7 @@
 
     <mvc:resources mapping="/css/**" location="WEB-INF/jsp/"/>
     <mvc:resources mapping="/cache/**" location="WEB-INF/cache"/>
-    <context:property-placeholder location="classpath*:jdbc.properties"/>
+    <context:property-placeholder location="classpath*:jdbc.properties" ignore-unresolvable="true"/>
     <context:annotation-config/>
     <context:component-scan base-package="com.zzkun.controller"/>
     <context:component-scan base-package="com.zzkun.service"/>
