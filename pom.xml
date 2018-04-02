@@ -15,7 +15,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <kotlin.version>1.2.30</kotlin.version>
+        <kotlin.version>1.2.31</kotlin.version>
         <springframe.version>5.0.4.RELEASE</springframe.version>
         <hibernate.version>5.2.16.Final</hibernate.version>
         <aspectjrt.version>1.8.13</aspectjrt.version>
@@ -33,6 +33,11 @@
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-runtime</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-reflect</artifactId>
             <version>${kotlin.version}</version>
         </dependency>
         <dependency>
@@ -254,12 +259,8 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>3.2.0</version>
                 <configuration>
-                    <warSourceDirectory>
-                        ${basedir}/web/WEB-INF/
-                    </warSourceDirectory>
-                    <webXml>
-                        ${basedir}/web/WEB-INF/web.xml
-                    </webXml>
+                    <webXml>${basedir}/web/WEB-INF/web.xml</webXml>
+                    <warSourceDirectory>${basedir}/web/WEB-INF/</warSourceDirectory>
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
