@@ -29,15 +29,14 @@
 
 ## 技术栈
 
-- 前台：JSP、JQuery、Bootstrap
-- 后台：Java8、Kotlin、Spring、SpringMVC
-- 数据库：MySql、Druid、Hibernate、Spring Data JPA
-- 其他：Lucene
-- 服务器：Jetty、Tomcat
+- 前端：JSP、JQuery、Bootstrap、Vue.js
+- 后端：Java8、Kotlin、Spring、SpringMVC
+- 数据：MySql、Druid、Hibernate、Spring Data JPA
+- 搜索：Lucene
+- 服务器：Tomcat、Nginx
 - 开发工具：Maven、IntelliJ IDEA、JRebel
-- 算法：Agnes、TrueSkill、KMP
+- 算法：Agnes、TrueSkill、KMP、DFS
 - 持续集成：Docker、Docker-Compose、Travis
-
 
 ## 线上网站
 
