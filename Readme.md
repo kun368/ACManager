@@ -1,10 +1,10 @@
-# ACManager: ACM集训队管理系统
+# ACM集训队管理系统
 
 [![Build Status](https://travis-ci.org/kun368/ACManager.svg?branch=master)](https://travis-ci.org/kun368/ACManager)
 
 ## 项目简介
 
-todo...
+毕设题目：ACM智能集训管理系统设计与DevOps实践
 
 ## 技术栈
 
@@ -29,11 +29,7 @@ todo...
 - 各大 OnlineJudge 近期比赛汇总
 - 提供 RESTful API
 
-## 开源协议
-
-[GPLv3](http://www.gnu.org/licenses/gpl.html)
-
-## 网站
+## 线上网站
 
 - [http://192.168.119.213:8080/ACManager/](http://192.168.119.213:8080/ACManager/)
 - [http://cise.sdust.edu.cn/acmanager/](http://cise.sdust.edu.cn/acmanager/)
