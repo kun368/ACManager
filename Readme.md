@@ -12,8 +12,8 @@
 提供 ACM 集训队日常做题、比赛、题目分析、队员评价与选拔等功能，目前已上线稳定运行2年。
 
 - 毕设题目：ACM智能集训管理系统设计与DevOps实践
-- Wiki文档：[https://github.com/kun368/ACManager/wiki](https://github.com/kun368/ACManager/wiki)
-- Docker镜像：[https://hub.docker.com/r/kun368/acmanager/](https://hub.docker.com/r/kun368/acmanager/)
+- Wiki文档（同步毕设撰写中）：[https://github.com/kun368/ACManager/wiki](https://github.com/kun368/ACManager/wiki)
+- Docker镜像（自动构建）：[https://hub.docker.com/r/kun368/acmanager/](https://hub.docker.com/r/kun368/acmanager/)
 
 ## 主要功能
 
