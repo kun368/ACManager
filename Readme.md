@@ -1,12 +1,11 @@
 # ACM集训队管理系统
 
 [![Build Status](https://travis-ci.org/kun368/ACManager.svg?branch=master)](https://travis-ci.org/kun368/ACManager)
+[![codebeat badge](https://codebeat.co/badges/49176421-bc21-4672-ad36-d7b275ad2afa)](https://codebeat.co/projects/github-com-kun368-acmanager-master)
 [![Release Version](https://img.shields.io/badge/release-1.1.0-red.svg)](https://github.com/kun368/ACManager/releases)
-[![GitHub top language](https://img.shields.io/github/languages/top/badges/shields.svg)](https://github.com/kun368/ACManager)
+[![Language](https://img.shields.io/badge/language-java-orange.svg)](https://github.com/kun368/ACManager)
 [![Maven Central](https://img.shields.io/maven-central/v/org.apache.maven/apache-maven.svg)](https://github.com/kun368/ACManager)
-[![GitHub last commit](https://img.shields.io/github/last-commit/google/skia.svg)](https://github.com/kun368/ACManager)
 [![GPL Licence](https://badges.frapsoft.com/os/gpl/gpl.svg?v=103)](https://opensource.org/licenses/GPL-3.0/)
-
 
 ## 项目简介
 
