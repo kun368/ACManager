@@ -7,16 +7,20 @@
     <groupId>com.zzkun</groupId>
     <artifactId>ACManager</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <kotlin.version>1.1.0</kotlin.version>
-        <springframe.version>4.3.3.RELEASE</springframe.version>
-        <hibernate.version>5.2.2.Final</hibernate.version>
-        <aspectjrt.version>1.8.9</aspectjrt.version>
-        <fastjson.version>1.2.17</fastjson.version>
-        <lucene.version>6.3.0</lucene.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <kotlin.version>1.2.31</kotlin.version>
+        <springframe.version>5.0.4.RELEASE</springframe.version>
+        <hibernate.version>5.2.16.Final</hibernate.version>
+        <aspectjrt.version>1.8.13</aspectjrt.version>
+        <fastjson.version>1.2.47</fastjson.version>
+        <lucene.version>6.6.3</lucene.version>
     </properties>
 
     <dependencies>
@@ -29,6 +33,11 @@
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-runtime</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-reflect</artifactId>
             <version>${kotlin.version}</version>
         </dependency>
         <dependency>
@@ -57,27 +66,27 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.5</version>
+            <version>2.6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
+            <version>3.7</version>
         </dependency>
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.9.2</version>
+            <version>1.11.2</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>19.0</version>
+            <version>24.1-jre</version>
         </dependency>
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.5.2</version>
+            <version>4.5.5</version>
         </dependency>
 
 
@@ -85,7 +94,7 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-math3</artifactId>
-            <version>3.5</version>
+            <version>3.6.1</version>
         </dependency>
         <dependency>
             <groupId>fr.nargit.rating</groupId>
@@ -113,7 +122,7 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
-            <version>1.7.21</version>
+            <version>1.7.25</version>
         </dependency>
 
 
@@ -168,17 +177,17 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
-            <version>1.0.26</version>
+            <version>1.1.9</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.39</version>
+            <version>6.0.6</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
-            <version>1.10.3.RELEASE</version>
+            <version>1.11.10.RELEASE</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -190,15 +199,10 @@
             <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-test-junit</artifactId>
-            <version>${kotlin.version}</version>
-            <scope>test</scope>
-        </dependency>
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
@@ -224,6 +228,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
                 <executions>
                     <execution>
                         <id>default-compile</id>
@@ -252,20 +257,17 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.0</version>
                 <configuration>
-                    <webappDirectory>
-                        target/${artifactId}-${version}/
-                    </webappDirectory>
-                    <warSourceDirectory>
-                        ${basedir}/web/WEB-INF/
-                    </warSourceDirectory>
-                    <webXml>
-                        ${basedir}/web/WEB-INF/web.xml
-                    </webXml>
+                    <webXml>${basedir}/web/WEB-INF/web.xml</webXml>
+                    <warSourceDirectory>${basedir}/web/</warSourceDirectory>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-
-
 </project>

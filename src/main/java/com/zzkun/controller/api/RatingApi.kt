@@ -21,7 +21,7 @@ open class RatingApi(
         @Autowired private val ratingService: RatingService,
         @Autowired private val userService: UserService) {
 
-    @RequestMapping(value = "/training/{trainingId}/username/{name}", 
+    @RequestMapping(value = ["/training/{trainingId}/username/{name}"],
             method = arrayOf(RequestMethod.GET), 
             produces = arrayOf("text/html;charset=UTF-8"))
     fun trainingUser(@PathVariable trainingId: Int?,

@@ -22,11 +22,12 @@ public class UHuntWebGetter {
 
     private static final Logger logger = LoggerFactory.getLogger(UHuntWebGetter.class);
 
-    @Autowired private HttpUtil httpUtil;
+    @Autowired
+    private HttpUtil httpUtil;
 
 
     private ExtOjPbInfo parseJsonArray(JSONArray cur) {
-        if(cur == null || cur.size() < 22)
+        if (cur == null || cur.size() < 22)
             return null;
         ExtOjPbInfo info = new ExtOjPbInfo();
         info.setOjName(OJType.UVA);
@@ -63,6 +64,7 @@ public class UHuntWebGetter {
 
     /**
      * 获取所有uva题目的信息
+     *
      * @return 题目信息List
      */
     public List<ExtOjPbInfo> allPbInfo() {
@@ -72,7 +74,7 @@ public class UHuntWebGetter {
             String web = httpUtil.readURL(url);
             logger.info("原始json：{}", web);
             JSONArray allPb = JSON.parseArray(web);
-            for(int i = 0; i < allPb.size(); ++i) {
+            for (int i = 0; i < allPb.size(); ++i) {
                 JSONArray curPb = allPb.getJSONArray(i);
                 res.add(parseJsonArray(curPb));
             }
@@ -85,7 +87,7 @@ public class UHuntWebGetter {
 
     public List<ExtOjPbInfo> allPbInfo2(String link) {
         List<ExtOjPbInfo> res = new ArrayList<>();
-        for(int i = 1; i < 99999; ++i) {
+        for (int i = 1; i < 99999; ++i) {
             String url = String.format(link, Integer.toString(i));
             String web;
             try {
@@ -95,12 +97,13 @@ public class UHuntWebGetter {
                 continue;
             }
             LinkedHashMap<String, Object> map =
-                    JSON.parseObject(web, new TypeReference<LinkedHashMap<String, Object>>() {});
+                    JSON.parseObject(web, new TypeReference<LinkedHashMap<String, Object>>() {
+                    });
             ExtOjPbInfo info = parseJsonMap(map);
-            if(info == null) break;
-            if(!"0".equals(info.getPid()))
+            if (info == null) break;
+            if (!"0".equals(info.getPid()))
                 res.add(info);
-            if(i % 100 == 0) logger.info("PID{}解析完毕...{}", i, info);
+            if (i % 100 == 0) logger.info("PID{}解析完毕...{}", i, info);
         }
         return res;
     }
@@ -122,12 +125,13 @@ public class UHuntWebGetter {
 
     /**
      * 用户所有AC题目
-     * @param uid 用户id
+     *
+     * @param uid  用户id
      * @param link
      * @return 所有AC题目list
      */
     public List<Integer> userACSubmits(Integer uid, String link) {
-        if(uid == null)
+        if (uid == null)
             return new ArrayList<>();
         List<Integer> res = new ArrayList<>();
         try {
@@ -137,11 +141,11 @@ public class UHuntWebGetter {
             logger.debug("爬取完毕，开始分析...");
             JSONArray subsJson = JSON.parseObject(json).getJSONArray("subs");
             Set<Integer> pidSet = new HashSet<>(); //去除重复AC题目
-            for(int i = 0; i < subsJson.size(); ++i) {
+            for (int i = 0; i < subsJson.size(); ++i) {
                 JSONArray sub = subsJson.getJSONArray(i);
                 int pbid = sub.getIntValue(1);
                 int status = sub.getIntValue(2);
-                if(status == 90 && !pidSet.contains(pbid)) {
+                if (status == 90 && !pidSet.contains(pbid)) {
                     res.add(pbid);
                     pidSet.add(pbid);
                 }

@@ -15,6 +15,7 @@ open class PbDiffCalcer(
         @Autowired private val extOjPbInfoRepo: ExtOjPbInfoRepo,
         @Autowired private val userACPbRepo: UserACPbRepo) {
 
+    @Suppress("UNUSED_PARAMETER")
     fun calcPbDiff(ojName: OJType, pbId: String, pbNum: String): Double {
 //        val info = extOjPbInfoRepo.findByOjNameAndPid(ojName, pbId)
 //        val weAC = userACPbRepo.countByOjNameAndOjPbId(ojName, pbNum)

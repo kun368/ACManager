@@ -1,0 +1,16 @@
+language: java
+sudo: required
+
+services:
+  - docker
+
+install:
+  - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
+
+script:
+  - mvn clean package -Dmaven.test.skip=true
+
+after_success:
+  - docker build -t kun368/acmanager:$TRAVIS_BRANCH .
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker push kun368/acmanager:$TRAVIS_BRANCH

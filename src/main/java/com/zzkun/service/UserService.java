@@ -74,6 +74,7 @@ public class UserService {
         return userRepo.save(user);
     }
 
+    @SuppressWarnings("deprecation")
     public User modifyUserPassword(Integer id, String password) {
         User pre = getUserById(id);
         password = Hashing.sha1().hashString(password, Charset.forName("utf8")).toString();

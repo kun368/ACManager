@@ -1,5 +1,5 @@
-src/main/resources/jdbc.properties
 target/
 out/
 classes/
 lib/
+.idea

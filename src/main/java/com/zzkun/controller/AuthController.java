@@ -87,6 +87,7 @@ public class AuthController {
         }
     }
 
+    @SuppressWarnings("deprecation")
     @RequestMapping("/dorg")
     public String rg(@RequestParam String username,
                      @RequestParam String password,
