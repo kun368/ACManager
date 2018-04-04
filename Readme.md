@@ -6,6 +6,8 @@
 
 毕设题目：ACM智能集训管理系统设计与DevOps实践
 
+Wiki文档：[https://github.com/kun368/ACManager/wiki](https://github.com/kun368/ACManager/wiki)
+
 ## 技术栈
 
 - 前台：JSP、JQuery、Bootstrap
