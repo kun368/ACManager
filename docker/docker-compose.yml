@@ -11,10 +11,10 @@ services:
     volumes:
       - ./db:/docker-entrypoint-initdb.d
 
-  server:
-    image: kun368/acmanager:optimize
+  acmanager-server:
+    image: kun368/acmanager:master
     ports:
-      - 8080:8080
+      - 8105:8080
     depends_on:
       - acmanagerdb
     links:
