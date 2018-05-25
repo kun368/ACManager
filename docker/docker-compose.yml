@@ -1,9 +1,11 @@
 version: '3'
 
 services:
-  db:
+  acmanagerdb:
     image: mysql:5.7
     restart: always
+    ports:
+      - 3307:3306
     environment:
       MYSQL_ROOT_PASSWORD: 123456
     volumes:
@@ -14,6 +16,6 @@ services:
     ports:
       - 8080:8080
     depends_on:
-      - db
+      - acmanagerdb
     links:
-      - db
+      - acmanagerdb
